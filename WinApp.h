@@ -9,6 +9,10 @@ public://static
 public://基本関数	
 	void Initialize();
 
+public://固有関数
+	   //メッセージ処理
+	bool ProcessMessage();
+
 public://定数
 	   //横幅
 	static const int Win_Width = 1280;

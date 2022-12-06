@@ -12,6 +12,11 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	//ゲームループ
 	while (true) {
+		//windowsのメッセージ処理
+		if (winApp_->ProcessMessage()) {
+			//ゲームループを抜ける
+			break;
+		}
 
 		//更新
 
