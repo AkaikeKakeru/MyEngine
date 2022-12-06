@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include "WinApp.h"
+#include "SafeDelete.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
@@ -18,8 +19,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	}
 
 	//解放
-	delete winApp_;
-	winApp_ = nullptr;
+	SafeDelete(winApp_);
 
 	return 0;
 }
