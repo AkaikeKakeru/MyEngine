@@ -1,6 +1,15 @@
 #include "DirectXBasis.h"
-void DirectXBasis::Initialize(){
+#include <d3d12.h>
+#include <dxgi1_6.h>
+#include <cassert>
 
+#include <vector>
+#include <string>
+
+#pragma comment(lib, "d3d12.lib")
+#pragma comment(lib, "dxgi.lib")
+
+void DirectXBasis::Initialize(){
 	InitDevice();
 	InitCommand();
 	InitSwapChain();
