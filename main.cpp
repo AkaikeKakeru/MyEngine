@@ -31,8 +31,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	}
 
 	/// 解放
-	SafeDelete(winApp_);
 	SafeDelete(dxBas_);
+	SafeDelete(winApp_);
 
 	return 0;
 }
