@@ -14,7 +14,6 @@ void DirectXBasis::Initialize() {
 
 void DirectXBasis::InitDevice() {
 	HRESULT result;
-
 #pragma region アダプタの列挙
 	//DXGIファクトリ生成
 	result = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory_));
@@ -50,7 +49,29 @@ void DirectXBasis::InitDevice() {
 	}
 #pragma endregion
 
+#pragma region デバイス生成
+	//対応レベルの配列
+	D3D_FEATURE_LEVEL levels[] = {
+		D3D_FEATURE_LEVEL_12_1,
+		D3D_FEATURE_LEVEL_12_0,
+		D3D_FEATURE_LEVEL_11_1,
+		D3D_FEATURE_LEVEL_11_0,
+	};
 
+	D3D_FEATURE_LEVEL featureLevel;
+
+	for (size_t i = 0; i < _countof(levels); i++) {
+		//採用したアダプタでデバイス生成
+		result = D3D12CreateDevice(
+			tmpAdapter, levels[i],
+			IID_PPV_ARGS(&device_));
+		if (result == S_OK) {
+			//デバイスを生成できた時点でループを抜ける
+			featureLevel = levels[i];
+			break;
+		}
+	}
+#pragma endregion
 }
 
 void DirectXBasis::InitCommand() {
