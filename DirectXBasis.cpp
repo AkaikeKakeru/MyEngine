@@ -75,6 +75,21 @@ void DirectXBasis::InitDevice() {
 }
 
 void DirectXBasis::InitCommand() {
+	HRESULT result;
+#pragma region コマンドリスト
+	//コマンドアロケータ生成
+	result = device_->CreateCommandAllocator(
+		D3D12_COMMAND_LIST_TYPE_DIRECT,
+		IID_PPV_ARGS(&cmdAllocator_));
+	assert(SUCCEEDED(result));
+
+	//コマンドリスト生成
+	result = device_->CreateCommandList(0,
+		D3D12_COMMAND_LIST_TYPE_DIRECT,
+		cmdAllocator_.Get(), nullptr,
+		IID_PPV_ARGS(&cmdList_));
+	assert(SUCCEEDED(result));
+#pragma endregion
 }
 
 void DirectXBasis::InitSwapChain() {
