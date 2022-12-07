@@ -33,6 +33,11 @@ public://固有関数
 
 public://定数
 private://変数
+	//デバッグレイヤー
+	ID3D12Debug1* debugController_;
+	//自動ブレーク
+	ID3D12InfoQueue* infoQueue_;
+
 	ComPtr<ID3D12Device> device_;
 	ComPtr<IDXGIFactory7> dxgiFactory_;
 	ComPtr<IDXGISwapChain4> swapChain_;

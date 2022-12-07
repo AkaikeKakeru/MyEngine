@@ -4,6 +4,14 @@
 #include <cassert>
 
 void DirectXBasis::Initialize() {
+#ifdef _DEBUG
+	//デバッグレイヤをオンに
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController_)))) {
+		debugController_->EnableDebugLayer();
+		debugController_->SetEnableGPUBasedValidation(TRUE);
+	}
+#endif
+
 	InitDevice();
 	InitCommand();
 	InitSwapChain();
@@ -72,6 +80,15 @@ void DirectXBasis::InitDevice() {
 		}
 	}
 #pragma endregion
+
+	//エラー発生時に強制ブレークを掛ける
+	if (SUCCEEDED(device_->QueryInterface(IID_PPV_ARGS(&infoQueue_)))) {
+
+		infoQueue_->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+		infoQueue_->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+
+		infoQueue_->Release();
+	}
 }
 
 void DirectXBasis::InitCommand() {
