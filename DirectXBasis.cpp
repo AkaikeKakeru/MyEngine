@@ -195,6 +195,14 @@ void DirectXBasis::InitDepthBuffer() {
 	depthResDesc.Format = DXGI_FORMAT_D32_FLOAT;
 	depthResDesc.SampleDesc.Count = 1;
 	depthResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+	//深度値バッファ用ヒーププロパティ
+	D3D12_HEAP_PROPERTIES depthHeapProp{};
+	depthHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;
+	//深度値のクリア設定
+	D3D12_CLEAR_VALUE depthClearValue{};
+	depthClearValue.DepthStencil.Depth = 1.0f;
+	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;
 }
 
 void DirectXBasis::InitFence() {
