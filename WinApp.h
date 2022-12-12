@@ -13,6 +13,8 @@ public://固有関数
 	   //メッセージ処理
 	bool ProcessMessage();
 
+	HWND GetHWND() { return hwnd_; }
+
 public://定数
 	   //横幅
 	static const int Win_Width = 1280;
@@ -20,5 +22,5 @@ public://定数
 	static const int Win_Height = 720;
 
 private:
-
+	HWND hwnd_;
 };

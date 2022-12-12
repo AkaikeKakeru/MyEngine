@@ -32,7 +32,7 @@ void WinApp::Initialize(){
 #pragma endregion
 
 #pragma region ウィンドウの生成
-	HWND hwnd = CreateWindow(
+	hwnd_ = CreateWindow(
 		w.lpszClassName,
 		L"MyEngine",
 		WS_OVERLAPPEDWINDOW,
@@ -45,7 +45,7 @@ void WinApp::Initialize(){
 		w.hInstance,
 		nullptr);
 	//ウィンドウを表示にする
-	ShowWindow(hwnd, SW_SHOW);
+	ShowWindow(hwnd_, SW_SHOW);
 #pragma endregion
 }
 

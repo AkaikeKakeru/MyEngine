@@ -3,6 +3,8 @@
 #include <dxgi1_6.h>
 #include <wrl.h>
 
+#include "WinApp.h"
+
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 
@@ -13,7 +15,7 @@ private://省略
 
 public://static
 public://基本関数	
-	void Initialize();
+	void Initialize(WinApp * winApp);
 	void Draw();
 
 public://固有関数
@@ -33,6 +35,8 @@ public://固有関数
 
 public://定数
 private://変数
+	WinApp* winApp_ = nullptr;
+
 	//デバッグレイヤー
 	ID3D12Debug1* debugController_;
 	//自動ブレーク

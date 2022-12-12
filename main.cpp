@@ -12,7 +12,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	//DirectX基盤
 	DirectXBasis* dxBas_ = new DirectXBasis();
-	dxBas_->Initialize();
+	dxBas_->Initialize(winApp_);
 
 	/// 描画初期化
 

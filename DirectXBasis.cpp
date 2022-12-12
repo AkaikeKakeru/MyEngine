@@ -3,7 +3,10 @@
 #include <string>
 #include <cassert>
 
-void DirectXBasis::Initialize() {
+void DirectXBasis::Initialize(WinApp * winApp) {
+	assert(winApp);
+	winApp_ = winApp;
+
 #ifdef _DEBUG
 	//デバッグレイヤをオンに
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController_)))) {
@@ -109,8 +112,9 @@ void DirectXBasis::InitCommand() {
 #pragma endregion
 
 #pragma region コマンドキュー
-	//コマンドキューの生成
+	//コマンドキューの設定
 	D3D12_COMMAND_QUEUE_DESC cmdQueueDesc{};
+	//コマンドキューの生成
 	result = device_->CreateCommandQueue(
 		&cmdQueueDesc, IID_PPV_ARGS(&cmdQueue_));
 	assert(SUCCEEDED(result));
@@ -118,6 +122,31 @@ void DirectXBasis::InitCommand() {
 }
 
 void DirectXBasis::InitSwapChain() {
+	HRESULT result;
+	//スワップチェーンの設定
+	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
+	swapChainDesc.Width = winApp_->Win_Width;
+	swapChainDesc.Height = winApp_->Win_Height;
+	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	swapChainDesc.SampleDesc.Count = 1;
+	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER;
+	swapChainDesc.BufferCount = 2;
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+	
+	//IDXGISwapChain1のComPtr
+	ComPtr<IDXGISwapChain1> swapChain1;
+	//スワップチェーンの生成
+	result = dxgiFactory_->CreateSwapChainForHwnd(
+		cmdQueue_.Get(),
+		winApp_->GetHWND(),
+		&swapChainDesc,
+		nullptr,
+		nullptr,
+		&swapChain1);
+	//IDXGISwapChain4に変換
+	swapChain1.As(&swapChain_);
+	assert(SUCCEEDED(result));
 }
 
 void DirectXBasis::InitRenderTargetView() {
