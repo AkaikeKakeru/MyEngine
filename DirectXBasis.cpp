@@ -107,6 +107,14 @@ void DirectXBasis::InitCommand() {
 		IID_PPV_ARGS(&cmdList_));
 	assert(SUCCEEDED(result));
 #pragma endregion
+
+#pragma region コマンドキュー
+	//コマンドキューの生成
+	D3D12_COMMAND_QUEUE_DESC cmdQueueDesc{};
+	result = device_->CreateCommandQueue(
+		&cmdQueueDesc, IID_PPV_ARGS(&cmdQueue_));
+	assert(SUCCEEDED(result));
+#pragma endregion
 }
 
 void DirectXBasis::InitSwapChain() {
