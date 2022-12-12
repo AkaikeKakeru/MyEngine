@@ -27,7 +27,10 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		/// 更新
 
 		/// 描画
-		dxBas_->Draw();
+		//描画前処理
+		dxBas_->PreDraw();
+		//描画後処理
+		dxBas_->PostDraw();
 	}
 
 	/// 解放
