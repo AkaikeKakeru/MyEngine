@@ -162,7 +162,8 @@ void DirectXBasis::InitRenderTargetView() {
 	device_->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap_));
 #pragma endregion
 
-#pragma region レンダ―ターゲットビュー
+#pragma region レンダーターゲットビュー
+	std::vector<ComPtr<ID3D12Resource>> backBuffers_(BackBufferCount);
 	//バックバッファのリサイズ
 	backBuffers_.resize(swapChainDesc_.BufferCount);
 
@@ -190,6 +191,8 @@ void DirectXBasis::InitDepthBuffer() {
 }
 
 void DirectXBasis::InitFence() {
+	//フェンスの生成
+
 }
 
 void DirectXBasis::Draw() {
