@@ -42,6 +42,10 @@ private://変数
 	//自動ブレーク
 	ID3D12InfoQueue* infoQueue_{};
 
+	/// <summary>
+	/// 重要生成物
+	/// </summary>
+
 	ComPtr<ID3D12Device> device_;
 	ComPtr<IDXGIFactory7> dxgiFactory_;
 	ComPtr<IDXGISwapChain4> swapChain_;
@@ -49,4 +53,9 @@ private://変数
 	ComPtr<ID3D12GraphicsCommandList> cmdList_;
 	ComPtr<ID3D12CommandQueue> cmdQueue_;
 	ComPtr<ID3D12DescriptorHeap> rtvHeap_;
+
+	/// <summary>
+	/// 重要生成物の設定用
+	/// </summary>
+	DXGI_SWAP_CHAIN_DESC1 swapChainDesc_{};
 };

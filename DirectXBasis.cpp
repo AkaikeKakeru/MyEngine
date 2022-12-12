@@ -124,15 +124,14 @@ void DirectXBasis::InitCommand() {
 void DirectXBasis::InitSwapChain() {
 	HRESULT result;
 	//スワップチェーンの設定
-	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
-	swapChainDesc.Width = winApp_->Win_Width;
-	swapChainDesc.Height = winApp_->Win_Height;
-	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	swapChainDesc.SampleDesc.Count = 1;
-	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER;
-	swapChainDesc.BufferCount = 2;
-	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
-	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+	swapChainDesc_.Width = winApp_->Win_Width;
+	swapChainDesc_.Height = winApp_->Win_Height;
+	swapChainDesc_.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	swapChainDesc_.SampleDesc.Count = 1;
+	swapChainDesc_.BufferUsage = DXGI_USAGE_BACK_BUFFER;
+	swapChainDesc_.BufferCount = 2;
+	swapChainDesc_.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+	swapChainDesc_.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	
 	//IDXGISwapChain1のComPtr
 	ComPtr<IDXGISwapChain1> swapChain1;
@@ -140,7 +139,7 @@ void DirectXBasis::InitSwapChain() {
 	result = dxgiFactory_->CreateSwapChainForHwnd(
 		cmdQueue_.Get(),
 		winApp_->GetHWND(),
-		&swapChainDesc,
+		&swapChainDesc_,
 		nullptr,
 		nullptr,
 		&swapChain1);
@@ -150,6 +149,15 @@ void DirectXBasis::InitSwapChain() {
 }
 
 void DirectXBasis::InitRenderTargetView() {
+	//レンダ―ターゲットビュー(RTV)は、デスクリプタヒープに生成する
+	
+	//デスクリプタヒープの設定
+	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
+	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+	rtvHeapDesc.NumDescriptors = swapChainDesc_.BufferCount;
+
+	//デスクリプタヒープの生成
+	device_->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap_));
 }
 
 void DirectXBasis::InitDepthBuffer() {
