@@ -2,6 +2,7 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <wrl.h>
+#include <vector>
 
 #include "WinApp.h"
 
@@ -47,7 +48,6 @@ private://変数
 	/// <summary>
 	/// 重要生成物
 	/// </summary>
-
 	ComPtr<ID3D12Device> device_;
 	ComPtr<IDXGIFactory7> dxgiFactory_;
 	ComPtr<IDXGISwapChain4> swapChain_;
@@ -55,8 +55,7 @@ private://変数
 	ComPtr<ID3D12GraphicsCommandList> cmdList_;
 	ComPtr<ID3D12CommandQueue> cmdQueue_;
 	ComPtr<ID3D12DescriptorHeap> rtvHeap_;
-	//std::vector<ComPtr<ID3D12Resource>> backBuffers_;
-
+	std::vector<ComPtr<ID3D12Resource>> backBuffers_;
 
 	/// <summary>
 	/// 重要生成物の設定用

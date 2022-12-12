@@ -1,5 +1,4 @@
 #include "DirectXBasis.h"
-#include <vector>
 #include <string>
 #include <cassert>
 
@@ -163,7 +162,6 @@ void DirectXBasis::InitRenderTargetView() {
 #pragma endregion
 
 #pragma region レンダーターゲットビュー
-	std::vector<ComPtr<ID3D12Resource>> backBuffers_(BackBufferCount);
 	//バックバッファのリサイズ
 	backBuffers_.resize(swapChainDesc_.BufferCount);
 
@@ -200,4 +198,15 @@ void DirectXBasis::InitFence() {
 }
 
 void DirectXBasis::Draw() {
+	//バックバッファの番号取得
+	UINT bbIndex = swapChain_->GetCurrentBackBufferIndex();
+
+#pragma region リソースバリアの変更コマンド
+	//1.書き込み可能に
+	D3D12_RESOURCE_BARRIER barrierDesc{};
+	barrierDesc.Transition.pResource = backBuffers_[bbIndex].Get();
+	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
+	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	cmdList_->ResourceBarrier(1, &barrierDesc);
+#pragma endregion
 }
