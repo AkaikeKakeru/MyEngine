@@ -152,7 +152,7 @@ void DirectXBasis::InitSwapChain() {
 
 void DirectXBasis::InitRenderTargetView() {
 	//レンダ―ターゲットビュー(RTV)は、デスクリプタヒープに生成する
-
+#pragma region デスクリプタヒープ
 	//デスクリプタヒープの設定
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
@@ -160,6 +160,30 @@ void DirectXBasis::InitRenderTargetView() {
 
 	//デスクリプタヒープの生成
 	device_->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap_));
+#pragma endregion
+
+#pragma region レンダ―ターゲットビュー
+	//バックバッファのリサイズ
+	backBuffers_.resize(swapChainDesc_.BufferCount);
+
+	//スワップチェーンの全てのバッファについて処理する
+	for (size_t i = 0; i < backBuffers_.size(); i++) {
+		//スワップチェーンからバッファを取得
+		swapChain_->GetBuffer((UINT)i, IID_PPV_ARGS(&backBuffers_[i]));
+		//デスクリプタヒープのハンドルを取得
+		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle =
+			rtvHeap_->GetCPUDescriptorHandleForHeapStart();
+		//裏か表かでアドレスがズレる
+		rtvHandle.ptr += i * device_->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
+		//レンダ―ターゲットビューの設定
+		D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
+		//シェーダーの計算結果をSRGBに変換して書き込む
+		rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+		//レンダ―ターゲットビューの生成
+		device_->CreateRenderTargetView(backBuffers_[i].Get(), &rtvDesc, rtvHandle);
+	}
+#pragma endregion
 }
 
 void DirectXBasis::InitDepthBuffer() {
