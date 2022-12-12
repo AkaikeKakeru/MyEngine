@@ -11,6 +11,9 @@ void DirectXBasis::Initialize(WinApp* winApp) {
 	assert(winApp);
 	winApp_ = winApp;
 
+	fixFPS_ = FixFPS::GetInstace();
+	fixFPS_->Initialize();
+
 	InitDevice();
 	InitCommand();
 	InitSwapChain();
@@ -316,6 +319,9 @@ void DirectXBasis::PostDraw(){
 		CloseHandle(event);
 	}
 #pragma endregion
+
+	//FPSを固定
+	fixFPS_->Update();
 
 #pragma region コマンドリストをリセット
 	//キューをクリア

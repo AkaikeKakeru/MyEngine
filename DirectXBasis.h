@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "WinApp.h"
+#include "FixFPS.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -38,6 +39,7 @@ public://定数
 
 private://変数
 	WinApp* winApp_ = nullptr;
+	FixFPS* fixFPS_ = nullptr;
 
 	//デバッグレイヤー
 	ID3D12Debug1* debugController_{};
