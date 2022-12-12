@@ -2,7 +2,7 @@
 #include <string>
 #include <cassert>
 
-DirectXBasis* DirectXBasis::GetInstance(){
+DirectXBasis* DirectXBasis::GetInstance() {
 	static DirectXBasis instance;
 	return &instance;
 }
@@ -282,7 +282,7 @@ void DirectXBasis::PreDraw() {
 	//4.描画コマンドスタート↓
 }
 
-void DirectXBasis::PostDraw(){
+void DirectXBasis::PostDraw() {
 	//4.描画コマンドエンド↑
 	HRESULT result;
 
@@ -301,7 +301,7 @@ void DirectXBasis::PostDraw(){
 	result = cmdList_->Close();
 	assert(SUCCEEDED(result));
 	//コマンドリストの実行
-	ID3D12CommandList* cmdLists[] = {cmdList_.Get()};
+	ID3D12CommandList* cmdLists[] = { cmdList_.Get() };
 	cmdQueue_->ExecuteCommandLists(1, cmdLists);
 
 	//画面に表示するバッファをフリップ
@@ -313,10 +313,13 @@ void DirectXBasis::PostDraw(){
 	//コマンドの実行完了を待つ
 	cmdQueue_->Signal(fence_.Get(), ++fenceVal_);
 	if (fence_->GetCompletedValue() != fenceVal_) {
-		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
-		fence_->SetEventOnCompletion(fenceVal_, event);
-		WaitForSingleObject(event, INFINITE);
-		CloseHandle(event);
+		_Post_ _Notnull_ HANDLE event = CreateEvent(nullptr, false, false, nullptr);
+
+		if (event != 0) {
+			fence_->SetEventOnCompletion(fenceVal_, event);
+			WaitForSingleObject(event, INFINITE);
+			CloseHandle(event);
+		}
 	}
 #pragma endregion
 
