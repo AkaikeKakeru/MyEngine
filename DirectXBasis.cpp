@@ -31,9 +31,9 @@ void DirectXBasis::InitDevice() {
 	assert(SUCCEEDED(result));
 
 	//アダプタの列挙用
-	std::vector<IDXGIAdapter4*> adapters;
+	std::vector<ComPtr<IDXGIAdapter4>> adapters;
 	//特定の名前を持つアダプターオブジェクトが入る
-	IDXGIAdapter4* tmpAdapter = nullptr;
+	ComPtr<IDXGIAdapter4> tmpAdapter = nullptr;
 
 	//パフォーマンスが高いものから順に、全てのアダプタを列挙
 	for (UINT i = 0;
@@ -74,7 +74,7 @@ void DirectXBasis::InitDevice() {
 	for (size_t i = 0; i < _countof(levels); i++) {
 		//採用したアダプタでデバイス生成
 		result = D3D12CreateDevice(
-			tmpAdapter, levels[i],
+			tmpAdapter.Get(), levels[i],
 			IID_PPV_ARGS(&device_));
 		if (result == S_OK) {
 			//デバイスを生成できた時点でループを抜ける

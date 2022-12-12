@@ -38,9 +38,9 @@ private://変数
 	WinApp* winApp_ = nullptr;
 
 	//デバッグレイヤー
-	ID3D12Debug1* debugController_;
+	ID3D12Debug1* debugController_{};
 	//自動ブレーク
-	ID3D12InfoQueue* infoQueue_;
+	ID3D12InfoQueue* infoQueue_{};
 
 	ComPtr<ID3D12Device> device_;
 	ComPtr<IDXGIFactory7> dxgiFactory_;
