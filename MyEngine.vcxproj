@@ -140,12 +140,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DirectXBasis.cpp" />
+    <ClCompile Include="DrawBasis.cpp" />
     <ClCompile Include="FixFPS.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="WinApp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXBasis.h" />
+    <ClInclude Include="DrawBasis.h" />
     <ClInclude Include="FixFPS.h" />
     <ClInclude Include="SafeDelete.h" />
     <ClInclude Include="WinApp.h" />

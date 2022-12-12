@@ -19,6 +19,12 @@
     <Filter Include="ヘッダー ファイル\base">
       <UniqueIdentifier>{903719db-a8e6-4c31-9c5f-fa0201073eda}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Drawer">
+      <UniqueIdentifier>{ff7081e2-a07e-44d9-9c59-a01e2b47aa9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Drawer">
+      <UniqueIdentifier>{b7ba9b9a-ee03-43e2-9766-84a247fbab96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -33,6 +39,9 @@
     <ClCompile Include="FixFPS.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="DrawBasis.cpp">
+      <Filter>ソース ファイル\Drawer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXBasis.h">
@@ -46,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="FixFPS.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawBasis.h">
+      <Filter>ヘッダー ファイル\Drawer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
