@@ -196,17 +196,16 @@ void DirectXBasis::InitFence() {
 	result = device_->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 }
 
-void DirectXBasis::Draw() {
+void DirectXBasis::PreDraw() {
 	//バックバッファの番号取得
 	UINT bbIndex = swapChain_->GetCurrentBackBufferIndex();
 
 #pragma region リソースバリアの変更コマンド
 	//1.書き込み可能に
-	D3D12_RESOURCE_BARRIER barrierDesc{};
-	barrierDesc.Transition.pResource = backBuffers_[bbIndex].Get();
-	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
-	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
-	cmdList_->ResourceBarrier(1, &barrierDesc);
+	barrierDesc_.Transition.pResource = backBuffers_[bbIndex].Get();
+	barrierDesc_.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
+	barrierDesc_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	cmdList_->ResourceBarrier(1, &barrierDesc_);
 #pragma endregion
 
 #pragma region 描画先の変更指定コマンド
@@ -222,5 +221,21 @@ void DirectXBasis::Draw() {
 	//3.画面クリア            R,     G,    B,    A
 	FLOAT clearColor[] = { 0.1f, 0.25f, 0.5f, 0.0f };
 	cmdList_->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+#pragma endregion
+
+	//4.描画コマンドスタート↓
+}
+
+void DirectXBasis::PostDraw(){
+	//4.描画コマンドエンド↑
+
+	//バックバッファの番号取得
+	UINT bbIndex = swapChain_->GetCurrentBackBufferIndex();
+
+#pragma region リソースバリア復帰コマンド
+	//5.リソースバリアを隠す
+	barrierDesc_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	barrierDesc_.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
+	cmdList_->ResourceBarrier(1, &barrierDesc_);
 #pragma endregion
 }

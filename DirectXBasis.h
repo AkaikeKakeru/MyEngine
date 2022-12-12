@@ -17,8 +17,8 @@ private://省略
 public://static
 public://基本関数	
 	void Initialize(WinApp * winApp);
-	void Draw();
-
+	void PreDraw();
+	void PostDraw();
 public://固有関数
 	///初期化
 	//デバイス
@@ -62,4 +62,5 @@ private://変数
 	/// </summary>
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc_{};
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc_{};
+	D3D12_RESOURCE_BARRIER barrierDesc_{};
 };
