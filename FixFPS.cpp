@@ -1,6 +1,11 @@
 #include "FixFPS.h"
 #include <thread>
 
+FixFPS* FixFPS::GetInstace() {
+	static FixFPS instance;
+	return &instance;
+}
+
 void FixFPS::Initialize() {
 	//現在時間を記録
 	reference_ = std::chrono::steady_clock::now();
