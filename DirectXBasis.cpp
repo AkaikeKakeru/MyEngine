@@ -187,6 +187,14 @@ void DirectXBasis::InitRenderTargetView() {
 }
 
 void DirectXBasis::InitDepthBuffer() {
+	D3D12_RESOURCE_DESC depthResDesc{};
+	depthResDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	depthResDesc.Width = winApp_->Win_Width;
+	depthResDesc.Height = winApp_->Win_Height;
+	depthResDesc.DepthOrArraySize = 1;
+	depthResDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	depthResDesc.SampleDesc.Count = 1;
+	depthResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
 }
 
 void DirectXBasis::InitFence() {
