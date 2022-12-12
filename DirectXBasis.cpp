@@ -189,6 +189,7 @@ void DirectXBasis::InitRenderTargetView() {
 void DirectXBasis::InitDepthBuffer() {
 	HRESULT result;
 
+#pragma region 深度バッファ
 	//深度リソース設定
 	D3D12_RESOURCE_DESC depthResDesc{};
 	depthResDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
@@ -216,6 +217,16 @@ void DirectXBasis::InitDepthBuffer() {
 		D3D12_RESOURCE_STATE_DEPTH_WRITE,
 		&depthClearValue,
 		IID_PPV_ARGS(&depthBuff));
+#pragma endregion
+
+#pragma region 深度デスクリプタヒープ
+	//深度ビュー用デスクリプタヒープ作成
+	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
+	dsvHeapDesc.NumDescriptors = 1;
+	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+	ComPtr<ID3D12DescriptorHeap> dsvHeap = nullptr;
+	result = device_->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
+#pragma endregion
 }
 
 void DirectXBasis::InitFence() {
