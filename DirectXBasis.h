@@ -61,4 +61,5 @@ private://変数
 	/// 重要生成物の設定用
 	/// </summary>
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc_{};
+	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc_{};
 };
