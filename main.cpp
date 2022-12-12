@@ -7,11 +7,13 @@
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	///基盤初期化
 	//アプリケーション
-	WinApp* winApp_ = new WinApp();
+	WinApp* winApp_ = nullptr;
+	winApp_ = WinApp::GetInstance();
 	winApp_->Initialize();
 
 	//DirectX基盤
-	DirectXBasis* dxBas_ = new DirectXBasis();
+	DirectXBasis* dxBas_ = nullptr;
+	dxBas_ = DirectXBasis::GetInstance();
 	dxBas_->Initialize(winApp_);
 
 	/// 描画初期化
@@ -34,8 +36,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	}
 
 	/// 解放
-	SafeDelete(dxBas_);
-	SafeDelete(winApp_);
+	//SafeDelete(dxBas_);
+	//SafeDelete(winApp_);
 
 	return 0;
 }

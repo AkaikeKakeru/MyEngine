@@ -2,6 +2,11 @@
 #include <string>
 #include <cassert>
 
+DirectXBasis* DirectXBasis::GetInstance(){
+	static DirectXBasis instance;
+	return &instance;
+}
+
 void DirectXBasis::Initialize(WinApp* winApp) {
 	assert(winApp);
 	winApp_ = winApp;

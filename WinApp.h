@@ -23,4 +23,13 @@ public://定数
 
 private:
 	HWND hwnd_;
+
+private:
+	WinApp() = default;
+	~WinApp() = default;
+	WinApp(const WinApp&) = delete;
+	const WinApp& operator=(const WinApp&) = delete;
+public:
+	static WinApp* GetInstance();
+
 };

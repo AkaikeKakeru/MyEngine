@@ -9,12 +9,11 @@
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 
-class DirectXBasis {
+class DirectXBasis{
 private://省略
 	template <class T>
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-public://static
 public://基本関数	
 	void Initialize(WinApp * winApp);
 	void PreDraw();
@@ -65,4 +64,15 @@ private://変数
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc_{};
 	D3D12_RESOURCE_BARRIER barrierDesc_{};
 	UINT64 fenceVal_ = 0;
+
+private:
+	DirectXBasis() = default;
+	~DirectXBasis() = default;
+	//コピーコンストラクタを無効
+	DirectXBasis(const DirectXBasis&) = delete;
+	//代入演算子を無効
+	const DirectXBasis& operator=(const DirectXBasis&) = delete;
+
+public://static
+	static DirectXBasis* GetInstance();
 };
