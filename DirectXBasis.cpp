@@ -96,13 +96,15 @@ void DirectXBasis::InitDevice() {
 
 void DirectXBasis::InitCommand() {
 	HRESULT result;
-#pragma region コマンドリスト
+#pragma region コマンドアロケータ
 	//コマンドアロケータ生成
 	result = device_->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
 		IID_PPV_ARGS(&cmdAllocator_));
 	assert(SUCCEEDED(result));
+#pragma endregion
 
+#pragma region コマンドリスト
 	//コマンドリスト生成
 	result = device_->CreateCommandList(0,
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
