@@ -3,17 +3,9 @@
 #include <string>
 #include <cassert>
 
-void DirectXBasis::Initialize(WinApp * winApp) {
+void DirectXBasis::Initialize(WinApp* winApp) {
 	assert(winApp);
 	winApp_ = winApp;
-
-#ifdef _DEBUG
-	//デバッグレイヤをオンに
-	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController_)))) {
-		debugController_->EnableDebugLayer();
-		debugController_->SetEnableGPUBasedValidation(TRUE);
-	}
-#endif
 
 	InitDevice();
 	InitCommand();
@@ -25,6 +17,15 @@ void DirectXBasis::Initialize(WinApp * winApp) {
 
 void DirectXBasis::InitDevice() {
 	HRESULT result;
+
+#ifdef _DEBUG
+	//デバッグレイヤをオンに
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController_)))) {
+		debugController_->EnableDebugLayer();
+		debugController_->SetEnableGPUBasedValidation(TRUE);
+	}
+#endif
+
 #pragma region アダプタの列挙
 	//DXGIファクトリ生成
 	result = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory_));
@@ -132,7 +133,7 @@ void DirectXBasis::InitSwapChain() {
 	swapChainDesc_.BufferCount = 2;
 	swapChainDesc_.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 	swapChainDesc_.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-	
+
 	//IDXGISwapChain1のComPtr
 	ComPtr<IDXGISwapChain1> swapChain1;
 	//スワップチェーンの生成
@@ -143,6 +144,7 @@ void DirectXBasis::InitSwapChain() {
 		nullptr,
 		nullptr,
 		&swapChain1);
+
 	//IDXGISwapChain4に変換
 	swapChain1.As(&swapChain_);
 	assert(SUCCEEDED(result));
@@ -150,7 +152,7 @@ void DirectXBasis::InitSwapChain() {
 
 void DirectXBasis::InitRenderTargetView() {
 	//レンダ―ターゲットビュー(RTV)は、デスクリプタヒープに生成する
-	
+
 	//デスクリプタヒープの設定
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
