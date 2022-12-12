@@ -10,7 +10,7 @@ void DirectXBasis::Initialize(WinApp* winApp) {
 	InitCommand();
 	InitSwapChain();
 	InitRenderTargetView();
-	InitDepthBuffer();
+	//InitDepthBuffer();
 	InitFence();
 }
 
