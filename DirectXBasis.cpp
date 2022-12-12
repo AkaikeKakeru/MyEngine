@@ -229,6 +229,8 @@ void DirectXBasis::PreDraw() {
 void DirectXBasis::PostDraw(){
 	//4.描画コマンドエンド↑
 
+	HRESULT result;
+
 	//バックバッファの番号取得
 	UINT bbIndex = swapChain_->GetCurrentBackBufferIndex();
 
@@ -237,5 +239,18 @@ void DirectXBasis::PostDraw(){
 	barrierDesc_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
 	barrierDesc_.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
 	cmdList_->ResourceBarrier(1, &barrierDesc_);
+#pragma endregion
+
+#pragma region コマンドの実行
+	//命令のクローズ
+	result = cmdList_->Close();
+	assert(SUCCEEDED(result));
+	//コマンドリストの実行
+	ID3D12CommandList* cmdLists[] = {cmdList_.Get()};
+	cmdQueue_->ExecuteCommandLists(1, cmdLists);
+
+	//画面に表示するバッファをフリップ
+	result = swapChain_->Present(1, 0);
+	assert(SUCCEEDED(result));
 #pragma endregion
 }
