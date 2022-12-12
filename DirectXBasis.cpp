@@ -187,6 +187,9 @@ void DirectXBasis::InitRenderTargetView() {
 }
 
 void DirectXBasis::InitDepthBuffer() {
+	HRESULT result;
+
+	//深度リソース設定
 	D3D12_RESOURCE_DESC depthResDesc{};
 	depthResDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	depthResDesc.Width = winApp_->Win_Width;
@@ -196,13 +199,23 @@ void DirectXBasis::InitDepthBuffer() {
 	depthResDesc.SampleDesc.Count = 1;
 	depthResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
 
-	//深度値バッファ用ヒーププロパティ
+	//深度値用ヒーププロパティ
 	D3D12_HEAP_PROPERTIES depthHeapProp{};
 	depthHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;
 	//深度値のクリア設定
 	D3D12_CLEAR_VALUE depthClearValue{};
 	depthClearValue.DepthStencil.Depth = 1.0f;
 	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;
+
+	//リソース生成
+	ComPtr<ID3D12Resource> depthBuff = nullptr;
+	result = device_->CreateCommittedResource(
+		&depthHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&depthResDesc,
+		D3D12_RESOURCE_STATE_DEPTH_WRITE,
+		&depthClearValue,
+		IID_PPV_ARGS(&depthBuff));
 }
 
 void DirectXBasis::InitFence() {
