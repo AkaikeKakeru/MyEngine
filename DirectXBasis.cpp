@@ -190,10 +190,7 @@ void DirectXBasis::InitDepthBuffer() {
 void DirectXBasis::InitFence() {
 	HRESULT result;
 	//フェンスの生成
-	ComPtr<ID3D12Fence> fence = nullptr;
-	UINT64 fenceVal = 0;
-	
-	result = device_->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
+	result = device_->CreateFence(fenceVal_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
 }
 
 void DirectXBasis::PreDraw() {
@@ -228,7 +225,6 @@ void DirectXBasis::PreDraw() {
 
 void DirectXBasis::PostDraw(){
 	//4.描画コマンドエンド↑
-
 	HRESULT result;
 
 	//バックバッファの番号取得
@@ -251,6 +247,26 @@ void DirectXBasis::PostDraw(){
 
 	//画面に表示するバッファをフリップ
 	result = swapChain_->Present(1, 0);
+	assert(SUCCEEDED(result));
+#pragma endregion
+
+#pragma region コマンド完了待ち
+	//コマンドの実行完了を待つ
+	cmdQueue_->Signal(fence_.Get(), ++fenceVal_);
+	if (fence_->GetCompletedValue() != fenceVal_) {
+		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
+		fence_->SetEventOnCompletion(fenceVal_, event);
+		WaitForSingleObject(event, INFINITE);
+		CloseHandle(event);
+	}
+#pragma endregion
+
+#pragma region コマンドリストをリセット
+	//キューをクリア
+	result = cmdAllocator_->Reset();
+	assert(SUCCEEDED(result));
+	//再びコマンドリストを貯める準備
+	result = cmdList_->Reset(cmdAllocator_.Get(), nullptr);
 	assert(SUCCEEDED(result));
 #pragma endregion
 }

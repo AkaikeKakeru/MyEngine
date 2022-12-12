@@ -56,6 +56,7 @@ private://変数
 	ComPtr<ID3D12CommandQueue> cmdQueue_;
 	ComPtr<ID3D12DescriptorHeap> rtvHeap_;
 	std::vector<ComPtr<ID3D12Resource>> backBuffers_;
+	ComPtr<ID3D12Fence> fence_;
 
 	/// <summary>
 	/// 重要生成物の設定用
@@ -63,4 +64,5 @@ private://変数
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc_{};
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc_{};
 	D3D12_RESOURCE_BARRIER barrierDesc_{};
+	UINT64 fenceVal_ = 0;
 };
