@@ -191,8 +191,12 @@ void DirectXBasis::InitDepthBuffer() {
 }
 
 void DirectXBasis::InitFence() {
+	HRESULT result;
 	//フェンスの生成
-
+	ComPtr<ID3D12Fence> fence = nullptr;
+	UINT64 fenceVal = 0;
+	
+	result = device_->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 }
 
 void DirectXBasis::Draw() {
