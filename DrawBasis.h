@@ -10,6 +10,8 @@ private://固有関数
 	void CreateVertexBufferView();
 	//シェーダーファイルのコンパイル
 	void CompileShaderFile();
+	//頂点レイアウト
+	void AssembleVertexLayout();
 
 private://メンバ変数
 	DirectXBasis* dxBas_ = nullptr;

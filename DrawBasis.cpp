@@ -17,9 +17,10 @@ void DrawBasis::Initialize() {
 
 	CreateVertexBufferView();
 	CompileShaderFile();
+	AssembleVertexLayout();
 }
 
-void DrawBasis::CreateVertexBufferView(){
+void DrawBasis::CreateVertexBufferView() {
 	HRESULT result;
 #pragma region 頂点データ
 	//頂点データ
@@ -67,7 +68,7 @@ void DrawBasis::CreateVertexBufferView(){
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	//全頂点に対して
-	for (int i = 0; i < _countof(vertices); i++){
+	for (int i = 0; i < _countof(vertices); i++) {
 		//座標をコピー
 		vertMap[i] = vertices[i];
 	}
@@ -87,7 +88,7 @@ void DrawBasis::CreateVertexBufferView(){
 #pragma endregion
 }
 
-void DrawBasis::CompileShaderFile(){
+void DrawBasis::CompileShaderFile() {
 	HRESULT result;
 
 	ComPtr<ID3DBlob> vsBlob;//頂点シェーダオブジェクト
@@ -143,4 +144,19 @@ void DrawBasis::CompileShaderFile(){
 		OutputDebugStringA(error.c_str());
 		assert(0);
 	}
+}
+
+void DrawBasis::AssembleVertexLayout() {
+	//頂点レイアウト
+	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
+		{
+			"POSITION",
+			0,
+			DXGI_FORMAT_R32G32B32_FLOAT,
+			0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+			0
+		},
+	};
 }
