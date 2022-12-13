@@ -41,7 +41,7 @@ void DirectXBasis::InitDevice() {
 	//アダプタの列挙用
 	std::vector<ComPtr<IDXGIAdapter4>> adapters;
 	//特定の名前を持つアダプターオブジェクトが入る
-	ComPtr<IDXGIAdapter4> tmpAdapter = nullptr;
+	ComPtr<IDXGIAdapter4> tmpAdapter;
 
 	//パフォーマンスが高いものから順に、全てのアダプタを列挙
 	for (UINT i = 0;
@@ -217,7 +217,7 @@ void DirectXBasis::InitDepthBuffer() {
 	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;
 
 	//リソース生成
-	ComPtr<ID3D12Resource> depthBuff = nullptr;
+	ComPtr<ID3D12Resource> depthBuff;
 	result = device_->CreateCommittedResource(
 		&depthHeapProp,
 		D3D12_HEAP_FLAG_NONE,
@@ -232,7 +232,7 @@ void DirectXBasis::InitDepthBuffer() {
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
 	dsvHeapDesc.NumDescriptors = 1;
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
-	ComPtr<ID3D12DescriptorHeap> dsvHeap = nullptr;
+	ComPtr<ID3D12DescriptorHeap> dsvHeap;
 	result = device_->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
 
 	//深度ビュー作成
