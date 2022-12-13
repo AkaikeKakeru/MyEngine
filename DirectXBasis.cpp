@@ -257,7 +257,7 @@ void DirectXBasis::PreDraw() {
 	UINT bbIndex = swapChain_->GetCurrentBackBufferIndex();
 
 #pragma region リソースバリアの変更コマンド
-	//1.書き込み可能に
+	///1.書き込み可能に
 	barrierDesc_.Transition.pResource = backBuffers_[bbIndex].Get();
 	barrierDesc_.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
 	barrierDesc_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
@@ -265,7 +265,7 @@ void DirectXBasis::PreDraw() {
 #pragma endregion
 
 #pragma region 描画先の変更指定コマンド
-	//2.描画先の変更
+	///2.描画先の変更
 	//レンダ―ターゲットビューのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle =
 		rtvHeap_->GetCPUDescriptorHandleForHeapStart();
@@ -274,23 +274,34 @@ void DirectXBasis::PreDraw() {
 #pragma endregion
 
 #pragma region 画面クリアコマンド
-	//3.画面クリア            R,     G,    B,    A
+	///3.画面クリア            R,     G,    B,    A
 	FLOAT clearColor[] = { 0.1f, 0.25f, 0.5f, 0.0f };
 	cmdList_->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 #pragma endregion
 
-	//4.描画コマンドスタート↓
+	///4.描画コマンドスタート↓
+	//ビューポート領域の設定
+	D3D12_VIEWPORT viewport{};
+	viewport.Width = winApp_->Win_Width;
+	viewport.Height = winApp_->Win_Height;
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
+	//ビューポート設定コマンドを、コマンドリストに積む
+	cmdList_->RSSetViewports(1, &viewport);
 }
 
 void DirectXBasis::PostDraw() {
-	//4.描画コマンドエンド↑
+	///4.描画コマンドエンド↑
+
 	HRESULT result;
 
 	//バックバッファの番号取得
 	UINT bbIndex = swapChain_->GetCurrentBackBufferIndex();
 
 #pragma region リソースバリア復帰コマンド
-	//5.リソースバリアを隠す
+	///5.リソースバリアを隠す
 	barrierDesc_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
 	barrierDesc_.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
 	cmdList_->ResourceBarrier(1, &barrierDesc_);
