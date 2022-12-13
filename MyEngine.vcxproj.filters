@@ -31,6 +31,9 @@
     <Filter Include="ヘッダー ファイル\math">
       <UniqueIdentifier>{ae0ac8a8-08f0-4fdc-aee0-bc376766f836}</UniqueIdentifier>
     </Filter>
+    <Filter Include="シェーダ ファイル">
+      <UniqueIdentifier>{9dfe84fe-8119-4607-8b00-8390a5a2a8e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -89,5 +92,18 @@
     <ClInclude Include="Matrix4.h">
       <Filter>ヘッダー ファイル\math</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Resource\shader\SpriteVS.hlsl">
+      <Filter>シェーダ ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resource\shader\SpritePS.hlsl">
+      <Filter>シェーダ ファイル</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\shader\Sprite.hlsli">
+      <Filter>シェーダ ファイル</Filter>
+    </None>
   </ItemGroup>
 </Project>
