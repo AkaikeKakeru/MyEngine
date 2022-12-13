@@ -13,6 +13,7 @@ public://固有関数
 	   //メッセージ処理
 	bool ProcessMessage();
 
+public://アクセス
 	HWND GetHWND() { return hwnd_; }
 
 public://定数

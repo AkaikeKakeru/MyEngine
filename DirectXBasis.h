@@ -19,7 +19,8 @@ public://基本関数
 	void Initialize(WinApp * winApp);
 	void PreDraw();
 	void PostDraw();
-public://固有関数
+
+private://固有関数
 	///初期化
 	//デバイス
 	void InitDevice();
