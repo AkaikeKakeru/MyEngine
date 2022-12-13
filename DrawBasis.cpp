@@ -14,9 +14,8 @@ using ComPtr = Microsoft::WRL::ComPtr<T>;
 void DrawBasis::Initialize() {
 	dxBas_ = DirectXBasis::GetInstance();
 
-	HRESULT result;
-
 	CreateVertexBufferView();
+	CompileShaderFile();
 }
 
 void DrawBasis::CreateVertexBufferView(){
@@ -85,4 +84,8 @@ void DrawBasis::CreateVertexBufferView(){
 	//頂点1つ分のデータサイズ
 	vbView.StrideInBytes = sizeof(Vector3);
 #pragma endregion
+}
+
+void DrawBasis::CompileShaderFile(){
+
 }
