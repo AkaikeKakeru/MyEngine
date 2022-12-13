@@ -31,6 +31,9 @@ void DrawBasis::Draw(){
 
 	//プリミティブ形状の設定コマンド
 	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);//三角形リスト
+
+	//頂点バッファビューの設定コマンド
+	cmdList_->IASetVertexBuffers(0, 1, &vbView_);
 }
 
 void DrawBasis::CreateVertexBufferView() {
@@ -91,13 +94,13 @@ void DrawBasis::CreateVertexBufferView() {
 
 #pragma region 頂点バッファビュー作成
 	//頂点バッファビューの作成
-	D3D12_VERTEX_BUFFER_VIEW vbView{};
+	
 	//GPU仮想アドレス
-	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
+	vbView_.BufferLocation = vertBuff->GetGPUVirtualAddress();
 	//頂点バッファのサイズ
-	vbView.SizeInBytes = sizeVB;
+	vbView_.SizeInBytes = sizeVB;
 	//頂点1つ分のデータサイズ
-	vbView.StrideInBytes = sizeof(Vector3);
+	vbView_.StrideInBytes = sizeof(Vector3);
 #pragma endregion
 }
 

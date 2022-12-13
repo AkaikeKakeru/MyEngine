@@ -39,6 +39,8 @@ private://メンバ変数
 	//コマンドリスト
 	ComPtr<ID3D12GraphicsCommandList> cmdList_;
 
+	//頂点バッファビュー
+	D3D12_VERTEX_BUFFER_VIEW vbView_{};
 	//頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> vsBlob_;
 	//ピクセルシェーダオブジェクト
