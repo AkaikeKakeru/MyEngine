@@ -14,10 +14,14 @@ private://固有関数
 	void CreateVertexBufferView();
 	//シェーダーファイルのコンパイル
 	void CompileShaderFile();
-	//頂点レイアウト
+	//頂点レイアウト組み立て
 	void AssembleVertexLayout();
-	//グラフィックスパイプライン
+	//グラフィックスパイプライン作成
+	void CreateGraphicsPipeline();
+	//グラフィックスパイプライン組み立て
 	void AssembleGraphicsPipeline();
+	//ルートシグネイチャ生成
+	void GenerateRootSignature();
 
 private://定数
 	static const int kInputLayoutElement = 1;

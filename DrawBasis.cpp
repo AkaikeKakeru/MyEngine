@@ -18,7 +18,7 @@ void DrawBasis::Initialize() {
 	CreateVertexBufferView();
 	CompileShaderFile();
 	AssembleVertexLayout();
-	AssembleGraphicsPipeline();
+	CreateGraphicsPipeline();
 }
 
 void DrawBasis::CreateVertexBufferView() {
@@ -161,6 +161,12 @@ void DrawBasis::AssembleVertexLayout() {
 	};
 }
 
+void DrawBasis::CreateGraphicsPipeline(){
+	AssembleGraphicsPipeline();
+	GenerateRootSignature();
+}
+
+
 void DrawBasis::AssembleGraphicsPipeline() {
 	//グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
@@ -204,4 +210,7 @@ void DrawBasis::AssembleGraphicsPipeline() {
 	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;//0～255指定のRGBA
 	pipelineDesc.SampleDesc.Count = 1;//1ピクセルにつき1回サンプリング
 #pragma region
+}
+void DrawBasis::GenerateRootSignature(){
+
 }
