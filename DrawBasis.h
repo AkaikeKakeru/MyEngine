@@ -2,6 +2,10 @@
 #include "DirectXBasis.h"
 
 class DrawBasis {
+private://省略
+	template <class T>
+	using ComPtr = Microsoft::WRL::ComPtr<T>;
+
 public://基本関数
 	void Initialize();
 
@@ -18,8 +22,6 @@ private://固有関数
 private://メンバ変数
 	DirectXBasis* dxBas_ = nullptr;
 
-
 	ComPtr<ID3DBlob> vsBlob_;//頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> psBlob_;//ピクセルシェーダオブジェクト
-
 };
