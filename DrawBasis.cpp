@@ -1,12 +1,12 @@
 #include "DrawBasis.h"
 #include <d3d12.h>
+#include <d3dcompiler.h>
 #include <wrl.h>
 #include <cassert>
 #include "Vector3.h"
 
 #pragma comment(lib, "d3d12.lib")
-
-//using namespace Microsoft::WRL;
+#pragma comment(lib, "d3d12compiler.lib")
 
 template <class T>
 using ComPtr = Microsoft::WRL::ComPtr<T>;
