@@ -2,6 +2,7 @@
 #include "SafeDelete.h"
 #include "WinApp.h"
 #include "DirectXBasis.h"
+#include "DrawBasis.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
@@ -17,6 +18,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	dxBas_->Initialize(winApp_);
 
 	/// 描画初期化
+	DrawBasis* drawBas_ = new DrawBasis();
+	drawBas_->Initialize();
 
 	/// ゲームループ
 	while (true) {
@@ -36,6 +39,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	}
 
 	/// 解放
+	SafeDelete(drawBas_);
 	//SafeDelete(dxBas_);
 	//SafeDelete(winApp_);
 
