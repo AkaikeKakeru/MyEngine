@@ -280,7 +280,7 @@ void DirectXBasis::PreDraw() {
 #pragma endregion
 
 	///4.描画コマンドスタート↓
-	//ビューポート領域の設定
+	//ビューポート設定コマンド
 	D3D12_VIEWPORT viewport{};
 	viewport.Width = winApp_->Win_Width;
 	viewport.Height = winApp_->Win_Height;
@@ -290,6 +290,15 @@ void DirectXBasis::PreDraw() {
 	viewport.MaxDepth = 1.0f;
 	//ビューポート設定コマンドを、コマンドリストに積む
 	cmdList_->RSSetViewports(1, &viewport);
+
+	//シザー矩形の設定コマンド
+	D3D12_RECT scissorRect{};
+	scissorRect.left = 0;										//切り抜き座標左
+	scissorRect.right = scissorRect.left + winApp_->Win_Width;	//切り抜き座標右
+	scissorRect.top = 0;										//切り抜き座標上
+	scissorRect.bottom - scissorRect.top + winApp_->Win_Height;	//切り抜き座標下
+	//シザー矩形設定コマンドを、コマンドリストに積む
+	cmdList_->RSSetScissorRects(1, &scissorRect);
 }
 
 void DirectXBasis::PostDraw() {
