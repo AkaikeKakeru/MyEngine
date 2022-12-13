@@ -180,4 +180,10 @@ void DrawBasis::AssembleGraphicsPipeline(){
 	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ポリゴン内塗りつぶし
 	pipelineDesc.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
 #pragma endregion
+
+#pragma endregion ブレンドステート
+	//ブレンドステート
+	pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask =
+		D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てにチャネルを描画
+#pragma endregion
 }
