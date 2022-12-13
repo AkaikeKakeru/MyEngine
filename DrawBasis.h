@@ -17,4 +17,9 @@ private://固有関数
 
 private://メンバ変数
 	DirectXBasis* dxBas_ = nullptr;
+
+
+	ComPtr<ID3DBlob> vsBlob_;//頂点シェーダオブジェクト
+	ComPtr<ID3DBlob> psBlob_;//ピクセルシェーダオブジェクト
+
 };

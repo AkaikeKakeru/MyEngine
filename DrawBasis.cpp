@@ -91,9 +91,6 @@ void DrawBasis::CreateVertexBufferView() {
 
 void DrawBasis::CompileShaderFile() {
 	HRESULT result;
-
-	ComPtr<ID3DBlob> vsBlob;//頂点シェーダオブジェクト
-	ComPtr<ID3DBlob> psBlob;//ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> errorBlob;//エラーオブジェクト
 
 	//頂点シェーダの読み込みとコンパイル
@@ -104,7 +101,7 @@ void DrawBasis::CompileShaderFile() {
 		"main", "vs_5_0",//エントリーポイント名、シェーダ―モデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//デバッグ用設定
 		0,
-		&vsBlob, &errorBlob);
+		&vsBlob_, &errorBlob);
 
 	//エラーなら
 	if (FAILED(result)) {
@@ -129,7 +126,7 @@ void DrawBasis::CompileShaderFile() {
 		"main", "ps_5_0",//エントリーポイント名、シェーダ―モデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//デバッグ用設定
 		0,
-		&psBlob, &errorBlob);
+		&psBlob_, &errorBlob);
 
 	//エラーなら
 	if (FAILED(result)) {
@@ -166,4 +163,11 @@ void DrawBasis::AssembleGraphicsPipeline(){
 	//グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 
+#pragma region シェーダ情報を組み込む
+	//シェーダの設定
+	pipelineDesc.VS.pShaderBytecode = vsBlob_->GetBufferPointer();
+	pipelineDesc.VS.BytecodeLength = vsBlob_->GetBufferSize();
+	pipelineDesc.PS.pShaderBytecode = psBlob_->GetBufferPointer();
+	pipelineDesc.PS.BytecodeLength = psBlob_->GetBufferSize();
+#pragma endregion
 }
