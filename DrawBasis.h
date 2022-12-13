@@ -24,13 +24,19 @@ private://固有関数
 	void GenerateRootSignature();
 
 private://定数
+	//頂点レイアウトの要素数
 	static const int kInputLayoutElement = 1;
 
 private://メンバ変数
 	DirectXBasis* dxBas_ = nullptr;
-
-	ComPtr<ID3DBlob> vsBlob_;//頂点シェーダオブジェクト
-	ComPtr<ID3DBlob> psBlob_;//ピクセルシェーダオブジェクト
-
-	D3D12_INPUT_ELEMENT_DESC inputLayout_[kInputLayoutElement];//頂点レイアウト
+	//頂点シェーダオブジェクト
+	ComPtr<ID3DBlob> vsBlob_;
+	//ピクセルシェーダオブジェクト
+	ComPtr<ID3DBlob> psBlob_;
+	//エラーオブジェクト
+	ComPtr<ID3DBlob> errorBlob;
+	//頂点レイアウト
+	D3D12_INPUT_ELEMENT_DESC inputLayout_[kInputLayoutElement];
+	//グラフィックスパイプラインデスク
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 };

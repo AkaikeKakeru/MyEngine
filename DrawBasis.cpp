@@ -91,7 +91,6 @@ void DrawBasis::CreateVertexBufferView() {
 
 void DrawBasis::CompileShaderFile() {
 	HRESULT result;
-	ComPtr<ID3DBlob> errorBlob;//エラーオブジェクト
 
 	//頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
@@ -169,7 +168,6 @@ void DrawBasis::CreateGraphicsPipeline(){
 
 void DrawBasis::AssembleGraphicsPipeline() {
 	//グラフィックスパイプライン設定
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 
 #pragma region シェーダ情報を組み込む
 	//シェーダの設定
@@ -212,5 +210,29 @@ void DrawBasis::AssembleGraphicsPipeline() {
 #pragma region
 }
 void DrawBasis::GenerateRootSignature(){
+	HRESULT result;
+	//ルートシグネイチャ
+	ComPtr<ID3D12RootSignature> rootSignature;
+	//ルートシグネチャの設定
+	D3D12_ROOT_SIGNATURE_DESC rootSigetureDesc{};
+	rootSigetureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+	//ルートシグネチャのシリアライズ
+	ComPtr<ID3DBlob> rootSigBlob = nullptr;
 
+	result = D3D12SerializeRootSignature(
+		&rootSigetureDesc,
+		D3D_ROOT_SIGNATURE_VERSION_1_0,
+		&rootSigBlob,
+		&errorBlob);
+	assert(SUCCEEDED(result));
+
+	result = dxBas_->GetDevice()->CreateRootSignature(
+		0,
+		rootSigBlob->GetBufferPointer(),
+		rootSigBlob->GetBufferSize(),
+		IID_PPV_ARGS(&rootSignature));
+	assert(SUCCEEDED(result));
+	rootSigBlob->Release();
+	//パイプラインにルートシグネチャをセット
+	pipelineDesc.pRootSignature = rootSignature.Get();
 }
