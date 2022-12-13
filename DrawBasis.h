@@ -36,9 +36,11 @@ private://メンバ変数
 	//ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> psBlob_;
 	//エラーオブジェクト
-	ComPtr<ID3DBlob> errorBlob;
+	ComPtr<ID3DBlob> errorBlob_;
 	//頂点レイアウト
 	D3D12_INPUT_ELEMENT_DESC inputLayout_[kInputLayoutElement];
 	//グラフィックスパイプラインデスク
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc_{};
+	//ルートシグネイチャ
+	ComPtr<ID3D12RootSignature> rootSignature_;
 };

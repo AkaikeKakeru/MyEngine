@@ -100,16 +100,16 @@ void DrawBasis::CompileShaderFile() {
 		"main", "vs_5_0",//エントリーポイント名、シェーダ―モデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//デバッグ用設定
 		0,
-		&vsBlob_, &errorBlob);
+		&vsBlob_, &errorBlob_);
 
 	//エラーなら
 	if (FAILED(result)) {
 		//errorBlobからのエラー内容をコピー
 		std::string error;
-		error.resize(errorBlob->GetBufferSize());
+		error.resize(errorBlob_->GetBufferSize());
 
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
+		std::copy_n((char*)errorBlob_->GetBufferPointer(),
+			errorBlob_->GetBufferSize(),
 			error.begin());
 		error += "\n";
 		//エラー内容を出力ウィンドウに表示
@@ -125,16 +125,16 @@ void DrawBasis::CompileShaderFile() {
 		"main", "ps_5_0",//エントリーポイント名、シェーダ―モデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//デバッグ用設定
 		0,
-		&psBlob_, &errorBlob);
+		&psBlob_, &errorBlob_);
 
 	//エラーなら
 	if (FAILED(result)) {
 		//errorBlobからのエラー内容をコピー
 		std::string error;
-		error.resize(errorBlob->GetBufferSize());
+		error.resize(errorBlob_->GetBufferSize());
 
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
+		std::copy_n((char*)errorBlob_->GetBufferPointer(),
+			errorBlob_->GetBufferSize(),
 			error.begin());
 		error += "\n";
 		//エラー内容を出力ウィンドウに表示
@@ -160,7 +160,7 @@ void DrawBasis::AssembleVertexLayout() {
 	};
 }
 
-void DrawBasis::CreateGraphicsPipeline(){
+void DrawBasis::CreateGraphicsPipeline() {
 	AssembleGraphicsPipeline();
 	GenerateRootSignature();
 	GeneratePipelineState();
@@ -171,48 +171,47 @@ void DrawBasis::AssembleGraphicsPipeline() {
 
 #pragma region シェーダ情報を組み込む
 	//シェーダの設定
-	pipelineDesc.VS.pShaderBytecode = vsBlob_->GetBufferPointer();
-	pipelineDesc.VS.BytecodeLength = vsBlob_->GetBufferSize();
-	pipelineDesc.PS.pShaderBytecode = psBlob_->GetBufferPointer();
-	pipelineDesc.PS.BytecodeLength = psBlob_->GetBufferSize();
+	pipelineDesc_.VS.pShaderBytecode = vsBlob_->GetBufferPointer();
+	pipelineDesc_.VS.BytecodeLength = vsBlob_->GetBufferSize();
+	pipelineDesc_.PS.pShaderBytecode = psBlob_->GetBufferPointer();
+	pipelineDesc_.PS.BytecodeLength = psBlob_->GetBufferSize();
 #pragma endregion
 
 #pragma region サンプルマスクとラスタライザステート
 	//サンプルマスクの設定
-	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//標準設定
+	pipelineDesc_.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//標準設定
 
 	//ラスタライザの設定
-	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//カリングしない
-	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ポリゴン内塗りつぶし
-	pipelineDesc.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
+	pipelineDesc_.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//カリングしない
+	pipelineDesc_.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ポリゴン内塗りつぶし
+	pipelineDesc_.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
 #pragma endregion
 
 #pragma endregion ブレンドステート
 	//ブレンドステート
-	pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask =
+	pipelineDesc_.BlendState.RenderTarget[0].RenderTargetWriteMask =
 		D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てにチャネルを描画
 #pragma endregion
 
 #pragma region 頂点レイアウトの設定
-	pipelineDesc.InputLayout.pInputElementDescs = inputLayout_;
-	pipelineDesc.InputLayout.NumElements = _countof(inputLayout_);
+	pipelineDesc_.InputLayout.pInputElementDescs = inputLayout_;
+	pipelineDesc_.InputLayout.NumElements = _countof(inputLayout_);
 #pragma endregion 
 
 #pragma region 図形の形状設定
 	//三角形に設定
-	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	pipelineDesc_.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 #pragma endregion
 
 #pragma region その他の設定
-	pipelineDesc.NumRenderTargets = 1;//描画対象は1つ
-	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;//0～255指定のRGBA
-	pipelineDesc.SampleDesc.Count = 1;//1ピクセルにつき1回サンプリング
+	pipelineDesc_.NumRenderTargets = 1;//描画対象は1つ
+	pipelineDesc_.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;//0～255指定のRGBA
+	pipelineDesc_.SampleDesc.Count = 1;//1ピクセルにつき1回サンプリング
 #pragma region
 }
-void DrawBasis::GenerateRootSignature(){
+void DrawBasis::GenerateRootSignature() {
 	HRESULT result;
-	//ルートシグネイチャ
-	ComPtr<ID3D12RootSignature> rootSignature;
+
 	//ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSigetureDesc{};
 	rootSigetureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
@@ -223,26 +222,26 @@ void DrawBasis::GenerateRootSignature(){
 		&rootSigetureDesc,
 		D3D_ROOT_SIGNATURE_VERSION_1_0,
 		&rootSigBlob,
-		&errorBlob);
+		&errorBlob_);
 	assert(SUCCEEDED(result));
 
 	result = dxBas_->GetDevice()->CreateRootSignature(
 		0,
 		rootSigBlob->GetBufferPointer(),
 		rootSigBlob->GetBufferSize(),
-		IID_PPV_ARGS(&rootSignature));
+		IID_PPV_ARGS(&rootSignature_));
 	assert(SUCCEEDED(result));
 	rootSigBlob->Release();
 	//パイプラインにルートシグネチャをセット
-	pipelineDesc.pRootSignature = rootSignature.Get();
+	pipelineDesc_.pRootSignature = rootSignature_.Get();
 }
 
-void DrawBasis::GeneratePipelineState(){
+void DrawBasis::GeneratePipelineState() {
 	HRESULT result;
 	//パイプラインステートの生成
 	ComPtr<ID3D12PipelineState> pipelineState;
 	result = dxBas_->GetDevice()->CreateGraphicsPipelineState(
-		&pipelineDesc,
+		&pipelineDesc_,
 		IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
 }
