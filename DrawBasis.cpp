@@ -28,6 +28,9 @@ void DrawBasis::Draw(){
 	//パイプラインステートとルートシグネイチャの設定コマンド
 	cmdList_->SetPipelineState(pipelineState_.Get());
 	cmdList_->SetGraphicsRootSignature(rootSignature_.Get());
+
+	//プリミティブ形状の設定コマンド
+	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);//三角形リスト
 }
 
 void DrawBasis::CreateVertexBufferView() {
