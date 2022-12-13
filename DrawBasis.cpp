@@ -25,7 +25,9 @@ void DrawBasis::Initialize() {
 }
 
 void DrawBasis::Draw(){
-	
+	//パイプラインステートとルートシグネイチャの設定コマンド
+	cmdList_->SetPipelineState(pipelineState_.Get());
+	cmdList_->SetGraphicsRootSignature(rootSignature_.Get());
 }
 
 void DrawBasis::CreateVertexBufferView() {
@@ -246,10 +248,9 @@ void DrawBasis::GenerateRootSignature() {
 void DrawBasis::GeneratePipelineState() {
 	HRESULT result;
 	//パイプラインステートの生成
-	ComPtr<ID3D12PipelineState> pipelineState;
 	result = device_->CreateGraphicsPipelineState(
 		&pipelineDesc_,
-		IID_PPV_ARGS(&pipelineState));
+		IID_PPV_ARGS(&pipelineState_));
 	assert(SUCCEEDED(result));
 }
 

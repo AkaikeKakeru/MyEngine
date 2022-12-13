@@ -51,6 +51,8 @@ private://メンバ変数
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc_{};
 	//ルートシグネイチャ
 	ComPtr<ID3D12RootSignature> rootSignature_;
+	//パイプラインステート
+	ComPtr<ID3D12PipelineState> pipelineState_;
 
 private:
 	DrawBasis() = default;
