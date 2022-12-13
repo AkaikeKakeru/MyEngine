@@ -35,6 +35,9 @@ private://固有関数
 	//フェンス
 	void InitFence();
 
+public://アクセス
+	ComPtr<ID3D12Device> GetDevice() { return device_; }
+
 public://定数
 	static const int BackBufferCount = 2;
 
