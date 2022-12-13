@@ -12,6 +12,8 @@ private://固有関数
 	void CompileShaderFile();
 	//頂点レイアウト
 	void AssembleVertexLayout();
+	//グラフィックスパイプライン
+	void AssembleGraphicsPipeline();
 
 private://メンバ変数
 	DirectXBasis* dxBas_ = nullptr;

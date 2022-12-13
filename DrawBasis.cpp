@@ -18,6 +18,7 @@ void DrawBasis::Initialize() {
 	CreateVertexBufferView();
 	CompileShaderFile();
 	AssembleVertexLayout();
+	AssembleGraphicsPipeline();
 }
 
 void DrawBasis::CreateVertexBufferView() {
@@ -159,4 +160,10 @@ void DrawBasis::AssembleVertexLayout() {
 			0
 		},
 	};
+}
+
+void DrawBasis::AssembleGraphicsPipeline(){
+	//グラフィックスパイプライン設定
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
+
 }
