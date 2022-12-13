@@ -146,8 +146,11 @@ void DrawBasis::CompileShaderFile() {
 
 void DrawBasis::AssembleVertexLayout() {
 	//頂点レイアウト
-	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
-		{
+	enum LayoutElement {
+		Position,
+	};
+
+	inputLayout_[Position] = {
 			"POSITION",
 			0,
 			DXGI_FORMAT_R32G32B32_FLOAT,
@@ -155,11 +158,10 @@ void DrawBasis::AssembleVertexLayout() {
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
 			0
-		},
 	};
 }
 
-void DrawBasis::AssembleGraphicsPipeline(){
+void DrawBasis::AssembleGraphicsPipeline() {
 	//グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 
@@ -186,4 +188,9 @@ void DrawBasis::AssembleGraphicsPipeline(){
 	pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask =
 		D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てにチャネルを描画
 #pragma endregion
+
+#pragma region 頂点レイアウトの設定
+	pipelineDesc.InputLayout.pInputElementDescs = inputLayout_;
+	pipelineDesc.InputLayout.NumElements = _countof(inputLayout_);
+#pragma endregion 
 }

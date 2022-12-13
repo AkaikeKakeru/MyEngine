@@ -19,9 +19,14 @@ private://固有関数
 	//グラフィックスパイプライン
 	void AssembleGraphicsPipeline();
 
+private://定数
+	static const int kInputLayoutElement = 1;
+
 private://メンバ変数
 	DirectXBasis* dxBas_ = nullptr;
 
 	ComPtr<ID3DBlob> vsBlob_;//頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> psBlob_;//ピクセルシェーダオブジェクト
+
+	D3D12_INPUT_ELEMENT_DESC inputLayout_[kInputLayoutElement];//頂点レイアウト
 };
