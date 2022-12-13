@@ -15,6 +15,9 @@ using ComPtr = Microsoft::WRL::ComPtr<T>;
 void DrawBasis::Initialize() {
 	dxBas_ = DirectXBasis::GetInstance();
 
+	device_ = dxBas_->GetDevice();
+	cmdList_ = dxBas_->GetCommandList();
+
 	CreateVertexBufferView();
 	CompileShaderFile();
 	AssembleVertexLayout();
@@ -22,7 +25,7 @@ void DrawBasis::Initialize() {
 }
 
 void DrawBasis::Draw(){
-
+	
 }
 
 void DrawBasis::CreateVertexBufferView() {
@@ -57,7 +60,7 @@ void DrawBasis::CreateVertexBufferView() {
 #pragma region 頂点バッファ生成
 	//頂点バッファの生成
 	ComPtr<ID3D12Resource> vertBuff;
-	result = dxBas_->GetDevice()->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&vbHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&vbResDesc,
@@ -229,7 +232,7 @@ void DrawBasis::GenerateRootSignature() {
 		&errorBlob_);
 	assert(SUCCEEDED(result));
 
-	result = dxBas_->GetDevice()->CreateRootSignature(
+	result = device_->CreateRootSignature(
 		0,
 		rootSigBlob->GetBufferPointer(),
 		rootSigBlob->GetBufferSize(),
@@ -244,7 +247,7 @@ void DrawBasis::GeneratePipelineState() {
 	HRESULT result;
 	//パイプラインステートの生成
 	ComPtr<ID3D12PipelineState> pipelineState;
-	result = dxBas_->GetDevice()->CreateGraphicsPipelineState(
+	result = device_->CreateGraphicsPipelineState(
 		&pipelineDesc_,
 		IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));

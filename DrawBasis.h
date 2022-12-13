@@ -31,7 +31,14 @@ private://定数
 	static const int kInputLayoutElement = 1;
 
 private://メンバ変数
+	//Draw基盤
 	DirectXBasis* dxBas_ = nullptr;
+
+	//デバイス
+	ComPtr<ID3D12Device> device_;
+	//コマンドリスト
+	ComPtr<ID3D12GraphicsCommandList> cmdList_;
+
 	//頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> vsBlob_;
 	//ピクセルシェーダオブジェクト
