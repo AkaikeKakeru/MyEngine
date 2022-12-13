@@ -198,4 +198,10 @@ void DrawBasis::AssembleGraphicsPipeline() {
 	//三角形に設定
 	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 #pragma endregion
+
+#pragma region その他の設定
+	pipelineDesc.NumRenderTargets = 1;//描画対象は1つ
+	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;//0～255指定のRGBA
+	pipelineDesc.SampleDesc.Count = 1;//1ピクセルにつき1回サンプリング
+#pragma region
 }
