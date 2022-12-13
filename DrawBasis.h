@@ -2,8 +2,12 @@
 #include "DirectXBasis.h"
 
 class DrawBasis {
-public:
+public://基本関数
 	void Initialize();
-private:
+
+private://固有関数
+	void CreateVertexBufferView();
+
+private://メンバ変数
 	DirectXBasis* dxBas_ = nullptr;
 };
