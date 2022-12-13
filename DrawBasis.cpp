@@ -48,4 +48,16 @@ void DrawBasis::Initialize() {
 		nullptr,
 		IID_PPV_ARGS(&vertBuff));
 	assert(SUCCEEDED(result));
+
+	//GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
+	Vector3* vertMap = nullptr;
+	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	assert(SUCCEEDED(result));
+	//全頂点に対して
+	for (int i = 0; i < _countof(vertices); i++){
+		//座標をコピー
+		vertMap[i] = vertices[i];
+	}
+	//繋がりを解除
+	vertBuff->Unmap(0, nullptr);
 }
