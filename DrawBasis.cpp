@@ -193,4 +193,9 @@ void DrawBasis::AssembleGraphicsPipeline() {
 	pipelineDesc.InputLayout.pInputElementDescs = inputLayout_;
 	pipelineDesc.InputLayout.NumElements = _countof(inputLayout_);
 #pragma endregion 
+
+#pragma region 図形の形状設定
+	//三角形に設定
+	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+#pragma endregion
 }
