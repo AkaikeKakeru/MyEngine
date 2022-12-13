@@ -8,6 +8,7 @@ private://省略
 
 public://基本関数
 	void Initialize();
+	void Draw();
 
 private://固有関数
 	//頂点バッファビュー作成

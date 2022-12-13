@@ -21,6 +21,10 @@ void DrawBasis::Initialize() {
 	CreateGraphicsPipeline();
 }
 
+void DrawBasis::Draw(){
+
+}
+
 void DrawBasis::CreateVertexBufferView() {
 	HRESULT result;
 #pragma region 頂点データ
