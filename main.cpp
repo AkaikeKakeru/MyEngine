@@ -18,7 +18,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	dxBas_->Initialize(winApp_);
 
 	/// 描画初期化
-	DrawBasis* drawBas_ = new DrawBasis();
+	//描画基盤
+	DrawBasis* drawBas_ = nullptr;
+	drawBas_ = DrawBasis::GetInstance();
 	drawBas_->Initialize();
 
 	/// ゲームループ
@@ -39,7 +41,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	}
 
 	/// 解放
-	SafeDelete(drawBas_);
+	//SafeDelete(drawBas_);
 	//SafeDelete(dxBas_);
 	//SafeDelete(winApp_);
 

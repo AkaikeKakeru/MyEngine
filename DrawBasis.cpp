@@ -245,3 +245,8 @@ void DrawBasis::GeneratePipelineState() {
 		IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
 }
+
+DrawBasis* DrawBasis::GetInstance(){
+	static DrawBasis instance;
+	return &instance;
+}
