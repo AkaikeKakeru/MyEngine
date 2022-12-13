@@ -22,6 +22,8 @@ private://固有関数
 	void AssembleGraphicsPipeline();
 	//ルートシグネイチャ生成
 	void GenerateRootSignature();
+	//パイプラインステート生成
+	void GeneratePipelineState();
 
 private://定数
 	//頂点レイアウトの要素数

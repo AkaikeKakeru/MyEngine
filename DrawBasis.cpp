@@ -163,8 +163,8 @@ void DrawBasis::AssembleVertexLayout() {
 void DrawBasis::CreateGraphicsPipeline(){
 	AssembleGraphicsPipeline();
 	GenerateRootSignature();
+	GeneratePipelineState();
 }
-
 
 void DrawBasis::AssembleGraphicsPipeline() {
 	//グラフィックスパイプライン設定
@@ -217,7 +217,7 @@ void DrawBasis::GenerateRootSignature(){
 	D3D12_ROOT_SIGNATURE_DESC rootSigetureDesc{};
 	rootSigetureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 	//ルートシグネチャのシリアライズ
-	ComPtr<ID3DBlob> rootSigBlob = nullptr;
+	ComPtr<ID3DBlob> rootSigBlob;
 
 	result = D3D12SerializeRootSignature(
 		&rootSigetureDesc,
@@ -235,4 +235,14 @@ void DrawBasis::GenerateRootSignature(){
 	rootSigBlob->Release();
 	//パイプラインにルートシグネチャをセット
 	pipelineDesc.pRootSignature = rootSignature.Get();
+}
+
+void DrawBasis::GeneratePipelineState(){
+	HRESULT result;
+	//パイプラインステートの生成
+	ComPtr<ID3D12PipelineState> pipelineState;
+	result = dxBas_->GetDevice()->CreateGraphicsPipelineState(
+		&pipelineDesc,
+		IID_PPV_ARGS(&pipelineState));
+	assert(SUCCEEDED(result));
 }
