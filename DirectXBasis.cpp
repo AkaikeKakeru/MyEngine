@@ -296,7 +296,7 @@ void DirectXBasis::PreDraw() {
 	scissorRect.left = 0;										//切り抜き座標左
 	scissorRect.right = scissorRect.left + winApp_->Win_Width;	//切り抜き座標右
 	scissorRect.top = 0;										//切り抜き座標上
-	scissorRect.bottom - scissorRect.top + winApp_->Win_Height;	//切り抜き座標下
+	scissorRect.bottom = scissorRect.top + winApp_->Win_Height;	//切り抜き座標下
 	//シザー矩形設定コマンドを、コマンドリストに積む
 	cmdList_->RSSetScissorRects(1, &scissorRect);
 }
