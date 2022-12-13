@@ -2,11 +2,12 @@
 #include <d3d12.h>
 #include <d3dcompiler.h>
 #include <wrl.h>
+#include <string>
 #include <cassert>
 #include "Vector3.h"
 
 #pragma comment(lib, "d3d12.lib")
-#pragma comment(lib, "d3d12compiler.lib")
+#pragma comment(lib, "d3dcompiler.lib")
 
 template <class T>
 using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -87,5 +88,34 @@ void DrawBasis::CreateVertexBufferView(){
 }
 
 void DrawBasis::CompileShaderFile(){
+	HRESULT result;
 
+	ComPtr<ID3DBlob> vsBlob;//頂点シェーダオブジェクト
+	ComPtr<ID3DBlob> psBlob;//ピクセルシェーダオブジェクト
+	ComPtr<ID3DBlob> errorBlob;//エラーオブジェクト
+
+	//頂点シェーダの読み込みとコンパイル
+	result = D3DCompileFromFile(
+		L"Resource/shader/SpriteVS.hlsl",//シェーダファイル名
+		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
+		"main", "vs_5_0",//エントリーポイント名、シェーダ―モデル指定
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//デバッグ用設定
+		0,
+		&vsBlob, &errorBlob);
+
+	//エラーなら
+	if (FAILED(result)) {
+		//errorBlobからのエラー内容をコピー
+		std::string error;
+		error.resize(errorBlob->GetBufferSize());
+
+		std::copy_n((char*)errorBlob->GetBufferPointer(),
+			errorBlob->GetBufferSize(),
+			error.begin());
+		error += "\n";
+		//エラー内容を出力ウィンドウに表示
+		OutputDebugStringA(error.c_str());
+		assert(0);
+	}
 }
