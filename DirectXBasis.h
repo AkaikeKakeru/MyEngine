@@ -37,6 +37,7 @@ private://固有関数
 
 public://アクセス
 	ComPtr<ID3D12Device> GetDevice() { return device_; }
+	ComPtr<ID3D12GraphicsCommandList> GetCommandList() { return cmdList_; }
 
 public://定数
 	static const int BackBufferCount = 2;
