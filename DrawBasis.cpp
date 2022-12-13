@@ -4,11 +4,18 @@
 #include <cassert>
 #include "Vector3.h"
 
-#pragma comment(lib, "d3d12lib")
+#pragma comment(lib, "d3d12.lib")
 
 //using namespace Microsoft::WRL;
 
+template <class T>
+using ComPtr = Microsoft::WRL::ComPtr<T>;
+
 void DrawBasis::Initialize() {
+	dxBas_ = DirectXBasis::GetInstance();
+
+	HRESULT result;
+
 	//頂点データ
 	Vector3 vertices[] = {
 		{-0.5f,0.5f,0.0f},//左下
@@ -30,4 +37,15 @@ void DrawBasis::Initialize() {
 	vbResDesc.MipLevels = 1;
 	vbResDesc.SampleDesc.Count = 1;
 	vbResDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	//頂点バッファの生成
+	ComPtr<ID3D12Resource> vertBuff;
+	result = dxBas_->GetDevice()->CreateCommittedResource(
+		&vbHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&vbResDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&vertBuff));
+	assert(SUCCEEDED(result));
 }
