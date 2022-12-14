@@ -35,7 +35,7 @@ private://固有関数
 
 private://定数
 	//頂点数
-	static const int kVerticesNum = 3;
+	static const int kVerticesNum = 4;
 	//頂点レイアウトの要素数
 	static const int kInputLayoutElement = 1;
 
