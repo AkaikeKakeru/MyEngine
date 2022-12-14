@@ -1,6 +1,7 @@
 #pragma once
 #include "DirectXBasis.h"
 #include "Vector3.h"
+#include "Vector4.h"
 
 class DrawBasis {
 private://省略
@@ -8,6 +9,10 @@ private://省略
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 private://構造体
+	typedef struct ConstBufferDataMaterial {
+		Vector4 color;//色(RGBA)
+	};
+
 	typedef struct VertexPos {
 		Vector3 pos;
 	} VertexPos;
