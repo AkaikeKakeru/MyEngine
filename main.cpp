@@ -3,6 +3,7 @@
 #include "WinApp.h"
 #include "DirectXBasis.h"
 #include "DrawBasis.h"
+#include "Sprite.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
@@ -24,6 +25,13 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	drawBas_ = DrawBasis::GetInstance();
 	drawBas_->Initialize();
 
+	//描画スプライト
+	Sprite* sprite_ = new Sprite();
+	sprite_->Initialize(drawBas_);
+
+	Sprite* sprite2_ = new Sprite();
+	sprite2_->Initialize(drawBas_);
+
 	/// ゲームループ
 	while (true) {
 		//windowsのメッセージ処理
@@ -40,12 +48,17 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 		//描画本命処理
 		drawBas_->Draw();
+		sprite_->Draw();
+		sprite2_->Draw();
 
 		//描画後処理
 		dxBas_->PostDraw();
 	}
 
 	/// 解放
+	SafeDelete(sprite_);
+	SafeDelete(sprite2_);
+
 	//SafeDelete(drawBas_);
 	//SafeDelete(dxBas_);
 	//SafeDelete(winApp_);
