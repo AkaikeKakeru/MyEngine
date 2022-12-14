@@ -18,6 +18,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	dxBas_->Initialize(winApp_);
 
 	/// 描画初期化
+
 	//描画基盤
 	DrawBasis* drawBas_ = nullptr;
 	drawBas_ = DrawBasis::GetInstance();
@@ -36,6 +37,10 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		/// 描画
 		//描画前処理
 		dxBas_->PreDraw();
+
+		//描画本命処理
+		drawBas_->Draw();
+
 		//描画後処理
 		dxBas_->PostDraw();
 	}
