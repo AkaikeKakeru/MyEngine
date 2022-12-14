@@ -4,7 +4,6 @@
 #include <wrl.h>
 #include <string>
 #include <cassert>
-#include "Vector3.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "d3dcompiler.lib")
@@ -34,17 +33,40 @@ void DrawBasis::Draw(){
 
 	//頂点バッファビューの設定コマンド
 	cmdList_->IASetVertexBuffers(0, 1, &vbView_);
+
+	cmdList_->DrawInstanced(kVerticesNum, 1, 0, 0);
 }
 
 void DrawBasis::CreateVertexBufferView() {
 	HRESULT result;
 #pragma region 頂点データ
 	//頂点データ
-	Vector3 vertices[] = {
+	Vector3 vert[] = {
 		{-0.5f,0.5f,0.0f},//左下
 		{-0.5f,+0.5f,0.0f},//左上
 		{+0.5f,-0.5f,0.0f},//右下
 	};
+	
+	//頂点部位
+	typedef enum VerticesParts {
+		LeftBottom,//左下
+		LeftTop,//左上
+		RightBottom,//右下
+	}VerticesParts;
+
+	float left = -0.5f;//左
+	float right = +0.5f;//右
+	float top = +0.5f;//上
+	float bottom = -0.5f;//下
+
+	VertexPos vertices[kVerticesNum]{};
+
+	//頂点データを設定
+	vertices[LeftBottom].pos = Vector3(left, bottom, 0);
+	vertices[LeftTop].pos = Vector3(left, top, 0);
+	vertices[RightBottom].pos = Vector3(right, bottom, 0);
+
+	//頂点データ
 
 	//頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(Vector3) * _countof(vertices));
@@ -67,21 +89,20 @@ void DrawBasis::CreateVertexBufferView() {
 
 #pragma region 頂点バッファ生成
 	//頂点バッファの生成
-	ComPtr<ID3D12Resource> vertBuff;
 	result = device_->CreateCommittedResource(
 		&vbHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&vbResDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&vertBuff));
+		IID_PPV_ARGS(&vertBuff_));
 	assert(SUCCEEDED(result));
 #pragma endregion
 
 #pragma region 頂点バッファへ転送
 	//GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	Vector3* vertMap = nullptr;
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	VertexPos* vertMap = nullptr;
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	//全頂点に対して
 	for (int i = 0; i < _countof(vertices); i++) {
@@ -89,14 +110,14 @@ void DrawBasis::CreateVertexBufferView() {
 		vertMap[i] = vertices[i];
 	}
 	//繋がりを解除
-	vertBuff->Unmap(0, nullptr);
+	vertBuff_->Unmap(0, nullptr);
 #pragma endregion
 
 #pragma region 頂点バッファビュー作成
 	//頂点バッファビューの作成
 	
 	//GPU仮想アドレス
-	vbView_.BufferLocation = vertBuff->GetGPUVirtualAddress();
+	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
 	//頂点バッファのサイズ
 	vbView_.SizeInBytes = sizeVB;
 	//頂点1つ分のデータサイズ

@@ -1,10 +1,16 @@
 #pragma once
 #include "DirectXBasis.h"
+#include "Vector3.h"
 
 class DrawBasis {
 private://省略
 	template <class T>
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
+
+private://構造体
+	typedef struct VertexPos {
+		Vector3 pos;
+	} VertexPos;
 
 public://基本関数
 	void Initialize();
@@ -27,6 +33,8 @@ private://固有関数
 	void GeneratePipelineState();
 
 private://定数
+	//頂点数
+	static const int kVerticesNum = 3;
 	//頂点レイアウトの要素数
 	static const int kInputLayoutElement = 1;
 
@@ -39,6 +47,8 @@ private://メンバ変数
 	//コマンドリスト
 	ComPtr<ID3D12GraphicsCommandList> cmdList_;
 
+	//頂点バッファ
+	ComPtr<ID3D12Resource> vertBuff_;
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView_{};
 	//頂点シェーダオブジェクト
