@@ -242,6 +242,12 @@ void DrawBasis::AssembleGraphicsPipeline() {
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
 	blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
 	blenddesc.DestBlend = D3D12_BLEND_ONE;//デストを100%使う
+
+	//減算合成
+	blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//デストからソースを減算
+	blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
+	blenddesc.DestBlend = D3D12_BLEND_ONE;//デストを100%使う
+
 #pragma endregion
 
 #pragma region 頂点レイアウトの設定
