@@ -68,6 +68,7 @@ private://メンバ変数
 
 public://ゲッタ
 	ComPtr<ID3D12GraphicsCommandList> GetCommandList() { return cmdList_; }
+	D3D12_VERTEX_BUFFER_VIEW GetVertexBufferView() { return vbView_; }
 
 private:
 	DrawBasis() = default;

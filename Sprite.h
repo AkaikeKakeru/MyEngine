@@ -26,6 +26,9 @@ private://メンバ変数
 	//Draw基盤
 	DrawBasis* drawBas_ = nullptr;
 
+	//頂点バッファビュー
+	D3D12_VERTEX_BUFFER_VIEW vbView_{};
+
 	//コマンドリスト
 	ComPtr<ID3D12GraphicsCommandList> cmdList_;
 };

@@ -30,9 +30,6 @@ void DrawBasis::Draw() {
 
 	//プリミティブ形状の設定コマンド
 	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);//三角形リスト
-
-	//頂点バッファビューの設定コマンド
-	cmdList_->IASetVertexBuffers(0, 1, &vbView_);
 }
 
 void DrawBasis::CreateVertexBufferView() {
