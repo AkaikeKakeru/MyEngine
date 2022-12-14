@@ -73,6 +73,8 @@ private://メンバ変数
 	ComPtr<ID3D12RootSignature> rootSignature_;
 	//パイプラインステート
 	ComPtr<ID3D12PipelineState> pipelineState_;
+	//定数バッファマテリアル
+	ComPtr<ID3D12Resource> constBuffMaterial_;
 
 public://ゲッタ
 	ComPtr<ID3D12GraphicsCommandList> GetCommandList() { return cmdList_; }

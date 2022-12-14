@@ -21,6 +21,7 @@ void DrawBasis::Initialize() {
 	CompileShaderFile();
 	AssembleVertexLayout();
 	CreateGraphicsPipeline();
+	GenerateConstBuffer();
 }
 
 void DrawBasis::Draw() {
@@ -331,8 +332,6 @@ void DrawBasis::GenerateConstBuffer(){
 	cbResourceDesc.SampleDesc.Count = 1;
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	//定数バッファマテリアル
-	ComPtr<ID3D12Resource> constBuffMaterial;
 	//定数バッファの生成
 	result = device_->CreateCommittedResource(
 		&cbHeapProp,//ヒープ設定
@@ -340,12 +339,12 @@ void DrawBasis::GenerateConstBuffer(){
 		&cbResourceDesc,//リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&constBuffMaterial));
+		IID_PPV_ARGS(&constBuffMaterial_));
 	assert(SUCCEEDED(result));
 
 	//定数バッファのマッピング
 	ConstBufferDataMaterial* constMapMaterial = nullptr;
-	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);//マッピング
+	result = constBuffMaterial_->Map(0, nullptr, (void**)&constMapMaterial);//マッピング
 	assert(SUCCEEDED(result));
 
 	//値を書き込むと自動的に転送される
