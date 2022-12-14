@@ -66,6 +66,9 @@ private://メンバ変数
 	//パイプラインステート
 	ComPtr<ID3D12PipelineState> pipelineState_;
 
+public://ゲッタ
+	ComPtr<ID3D12GraphicsCommandList> GetCommandList() { return cmdList_; }
+
 private:
 	DrawBasis() = default;
 	~DrawBasis() = default;

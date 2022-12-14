@@ -19,12 +19,13 @@ public://基本関数
 private://固有関数
 
 private://定数
+	//頂点数
+	static const int kVerticesNum = 3;
+
 private://メンバ変数
-		//Draw基盤
+	//Draw基盤
 	DrawBasis* drawBas_ = nullptr;
 
-	//デバイス
-	ComPtr<ID3D12Device> device_;
 	//コマンドリスト
 	ComPtr<ID3D12GraphicsCommandList> cmdList_;
 };

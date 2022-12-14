@@ -33,8 +33,6 @@ void DrawBasis::Draw() {
 
 	//頂点バッファビューの設定コマンド
 	cmdList_->IASetVertexBuffers(0, 1, &vbView_);
-
-	cmdList_->DrawInstanced(kVerticesNum, 1, 0, 0);
 }
 
 void DrawBasis::CreateVertexBufferView() {
