@@ -306,6 +306,8 @@ void DrawBasis::GeneratePipelineState() {
 }
 
 void DrawBasis::GenerateConstBuffer(){
+	HRESULT result;
+
 	//定数バッファヒープ設定
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
 	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
@@ -318,6 +320,18 @@ void DrawBasis::GenerateConstBuffer(){
 	cbResourceDesc.MipLevels = 1;
 	cbResourceDesc.SampleDesc.Count = 1;
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	//定数バッファマテリアル
+	ComPtr<ID3D12Resource> constBuffMaterial;
+	//定数バッファの生成
+	result = device_->CreateCommittedResource(
+		&cbHeapProp,//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc,//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffMaterial));
+	assert(SUCCEEDED(result));
 }
 
 DrawBasis* DrawBasis::GetInstance() {
