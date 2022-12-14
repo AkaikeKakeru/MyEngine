@@ -231,6 +231,12 @@ void DrawBasis::AssembleGraphicsPipeline() {
 	//レンダ―ターゲットビューのブレンド設定
 	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc_.BlendState.RenderTarget[0];
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てにチャネルを描画
+
+	//共通設定
+	blenddesc.BlendEnable = true;//ブレンドを有効にする
+	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;//加算
+	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
+	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;//デストの値を0%使う
 #pragma endregion
 
 #pragma region 頂点レイアウトの設定
