@@ -23,6 +23,8 @@ public://基本関数
 private://固有関数
 	//定数バッファ生成
 	void GenerateConstBuffer();
+	//テクスチャマッピング
+	void MappingTexture();
 
 private://定数
 	//頂点数

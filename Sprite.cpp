@@ -1,4 +1,5 @@
 #include "Sprite.h"
+#include "SafeDelete.h"
 #include <cassert>
 
 void Sprite::Initialize(DrawBasis* drawBas) {
@@ -9,6 +10,7 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 	vbView_ = drawBas_->GetVertexBufferView();
 
 	GenerateConstBuffer();
+	MappingTexture();
 }
 
 void Sprite::Draw() {
@@ -55,4 +57,25 @@ void Sprite::GenerateConstBuffer(){
 
 	//値を書き込むと自動的に転送される
 	constMapMaterial->color = Vector4(1, 0, 0, 0.5f);//RGBAで半透明の赤
+}
+
+void Sprite::MappingTexture(){
+	//横方向ピクセル数
+	const size_t textureWidth = 256;
+	//縦方向ピクセル数
+	const size_t textureHeight = 256;
+	//配列の要素数
+	const size_t imageDataCount = textureWidth * textureHeight;
+	//画像イメージデータ配列
+	Vector4* imageData = new Vector4[imageDataCount];//※後で開放する
+
+	//全ピクセルの色を初期化
+	for (size_t i = 0; i < imageDataCount; i++){
+		imageData[i].x = 1.0f;//R
+		imageData[i].y = 0.0f;//G
+		imageData[i].z = 0.0f;//B
+		imageData[i].w = 1.0f;//A
+	}
+
+	SafeDelete(imageData);
 }
