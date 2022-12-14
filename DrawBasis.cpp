@@ -225,8 +225,12 @@ void DrawBasis::AssembleGraphicsPipeline() {
 
 #pragma endregion ブレンドステート
 	//ブレンドステート
-	pipelineDesc_.BlendState.RenderTarget[0].RenderTargetWriteMask =
-		D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てにチャネルを描画
+	//pipelineDesc_.BlendState.RenderTarget[0].RenderTargetWriteMask =
+	//	D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てにチャネルを描画
+
+	//レンダ―ターゲットビューのブレンド設定
+	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc_.BlendState.RenderTarget[0];
+	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てにチャネルを描画
 #pragma endregion
 
 #pragma region 頂点レイアウトの設定
