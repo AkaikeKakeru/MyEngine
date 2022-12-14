@@ -68,7 +68,7 @@ void DrawBasis::CreateVertexBufferView() {
 	vertices[RightTop].uv = Vector2(rightUv, topUv);
 
 	//頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
-	UINT sizeVB = static_cast<UINT>(sizeof(Vector3) * _countof(vertices));
+	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
 #pragma endregion
 
 #pragma region 頂点バッファ設定
@@ -120,7 +120,7 @@ void DrawBasis::CreateVertexBufferView() {
 	//頂点バッファのサイズ
 	vbView_.SizeInBytes = sizeVB;
 	//頂点1つ分のデータサイズ
-	vbView_.StrideInBytes = sizeof(Vector3);
+	vbView_.StrideInBytes = sizeof(vertices[0]);
 #pragma endregion
 }
 
