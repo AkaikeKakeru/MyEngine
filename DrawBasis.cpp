@@ -29,24 +29,18 @@ void DrawBasis::Draw() {
 	cmdList_->SetGraphicsRootSignature(rootSignature_.Get());
 
 	//プリミティブ形状の設定コマンド
-	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);//三角形リスト
+	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);//三角形ストリップ
 }
 
 void DrawBasis::CreateVertexBufferView() {
 	HRESULT result;
 #pragma region 頂点データ
-	//頂点データ
-	Vector3 vert[] = {
-		{-0.5f,0.5f,0.0f},//左下
-		{-0.5f,+0.5f,0.0f},//左上
-		{+0.5f,-0.5f,0.0f},//右下
-	};
-
 	//頂点部位
 	typedef enum VerticesParts {
 		LeftBottom,//左下
 		LeftTop,//左上
 		RightBottom,//右下
+		RightTop,//右上
 	}VerticesParts;
 
 	float left = -0.5f;//左
@@ -60,6 +54,7 @@ void DrawBasis::CreateVertexBufferView() {
 	vertices[LeftBottom].pos = Vector3(left, bottom, 0);
 	vertices[LeftTop].pos = Vector3(left, top, 0);
 	vertices[RightBottom].pos = Vector3(right, bottom, 0);
+	vertices[RightTop].pos = Vector3(right, top, 0);
 
 	//頂点データ
 
