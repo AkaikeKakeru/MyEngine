@@ -23,7 +23,7 @@ void DrawBasis::Initialize() {
 	CreateGraphicsPipeline();
 }
 
-void DrawBasis::Draw(){
+void DrawBasis::Draw() {
 	//パイプラインステートとルートシグネイチャの設定コマンド
 	cmdList_->SetPipelineState(pipelineState_.Get());
 	cmdList_->SetGraphicsRootSignature(rootSignature_.Get());
@@ -46,7 +46,7 @@ void DrawBasis::CreateVertexBufferView() {
 		{-0.5f,+0.5f,0.0f},//左上
 		{+0.5f,-0.5f,0.0f},//右下
 	};
-	
+
 	//頂点部位
 	typedef enum VerticesParts {
 		LeftBottom,//左下
@@ -115,7 +115,7 @@ void DrawBasis::CreateVertexBufferView() {
 
 #pragma region 頂点バッファビュー作成
 	//頂点バッファビューの作成
-	
+
 	//GPU仮想アドレス
 	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
 	//頂点バッファのサイズ
@@ -239,19 +239,19 @@ void DrawBasis::AssembleGraphicsPipeline() {
 	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;//デストの値を0%使う
 
 	//加算合成
-	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
-	blenddesc.DestBlend = D3D12_BLEND_ONE;//デストを100%使う
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
+	//blenddesc.DestBlend = D3D12_BLEND_ONE;//デストを100%使う
 
 	//減算合成
-	blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//デストからソースを減算
-	blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
-	blenddesc.DestBlend = D3D12_BLEND_ONE;//デストを100%使う
+	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//デストからソースを減算
+	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
+	//blenddesc.DestBlend = D3D12_BLEND_ONE;//デストを100%使う
 
 	//色反転
-	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f - デストカラーの値
-	blenddesc.DestBlend = D3D12_BLEND_ZERO;//使わない
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f - デストカラーの値
+	//blenddesc.DestBlend = D3D12_BLEND_ZERO;//使わない
 
 	//半透明合成
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
@@ -310,7 +310,7 @@ void DrawBasis::GeneratePipelineState() {
 	assert(SUCCEEDED(result));
 }
 
-DrawBasis* DrawBasis::GetInstance(){
+DrawBasis* DrawBasis::GetInstance() {
 	static DrawBasis instance;
 	return &instance;
 }
