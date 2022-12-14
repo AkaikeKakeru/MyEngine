@@ -332,6 +332,11 @@ void DrawBasis::GenerateConstBuffer(){
 		nullptr,
 		IID_PPV_ARGS(&constBuffMaterial));
 	assert(SUCCEEDED(result));
+
+	//定数バッファのマッピング
+	ConstBufferDataMaterial* constMapMaterial = nullptr;
+	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);//マッピング
+	assert(SUCCEEDED(result));
 }
 
 DrawBasis* DrawBasis::GetInstance() {
