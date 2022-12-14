@@ -37,6 +37,9 @@ private://固有関数
 	//パイプラインステート生成
 	void GeneratePipelineState();
 
+	//定数バッファ生成
+	void GenerateConstBuffer();
+
 private://定数
 	//頂点数
 	static const int kVerticesNum = 3;
