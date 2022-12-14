@@ -60,12 +60,6 @@ void Sprite::GenerateConstBuffer(){
 }
 
 void Sprite::MappingTexture(){
-	//横方向ピクセル数
-	const size_t textureWidth = 256;
-	//縦方向ピクセル数
-	const size_t textureHeight = 256;
-	//配列の要素数
-	const size_t imageDataCount = textureWidth * textureHeight;
 	//画像イメージデータ配列
 	Vector4* imageData = new Vector4[imageDataCount];//※後で開放する
 
@@ -77,5 +71,25 @@ void Sprite::MappingTexture(){
 		imageData[i].w = 1.0f;//A
 	}
 
+	GenerateTextureBuffer();
+
 	SafeDelete(imageData);
+}
+
+void Sprite::GenerateTextureBuffer(){
+	//テクスチャバッファヒープ設定
+	D3D12_HEAP_PROPERTIES texHeapProp{};
+	texHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
+	texHeapProp.CPUPageProperty =
+		D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	texHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+	//テクスチャバッファリソース設定
+	D3D12_RESOURCE_DESC texResDesc{};
+	texResDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	texResDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	texResDesc.Width = textureWidth;//幅
+	texResDesc.Height = textureHeight;//高さ
+	texResDesc.DepthOrArraySize = 1;
+	texResDesc.MipLevels = 1;
+	texResDesc.SampleDesc.Count = 1;
 }

@@ -25,10 +25,19 @@ private://固有関数
 	void GenerateConstBuffer();
 	//テクスチャマッピング
 	void MappingTexture();
+	//テクスチャバッファ生成
+	void GenerateTextureBuffer();
 
 private://定数
 	//頂点数
 	static const int kVerticesNum = 4;
+
+	//横方向ピクセル数
+	static const size_t textureWidth = 256;
+	//縦方向ピクセル数
+	static const size_t textureHeight = 256;
+	//配列の要素数
+	static const size_t imageDataCount = textureWidth * textureHeight;
 
 private://メンバ変数
 	//Draw基盤
