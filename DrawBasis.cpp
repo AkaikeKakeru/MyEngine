@@ -267,7 +267,6 @@ void DrawBasis::GenerateRootSignature() {
 		rootSigBlob->GetBufferSize(),
 		IID_PPV_ARGS(&rootSignature_));
 	assert(SUCCEEDED(result));
-	rootSigBlob->Release();
 	//パイプラインにルートシグネチャをセット
 	pipelineDesc_.pRootSignature = rootSignature_.Get();
 }
