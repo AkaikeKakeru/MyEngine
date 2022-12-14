@@ -9,10 +9,6 @@ private://省略
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 private://構造体
-	typedef struct ConstBufferDataMaterial {
-		Vector4 color;//色(RGBA)
-	};
-
 	typedef struct VertexPos {
 		Vector3 pos;
 	} VertexPos;
@@ -36,9 +32,6 @@ private://固有関数
 	void GenerateRootSignature();
 	//パイプラインステート生成
 	void GeneratePipelineState();
-
-	//定数バッファ生成
-	void GenerateConstBuffer();
 
 private://定数
 	//頂点数
@@ -73,10 +66,9 @@ private://メンバ変数
 	ComPtr<ID3D12RootSignature> rootSignature_;
 	//パイプラインステート
 	ComPtr<ID3D12PipelineState> pipelineState_;
-	//定数バッファマテリアル
-	ComPtr<ID3D12Resource> constBuffMaterial_;
 
 public://ゲッタ
+	ComPtr<ID3D12Device> GetDvice() { return device_; }
 	ComPtr<ID3D12GraphicsCommandList> GetCommandList() { return cmdList_; }
 	D3D12_VERTEX_BUFFER_VIEW GetVertexBufferView() { return vbView_; }
 
