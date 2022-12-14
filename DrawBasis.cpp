@@ -43,10 +43,10 @@ void DrawBasis::CreateVertexBufferView() {
 		RightTop,//右上
 	}VerticesParts;
 
-	float left = -0.5f;//左
-	float right = +0.5f;//右
-	float top = +0.5f;//上
-	float bottom = -0.5f;//下
+	float left = -0.4f;//左
+	float right = +0.4f;//右
+	float top = +0.7f;//上
+	float bottom = -0.7f;//下
 
 	float leftUv = 0.0f;//左
 	float rightUv = 1.0f;//右
