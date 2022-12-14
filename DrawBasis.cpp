@@ -248,6 +248,10 @@ void DrawBasis::AssembleGraphicsPipeline() {
 	blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
 	blenddesc.DestBlend = D3D12_BLEND_ONE;//デストを100%使う
 
+	//色反転
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f - デストカラーの値
+	blenddesc.DestBlend = D3D12_BLEND_ZERO;//使わない
 #pragma endregion
 
 #pragma region 頂点レイアウトの設定

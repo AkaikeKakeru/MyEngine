@@ -276,7 +276,7 @@ void DirectXBasis::PreDraw() {
 #pragma region 画面クリアコマンド
 	///3.画面クリア            R,     G,    B,    A
 	//FLOAT clearColor[] = { 0.1f, 0.25f, 0.5f, 0.0f };
-	FLOAT clearColor[] = { 1.0f, 1.0f, 1.0f, 0.0f };
+	FLOAT clearColor[] = { 1.0f, 0.0f, 0.0f, 0.0f };
 	cmdList_->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 #pragma endregion
 
