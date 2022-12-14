@@ -273,6 +273,13 @@ void DrawBasis::AssembleGraphicsPipeline() {
 void DrawBasis::GenerateRootSignature() {
 	HRESULT result;
 
+	//ルートパラメータの設定
+	D3D12_ROOT_PARAMETER rootParam = {};
+	rootParam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//定数バッファビュー
+	rootParam.Descriptor.ShaderRegister = 0;					//定数バッファ番号
+	rootParam.Descriptor.RegisterSpace = 0;						//デフォルト値
+	rootParam.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
+
 	//ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSigetureDesc{};
 	rootSigetureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
