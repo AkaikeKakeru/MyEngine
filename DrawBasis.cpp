@@ -48,6 +48,12 @@ void DrawBasis::CreateVertexBufferView() {
 	float top = +0.5f;//上
 	float bottom = -0.5f;//下
 
+	float leftUv = 0.0f;//左
+	float rightUv = 1.0f;//右
+	float topUv = 0.0f;//上
+	float bottomUv = 1.0f;//下
+
+	//頂点データ
 	Vertex vertices[kVerticesNum]{};
 
 	//頂点データを設定
@@ -56,7 +62,10 @@ void DrawBasis::CreateVertexBufferView() {
 	vertices[RightBottom].pos = Vector3(right, bottom, 0);
 	vertices[RightTop].pos = Vector3(right, top, 0);
 
-	//頂点データ
+	vertices[LeftBottom].uv = Vector2(leftUv, bottomUv);
+	vertices[LeftTop].uv = Vector2(leftUv, topUv);
+	vertices[RightBottom].uv = Vector2(rightUv, bottomUv);
+	vertices[RightTop].uv = Vector2(rightUv, topUv);
 
 	//頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(Vector3) * _countof(vertices));
