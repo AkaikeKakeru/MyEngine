@@ -1,5 +1,6 @@
 #pragma once
 #include "DirectXBasis.h"
+#include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
 
@@ -9,9 +10,11 @@ private://省略
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 private://構造体
-	typedef struct VertexPos {
-		Vector3 pos;
-	} VertexPos;
+	//頂点データ構造体
+	typedef struct VertexPosUv {
+		Vector3 pos;//xyz座標
+		Vector2 uv;//uv座標
+	} Vertex;
 
 public://基本関数
 	void Initialize();

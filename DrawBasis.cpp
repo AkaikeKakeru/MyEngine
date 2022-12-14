@@ -48,7 +48,7 @@ void DrawBasis::CreateVertexBufferView() {
 	float top = +0.5f;//上
 	float bottom = -0.5f;//下
 
-	VertexPos vertices[kVerticesNum]{};
+	Vertex vertices[kVerticesNum]{};
 
 	//頂点データを設定
 	vertices[LeftBottom].pos = Vector3(left, bottom, 0);
@@ -91,7 +91,7 @@ void DrawBasis::CreateVertexBufferView() {
 
 #pragma region 頂点バッファへ転送
 	//GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	VertexPos* vertMap = nullptr;
+	Vertex* vertMap = nullptr;
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	//全頂点に対して
