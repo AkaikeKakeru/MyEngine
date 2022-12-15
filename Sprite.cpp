@@ -99,6 +99,20 @@ void Sprite::GenerateTextureBuffer(){
 		WIC_FLAGS_NONE,
 		&metaData, scratchImg);
 
+	ScratchImage mipChain{};
+	//ミップマップ生成
+	result = GenerateMipMaps(
+		scratchImg.GetImages(),
+		scratchImg.GetImageCount(),
+		scratchImg.GetMetadata(),
+		TEX_FILTER_DEFAULT,
+		0,
+		mipChain);
+	if (SUCCEEDED(result)) {
+		scratchImg = std::move(mipChain);
+		metaData = scratchImg.GetMetadata();
+	}
+
 	//テクスチャバッファヒープ設定
 	D3D12_HEAP_PROPERTIES texHeapProp{};
 	texHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
