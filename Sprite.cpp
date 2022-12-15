@@ -3,6 +3,8 @@
 #include <DirectXTex.h>
 #include <cassert>
 
+using namespace DirectX;
+
 void Sprite::Initialize(DrawBasis* drawBas) {
 	assert(drawBas);
 	drawBas_ = drawBas;
@@ -88,6 +90,14 @@ void Sprite::GenerateTextureBuffer(){
 		imageData[i].z = 0.0f;//B
 		imageData[i].w = 1.0f;//A
 	}
+
+	TexMetadata metaData{};
+	ScratchImage scratchImg{};
+	//WICテクスチャのロード
+	result = LoadFromWICFile(
+		L"Resources/texture.png",//「Resources」フォルダの「texture.png」
+		WIC_FLAGS_NONE,
+		&metaData, scratchImg);
 
 	//テクスチャバッファヒープ設定
 	D3D12_HEAP_PROPERTIES texHeapProp{};
