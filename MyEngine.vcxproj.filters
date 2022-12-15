@@ -112,9 +112,4 @@
       <Filter>シェーダ ファイル</Filter>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="Resource\texture.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
-  </ItemGroup>
 </Project>

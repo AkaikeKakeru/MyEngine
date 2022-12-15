@@ -34,13 +34,6 @@ private://定数
 	//頂点数
 	static const int kVerticesNum = 4;
 
-	//横方向ピクセル数
-	static const size_t textureWidth = 256;
-	//縦方向ピクセル数
-	static const size_t textureHeight = 256;
-	//配列の要素数
-	static const size_t imageDataCount = textureWidth * textureHeight;
-
 	//SRVの最大個数
 	const size_t kMaxSRVCount = 2056;
 
@@ -61,6 +54,9 @@ private://メンバ変数
 
 	//テクスチャバッファ
 	ComPtr<ID3D12Resource> texBuff_;
+
+	//テクスチャリソースデスク
+	D3D12_RESOURCE_DESC texResDesc_{};
 
 	//デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> srvHeap_;
