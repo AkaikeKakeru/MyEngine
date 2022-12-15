@@ -56,4 +56,10 @@ private://メンバ変数
 
 	//定数バッファマテリアル
 	ComPtr<ID3D12Resource> constBuffMaterial_;
+
+	//デスクリプタヒープ
+	ComPtr<ID3D12DescriptorHeap> srvHeap_;
+
+	//SRVヒープのアドレス
+	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle_;
 };

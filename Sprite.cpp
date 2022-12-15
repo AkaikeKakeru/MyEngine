@@ -12,6 +12,9 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 	GenerateConstBuffer();
 	GenerateTextureBuffer();
 	GenerateDescriptorHeap();
+
+	//SRVヒープの先頭アドレスを取得
+	srvHandle_ = srvHeap_->GetCPUDescriptorHandleForHeapStart();
 }
 
 void Sprite::Draw() {
@@ -120,11 +123,10 @@ void Sprite::GenerateDescriptorHeap(){
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
 	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//シェーダから見えるように
-	srvHeapDesc.NumDescriptors = kMaxSRVCount;
+	srvHeapDesc.NumDescriptors = static_cast<UINT>(kMaxSRVCount);
 
 	//設定を元にSRV用デスクリプタヒープ生成
-	ComPtr<ID3D12DescriptorHeap> srvHeap;
 	result = device_->CreateDescriptorHeap(
-		&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
+		&srvHeapDesc, IID_PPV_ARGS(&srvHeap_));
 	assert(SUCCEEDED(result));
 }
