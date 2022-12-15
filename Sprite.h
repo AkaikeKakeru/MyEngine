@@ -22,7 +22,7 @@ private://構造体
 	//ワールド変換構造体
 	typedef struct WorldTransform {
 		Vector3 scale;		//スケール
-		Vector3 rotation;	//回転
+		float rotation;	//回転
 		Vector3 translation;//平行移動
 		Matrix4 matWorld;	//ワールド変換行列
 	}WorldTransform;

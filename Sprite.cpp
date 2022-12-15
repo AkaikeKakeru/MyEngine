@@ -14,7 +14,7 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 	vbView_ = drawBas_->GetVertexBufferView();
 
 	worldTransform_.scale = { 1,1,1 };
-	worldTransform_.rotation = { 0,0,0 };
+	worldTransform_.rotation = 0;
 	worldTransform_.translation = { 0,0,0 };
 	worldTransform_.matWorld = Matrix4Identity();
 
@@ -245,11 +245,7 @@ void Sprite::ReCalcMatWorld() {
 	worldTransform_.matWorld = Matrix4Identity();
 
 	worldTransform_.matWorld *=
-		Matrix4Scale(worldTransform_.scale);
-
-	worldTransform_.matWorld *=
-		Matrix4Rotation(worldTransform_.rotation);
-
+		Matrix4RotationZ(worldTransform_.rotation);
 	worldTransform_.matWorld *=
 		Matrix4Translation(worldTransform_.translation);
 }
