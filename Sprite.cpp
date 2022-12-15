@@ -77,6 +77,8 @@ void Sprite::MappingTexture(){
 }
 
 void Sprite::GenerateTextureBuffer(){
+	HRESULT result;
+
 	//テクスチャバッファヒープ設定
 	D3D12_HEAP_PROPERTIES texHeapProp{};
 	texHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
@@ -92,4 +94,14 @@ void Sprite::GenerateTextureBuffer(){
 	texResDesc.DepthOrArraySize = 1;
 	texResDesc.MipLevels = 1;
 	texResDesc.SampleDesc.Count = 1;
+
+	//テクスチャバッファ生成
+	ComPtr<ID3D12Resource> texBuff;
+	result = device_->CreateCommittedResource(
+		&texHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&texResDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&texBuff));
 }
