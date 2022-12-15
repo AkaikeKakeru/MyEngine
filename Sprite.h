@@ -26,6 +26,11 @@ public://基本関数
 private://固有関数
 	//定数バッファ生成
 	void GenerateConstBuffer();
+	//定数バッファマテリアル生成
+	void GenerateConstMaterial();
+	//定数バッファトランスフォーム生成
+	void GenerateConstTransform();
+
 	//テクスチャバッファ生成
 	void GenerateTextureBuffer();
 	//デスクリプタヒープ生成

@@ -43,12 +43,17 @@ void Sprite::Draw() {
 }
 
 void Sprite::GenerateConstBuffer(){
+	GenerateConstMaterial();
+	GenerateConstTransform();
+}
+
+void Sprite::GenerateConstMaterial(){
 	HRESULT result;
 
 	//定数バッファヒープ設定
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
 	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
-	//定数バッファリソース設定
+											 //定数バッファリソース設定
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
 	cbResourceDesc.Width = (sizeof(ConstBufferDataMaterial) + 0xff) & ~0xff;//256バイトアライメント
@@ -74,6 +79,9 @@ void Sprite::GenerateConstBuffer(){
 
 	//値を書き込むと自動的に転送される
 	constMapMaterial_->color = Vector4(1, 1, 1, 1.0f);//RGBAで半透明の赤
+}
+
+void Sprite::GenerateConstTransform(){
 }
 
 void Sprite::GenerateTextureBuffer(){
