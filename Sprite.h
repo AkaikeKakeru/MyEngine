@@ -49,6 +49,27 @@ private://固有関数
 	//ワールド行列再計算
 	void ReCalcMatWorld();
 
+public://アクセス
+	//座標を取得
+	const Vector2& GetPosition() const {
+		return worldTransform_.position;
+	}
+
+	//回転を取得
+	float GetRotation() const {
+		return worldTransform_.rotation;
+	}
+
+	//座標をセット
+	void SetPosition(const Vector2& position) {
+		worldTransform_.position = position;
+	}
+
+	//回転をセット
+	void SetRotation(float rotation) {
+		worldTransform_.rotation = rotation;
+	}
+
 private://定数
 	//頂点数
 	static const int kVerticesNum = 4;
@@ -63,8 +84,8 @@ private://メンバ変数
 	//平行投影変換行列
 	Matrix4 matOrtGrapricProjection_;
 
-		//Draw基盤
-		DrawBasis* drawBas_ = nullptr;
+	//Draw基盤
+	DrawBasis* drawBas_ = nullptr;
 
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView_{};
