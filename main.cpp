@@ -41,7 +41,18 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		}
 
 		/// 更新
+		Vector2 pos = { 0,0 };
+
+		pos = sprite_->GetPosition();
+		pos.x += 2.0f;
+		sprite_->SetPosition(pos);
+
 		sprite_->Update();
+
+		pos = sprite2_->GetPosition();
+		pos.y += 2.0f;
+		sprite2_->SetPosition(pos);
+
 		sprite2_->Update();
 
 		/// 描画
