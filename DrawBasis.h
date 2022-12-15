@@ -41,6 +41,8 @@ private://定数
 	static const int kVerticesNum = 4;
 	//頂点レイアウトの要素数
 	static const int kInputLayoutElement = 2;
+	//ルートパラメータ数
+	static const int kRootParamCount = 3;
 
 private://メンバ変数
 	//Draw基盤
