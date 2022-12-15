@@ -29,6 +29,7 @@ private://構造体
 
 public://基本関数
 	void Initialize(DrawBasis* drawBas);
+	void Update();
 	void Draw();
 
 private://固有関数
