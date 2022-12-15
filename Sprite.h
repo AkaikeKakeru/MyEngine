@@ -60,6 +60,9 @@ private://メンバ変数
 	//ワールド変換
 	WorldTransform worldTransform_;
 
+	//平行投影変換行列
+	Matrix4 matOrtGrapricProjection_;
+
 		//Draw基盤
 		DrawBasis* drawBas_ = nullptr;
 
