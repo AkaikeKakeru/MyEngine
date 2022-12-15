@@ -13,7 +13,10 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 	cmdList_ = drawBas_->GetCommandList();
 	vbView_ = drawBas_->GetVertexBufferView();
 
-	matWorld_ = Matrix4Identity();
+	worldTransform_.scale = { 1,1,0 };
+	worldTransform_.rotation = { 0,0,0 };
+	worldTransform_.translation = { 0,0,0 };
+	worldTransform_.matWorld = Matrix4Identity();
 
 	GenerateConstBuffer();
 	GenerateTextureBuffer();
@@ -131,8 +134,11 @@ void Sprite::GenerateConstTransform(){
 	constMapTransform_->mat.m[3][0] = -1.0f;
 	constMapTransform_->mat.m[3][1] = 1.0f;
 
+	//ワールド行列を再計算
+	ReCalcMatWorld();
+
 	//ワールド変換行列を掛ける
-	constMapTransform_->mat *= matWorld_;
+	constMapTransform_->mat *= worldTransform_.matWorld;
 }
 
 void Sprite::GenerateTextureBuffer(){
@@ -233,4 +239,17 @@ void Sprite::CreateShaderResourceView(){
 
 	//ハンドルの指す位置にシェーダーリソースビュー作成
 	device_->CreateShaderResourceView(texBuff_.Get(), &srvDesc, srvHandle_);
+}
+
+void Sprite::ReCalcMatWorld() {
+	worldTransform_.matWorld = Matrix4Identity();
+
+	worldTransform_.matWorld *=
+		Matrix4Scale(worldTransform_.scale);
+
+	worldTransform_.matWorld *=
+		Matrix4Rotation(worldTransform_.rotation);
+
+	worldTransform_.matWorld *=
+		Matrix4Translation(worldTransform_.translation);
 }
