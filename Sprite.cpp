@@ -74,7 +74,7 @@ void Sprite::GenerateConstBuffer(){
 	assert(SUCCEEDED(result));
 
 	//値を書き込むと自動的に転送される
-	constMapMaterial->color = Vector4(1, 0, 0, 0.5f);//RGBAで半透明の赤
+	constMapMaterial->color = Vector4(1, 1, 1, 1.0f);//RGBAで半透明の赤
 }
 
 void Sprite::GenerateTextureBuffer(){
