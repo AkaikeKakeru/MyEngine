@@ -1,5 +1,6 @@
 #include "Sprite.h"
 #include "SafeDelete.h"
+#include <DirectXTex.h>
 #include <cassert>
 
 void Sprite::Initialize(DrawBasis* drawBas) {
