@@ -38,6 +38,15 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 	CreateShaderResourceView();
 }
 
+void Sprite::Update(){
+	//値を書き込むと自動的に転送される
+	//ワールド行列を再計算
+	ReCalcMatWorld();
+
+	//ワールド変換行列と、平行投影変換行列を掛ける
+	constMapTransform_->mat = worldTransform_.matWorld *= matOrtGrapricProjection_;
+}
+
 void Sprite::Draw() {
 	//頂点バッファビューの設定コマンド
 	cmdList_->IASetVertexBuffers(0, 1, &vbView_);
