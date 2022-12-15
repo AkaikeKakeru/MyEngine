@@ -25,6 +25,8 @@ private://固有関数
 	void GenerateConstBuffer();
 	//テクスチャバッファ生成
 	void GenerateTextureBuffer();
+	//デスクリプタヒープ生成
+	void GenerateDescriptorHeap();
 
 private://定数
 	//頂点数
@@ -36,6 +38,9 @@ private://定数
 	static const size_t textureHeight = 256;
 	//配列の要素数
 	static const size_t imageDataCount = textureWidth * textureHeight;
+
+	//SRVの最大個数
+	const size_t kMaxSRVCount = 2056;
 
 private://メンバ変数
 	//Draw基盤

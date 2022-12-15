@@ -11,6 +11,7 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 
 	GenerateConstBuffer();
 	GenerateTextureBuffer();
+	GenerateDescriptorHeap();
 }
 
 void Sprite::Draw() {
@@ -108,5 +109,22 @@ void Sprite::GenerateTextureBuffer(){
 		sizeof(Vector4) * imageDataCount//全サイズ
 	);
 
+	//元データ開放
 	delete[] imageData;
+}
+
+void Sprite::GenerateDescriptorHeap(){
+	HRESULT result;
+
+	//デスクリプタヒープの設定
+	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
+	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//シェーダから見えるように
+	srvHeapDesc.NumDescriptors = kMaxSRVCount;
+
+	//設定を元にSRV用デスクリプタヒープ生成
+	ComPtr<ID3D12DescriptorHeap> srvHeap;
+	result = device_->CreateDescriptorHeap(
+		&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
+	assert(SUCCEEDED(result));
 }
