@@ -98,6 +98,9 @@
     <ClInclude Include="Sprite.h">
       <Filter>ヘッダー ファイル\Drawer</Filter>
     </ClInclude>
+    <ClInclude Include="Degree.h">
+      <Filter>ヘッダー ファイル\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resource\shader\SpriteVS.hlsl">
