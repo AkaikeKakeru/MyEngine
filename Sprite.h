@@ -46,6 +46,9 @@ private://固有関数
 	//シェーダーリソースビュー作成
 	void CreateShaderResourceView();
 
+	//ワールド行列再計算
+	void ReCalcMatWorld();
+
 private://定数
 	//頂点数
 	static const int kVerticesNum = 4;
