@@ -26,6 +26,15 @@ void Sprite::Draw() {
 	//定数バッファビュー(CBV)の設定コマンド
 	cmdList_->SetGraphicsRootConstantBufferView(0, constBuffMaterial_->GetGPUVirtualAddress());
 
+	//デスクリプタヒープの配列をセットするコマンド
+	ID3D12DescriptorHeap* ppHeaps[] = { srvHeap_.Get()};
+	cmdList_->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
+	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap_->GetGPUDescriptorHandleForHeapStart();
+	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
+	cmdList_->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+
 	//インスタンス描画
 	cmdList_->DrawInstanced(kVerticesNum, 1, 0, 0);
 }
