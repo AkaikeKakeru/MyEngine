@@ -1,10 +1,10 @@
 #pragma once
 
 float ConvertToRadian(float degree) {
-	const float PI = 3.14159265;
+	const float PI = 3.14159265f;
 
 	float radian = 0;
-	radian = degree * (3.14 / 180);
+	radian = degree * (PI / 180);
 
 	return radian;
 }
