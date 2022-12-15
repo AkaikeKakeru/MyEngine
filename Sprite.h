@@ -1,5 +1,6 @@
 #pragma once
 #include "DrawBasis.h"
+#include "Matrix4.h"
 #include "Vector3.h"
 
 class Sprite {
@@ -8,13 +9,15 @@ private://省略
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 private://構造体
+	//定数バッファ用データ構造体(マテリアル)
 	typedef struct ConstBufferDataMaterial {
 		Vector4 color;//色(RGBA)
 	};
 
-	typedef struct VertexPos {
-		Vector3 pos;
-	} VertexPos;
+	//定数バッファ用データ構造体(3D変換行列)
+	typedef struct ConstBufferDataTransform {
+		Matrix4 mat;//3D変換行列
+	};
 
 public://基本関数
 	void Initialize(DrawBasis* drawBas);
