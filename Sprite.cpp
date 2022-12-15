@@ -13,7 +13,7 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 	cmdList_ = drawBas_->GetCommandList();
 	vbView_ = drawBas_->GetVertexBufferView();
 
-	worldTransform_.scale = { 1,1,0 };
+	worldTransform_.scale = { 1,1,1 };
 	worldTransform_.rotation = { 0,0,0 };
 	worldTransform_.translation = { 0,0,0 };
 	worldTransform_.matWorld = Matrix4Identity();
