@@ -91,13 +91,13 @@ void Sprite::GenerateTextureBuffer(){
 		imageData[i].w = 1.0f;//A
 	}
 
-	TexMetadata metaData{};
+	TexMetadata metadata{};
 	ScratchImage scratchImg{};
 	//WICテクスチャのロード
 	result = LoadFromWICFile(
 		L"Resources/texture.png",//「Resources」フォルダの「texture.png」
 		WIC_FLAGS_NONE,
-		&metaData, scratchImg);
+		&metadata, scratchImg);
 
 	ScratchImage mipChain{};
 	//ミップマップ生成
@@ -110,11 +110,11 @@ void Sprite::GenerateTextureBuffer(){
 		mipChain);
 	if (SUCCEEDED(result)) {
 		scratchImg = std::move(mipChain);
-		metaData = scratchImg.GetMetadata();
+		metadata = scratchImg.GetMetadata();
 	}
 
 	//読み込んだディフューズテクスチャをSRGBとして扱う
-	metaData.format = MakeSRGB(metaData.format);
+	metadata.format = MakeSRGB(metadata.format);
 
 	//テクスチャバッファヒープ設定
 	D3D12_HEAP_PROPERTIES texHeapProp{};
