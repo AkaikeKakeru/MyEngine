@@ -54,6 +54,12 @@ private://メンバ変数
 
 	//定数バッファマテリアル
 	ComPtr<ID3D12Resource> constBuffMaterial_;
+	//定数バッファマテリアルマップ
+	ConstBufferDataMaterial* constMapMaterial_ = nullptr;
+	//定数バッファトランスフォーム
+	ComPtr<ID3D12Resource> constBuffTransform_;
+	//定数バッファマテリアルマップ
+	ConstBufferDataTransform* constMapTransform_ = nullptr;
 
 	//テクスチャバッファ
 	ComPtr<ID3D12Resource> texBuff_;
