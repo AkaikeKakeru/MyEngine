@@ -27,6 +27,8 @@ private://固有関数
 	void GenerateTextureBuffer();
 	//デスクリプタヒープ生成
 	void GenerateDescriptorHeap();
+	//シェーダーリソースビュー作成
+	void CreateShaderResourceView();
 
 private://定数
 	//頂点数
@@ -56,6 +58,9 @@ private://メンバ変数
 
 	//定数バッファマテリアル
 	ComPtr<ID3D12Resource> constBuffMaterial_;
+
+	//テクスチャバッファ
+	ComPtr<ID3D12Resource> texBuff_;
 
 	//デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> srvHeap_;

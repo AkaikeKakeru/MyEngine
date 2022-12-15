@@ -15,6 +15,8 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 
 	//SRVヒープの先頭アドレスを取得
 	srvHandle_ = srvHeap_->GetCPUDescriptorHandleForHeapStart();
+
+	CreateShaderResourceView();
 }
 
 void Sprite::Draw() {
@@ -94,17 +96,17 @@ void Sprite::GenerateTextureBuffer(){
 	texResDesc.SampleDesc.Count = 1;
 
 	//テクスチャバッファ生成
-	ComPtr<ID3D12Resource> texBuff;
+
 	result = device_->CreateCommittedResource(
 		&texHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&texResDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&texBuff));
+		IID_PPV_ARGS(&texBuff_));
 
 	//テクスチャバッファにデータ転送
-	result = texBuff->WriteToSubresource(
+	result = texBuff_->WriteToSubresource(
 		0,
 		nullptr,
 		imageData,
@@ -129,4 +131,17 @@ void Sprite::GenerateDescriptorHeap(){
 	result = device_->CreateDescriptorHeap(
 		&srvHeapDesc, IID_PPV_ARGS(&srvHeap_));
 	assert(SUCCEEDED(result));
+}
+
+void Sprite::CreateShaderResourceView(){
+	//シェーダーリソースビュー設定
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//設定構造体
+	srvDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;//RGBA float
+	srvDesc.Shader4ComponentMapping =
+		D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D,//2Dテクスチャ
+		srvDesc.Texture2D.MipLevels = 1;
+
+	//ハンドルの指す位置にシェーダーリソースビュー作成
+	device_->CreateShaderResourceView(texBuff_.Get(), &srvDesc, srvHandle_);
 }
