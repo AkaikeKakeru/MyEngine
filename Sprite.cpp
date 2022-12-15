@@ -10,7 +10,7 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 	vbView_ = drawBas_->GetVertexBufferView();
 
 	GenerateConstBuffer();
-	MappingTexture();
+	GenerateTextureBuffer();
 }
 
 void Sprite::Draw() {
@@ -59,7 +59,9 @@ void Sprite::GenerateConstBuffer(){
 	constMapMaterial->color = Vector4(1, 0, 0, 0.5f);//RGBAで半透明の赤
 }
 
-void Sprite::MappingTexture(){
+void Sprite::GenerateTextureBuffer(){
+	HRESULT result;
+
 	//画像イメージデータ配列
 	Vector4* imageData = new Vector4[imageDataCount];//※後で開放する
 
@@ -71,14 +73,6 @@ void Sprite::MappingTexture(){
 		imageData[i].w = 1.0f;//A
 	}
 
-	GenerateTextureBuffer();
-
-	SafeDelete(imageData);
-}
-
-void Sprite::GenerateTextureBuffer(){
-	HRESULT result;
-
 	//テクスチャバッファヒープ設定
 	D3D12_HEAP_PROPERTIES texHeapProp{};
 	texHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
@@ -88,7 +82,7 @@ void Sprite::GenerateTextureBuffer(){
 	//テクスチャバッファリソース設定
 	D3D12_RESOURCE_DESC texResDesc{};
 	texResDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	texResDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	texResDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	texResDesc.Width = textureWidth;//幅
 	texResDesc.Height = textureHeight;//高さ
 	texResDesc.DepthOrArraySize = 1;
@@ -104,4 +98,15 @@ void Sprite::GenerateTextureBuffer(){
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&texBuff));
+
+	//テクスチャバッファにデータ転送
+	result = texBuff->WriteToSubresource(
+		0,
+		nullptr,
+		imageData,
+		sizeof(Vector4) * textureWidth,//1ラインサイズ
+		sizeof(Vector4) * imageDataCount//全サイズ
+	);
+
+	delete[] imageData;
 }
