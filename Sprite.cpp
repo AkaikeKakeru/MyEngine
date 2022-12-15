@@ -113,6 +113,9 @@ void Sprite::GenerateTextureBuffer(){
 		metaData = scratchImg.GetMetadata();
 	}
 
+	//読み込んだディフューズテクスチャをSRGBとして扱う
+	metaData.format = MakeSRGB(metaData.format);
+
 	//テクスチャバッファヒープ設定
 	D3D12_HEAP_PROPERTIES texHeapProp{};
 	texHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
