@@ -1,5 +1,6 @@
 #include "Sprite.h"
 #include "SafeDelete.h"
+#include "WinApp.h"
 #include <DirectXTex.h>
 #include <cassert>
 
@@ -116,8 +117,17 @@ void Sprite::GenerateConstTransform(){
 
 
 	//値を書き込むと自動的に転送される
+
+	//単位行列で初期化
 	constMapTransform_->mat = Matrix4Identity();
 
+	/*テクスチャの左上を、画面の左上角に合わせたい*/
+	//ポリゴンの左上を、画面中央に合わせる
+	constMapTransform_->mat.m[0][0] = 2.0f / WinApp::Win_Width;
+	constMapTransform_->mat.m[1][1] = -2.0f / WinApp::Win_Height;
+	//上の状態から、画面半分くらいの距離だけ、左上にずらす
+	constMapTransform_->mat.m[3][0] = -1.0f;
+	constMapTransform_->mat.m[3][1] = 1.0f;
 }
 
 void Sprite::GenerateTextureBuffer(){
