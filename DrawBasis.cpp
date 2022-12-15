@@ -323,7 +323,9 @@ void DrawBasis::GenerateRootSignature() {
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 	rootSignatureDesc.pParameters = rootParams;//ルートパラメータの先頭アドレス
 	rootSignatureDesc.NumParameters = _countof(rootParams);//ルートパラメータ―数
-	
+	rootSignatureDesc.pStaticSamplers = &samplerDesc;
+	rootSignatureDesc.NumStaticSamplers = 1;
+
 	//ルートシグネチャのシリアライズ
 	ComPtr<ID3DBlob> rootSigBlob;
 
