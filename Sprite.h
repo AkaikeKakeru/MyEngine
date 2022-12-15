@@ -12,12 +12,20 @@ private://構造体
 	//定数バッファ用データ構造体(マテリアル)
 	typedef struct ConstBufferDataMaterial {
 		Vector4 color;//色(RGBA)
-	};
+	}ConstBufferDataMaterial;
 
 	//定数バッファ用データ構造体(3D変換行列)
 	typedef struct ConstBufferDataTransform {
 		Matrix4 mat;//3D変換行列
-	};
+	}ConstBufferDataTransform;
+
+	//ワールド変換構造体
+	typedef struct WorldTransform {
+		Vector3 scale;		//スケール
+		Vector3 rotation;	//回転
+		Vector3 translation;//平行移動
+		Matrix4 matWorld;	//ワールド変換行列
+	}WorldTransform;
 
 public://基本関数
 	void Initialize(DrawBasis* drawBas);
@@ -46,11 +54,11 @@ private://定数
 	const size_t kMaxSRVCount = 2056;
 
 private://メンバ変数
-	//ワールド変換行列
-	Matrix4 matWorld_;
+	//ワールド変換
+	WorldTransform worldTransform_;
 
-	//Draw基盤
-	DrawBasis* drawBas_ = nullptr;
+		//Draw基盤
+		DrawBasis* drawBas_ = nullptr;
 
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView_{};
