@@ -46,6 +46,9 @@ private://定数
 	const size_t kMaxSRVCount = 2056;
 
 private://メンバ変数
+	//ワールド変換行列
+	Matrix4 matWorld_;
+
 	//Draw基盤
 	DrawBasis* drawBas_ = nullptr;
 

@@ -13,6 +13,8 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 	cmdList_ = drawBas_->GetCommandList();
 	vbView_ = drawBas_->GetVertexBufferView();
 
+	matWorld_ = Matrix4Identity();
+
 	GenerateConstBuffer();
 	GenerateTextureBuffer();
 	GenerateDescriptorHeap();
@@ -128,6 +130,9 @@ void Sprite::GenerateConstTransform(){
 	//上の状態から、画面半分くらいの距離だけ、左上にずらす
 	constMapTransform_->mat.m[3][0] = -1.0f;
 	constMapTransform_->mat.m[3][1] = 1.0f;
+
+	//ワールド変換行列を掛ける
+	constMapTransform_->mat *= matWorld_;
 }
 
 void Sprite::GenerateTextureBuffer(){
