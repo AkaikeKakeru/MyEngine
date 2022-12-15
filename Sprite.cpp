@@ -1,5 +1,6 @@
 #include "Sprite.h"
 #include "SafeDelete.h"
+#include "Degree.h"
 #include "WinApp.h"
 #include <DirectXTex.h>
 #include <cassert>
@@ -14,7 +15,7 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 	vbView_ = drawBas_->GetVertexBufferView();
 
 	worldTransform_.scale = { 1,1,1 };
-	worldTransform_.rotation = 0;
+	worldTransform_.rotation = ConvertToRadian(0.0f);
 	worldTransform_.translation = { 0,0,0 };
 	worldTransform_.matWorld = Matrix4Identity();
 
