@@ -38,6 +38,9 @@ void Sprite::Draw() {
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	cmdList_->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
+	//定数バッファビュー(CBV)の設定コマンド
+	cmdList_->SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
+
 	//インスタンス描画
 	cmdList_->DrawInstanced(kVerticesNum, 1, 0, 0);
 }
