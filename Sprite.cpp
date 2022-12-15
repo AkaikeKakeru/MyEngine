@@ -16,7 +16,7 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 
 	worldTransform_.scale = { 1,1,1 };
 	worldTransform_.rotation = ConvertToRadian(0.0f);
-	worldTransform_.translation = { 0,0,0 };
+	worldTransform_.position = { 0,0 };
 	worldTransform_.matWorld = Matrix4Identity();
 
 	matOrtGrapricProjection_ = Matrix4Identity();
@@ -244,5 +244,9 @@ void Sprite::ReCalcMatWorld() {
 	worldTransform_.matWorld *=
 		Matrix4RotationZ(worldTransform_.rotation);
 	worldTransform_.matWorld *=
-		Matrix4Translation(worldTransform_.translation);
+		Matrix4Translation(
+			Vector3(
+			worldTransform_.position.x,
+				worldTransform_.position.y,
+				0.0f));
 }
