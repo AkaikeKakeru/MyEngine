@@ -52,24 +52,15 @@ private://固有関数
 
 public://アクセス
 	//座標を取得
-	const Vector2& GetPosition() const {
-		return worldTransform_.position;
-	}
-
+	const Vector2& GetPosition() const { return worldTransform_.position; }
 	//回転を取得
-	float GetRotation() const {
-		return worldTransform_.rotation;
-	}
+	float GetRotation() const { return worldTransform_.rotation; }
+	//色
 
 	//座標をセット
-	void SetPosition(const Vector2& position) {
-		worldTransform_.position = position;
-	}
-
+	void SetPosition(const Vector2& position) { worldTransform_.position = position; }
 	//回転をセット
-	void SetRotation(float rotation) {
-		worldTransform_.rotation = rotation;
-	}
+	void SetRotation(float rotation) { worldTransform_.rotation = rotation; }
 
 private://定数
 	//頂点数
@@ -81,6 +72,19 @@ private://定数
 private://メンバ変数
 	//ワールド変換
 	WorldTransform worldTransform_;
+
+	//色
+	Vector4 color = { 1,1,1,1 };
+	//表示サイズ
+	Vector2 size = { 100,100 };
+	//アンカーポイント
+	Vector2 anchorPoint = { 0,0 };
+	//左右反転フラグ
+	bool isFlipX = false;
+	//上下反転フラグ
+	bool isFlipY = false;
+	//非表示フラグ
+	bool isInvisible = false;
 
 	//平行投影変換行列
 	Matrix4 matOrtGrapricProjection_;
