@@ -45,6 +45,17 @@ void Sprite::Update() {
 	dir_.top = (0.0f - anchorPoint_.y) * size_.y;
 	dir_.bottom = (1.0f - anchorPoint_.y) * size_.y;
 
+	//左右反転
+	if (isFlipX_) {
+		dir_.left = -dir_.left;
+		dir_.right = -dir_.right;
+	}
+	//上下反転
+	if (isFlipY_) {
+		dir_.top = -dir_.top;
+		dir_.bottom = -dir_.bottom;
+	}
+
 	//頂点データを設定
 	vertices_[LeftBottom].pos = Vector3(dir_.left, dir_.bottom, 0);
 	vertices_[LeftTop].pos = Vector3(dir_.left, dir_.top, 0);
@@ -103,6 +114,17 @@ void Sprite::CreateVertexBufferView() {
 	float rightUv = 1.0f;//右
 	float topUv = 0.0f;//上
 	float bottomUv = 1.0f;//下
+
+	//左右反転
+	if (isFlipX_) {
+		dir_.left = -dir_.left;
+		dir_.right = -dir_.right;
+	}
+	//上下反転
+	if (isFlipY_) {
+		dir_.top = -dir_.top;
+		dir_.bottom = -dir_.bottom;
+	}
 
 	//頂点データを設定
 	vertices_[LeftBottom].pos = Vector3(dir_.left, dir_.bottom, 0);
@@ -256,7 +278,7 @@ void Sprite::GenerateTextureBuffer() {
 	ScratchImage scratchImg{};
 	//WICテクスチャのロード
 	result = LoadFromWICFile(
-		L"Resource/texture.png",//「Resources」フォルダの「texture.png」
+		L"Resource/smile.png",//「Resources」フォルダの「○○.拡張子」
 		WIC_FLAGS_NONE,
 		&metadata, scratchImg);
 	assert(SUCCEEDED(result));

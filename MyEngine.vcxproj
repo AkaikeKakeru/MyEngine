@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Degree.cpp" />
     <ClCompile Include="DirectXBasis.cpp" />
     <ClCompile Include="DrawBasis.cpp" />
     <ClCompile Include="FixFPS.cpp" />
