@@ -47,12 +47,14 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		pos.x += 2.0f;
 		sprite_->SetPosition(pos);
 		sprite_->SetColor(Vector4(0.5f, 1.0f, 0.2f, 0.4f));
+		sprite_->SetSize(Vector2(80, 120));
 		sprite_->Update();
 
 		pos = sprite2_->GetPosition();
 		pos.y += 2.0f;
 		sprite2_->SetPosition(pos);
 		sprite2_->SetColor(Vector4(0.8f, 0.2f, 0.5f, 0.9f));
+		sprite2_->SetSize(Vector2(140, 50));
 		sprite2_->Update();
 
 		/// 描画

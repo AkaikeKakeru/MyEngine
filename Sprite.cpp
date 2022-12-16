@@ -39,7 +39,21 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 }
 
 void Sprite::Update() {
+	float left = 0.0f;//左
+	float right = size_.x;//右
+	float top = 0.0f;//上
+	float bottom = size_.y;//下
+
+	//頂点データを設定
+	vertices_[LeftBottom].pos = Vector3(left, bottom, 0);
+	vertices_[LeftTop].pos = Vector3(left, top, 0);
+	vertices_[RightBottom].pos = Vector3(right, bottom, 0);
+	vertices_[RightTop].pos = Vector3(right, top, 0);
+
 	///値を書き込むと自動的に転送される
+
+	//頂点データをGPUに転送
+	std::copy(std::begin(vertices_), std::end(vertices_), vertMap_);
 
 	//色情報をGPUに転送
 	constMapMaterial_->color = color_;
@@ -47,6 +61,7 @@ void Sprite::Update() {
 	//ワールド行列を再計算
 	ReCalcMatWorld();
 
+	//ワールド座標情報をGPUに転送
 	//ワールド変換行列と、平行投影変換行列を掛ける
 	constMapTransform_->mat = worldTransform_.matWorld *= matOrtGrapricProjection_;
 }
@@ -87,22 +102,19 @@ void Sprite::CreateVertexBufferView() {
 	float topUv = 0.0f;//上
 	float bottomUv = 1.0f;//下
 
-	//頂点データ
-	Vertex vertices[kVerticesNum]{};
-
 	//頂点データを設定
-	vertices[LeftBottom].pos = Vector3(left, bottom, 0);
-	vertices[LeftTop].pos = Vector3(left, top, 0);
-	vertices[RightBottom].pos = Vector3(right, bottom, 0);
-	vertices[RightTop].pos = Vector3(right, top, 0);
+	vertices_[LeftBottom].pos = Vector3(left, bottom, 0);
+	vertices_[LeftTop].pos = Vector3(left, top, 0);
+	vertices_[RightBottom].pos = Vector3(right, bottom, 0);
+	vertices_[RightTop].pos = Vector3(right, top, 0);
 
-	vertices[LeftBottom].uv = Vector2(leftUv, bottomUv);
-	vertices[LeftTop].uv = Vector2(leftUv, topUv);
-	vertices[RightBottom].uv = Vector2(rightUv, bottomUv);
-	vertices[RightTop].uv = Vector2(rightUv, topUv);
+	vertices_[LeftBottom].uv = Vector2(leftUv, bottomUv);
+	vertices_[LeftTop].uv = Vector2(leftUv, topUv);
+	vertices_[RightBottom].uv = Vector2(rightUv, bottomUv);
+	vertices_[RightTop].uv = Vector2(rightUv, topUv);
 
 	//頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
-	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
+	UINT sizeVB = static_cast<UINT>(sizeof(vertices_[0]) * _countof(vertices_));
 #pragma endregion
 
 #pragma region 頂点バッファ設定
@@ -134,14 +146,12 @@ void Sprite::CreateVertexBufferView() {
 
 #pragma region 頂点バッファへ転送
 	//GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	Vertex* vertMap = nullptr;
-	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap_);
 	assert(SUCCEEDED(result));
 	//全頂点に対して
-	for (int i = 0; i < _countof(vertices); i++) {
-		//座標をコピー
-		vertMap[i] = vertices[i];
-	}
+	//座標をコピー
+	std::copy(std::begin(vertices_), std::end(vertices_), vertMap_);
+
 	//繋がりを解除
 	vertBuff_->Unmap(0, nullptr);
 #pragma endregion
@@ -154,7 +164,7 @@ void Sprite::CreateVertexBufferView() {
 	//頂点バッファのサイズ
 	vbView_.SizeInBytes = sizeVB;
 	//頂点1つ分のデータサイズ
-	vbView_.StrideInBytes = sizeof(vertices[0]);
+	vbView_.StrideInBytes = sizeof(vertices_[0]);
 #pragma endregion
 }
 

@@ -140,6 +140,10 @@ private://メンバ変数
 	//コマンドリスト
 	ComPtr<ID3D12GraphicsCommandList> cmdList_;
 
+	//頂点データ
+	Vertex vertices_[kVerticesNum]{};
+	//頂点データマップ
+	Vertex* vertMap_ = nullptr;
 	//頂点バッファ
 	ComPtr<ID3D12Resource> vertBuff_;
 	//頂点バッファビュー
