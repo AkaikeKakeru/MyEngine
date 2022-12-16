@@ -17,7 +17,6 @@ void DrawBasis::Initialize() {
 	device_ = dxBas_->GetDevice();
 	cmdList_ = dxBas_->GetCommandList();
 
-	CreateVertexBufferView();
 	CompileShaderFile();
 	AssembleVertexLayout();
 	CreateGraphicsPipeline();
@@ -30,98 +29,6 @@ void DrawBasis::Draw() {
 
 	//プリミティブ形状の設定コマンド
 	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);//三角形ストリップ
-}
-
-void DrawBasis::CreateVertexBufferView() {
-	HRESULT result;
-#pragma region 頂点データ
-	//頂点部位
-	typedef enum VerticesParts {
-		LeftBottom,//左下
-		LeftTop,//左上
-		RightBottom,//右下
-		RightTop,//右上
-	}VerticesParts;
-
-	float left = 0.0f;//左
-	float right = 100.0f;//右
-	float top = 0.0f;//上
-	float bottom = 100.0f;//下
-
-	float leftUv = 0.0f;//左
-	float rightUv = 1.0f;//右
-	float topUv = 0.0f;//上
-	float bottomUv = 1.0f;//下
-
-	//頂点データ
-	Vertex vertices[kVerticesNum]{};
-
-	//頂点データを設定
-	vertices[LeftBottom].pos = Vector3(left, bottom, 0);
-	vertices[LeftTop].pos = Vector3(left, top, 0);
-	vertices[RightBottom].pos = Vector3(right, bottom, 0);
-	vertices[RightTop].pos = Vector3(right, top, 0);
-
-	vertices[LeftBottom].uv = Vector2(leftUv, bottomUv);
-	vertices[LeftTop].uv = Vector2(leftUv, topUv);
-	vertices[RightBottom].uv = Vector2(rightUv, bottomUv);
-	vertices[RightTop].uv = Vector2(rightUv, topUv);
-
-	//頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
-	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
-#pragma endregion
-
-#pragma region 頂点バッファ設定
-	//頂点バッファの設定
-	D3D12_HEAP_PROPERTIES vbHeapProp{};
-	vbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
-	//リソース設定
-	D3D12_RESOURCE_DESC vbResDesc{};
-	vbResDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	vbResDesc.Width = sizeVB;
-	vbResDesc.Height = 1;
-	vbResDesc.DepthOrArraySize = 1;
-	vbResDesc.MipLevels = 1;
-	vbResDesc.SampleDesc.Count = 1;
-	vbResDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-#pragma endregion
-
-#pragma region 頂点バッファ生成
-	//頂点バッファの生成
-	result = device_->CreateCommittedResource(
-		&vbHeapProp,
-		D3D12_HEAP_FLAG_NONE,
-		&vbResDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&vertBuff_));
-	assert(SUCCEEDED(result));
-#pragma endregion
-
-#pragma region 頂点バッファへ転送
-	//GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	Vertex* vertMap = nullptr;
-	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
-	assert(SUCCEEDED(result));
-	//全頂点に対して
-	for (int i = 0; i < _countof(vertices); i++) {
-		//座標をコピー
-		vertMap[i] = vertices[i];
-	}
-	//繋がりを解除
-	vertBuff_->Unmap(0, nullptr);
-#pragma endregion
-
-#pragma region 頂点バッファビュー作成
-	//頂点バッファビューの作成
-
-	//GPU仮想アドレス
-	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
-	//頂点バッファのサイズ
-	vbView_.SizeInBytes = sizeVB;
-	//頂点1つ分のデータサイズ
-	vbView_.StrideInBytes = sizeof(vertices[0]);
-#pragma endregion
 }
 
 void DrawBasis::CompileShaderFile() {

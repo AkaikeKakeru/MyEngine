@@ -10,19 +10,12 @@ private://省略
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 private://構造体
-	//頂点データ構造体
-	typedef struct VertexPosUv {
-		Vector3 pos;//xyz座標
-		Vector2 uv;//uv座標
-	} Vertex;
 
 public://基本関数
 	void Initialize();
 	void Draw();
 
 private://固有関数
-	//頂点バッファビュー作成
-	void CreateVertexBufferView();
 	//シェーダーファイルのコンパイル
 	void CompileShaderFile();
 	//頂点レイアウト組み立て
@@ -37,8 +30,6 @@ private://固有関数
 	void GeneratePipelineState();
 
 private://定数
-	//頂点数
-	static const int kVerticesNum = 4;
 	//頂点レイアウトの要素数
 	static const int kInputLayoutElement = 2;
 	//ルートパラメータ数
@@ -53,10 +44,6 @@ private://メンバ変数
 	//コマンドリスト
 	ComPtr<ID3D12GraphicsCommandList> cmdList_;
 
-	//頂点バッファ
-	ComPtr<ID3D12Resource> vertBuff_;
-	//頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vbView_{};
 	//頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> vsBlob_;
 	//ピクセルシェーダオブジェクト
@@ -73,9 +60,8 @@ private://メンバ変数
 	ComPtr<ID3D12PipelineState> pipelineState_;
 
 public://ゲッタ
-	ComPtr<ID3D12Device> GetDvice() { return device_; }
+	ComPtr<ID3D12Device> GetDevice() { return device_; }
 	ComPtr<ID3D12GraphicsCommandList> GetCommandList() { return cmdList_; }
-	D3D12_VERTEX_BUFFER_VIEW GetVertexBufferView() { return vbView_; }
 
 private:
 	DrawBasis() = default;

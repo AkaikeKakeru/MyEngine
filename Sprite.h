@@ -27,13 +27,19 @@ private://構造体
 		Matrix4 matWorld = Matrix4Identity();	//ワールド変換行列
 	}WorldTransform;
 
-	//頂点番号
-	typedef enum VertexNumber {
-		LeftBottom,	//左下
-		LeftTop,	//左上
-		RightBottom,//右下	
-		RightTop,	//右上
-	}VertexNumber;
+	//頂点データ構造体
+	typedef struct VertexPosUv {
+		Vector3 pos;//xyz座標
+		Vector2 uv;//uv座標
+	} Vertex;
+
+	//頂点部位
+	typedef enum VerticesParts {
+		LeftBottom,//左下
+		LeftTop,//左上
+		RightBottom,//右下
+		RightTop,//右上
+	}VerticesParts;
 
 public://基本関数
 	void Initialize(DrawBasis* drawBas);
@@ -41,6 +47,8 @@ public://基本関数
 	void Draw();
 
 private://固有関数
+	//頂点バッファビュー作成
+	void CreateVertexBufferView();
 	//定数バッファ生成
 	void GenerateConstBuffer();
 	//定数バッファマテリアル生成
@@ -127,13 +135,15 @@ private://メンバ変数
 	//Draw基盤
 	DrawBasis* drawBas_ = nullptr;
 
-	//頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vbView_{};
-
 	//デバイス
 	ComPtr<ID3D12Device> device_;
 	//コマンドリスト
 	ComPtr<ID3D12GraphicsCommandList> cmdList_;
+
+	//頂点バッファ
+	ComPtr<ID3D12Resource> vertBuff_;
+	//頂点バッファビュー
+	D3D12_VERTEX_BUFFER_VIEW vbView_{};
 
 	//定数バッファマテリアル
 	ComPtr<ID3D12Resource> constBuffMaterial_;

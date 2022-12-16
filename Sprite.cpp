@@ -10,9 +10,8 @@ using namespace DirectX;
 void Sprite::Initialize(DrawBasis* drawBas) {
 	assert(drawBas);
 	drawBas_ = drawBas;
-	device_ = drawBas_->GetDvice();
+	device_ = drawBas_->GetDevice();
 	cmdList_ = drawBas_->GetCommandList();
-	vbView_ = drawBas_->GetVertexBufferView();
 
 	worldTransform_.scale = { 1,1,1 };
 	worldTransform_.rotation = ConvertToRadian(0.0f);
@@ -28,6 +27,7 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 	matOrtGrapricProjection_.m[3][0] = -1.0f;
 	matOrtGrapricProjection_.m[3][1] = 1.0f;
 
+	CreateVertexBufferView();
 	GenerateConstBuffer();
 	GenerateTextureBuffer();
 	GenerateDescriptorHeap();
@@ -38,12 +38,12 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 	CreateShaderResourceView();
 }
 
-void Sprite::Update(){
+void Sprite::Update() {
 	///値を書き込むと自動的に転送される
-	
+
 	//色情報をGPUに転送
 	constMapMaterial_->color = color_;
-	
+
 	//ワールド行列を再計算
 	ReCalcMatWorld();
 
@@ -59,7 +59,7 @@ void Sprite::Draw() {
 	cmdList_->SetGraphicsRootConstantBufferView(0, constBuffMaterial_->GetGPUVirtualAddress());
 
 	//デスクリプタヒープの配列をセットするコマンド
-	ID3D12DescriptorHeap* ppHeaps[] = { srvHeap_.Get()};
+	ID3D12DescriptorHeap* ppHeaps[] = { srvHeap_.Get() };
 	cmdList_->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
 	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
@@ -74,12 +74,96 @@ void Sprite::Draw() {
 	cmdList_->DrawInstanced(kVerticesNum, 1, 0, 0);
 }
 
-void Sprite::GenerateConstBuffer(){
+void Sprite::CreateVertexBufferView() {
+	HRESULT result;
+#pragma region 頂点データ
+	float left = 0.0f;//左
+	float right = 100.0f;//右
+	float top = 0.0f;//上
+	float bottom = 100.0f;//下
+
+	float leftUv = 0.0f;//左
+	float rightUv = 1.0f;//右
+	float topUv = 0.0f;//上
+	float bottomUv = 1.0f;//下
+
+	//頂点データ
+	Vertex vertices[kVerticesNum]{};
+
+	//頂点データを設定
+	vertices[LeftBottom].pos = Vector3(left, bottom, 0);
+	vertices[LeftTop].pos = Vector3(left, top, 0);
+	vertices[RightBottom].pos = Vector3(right, bottom, 0);
+	vertices[RightTop].pos = Vector3(right, top, 0);
+
+	vertices[LeftBottom].uv = Vector2(leftUv, bottomUv);
+	vertices[LeftTop].uv = Vector2(leftUv, topUv);
+	vertices[RightBottom].uv = Vector2(rightUv, bottomUv);
+	vertices[RightTop].uv = Vector2(rightUv, topUv);
+
+	//頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
+	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
+#pragma endregion
+
+#pragma region 頂点バッファ設定
+	//頂点バッファの設定
+	D3D12_HEAP_PROPERTIES vbHeapProp{};
+	vbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
+	//リソース設定
+	D3D12_RESOURCE_DESC vbResDesc{};
+	vbResDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	vbResDesc.Width = sizeVB;
+	vbResDesc.Height = 1;
+	vbResDesc.DepthOrArraySize = 1;
+	vbResDesc.MipLevels = 1;
+	vbResDesc.SampleDesc.Count = 1;
+	vbResDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+#pragma endregion
+
+#pragma region 頂点バッファ生成
+	//頂点バッファの生成
+	result = device_->CreateCommittedResource(
+		&vbHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&vbResDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&vertBuff_));
+	assert(SUCCEEDED(result));
+#pragma endregion
+
+#pragma region 頂点バッファへ転送
+	//GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
+	Vertex* vertMap = nullptr;
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
+	assert(SUCCEEDED(result));
+	//全頂点に対して
+	for (int i = 0; i < _countof(vertices); i++) {
+		//座標をコピー
+		vertMap[i] = vertices[i];
+	}
+	//繋がりを解除
+	vertBuff_->Unmap(0, nullptr);
+#pragma endregion
+
+#pragma region 頂点バッファビュー作成
+	//頂点バッファビューの作成
+
+	//GPU仮想アドレス
+	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
+	//頂点バッファのサイズ
+	vbView_.SizeInBytes = sizeVB;
+	//頂点1つ分のデータサイズ
+	vbView_.StrideInBytes = sizeof(vertices[0]);
+#pragma endregion
+}
+
+void Sprite::GenerateConstBuffer() {
 	GenerateConstMaterial();
 	GenerateConstTransform();
 }
 
-void Sprite::GenerateConstMaterial(){
+void Sprite::GenerateConstMaterial() {
 	HRESULT result;
 
 	//定数バッファヒープ設定
@@ -115,7 +199,7 @@ void Sprite::GenerateConstMaterial(){
 	constMapMaterial_->color = color_;
 }
 
-void Sprite::GenerateConstTransform(){
+void Sprite::GenerateConstTransform() {
 	HRESULT result;
 
 	//定数バッファヒープ設定
@@ -153,7 +237,7 @@ void Sprite::GenerateConstTransform(){
 	constMapTransform_->mat = worldTransform_.matWorld *= matOrtGrapricProjection_;
 }
 
-void Sprite::GenerateTextureBuffer(){
+void Sprite::GenerateTextureBuffer() {
 	HRESULT result;
 
 	TexMetadata metadata{};
@@ -188,8 +272,8 @@ void Sprite::GenerateTextureBuffer(){
 	texHeapProp.CPUPageProperty =
 		D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
 	texHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
-	//テクスチャバッファリソース設定
 
+	//テクスチャバッファリソース設定
 	texResDesc_.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	texResDesc_.Format = metadata.format;
 	texResDesc_.Width = metadata.width;//幅
@@ -199,7 +283,6 @@ void Sprite::GenerateTextureBuffer(){
 	texResDesc_.SampleDesc.Count = 1;
 
 	//テクスチャバッファ生成
-
 	result = device_->CreateCommittedResource(
 		&texHeapProp,
 		D3D12_HEAP_FLAG_NONE,
@@ -211,21 +294,21 @@ void Sprite::GenerateTextureBuffer(){
 	//全ミップマップについて
 	for (size_t i = 0; i < metadata.mipLevels; i++) {
 		//ミップマップレベルを指定してイメージを取得
-		const Image* img = scratchImg.GetImage(i,0,0);
+		const Image* img = scratchImg.GetImage(i, 0, 0);
 
-	//テクスチャバッファにデータ転送
-	result = texBuff_->WriteToSubresource(
-		(UINT)i,
-		nullptr,				//全領域へコピー
-		img->pixels,			//元データアドレス
-		(UINT)img->rowPitch,	//1ラインサイズ
-		(UINT)img->slicePitch	//全サイズ
-	);
-	assert(SUCCEEDED(result));
+		//テクスチャバッファにデータ転送
+		result = texBuff_->WriteToSubresource(
+			(UINT)i,
+			nullptr,				//全領域へコピー
+			img->pixels,			//元データアドレス
+			(UINT)img->rowPitch,	//1ラインサイズ
+			(UINT)img->slicePitch	//全サイズ
+		);
+		assert(SUCCEEDED(result));
 	}
 }
 
-void Sprite::GenerateDescriptorHeap(){
+void Sprite::GenerateDescriptorHeap() {
 	HRESULT result;
 
 	//デスクリプタヒープの設定
@@ -240,7 +323,7 @@ void Sprite::GenerateDescriptorHeap(){
 	assert(SUCCEEDED(result));
 }
 
-void Sprite::CreateShaderResourceView(){
+void Sprite::CreateShaderResourceView() {
 	//シェーダーリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//設定構造体
 	srvDesc.Format = texResDesc_.Format;//RGBA float
@@ -261,7 +344,7 @@ void Sprite::ReCalcMatWorld() {
 	worldTransform_.matWorld *=
 		Matrix4Translation(
 			Vector3(
-			worldTransform_.position.x,
+				worldTransform_.position.x,
 				worldTransform_.position.y,
 				0.0f));
 }
