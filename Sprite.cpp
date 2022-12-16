@@ -79,6 +79,11 @@ void Sprite::Update() {
 }
 
 void Sprite::Draw() {
+	//非表示
+	if(isInvisible_){
+		return;
+	}
+
 	//頂点バッファビューの設定コマンド
 	cmdList_->IASetVertexBuffers(0, 1, &vbView_);
 
