@@ -39,16 +39,17 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 }
 
 void Sprite::Update() {
-	float left = 0.0f;//左
-	float right = size_.x;//右
-	float top = 0.0f;//上
-	float bottom = size_.y;//下
+	//上下左右の数値の更新
+	dir_.left = 0.0f;
+	dir_.right = size_.x;
+	dir_.top = 0.0f;
+	dir_.bottom = size_.y;
 
 	//頂点データを設定
-	vertices_[LeftBottom].pos = Vector3(left, bottom, 0);
-	vertices_[LeftTop].pos = Vector3(left, top, 0);
-	vertices_[RightBottom].pos = Vector3(right, bottom, 0);
-	vertices_[RightTop].pos = Vector3(right, top, 0);
+	vertices_[LeftBottom].pos = Vector3(dir_.left, dir_.bottom, 0);
+	vertices_[LeftTop].pos = Vector3(dir_.left, dir_.top, 0);
+	vertices_[RightBottom].pos = Vector3(dir_.right, dir_.bottom, 0);
+	vertices_[RightTop].pos = Vector3(dir_.right, dir_.top, 0);
 
 	///値を書き込むと自動的に転送される
 
@@ -92,10 +93,11 @@ void Sprite::Draw() {
 void Sprite::CreateVertexBufferView() {
 	HRESULT result;
 #pragma region 頂点データ
-	float left = 0.0f;//左
-	float right = 100.0f;//右
-	float top = 0.0f;//上
-	float bottom = 100.0f;//下
+	//上下左右の数値の設定
+	dir_.left = 0.0f;
+	dir_.right = size_.x;
+	dir_.top = 0.0f;
+	dir_.bottom = size_.y;
 
 	float leftUv = 0.0f;//左
 	float rightUv = 1.0f;//右
@@ -103,10 +105,10 @@ void Sprite::CreateVertexBufferView() {
 	float bottomUv = 1.0f;//下
 
 	//頂点データを設定
-	vertices_[LeftBottom].pos = Vector3(left, bottom, 0);
-	vertices_[LeftTop].pos = Vector3(left, top, 0);
-	vertices_[RightBottom].pos = Vector3(right, bottom, 0);
-	vertices_[RightTop].pos = Vector3(right, top, 0);
+	vertices_[LeftBottom].pos = Vector3(dir_.left, dir_.bottom, 0);
+	vertices_[LeftTop].pos = Vector3(dir_.left, dir_.top, 0);
+	vertices_[RightBottom].pos = Vector3(dir_.right, dir_.bottom, 0);
+	vertices_[RightTop].pos = Vector3(dir_.right, dir_.top, 0);
 
 	vertices_[LeftBottom].uv = Vector2(leftUv, bottomUv);
 	vertices_[LeftTop].uv = Vector2(leftUv, topUv);
