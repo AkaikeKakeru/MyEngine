@@ -31,7 +31,14 @@ private://構造体
 	typedef struct VertexPosUv {
 		Vector3 pos;//xyz座標
 		Vector2 uv;//uv座標
-	} Vertex;
+	}Vertex;
+
+	typedef struct TopBottomLeftRight{
+		float left;//左
+		float right;//右
+		float top;//上
+		float bottom;//下
+	}Direction;
 
 	//頂点部位
 	typedef enum VerticesParts {
@@ -115,6 +122,8 @@ private://定数
 private://メンバ変数
 	//ワールド変換
 	WorldTransform worldTransform_;
+	//上下左右
+	Direction dir_;
 
 	//色
 	Vector4 color_ = { 1,1,1,1 };
