@@ -39,7 +39,11 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 }
 
 void Sprite::Update(){
-	//値を書き込むと自動的に転送される
+	///値を書き込むと自動的に転送される
+	
+	//色情報をGPUに転送
+	constMapMaterial_->color = color_;
+	
 	//ワールド行列を再計算
 	ReCalcMatWorld();
 
@@ -106,7 +110,9 @@ void Sprite::GenerateConstMaterial(){
 	assert(SUCCEEDED(result));
 
 	//値を書き込むと自動的に転送される
-	constMapMaterial_->color = Vector4(1, 1, 1, 1.0f);
+
+	//色情報をGPUに転送
+	constMapMaterial_->color = color_;
 }
 
 void Sprite::GenerateConstTransform(){
