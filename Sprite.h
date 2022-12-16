@@ -51,16 +51,43 @@ private://固有関数
 	void ReCalcMatWorld();
 
 public://アクセス
+	///ゲッタ
+
 	//座標を取得
 	const Vector2& GetPosition() const { return worldTransform_.position; }
 	//回転を取得
 	float GetRotation() const { return worldTransform_.rotation; }
-	//色
+	//色を取得
+	const Vector4& GetColor() const { return color_; }
+	//サイズを取得
+	const Vector2& GetSize() const { return size_; }
+	//アンカーポイントを取得
+	const Vector2& GetAnchorPoint() const { return anchorPoint_;; }
+	//左右フリップフラグを取得
+	bool GetIsFlipX() const { return isFlipX_; }
+	//上下フリップフラグを取得
+	bool GetIsFlipY() const { return isFlipY_; }
+	//非表示フラグを取得
+	bool GetIsInvisible() const { return isInvisible_; }
+
+	///セッタ
 
 	//座標をセット
 	void SetPosition(const Vector2& position) { worldTransform_.position = position; }
 	//回転をセット
 	void SetRotation(float rotation) { worldTransform_.rotation = rotation; }
+	//色をセット
+	void SetColor(const Vector4& color) { color_ = color; }
+	//サイズをセット
+	void SetSize(const Vector2& size) { size_ = size; }
+	//アンカーポイントをセット
+	void SetAnchorPoint(const Vector2& anchorPoint) { anchorPoint_ = anchorPoint; }
+	//左右フリップフラグをセット
+	void SetIsFlipX(bool isFlipX) { isFlipX_ = isFlipX; }
+	//上下フリップフラグをセット
+	void SetIsFlipY(bool isFlipY) { isFlipY_ = isFlipY; }
+	//非表示フラグをセット
+	void SetIsInvisible(bool isInvisible) { isInvisible_ = isInvisible; }
 
 private://定数
 	//頂点数
@@ -74,17 +101,17 @@ private://メンバ変数
 	WorldTransform worldTransform_;
 
 	//色
-	Vector4 color = { 1,1,1,1 };
+	Vector4 color_ = { 1,1,1,1 };
 	//表示サイズ
-	Vector2 size = { 100,100 };
+	Vector2 size_ = { 100,100 };
 	//アンカーポイント
-	Vector2 anchorPoint = { 0,0 };
+	Vector2 anchorPoint_ = { 0,0 };
 	//左右反転フラグ
-	bool isFlipX = false;
+	bool isFlipX_ = false;
 	//上下反転フラグ
-	bool isFlipY = false;
+	bool isFlipY_ = false;
 	//非表示フラグ
-	bool isInvisible = false;
+	bool isInvisible_ = false;
 
 	//平行投影変換行列
 	Matrix4 matOrtGrapricProjection_;
