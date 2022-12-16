@@ -27,6 +27,14 @@ private://構造体
 		Matrix4 matWorld = Matrix4Identity();	//ワールド変換行列
 	}WorldTransform;
 
+	//頂点番号
+	typedef enum VertexNumber {
+		LeftBottom,	//左下
+		LeftTop,	//左上
+		RightBottom,//右下	
+		RightTop,	//右上
+	}VertexNumber;
+
 public://基本関数
 	void Initialize(DrawBasis* drawBas);
 	void Update();
