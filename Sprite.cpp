@@ -40,10 +40,10 @@ void Sprite::Initialize(DrawBasis* drawBas) {
 
 void Sprite::Update() {
 	//上下左右の数値の更新
-	dir_.left = 0.0f;
-	dir_.right = size_.x;
-	dir_.top = 0.0f;
-	dir_.bottom = size_.y;
+	dir_.left = (0.0f - anchorPoint_.x) * size_.x;
+	dir_.right = (1.0f - anchorPoint_.x) * size_.x;
+	dir_.top = (0.0f - anchorPoint_.y) * size_.y;
+	dir_.bottom = (1.0f - anchorPoint_.y) * size_.y;
 
 	//頂点データを設定
 	vertices_[LeftBottom].pos = Vector3(dir_.left, dir_.bottom, 0);
@@ -94,10 +94,10 @@ void Sprite::CreateVertexBufferView() {
 	HRESULT result;
 #pragma region 頂点データ
 	//上下左右の数値の設定
-	dir_.left = 0.0f;
-	dir_.right = size_.x;
-	dir_.top = 0.0f;
-	dir_.bottom = size_.y;
+	dir_.left = (0.0f - anchorPoint_.x) * size_.x;
+	dir_.right = (1.0f - anchorPoint_.x) * size_.x;
+	dir_.top = (0.0f - anchorPoint_.y) * size_.y;
+	dir_.bottom = (1.0f - anchorPoint_.y) * size_.y;
 
 	float leftUv = 0.0f;//左
 	float rightUv = 1.0f;//右
