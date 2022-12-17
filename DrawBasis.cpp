@@ -291,6 +291,10 @@ void DrawBasis::LoadTexture(uint32_t textureIndex){
 	GenerateDescriptorHeap();
 	//SRVヒープの先頭アドレスを取得
 	srvHandle_ = srvHeap_->GetCPUDescriptorHandleForHeapStart();
+	
+	for (size_t i = 0; i < textureIndex; i++){
+		srvHandle_.ptr += incrementSize_;
+	}
 	CreateShaderResourceView(textureIndex);
 }
 
