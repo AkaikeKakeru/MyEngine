@@ -74,6 +74,9 @@ void Sprite::Draw() {
 		return;
 	}
 
+	//描画用テクスチャコマンド
+	drawBas_->SetTextureCommand(0);
+
 	//頂点バッファビューの設定コマンド
 	cmdList_->IASetVertexBuffers(0, 1, &vbView_);
 
