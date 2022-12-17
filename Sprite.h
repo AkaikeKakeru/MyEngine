@@ -33,7 +33,7 @@ private://構造体
 		Vector2 uv;//uv座標
 	}Vertex;
 
-	typedef struct TopBottomLeftRight{
+	typedef struct TopBottomLeftRight {
 		float left;//左
 		float right;//右
 		float top;//上
@@ -62,13 +62,6 @@ private://固有関数
 	void GenerateConstMaterial();
 	//定数バッファトランスフォーム生成
 	void GenerateConstTransform();
-
-	//テクスチャバッファ生成
-	void GenerateTextureBuffer();
-	//デスクリプタヒープ生成
-	void GenerateDescriptorHeap();
-	//シェーダーリソースビュー作成
-	void CreateShaderResourceView();
 
 	//ワールド行列再計算
 	void ReCalcMatWorld();
@@ -116,9 +109,6 @@ private://定数
 	//頂点数
 	static const int kVerticesNum = 4;
 
-	//SRVの最大個数
-	const size_t kMaxSRVCount = 2056;
-
 private://メンバ変数
 	//ワールド変換
 	WorldTransform worldTransform_;
@@ -149,6 +139,10 @@ private://メンバ変数
 	//コマンドリスト
 	ComPtr<ID3D12GraphicsCommandList> cmdList_;
 
+	/// <summary>
+	/// 頂点バッファ
+	/// </summary>
+
 	//頂点データ
 	Vertex vertices_[kVerticesNum]{};
 	//頂点データマップ
@@ -158,6 +152,10 @@ private://メンバ変数
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView_{};
 
+	/// <summary>
+	/// 定数バッファ
+	/// </summary>
+
 	//定数バッファマテリアル
 	ComPtr<ID3D12Resource> constBuffMaterial_;
 	//定数バッファマテリアルマップ
@@ -166,16 +164,4 @@ private://メンバ変数
 	ComPtr<ID3D12Resource> constBuffTransform_;
 	//定数バッファマテリアルマップ
 	ConstBufferDataTransform* constMapTransform_ = nullptr;
-
-	//テクスチャバッファ
-	ComPtr<ID3D12Resource> texBuff_;
-
-	//テクスチャリソースデスク
-	D3D12_RESOURCE_DESC texResDesc_{};
-
-	//デスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> srvHeap_;
-
-	//SRVヒープのアドレス
-	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle_;
 };

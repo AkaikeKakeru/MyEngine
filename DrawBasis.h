@@ -16,6 +16,10 @@ public://基本関数
 	void Draw();
 
 private://固有関数
+	/// <summary>
+	/// パイプライン
+	/// </summary>
+
 	//シェーダーファイルのコンパイル
 	void CompileShaderFile();
 	//頂点レイアウト組み立て
@@ -29,11 +33,25 @@ private://固有関数
 	//パイプラインステート生成
 	void GeneratePipelineState();
 
+	/// <summary>
+	/// テクスチャ
+	/// </summary>
+
+	//テクスチャバッファ生成
+	void GenerateTextureBuffer();
+	//デスクリプタヒープ生成
+	void GenerateDescriptorHeap();
+	//シェーダーリソースビュー作成
+	void CreateShaderResourceView();
+
 private://定数
 	//頂点レイアウトの要素数
 	static const int kInputLayoutElement = 2;
 	//ルートパラメータ数
 	static const int kRootParamCount = 3;
+
+	//SRVの最大個数
+	const size_t kMaxSRVCount = 2056;
 
 private://メンバ変数
 	//Draw基盤
@@ -43,6 +61,10 @@ private://メンバ変数
 	ComPtr<ID3D12Device> device_;
 	//コマンドリスト
 	ComPtr<ID3D12GraphicsCommandList> cmdList_;
+
+	/// <summary>
+	/// パイプライン
+	/// </summary>
 
 	//頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> vsBlob_;
@@ -58,6 +80,20 @@ private://メンバ変数
 	ComPtr<ID3D12RootSignature> rootSignature_;
 	//パイプラインステート
 	ComPtr<ID3D12PipelineState> pipelineState_;
+
+
+	/// <summary>
+	/// テクスチャ
+	/// </summary>
+
+	//テクスチャバッファ
+	ComPtr<ID3D12Resource> texBuff_;
+	//テクスチャリソースデスク
+	D3D12_RESOURCE_DESC texResDesc_{};
+	//デスクリプタヒープ
+	ComPtr<ID3D12DescriptorHeap> srvHeap_;
+	//SRVヒープのアドレス
+	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle_;
 
 public://ゲッタ
 	ComPtr<ID3D12Device> GetDevice() { return device_; }
