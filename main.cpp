@@ -26,7 +26,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	drawBas_ = DrawBasis::GetInstance();
 	drawBas_->Initialize();
 
-	drawBas_->LoadTexture(0);
+	drawBas_->LoadTexture(0,"smile.png");
 
 	//描画スプライト
 	Sprite* sprite_ = new Sprite();
