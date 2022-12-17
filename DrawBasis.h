@@ -98,6 +98,8 @@ private://メンバ変数
 	ComPtr<ID3D12DescriptorHeap> srvHeap_;
 	//SRVヒープのアドレス
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle_;
+	//インクリメントサイズ
+	UINT incrementSize_;
 
 public://ゲッタ
 	ComPtr<ID3D12Device> GetDevice() { return device_; }

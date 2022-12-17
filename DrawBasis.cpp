@@ -19,6 +19,9 @@ void DrawBasis::Initialize() {
 	device_ = dxBas_->GetDevice();
 	cmdList_ = dxBas_->GetCommandList();
 
+	incrementSize_ = device_->GetDescriptorHandleIncrementSize(
+		D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
 	/// <summary>
 	/// パイプライン
 	/// </summary>
