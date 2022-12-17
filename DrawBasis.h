@@ -3,6 +3,7 @@
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
+#include <array>
 
 class DrawBasis {
 private://省略
@@ -51,7 +52,7 @@ private://定数
 	static const int kRootParamCount = 3;
 
 	//SRVの最大個数
-	const size_t kMaxSRVCount = 2056;
+	static const size_t kMaxSRVCount = 2056;
 
 private://メンバ変数
 	//Draw基盤
@@ -81,13 +82,12 @@ private://メンバ変数
 	//パイプラインステート
 	ComPtr<ID3D12PipelineState> pipelineState_;
 
-
 	/// <summary>
 	/// テクスチャ
 	/// </summary>
 
 	//テクスチャバッファ
-	ComPtr<ID3D12Resource> texBuff_;
+	std::array<ComPtr<ID3D12Resource>,kMaxSRVCount> texBuffs_;
 	//テクスチャリソースデスク
 	D3D12_RESOURCE_DESC texResDesc_{};
 	//デスクリプタヒープ

@@ -343,7 +343,7 @@ void DrawBasis::GenerateTextureBuffer() {
 		&texResDesc_,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&texBuff_));
+		IID_PPV_ARGS(&texBuffs_[0]));
 
 	//全ミップマップについて
 	for (size_t i = 0; i < metadata.mipLevels; i++) {
@@ -351,7 +351,7 @@ void DrawBasis::GenerateTextureBuffer() {
 		const Image* img = scratchImg.GetImage(i, 0, 0);
 
 		//テクスチャバッファにデータ転送
-		result = texBuff_->WriteToSubresource(
+		result = texBuffs_[0]->WriteToSubresource(
 			(UINT)i,
 			nullptr,				//全領域へコピー
 			img->pixels,			//元データアドレス
@@ -387,7 +387,7 @@ void DrawBasis::CreateShaderResourceView() {
 		srvDesc.Texture2D.MipLevels = texResDesc_.MipLevels;
 
 	//ハンドルの指す位置にシェーダーリソースビュー作成
-	device_->CreateShaderResourceView(texBuff_.Get(), &srvDesc, srvHandle_);
+	device_->CreateShaderResourceView(texBuffs_[0].Get(), &srvDesc, srvHandle_);
 }
 
 DrawBasis* DrawBasis::GetInstance() {
