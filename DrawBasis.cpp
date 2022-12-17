@@ -26,12 +26,6 @@ void DrawBasis::Initialize() {
 	CompileShaderFile();
 	AssembleVertexLayout();
 	CreateGraphicsPipeline();
-
-	/// <summary>
-	/// テクスチャ
-	/// </summary>
-
-	LoadTexture(0);
 }
 
 void DrawBasis::Draw() {
