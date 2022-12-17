@@ -3,6 +3,7 @@
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
+#include <string>
 #include <array>
 
 class DrawBasis {
@@ -46,7 +47,7 @@ private://固有関数
 	/// </summary>
 
 	//テクスチャバッファ生成
-	void GenerateTextureBuffer(uint32_t textureIndex,const wchar_t* textureName);
+	void GenerateTextureBuffer(uint32_t textureIndex,const wchar_t* wfileName);
 	//デスクリプタヒープ生成
 	void GenerateDescriptorHeap();
 	//シェーダーリソースビュー作成
@@ -60,6 +61,8 @@ private://定数
 
 	//SRVの最大個数
 	static const size_t kMaxSRVCount = 2056;
+	//デフォルトテクスチャ格納ディレクトリ
+	static std::string kDefaultTextureDhirectoryPath;
 
 private://メンバ変数
 	//Draw基盤
@@ -103,6 +106,8 @@ private://メンバ変数
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle_;
 	//インクリメントサイズ
 	UINT incrementSize_;
+	//テクスチャ格納ディレクトリ
+	std::string textureDhirectoryPath_;
 
 public://ゲッタ
 	ComPtr<ID3D12Device> GetDevice() { return device_; }

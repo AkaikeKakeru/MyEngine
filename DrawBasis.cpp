@@ -2,7 +2,6 @@
 #include <d3d12.h>
 #include <d3dcompiler.h>
 #include <wrl.h>
-#include <string>
 #include <cassert>
 #include <DirectXTex.h>
 
@@ -13,6 +12,9 @@ using namespace DirectX;
 template <class T>
 using ComPtr = Microsoft::WRL::ComPtr<T>;
 
+//デフォルトテクスチャ格納ディレクトリ
+std::string DrawBasis::kDefaultTextureDhirectoryPath = "Resource/";
+
 void DrawBasis::Initialize() {
 	dxBas_ = DirectXBasis::GetInstance();
 
@@ -21,6 +23,8 @@ void DrawBasis::Initialize() {
 
 	incrementSize_ = device_->GetDescriptorHandleIncrementSize(
 		D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+	textureDhirectoryPath_ = kDefaultTextureDhirectoryPath;
 
 	/// <summary>
 	/// パイプライン
@@ -292,9 +296,19 @@ void DrawBasis::GeneratePipelineState() {
 }
 
 void DrawBasis::LoadTexture(uint32_t textureIndex, const std::string& fileName) {
-	const wchar_t* textureName = L"Resource/smile.png";//「Resources」フォルダの「○○.拡張子」
+	//ディレクトリパスとファイル名を連結して、フルパスを得る
+	std::string fullPath = textureDhirectoryPath_ + fileName;//「Resources」+「○○.拡張子」
+	
+	//ワイド文字列に変換した際の文字列バッファサイズを計算
+	int filePathBufferSize = MultiByteToWideChar(
+		CP_ACP, 0, fullPath.c_str(), -1, nullptr, 0);
 
-	GenerateTextureBuffer(textureIndex,textureName);
+	//ワイド文字列に変換
+	std::vector<wchar_t> wfilePath(filePathBufferSize);
+	MultiByteToWideChar(
+		CP_ACP, 0, fullPath.c_str(), -1, wfilePath.data(), filePathBufferSize);
+
+	GenerateTextureBuffer(textureIndex,wfilePath.data());
 	GenerateDescriptorHeap();
 	//SRVヒープの先頭アドレスを取得
 	srvHandle_ = srvHeap_->GetCPUDescriptorHandleForHeapStart();
@@ -305,14 +319,14 @@ void DrawBasis::LoadTexture(uint32_t textureIndex, const std::string& fileName) 
 	CreateShaderResourceView(textureIndex);
 }
 
-void DrawBasis::GenerateTextureBuffer(uint32_t textureIndex,const wchar_t* textureName) {
+void DrawBasis::GenerateTextureBuffer(uint32_t textureIndex,const wchar_t* wfileName) {
 	HRESULT result;
 
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
 	//WICテクスチャのロード
 	result = LoadFromWICFile(
-		textureName,
+		wfileName,
 		WIC_FLAGS_NONE,
 		&metadata, scratchImg);
 	assert(SUCCEEDED(result));
