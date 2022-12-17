@@ -19,7 +19,7 @@ public://基本関数
 
 public://publicな固有関数
 	//テクスチャ読み込み
-	void LoadTexture(uint32_t textureIndex);
+	void LoadTexture(uint32_t textureIndex, const std::string& fileName);
 	//描画用テクスチャコマンド
 	void SetTextureCommand(uint32_t textureIndex);
 

@@ -38,7 +38,7 @@ void DrawBasis::PreDraw() {
 
 	//プリミティブ形状の設定コマンド
 	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);//三角形ストリップ
-	
+
 	//デスクリプタヒープの配列をセットするコマンド
 	ID3D12DescriptorHeap* ppHeaps[] = { srvHeap_.Get() };
 	cmdList_->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
@@ -291,14 +291,14 @@ void DrawBasis::GeneratePipelineState() {
 	assert(SUCCEEDED(result));
 }
 
-void DrawBasis::LoadTexture(uint32_t textureIndex){
+void DrawBasis::LoadTexture(uint32_t textureIndex, const std::string& fileName) {
 	const wchar_t* textureName = L"Resource/smile.png";//「Resources」フォルダの「○○.拡張子」
 
 	GenerateTextureBuffer(textureIndex,textureName);
 	GenerateDescriptorHeap();
 	//SRVヒープの先頭アドレスを取得
 	srvHandle_ = srvHeap_->GetCPUDescriptorHandleForHeapStart();
-	
+
 	for (size_t i = 0; i < textureIndex; i++){
 		srvHandle_.ptr += incrementSize_;
 	}
