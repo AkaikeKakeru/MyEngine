@@ -31,11 +31,7 @@ void DrawBasis::Initialize() {
 	/// テクスチャ
 	/// </summary>
 
-	GenerateTextureBuffer();
-	GenerateDescriptorHeap();
-	//SRVヒープの先頭アドレスを取得
-	srvHandle_ = srvHeap_->GetCPUDescriptorHandleForHeapStart();
-	CreateShaderResourceView();
+	LoadTexture(0);
 }
 
 void DrawBasis::Draw() {
@@ -291,14 +287,24 @@ void DrawBasis::GeneratePipelineState() {
 	assert(SUCCEEDED(result));
 }
 
-void DrawBasis::GenerateTextureBuffer() {
+void DrawBasis::LoadTexture(uint32_t textureIndex){
+	const wchar_t* textureName = L"Resource/smile.png";//「Resources」フォルダの「○○.拡張子」
+
+	GenerateTextureBuffer(textureIndex,textureName);
+	GenerateDescriptorHeap();
+	//SRVヒープの先頭アドレスを取得
+	srvHandle_ = srvHeap_->GetCPUDescriptorHandleForHeapStart();
+	CreateShaderResourceView(textureIndex);
+}
+
+void DrawBasis::GenerateTextureBuffer(uint32_t textureIndex,const wchar_t* textureName) {
 	HRESULT result;
 
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
 	//WICテクスチャのロード
 	result = LoadFromWICFile(
-		L"Resource/smile.png",//「Resources」フォルダの「○○.拡張子」
+		textureName,
 		WIC_FLAGS_NONE,
 		&metadata, scratchImg);
 	assert(SUCCEEDED(result));
@@ -343,7 +349,7 @@ void DrawBasis::GenerateTextureBuffer() {
 		&texResDesc_,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&texBuffs_[0]));
+		IID_PPV_ARGS(&texBuffs_[textureIndex]));
 
 	//全ミップマップについて
 	for (size_t i = 0; i < metadata.mipLevels; i++) {
@@ -351,7 +357,7 @@ void DrawBasis::GenerateTextureBuffer() {
 		const Image* img = scratchImg.GetImage(i, 0, 0);
 
 		//テクスチャバッファにデータ転送
-		result = texBuffs_[0]->WriteToSubresource(
+		result = texBuffs_[textureIndex]->WriteToSubresource(
 			(UINT)i,
 			nullptr,				//全領域へコピー
 			img->pixels,			//元データアドレス
@@ -377,7 +383,7 @@ void DrawBasis::GenerateDescriptorHeap() {
 	assert(SUCCEEDED(result));
 }
 
-void DrawBasis::CreateShaderResourceView() {
+void DrawBasis::CreateShaderResourceView(uint32_t textureIndex) {
 	//シェーダーリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//設定構造体
 	srvDesc.Format = texResDesc_.Format;//RGBA float
@@ -387,7 +393,7 @@ void DrawBasis::CreateShaderResourceView() {
 		srvDesc.Texture2D.MipLevels = texResDesc_.MipLevels;
 
 	//ハンドルの指す位置にシェーダーリソースビュー作成
-	device_->CreateShaderResourceView(texBuffs_[0].Get(), &srvDesc, srvHandle_);
+	device_->CreateShaderResourceView(texBuffs_[textureIndex].Get(), &srvDesc, srvHandle_);
 }
 
 DrawBasis* DrawBasis::GetInstance() {

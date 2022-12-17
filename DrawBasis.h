@@ -16,6 +16,10 @@ public://基本関数
 	void Initialize();
 	void Draw();
 
+public://publicな固有関数
+	//テクスチャ読み込み
+	void LoadTexture(uint32_t textureIndex);
+
 private://固有関数
 	/// <summary>
 	/// パイプライン
@@ -39,11 +43,11 @@ private://固有関数
 	/// </summary>
 
 	//テクスチャバッファ生成
-	void GenerateTextureBuffer();
+	void GenerateTextureBuffer(uint32_t textureIndex,const wchar_t* textureName);
 	//デスクリプタヒープ生成
 	void GenerateDescriptorHeap();
 	//シェーダーリソースビュー作成
-	void CreateShaderResourceView();
+	void CreateShaderResourceView(uint32_t textureIndex);
 
 private://定数
 	//頂点レイアウトの要素数
