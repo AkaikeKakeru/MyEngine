@@ -31,21 +31,28 @@ void DrawBasis::Initialize() {
 	CreateGraphicsPipeline();
 }
 
-void DrawBasis::Draw() {
+void DrawBasis::PreDraw() {
 	//パイプラインステートとルートシグネイチャの設定コマンド
 	cmdList_->SetPipelineState(pipelineState_.Get());
 	cmdList_->SetGraphicsRootSignature(rootSignature_.Get());
 
 	//プリミティブ形状の設定コマンド
 	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);//三角形ストリップ
-													   //デスクリプタヒープの配列をセットするコマンド
+	
+	//デスクリプタヒープの配列をセットするコマンド
 	ID3D12DescriptorHeap* ppHeaps[] = { srvHeap_.Get() };
 	cmdList_->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+}
 
+void DrawBasis::SetTextureCommand(uint32_t textureIndex){
 	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap_->GetGPUDescriptorHandleForHeapStart();
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	cmdList_->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+}
+
+void DrawBasis::PostDraw(){
+
 }
 
 void DrawBasis::CompileShaderFile() {

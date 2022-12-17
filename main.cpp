@@ -68,9 +68,12 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		dxBas_->PreDraw();
 
 		//描画本命処理
-		drawBas_->Draw();
+		drawBas_->PreDraw();
+
 		sprite_->Draw();
 		sprite2_->Draw();
+
+		drawBas_->PostDraw();
 
 		//描画後処理
 		dxBas_->PostDraw();

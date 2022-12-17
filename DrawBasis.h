@@ -14,11 +14,14 @@ private://構造体
 
 public://基本関数
 	void Initialize();
-	void Draw();
+	void PreDraw();
+	void PostDraw();
 
 public://publicな固有関数
 	//テクスチャ読み込み
 	void LoadTexture(uint32_t textureIndex);
+	//描画用テクスチャコマンド
+	void SetTextureCommand(uint32_t textureIndex);
 
 private://固有関数
 	/// <summary>
