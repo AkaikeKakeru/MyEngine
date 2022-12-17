@@ -86,6 +86,9 @@ public://アクセス
 	//非表示フラグを取得
 	bool GetIsInvisible() const { return isInvisible_; }
 
+	//テクスチャ番号を取得
+	uint32_t GetTextureIndex() const { return textureIndex_; }
+
 	///セッタ
 
 	//座標をセット
@@ -104,6 +107,9 @@ public://アクセス
 	void SetIsFlipY(bool isFlipY) { isFlipY_ = isFlipY; }
 	//非表示フラグをセット
 	void SetIsInvisible(bool isInvisible) { isInvisible_ = isInvisible; }
+
+	//テクスチャ番号をセット
+	void SetTextureIndex(uint32_t textureIndex) { textureIndex_ = textureIndex; }
 
 private://定数
 	//頂点数
@@ -164,4 +170,11 @@ private://メンバ変数
 	ComPtr<ID3D12Resource> constBuffTransform_;
 	//定数バッファマテリアルマップ
 	ConstBufferDataTransform* constMapTransform_ = nullptr;
+
+	/// <summary>
+	/// テクスチャ
+	/// </summary>
+
+	//テクスチャ番号
+	uint32_t textureIndex_ = 0;
 };
