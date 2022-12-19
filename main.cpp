@@ -2,6 +2,7 @@
 #include "SafeDelete.h"
 #include "WinApp.h"
 #include "DirectXBasis.h"
+#include "Input.h"
 #include "DrawBasis.h"
 #include "Sprite.h"
 #include "Degree.h"
@@ -18,6 +19,11 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	DirectXBasis* dxBas_ = nullptr;
 	dxBas_ = DirectXBasis::GetInstance();
 	dxBas_->Initialize(winApp_);
+
+	//Input
+	Input* input_ = nullptr;
+	input_ = Input::GetInstance();
+	input_->Initialize();
 
 	/// 描画初期化
 
@@ -44,6 +50,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		}
 
 		/// 更新
+		input_->Update();
+
 		Vector2 pos = { 0,0 };
 
 		pos = sprite_->GetPosition();
