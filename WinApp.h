@@ -14,8 +14,8 @@ public://固有関数
 	bool ProcessMessage();
 
 public://アクセス
-	HWND GetHWND() { return hwnd_; }
-
+	HWND GetHWND() const { return hwnd_; }
+	HINSTANCE GetHInstance() const { return w_.hInstance; }
 public://定数
 	   //横幅
 	static const int Win_Width = 1280;
@@ -24,7 +24,7 @@ public://定数
 
 private:
 	HWND hwnd_;
-
+	WNDCLASSEX w_{};
 private:
 	WinApp() = default;
 	~WinApp() = default;

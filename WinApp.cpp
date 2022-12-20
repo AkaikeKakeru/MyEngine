@@ -21,15 +21,14 @@ WinApp* WinApp::GetInstance(){
 void WinApp::Initialize(){
 #pragma region ウィンドウの設定
 	//ウィンドウクラス
-	WNDCLASSEX w{};
-	w.cbSize = sizeof(WNDCLASSEX);
-	w.lpfnWndProc = (WNDPROC)WindowProc;
-	w.lpszClassName = L"MyEngine";
-	w.hInstance = GetModuleHandle(nullptr);
-	w.hCursor = LoadCursor(NULL, IDC_ARROW);
+	w_.cbSize = sizeof(WNDCLASSEX);
+	w_.lpfnWndProc = (WNDPROC)WindowProc;
+	w_.lpszClassName = L"MyEngine";
+	w_.hInstance = GetModuleHandle(nullptr);
+	w_.hCursor = LoadCursor(NULL, IDC_ARROW);
 
 	//ウィンドウクラスをOSに登録
-	RegisterClassEx(&w);
+	RegisterClassEx(&w_);
 	//ウィンドウサイズ
 	RECT wrc = { 0,0,Win_Width,Win_Height };
 	//サイズを自動補正
@@ -38,7 +37,7 @@ void WinApp::Initialize(){
 
 #pragma region ウィンドウの生成
 	hwnd_ = CreateWindow(
-		w.lpszClassName,
+		w_.lpszClassName,
 		L"MyEngine",
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
@@ -47,7 +46,7 @@ void WinApp::Initialize(){
 		wrc.bottom - wrc.top,
 		nullptr,
 		nullptr,
-		w.hInstance,
+		w_.hInstance,
 		nullptr);
 	//ウィンドウを表示にする
 	ShowWindow(hwnd_, SW_SHOW);
