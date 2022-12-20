@@ -12,6 +12,11 @@ void Input::Initialize() {
 }
 
 void Input::Update() {
+	//キーボード情報取得開始
+	keyboard_->Acquire();
+	//全キーの入力情報を取得する
+	BYTE key[256] = {};
+	keyboard_->GetDeviceState(sizeof(key), key);
 }
 
 void Input::GenerateDirectInput() {
