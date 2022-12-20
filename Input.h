@@ -8,8 +8,16 @@ public://基本の関数
 	void Initialize();
 	void Update();
 
+public://固有関数
+	void GenerateDirectInput();
+	void GenerateKeyBoardDevice();
+
+
 private://メンバ変数
 	WinApp* winApp_ = nullptr;
+
+	IDirectInputDevice8* keyboard_ = nullptr;
+	IDirectInput8* dInput_ = nullptr;
 
 private:
 	Input() = default;

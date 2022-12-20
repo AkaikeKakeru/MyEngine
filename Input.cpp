@@ -5,19 +5,43 @@
 #pragma comment(lib,"dxguid.lib")
 
 void Input::Initialize() {
-	HRESULT result;
 	winApp_ = WinApp::GetInstance();
 
-	//DirectInput初期化
-	IDirectInput8* dInput = nullptr;
-	result = DirectInput8Create(
-		winApp_->GetHInstance(), DIRECTINPUT_VERSION,
-		IID_IDirectInput8,
-		(void**)&dInput, nullptr);
-	assert(SUCCEEDED(result));
+	GenerateDirectInput();
+	GenerateKeyBoardDevice();
 }
 
 void Input::Update() {
+}
+
+void Input::GenerateDirectInput() {
+	HRESULT result;
+
+	//DirectInput初期化
+	result = DirectInput8Create(
+		winApp_->GetHInstance(), DIRECTINPUT_VERSION,
+		IID_IDirectInput8,
+		(void**)&dInput_, nullptr);
+	assert(SUCCEEDED(result));
+}
+
+void Input::GenerateKeyBoardDevice() {
+	HRESULT result;
+
+	//キーボードデバイス生成
+	result = dInput_->CreateDevice(
+		GUID_SysKeyboard, &keyboard_, NULL);
+	assert(SUCCEEDED(result));
+
+	//入力データ形式のセット
+	result = keyboard_->SetDataFormat(
+		&c_dfDIKeyboard);//標準形式
+	assert(SUCCEEDED(result));
+
+	//排他制御レベルのセット
+	result = keyboard_->SetCooperativeLevel(
+		winApp_->GetHWND(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+	assert(SUCCEEDED(result));
 }
 
 Input* Input::GetInstance() {
