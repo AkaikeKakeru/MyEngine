@@ -15,19 +15,18 @@ void Input::Update() {
 	//キーボード情報取得開始
 	keyboard_->Acquire();
 	//全キーの入力情報を取得する
-	BYTE key[256] = {};
-	keyboard_->GetDeviceState(sizeof(key), key);
+	keyboard_->GetDeviceState(sizeof(key_), key_);
 }
 
-bool Input::PressKey(BYTE keyNum){
+bool Input::PressKey(BYTE keyNum) {
 	return false;
 }
 
-bool Input::TriggerKey(BYTE keyNum){
+bool Input::TriggerKey(BYTE keyNum) {
 	return false;
 }
 
-bool Input::ReleaseKey(BYTE keyNum){
+bool Input::ReleaseKey(BYTE keyNum) {
 	return false;
 }
 
