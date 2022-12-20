@@ -19,6 +19,18 @@ void Input::Update() {
 	keyboard_->GetDeviceState(sizeof(key), key);
 }
 
+bool Input::PressKey(BYTE keyNum){
+	return false;
+}
+
+bool Input::TriggerKey(BYTE keyNum){
+	return false;
+}
+
+bool Input::ReleaseKey(BYTE keyNum){
+	return false;
+}
+
 void Input::GenerateDirectInput() {
 	HRESULT result;
 

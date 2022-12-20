@@ -13,6 +13,28 @@ public://基本の関数
 	void Initialize();
 	void Update();
 
+public: //public固有関数
+		/// <summary>
+		/// キーを押し続けているか
+		/// </summary>
+		/// <param name="keyNum">キー番号</param>
+		/// <returns>押し続けているか否か</returns>
+	bool PressKey(BYTE keyNum);
+
+	/// <summary>
+	/// キーを今押した瞬間か
+	/// </summary>
+	/// <param name="keyNum">キー番号</param>
+	/// <returns>今押した瞬間か否か</returns>
+	bool TriggerKey(BYTE keyNum);
+
+	/// <summary>
+	/// キーを離した瞬間か
+	/// </summary>
+	/// <param name="keyNum">キー番号</param>
+	/// <returns>離した瞬間か否か</returns>
+	bool ReleaseKey(BYTE keyNum);
+
 public://固有関数
 	void GenerateDirectInput();
 	void GenerateKeyBoardDevice();
