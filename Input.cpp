@@ -19,14 +19,37 @@ void Input::Update() {
 }
 
 bool Input::PressKey(BYTE keyNum) {
+	//指定番号のキーが、押されているなら
+	if (key_[keyNum]) {
+		return true;
+	}
+	//それ以外はfalse
 	return false;
 }
 
 bool Input::TriggerKey(BYTE keyNum) {
+	//指定番号のキーが↓
+	//1F前の時点で、押されていないなら
+	if (!keyPre_[keyNum]) {
+		//今は押されているなら
+		if (key_[keyNum]) {
+			return true;
+		}
+	}
+	//それ以外はfalse
 	return false;
 }
 
 bool Input::ReleaseKey(BYTE keyNum) {
+	//指定番号のキーが↓
+	//1F前の時点で、押されているなら
+	if (keyPre_[keyNum]) {
+		//今は押されていないなら
+		if (!key_[keyNum]) {
+			return true;
+		}
+	}
+	//それ以外はfalse
 	return false;
 }
 
