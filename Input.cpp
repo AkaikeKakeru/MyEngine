@@ -12,6 +12,9 @@ void Input::Initialize() {
 }
 
 void Input::Update() {
+	//key_配列を上書きする前に、内容をkeyPre_にコピー
+	memcpy(keyPre_, key_, sizeof(key_));
+
 	//キーボード情報取得開始
 	keyboard_->Acquire();
 	//全キーの入力情報を取得する
