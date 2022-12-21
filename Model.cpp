@@ -4,11 +4,11 @@
 #include "WinApp.h"
 #include <cassert>
 
-void Model::Initialize(DrawBasis* drawBas) {
-	assert(drawBas);
-	drawBas_ = drawBas;
-	device_ = drawBas_->GetDevice();
-	cmdList_ = drawBas_->GetCommandList();
+void Model::Initialize(ObjectBasis* objBas) {
+	assert(objBas);
+	objBas_ = objBas;
+	device_ = objBas_->GetDevice();
+	cmdList_ = objBas_->GetCommandList();
 
 	worldTransform_.scale = { 1,1,1 };
 	worldTransform_.rotation = ConvertToRadian(0.0f);
@@ -75,7 +75,7 @@ void Model::Draw() {
 	}
 
 	//描画用テクスチャコマンド
-	drawBas_->SetTextureCommand(textureIndex_);
+	objBas_->SetTextureCommand(textureIndex_);
 
 	//頂点バッファビューの設定コマンド
 	cmdList_->IASetVertexBuffers(0, 1, &vbView_);

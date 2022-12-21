@@ -1,7 +1,8 @@
 #pragma once
-#include "DrawBasis.h"
+#include "ObjectBasis.h"
 #include "Matrix4.h"
 #include "Vector3.h"
+#include "Vector4.h"
 
 class Model {
 private://省略
@@ -49,12 +50,12 @@ private://構造体
 	}VerticesParts;
 
 public://基本関数
-	void Initialize(DrawBasis* drawBas);
+	void Initialize(ObjectBasis* objBas);
 	void Update();
 	void Draw();
 
 private://固有関数
-		//頂点バッファビュー作成
+	//頂点バッファビュー作成
 	void CreateVertexBufferView();
 	//定数バッファ生成
 	void GenerateConstBuffer();
@@ -67,9 +68,9 @@ private://固有関数
 	void ReCalcMatWorld();
 
 public://アクセス
-	   ///ゲッタ
+	///ゲッタ
 
-	   //座標を取得
+	//座標を取得
 	const Vector2& GetPosition() const { return worldTransform_.position; }
 	//回転を取得
 	float GetRotation() const { return worldTransform_.rotation; }
@@ -116,7 +117,7 @@ private://定数
 	static const int kVerticesNum = 4;
 
 private://メンバ変数
-		//ワールド変換
+	//ワールド変換
 	WorldTransform worldTransform_;
 	//上下左右
 	Direction dir_;
@@ -137,8 +138,8 @@ private://メンバ変数
 	//平行投影変換行列
 	Matrix4 matOrtGrapricProjection_;
 
-	//Draw基盤
-	DrawBasis* drawBas_ = nullptr;
+	//オブジェクト基盤
+	ObjectBasis* objBas_ = nullptr;
 
 	//デバイス
 	ComPtr<ID3D12Device> device_;

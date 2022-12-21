@@ -1,6 +1,8 @@
 #pragma once
-#include <wrl.h>
 #include "DirectXBasis.h"
+#include "Vector2.h"
+#include "Vector3.h"
+#include "Vector4.h"
 #include <string>
 #include <array>
 

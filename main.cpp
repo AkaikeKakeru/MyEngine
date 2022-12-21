@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "ObjectBasis.h"
 #include "DrawBasis.h"
+#include "Model.h"
 #include "Sprite.h"
 #include "Degree.h"
 
@@ -40,7 +41,11 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	objectBas_ = ObjectBasis::GetInstance();
 	objectBas_->Initialize();
 
-	objectBas_->LoadTexture(0, "smile.png");
+	objectBas_->LoadTexture(0, "texture.png");
+
+	//オブジェクトモデル
+	Model* model_ = new Model();
+	model_->Initialize(objectBas_);
 
 	//描画基盤
 	DrawBasis* drawBas_ = nullptr;
@@ -53,11 +58,11 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	Sprite* sprite_ = new Sprite();
 	sprite_->Initialize(drawBas_);
 
-	Sprite* sprite2_ = new Sprite();
-	sprite2_->Initialize(drawBas_);
+	//Sprite* sprite2_ = new Sprite();
+	//sprite2_->Initialize(drawBas_);
 
-	Sprite* sprite3_ = new Sprite();
-	sprite3_->Initialize(drawBas_);
+	//Sprite* sprite3_ = new Sprite();
+	//sprite3_->Initialize(drawBas_);
 
 	/// ゲームループ
 	while (true) {
@@ -72,6 +77,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 		Vector2 pos = { 0,0 };
 
+		model_->Update();
+
 		pos = sprite_->GetPosition();
 		if (input_->PressMouse(LeftButton)) {
 			pos.x += 2.0f;
@@ -83,20 +90,20 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		sprite_->SetIsFlipX(true);
 		sprite_->Update();
 
-		pos = sprite2_->GetPosition();
-		if (input_->TriggerMouse(CenterButton)
-			|| input_->PressMouse(RightButton)) {
-			pos.y += 2.0f;
-		}
-		sprite2_->SetPosition(pos);
-		sprite2_->SetColor(Vector4(0.8f, 0.2f, 0.5f, 0.9f));
-		sprite2_->SetSize(Vector2(140, 50));
-		sprite2_->SetIsFlipY(true);
-		sprite2_->Update();
+		//pos = sprite2_->GetPosition();
+		//if (input_->TriggerMouse(CenterButton)
+		//	|| input_->PressMouse(RightButton)) {
+		//	pos.y += 2.0f;
+		//}
+		//sprite2_->SetPosition(pos);
+		//sprite2_->SetColor(Vector4(0.8f, 0.2f, 0.5f, 0.9f));
+		//sprite2_->SetSize(Vector2(140, 50));
+		//sprite2_->SetIsFlipY(true);
+		//sprite2_->Update();
 
-		sprite3_->SetPosition(input_->GetMousePosition());
-		sprite3_->SetAnchorPoint(Vector2(0.5f, 0.5f));
-		sprite3_->Update();
+		//sprite3_->SetPosition(input_->GetMousePosition());
+		//sprite3_->SetAnchorPoint(Vector2(0.5f, 0.5f));
+		//sprite3_->Update();
 
 		/// 描画
 		//描画前処理
@@ -105,7 +112,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		//モデル本命処理
 		objectBas_->PreDraw();
 
-
+		model_->Draw();
 
 		objectBas_->PostDraw();
 
@@ -113,8 +120,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		drawBas_->PreDraw();
 
 		sprite_->Draw();
-		sprite2_->Draw();
-		sprite3_->Draw();
+		//sprite2_->Draw();
+		//sprite3_->Draw();
 
 		drawBas_->PostDraw();
 
@@ -123,9 +130,11 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	}
 
 	/// 解放
+	SafeDelete(model_);
+
 	SafeDelete(sprite_);
-	SafeDelete(sprite2_);
-	SafeDelete(sprite3_);
+	//SafeDelete(sprite2_);
+	//SafeDelete(sprite3_);
 
 	//SafeDelete(drawBas_);
 	//SafeDelete(dxBas_);
