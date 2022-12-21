@@ -93,7 +93,7 @@ private://メンバ変数
 
 private:
 	Input() = default;
-	~Input() = default;
+	~Input();
 	//コピーコンストラクタを無効
 	Input(const Input&) = delete;
 	//代入演算子を無効

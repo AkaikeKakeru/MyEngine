@@ -150,3 +150,14 @@ Input* Input::GetInstance() {
 	static Input instance;
 	return &instance;
 }
+
+Input::~Input(){
+	//キーボード入力情報の取得を終了
+	if (keyboard_) {
+		keyboard_->Unacquire();
+	}
+	//マウス入力情報の取得を終了
+	if (mouse_) {
+		mouse_->Unacquire();
+	}
+}
