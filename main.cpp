@@ -3,6 +3,7 @@
 #include "WinApp.h"
 #include "DirectXBasis.h"
 #include "Input.h"
+#include "ObjectBasis.h"
 #include "DrawBasis.h"
 #include "Sprite.h"
 #include "Degree.h"
@@ -33,6 +34,11 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	input_->Initialize();
 
 	/// 描画初期化
+
+	//オブジェクト基盤
+	ObjectBasis* objectBas_ = nullptr;
+	objectBas_ = ObjectBasis::GetInstance();
+	objectBas_->Initialize();
 
 	//描画基盤
 	DrawBasis* drawBas_ = nullptr;
@@ -94,7 +100,14 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		//描画前処理
 		dxBas_->PreDraw();
 
-		//描画本命処理
+		//モデル本命処理
+		objectBas_->PreDraw();
+
+
+
+		objectBas_->PostDraw();
+
+		//スプライト本命処理
 		drawBas_->PreDraw();
 
 		sprite_->Draw();
