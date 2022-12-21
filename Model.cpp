@@ -19,6 +19,7 @@ void Model::Initialize(ObjectBasis* objBas) {
 	worldTransform_.matWorld = Matrix4Identity();
 
 	CreateVertexBufferView();
+	CreateIndexBufferView();
 	GenerateConstBuffer();
 }
 
@@ -166,6 +167,22 @@ void Model::CreateIndexBufferView() {
 	}
 	//インデックスデータ全体のサイズ
 	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices_));
+#pragma endregion
+
+#pragma region インデックスバッファ設定
+	//リソース設定
+	//頂点バッファの設定
+	D3D12_HEAP_PROPERTIES ibHeapProp{};
+	ibHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
+	//リソース設定
+	D3D12_RESOURCE_DESC ibResDesc{};
+	ibResDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	ibResDesc.Width = sizeIB;
+	ibResDesc.Height = 1;
+	ibResDesc.DepthOrArraySize = 1;
+	ibResDesc.MipLevels = 1;
+	ibResDesc.SampleDesc.Count = 1;
+	ibResDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 #pragma endregion
 }
 
