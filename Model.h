@@ -157,9 +157,9 @@ private://メンバ変数
 	/// </summary>
 
 	//インデックスデータ
-	uint16_t indices_[kIndicesNum]{};
+	unsigned short indices_[kIndicesNum]{};
 	//インデックスデータマップ
-	uint16_t* indMap_ = nullptr;
+	unsigned short* indMap_ = nullptr;
 	//インデックスバッファ
 	ComPtr<ID3D12Resource> indBuff_;
 	//インデックスバッファビュー

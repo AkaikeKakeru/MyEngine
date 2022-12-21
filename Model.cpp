@@ -160,7 +160,7 @@ void Model::CreateVertexBufferView() {
 void Model::CreateIndexBufferView() {
 	HRESULT result;
 #pragma region インデックスデータ
-	uint16_t indicesOrigin[] = {
+	unsigned short indicesOrigin[] = {
 		0,1,2,//三角形1つ目
 		1,2,3,//三角形2つ目
 	};
@@ -169,7 +169,7 @@ void Model::CreateIndexBufferView() {
 		indices_[i] = indicesOrigin[i];
 	}
 	//インデックスデータ全体のサイズ
-	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices_));
+	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * _countof(indices_));
 #pragma endregion
 
 #pragma region インデックスバッファ設定
