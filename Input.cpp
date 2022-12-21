@@ -72,6 +72,31 @@ bool Input::ReleaseKey(BYTE keyNum) {
 	return false;
 }
 
+bool Input::PressMouse(int32_t buttonNum){
+	//マウスデバイスのボタンに、指定番号がないならエラー
+	assert(0 <= buttonNum && buttonNum < _countof(mouseState_.rgbButtons));
+	//指定番号の番号のボタンが、押されているなら
+	if ((mouseState_.rgbButtons[buttonNum] & 0x80) != 0) {
+		return true;
+	}
+
+	return false;
+}
+
+bool Input::TriggerMouse(int32_t buttonNum){
+	//マウスデバイスのボタンに、指定番号がないならエラー
+	assert(0 <= buttonNum && buttonNum < _countof(mouseStatePre_.rgbButtons));
+	if ((mouseStatePre_.rgbButtons[buttonNum] & 0x80) == 0) {
+		//マウスデバイスのボタンに、指定番号がないならエラー
+		assert(0 <= buttonNum && buttonNum < _countof(mouseState_.rgbButtons));
+		if ((mouseState_.rgbButtons[buttonNum] & 0x80) != 0) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void Input::GenerateDirectInput() {
 	HRESULT result;
 
