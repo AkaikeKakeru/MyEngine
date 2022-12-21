@@ -64,6 +64,9 @@ void Model::Draw() {
 	//頂点バッファビューの設定コマンド
 	cmdList_->IASetVertexBuffers(0, 1, &vbView_);
 
+	//インデックスバッファビューの設定コマンド
+	cmdList_->IASetIndexBuffer(&ibView_);
+
 	//定数バッファビュー(CBV)の設定コマンド
 	cmdList_->SetGraphicsRootConstantBufferView(0, constBuffMaterial_->GetGPUVirtualAddress());
 
@@ -71,7 +74,7 @@ void Model::Draw() {
 	cmdList_->SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
 
 	//インスタンス描画
-	cmdList_->DrawInstanced(kVerticesNum, 1, 0, 0);
+	cmdList_->DrawInstanced(_countof(indices_), 1, 0, 0);
 }
 
 void Model::CreateVertexBufferView() {
