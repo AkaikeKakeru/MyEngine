@@ -11,18 +11,12 @@ void Model::Initialize(ObjectBasis* objBas) {
 	cmdList_ = objBas_->GetCommandList();
 
 	worldTransform_.scale = { 1,1,1 };
-	worldTransform_.rotation = ConvertToRadian(0.0f);
-	worldTransform_.position = { 0,0 };
+	worldTransform_.rotation = {
+		ConvertToRadian(0.0f),
+		ConvertToRadian(0.0f),
+		ConvertToRadian(0.0f)};
+	worldTransform_.position = { 0,0,0 };
 	worldTransform_.matWorld = Matrix4Identity();
-
-	matOrtGrapricProjection_ = Matrix4Identity();
-	/*テクスチャの左上を、画面の左上角に合わせたい*/
-	//ポリゴンの左上を、画面中央に合わせる
-	matOrtGrapricProjection_.m[0][0] = 2.0f / WinApp::Win_Width;
-	matOrtGrapricProjection_.m[1][1] = -2.0f / WinApp::Win_Height;
-	//上の状態から、画面半分くらいの距離だけ、左上にずらす
-	matOrtGrapricProjection_.m[3][0] = -1.0f;
-	matOrtGrapricProjection_.m[3][1] = 1.0f;
 
 	CreateVertexBufferView();
 	GenerateConstBuffer();
@@ -30,21 +24,10 @@ void Model::Initialize(ObjectBasis* objBas) {
 
 void Model::Update() {
 	//上下左右の数値の更新
-	dir_.left = (0.0f - anchorPoint_.x) * size_.x;
-	dir_.right = (1.0f - anchorPoint_.x) * size_.x;
-	dir_.top = (0.0f - anchorPoint_.y) * size_.y;
-	dir_.bottom = (1.0f - anchorPoint_.y) * size_.y;
-
-	//左右反転
-	if (isFlipX_) {
-		dir_.left = -dir_.left;
-		dir_.right = -dir_.right;
-	}
-	//上下反転
-	if (isFlipY_) {
-		dir_.top = -dir_.top;
-		dir_.bottom = -dir_.bottom;
-	}
+	dir_.left = 0.0f * size_.x;
+	dir_.right = 1.0f * size_.x;
+	dir_.top = 0.0f * size_.y;
+	dir_.bottom = 1.0f * size_.y;
 
 	//頂点データを設定
 	vertices_[LeftBottom].pos = Vector3(dir_.left, dir_.bottom, 0);
@@ -65,7 +48,7 @@ void Model::Update() {
 
 	//ワールド座標情報をGPUに転送
 	//ワールド変換行列と、平行投影変換行列を掛ける
-	constMapTransform_->mat = worldTransform_.matWorld *= matOrtGrapricProjection_;
+	constMapTransform_->mat = worldTransform_.matWorld;
 }
 
 void Model::Draw() {
@@ -94,26 +77,15 @@ void Model::CreateVertexBufferView() {
 	HRESULT result;
 #pragma region 頂点データ
 	//上下左右の数値の設定
-	dir_.left = (0.0f - anchorPoint_.x) * size_.x;
-	dir_.right = (1.0f - anchorPoint_.x) * size_.x;
-	dir_.top = (0.0f - anchorPoint_.y) * size_.y;
-	dir_.bottom = (1.0f - anchorPoint_.y) * size_.y;
+	dir_.left = 0.0f * size_.x;
+	dir_.right = 1.0f * size_.x;
+	dir_.top = 0.0f * size_.y;
+	dir_.bottom = 1.0f * size_.y;
 
 	float leftUv = 0.0f;//左
 	float rightUv = 1.0f;//右
 	float topUv = 0.0f;//上
 	float bottomUv = 1.0f;//下
-
-	//左右反転
-	if (isFlipX_) {
-		dir_.left = -dir_.left;
-		dir_.right = -dir_.right;
-	}
-	//上下反転
-	if (isFlipY_) {
-		dir_.top = -dir_.top;
-		dir_.bottom = -dir_.bottom;
-	}
 
 	//頂点データを設定
 	vertices_[LeftBottom].pos = Vector3(dir_.left, dir_.bottom, 0);
@@ -257,18 +229,16 @@ void Model::GenerateConstTransform() {
 	ReCalcMatWorld();
 
 	//ワールド変換行列と、平行投影変換行列を掛ける
-	constMapTransform_->mat = worldTransform_.matWorld *= matOrtGrapricProjection_;
+	constMapTransform_->mat = worldTransform_.matWorld;
 }
 
 void Model::ReCalcMatWorld() {
 	worldTransform_.matWorld = Matrix4Identity();
 
 	worldTransform_.matWorld *=
-		Matrix4RotationZ(worldTransform_.rotation);
+		Matrix4Scale(worldTransform_.scale);
 	worldTransform_.matWorld *=
-		Matrix4Translation(
-			Vector3(
-				worldTransform_.position.x,
-				worldTransform_.position.y,
-				0.0f));
+		Matrix4Rotation(worldTransform_.rotation);
+	worldTransform_.matWorld *=
+		Matrix4Translation(worldTransform_.position);
 }

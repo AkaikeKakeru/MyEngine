@@ -23,14 +23,15 @@ private://構造体
 	//ワールド変換構造体
 	typedef struct WorldTransform {
 		Vector3 scale;		//スケール
-		float rotation = 0.0f;	//回転
-		Vector2 position;//平行移動
+		Vector3 rotation;	//回転
+		Vector3 position;//平行移動
 		Matrix4 matWorld = Matrix4Identity();	//ワールド変換行列
 	}WorldTransform;
 
 	//頂点データ構造体
-	typedef struct VertexPosUv {
+	typedef struct VertexPosNormalUv {
 		Vector3 pos;//xyz座標
+		Vector2 normal;//法線
 		Vector2 uv;//uv座標
 	}Vertex;
 
@@ -41,13 +42,21 @@ private://構造体
 		float bottom;//下
 	}Direction;
 
+	typedef struct TopBottomLeftRightFrontBack {
+		float left;//左
+		float right;//右
+		float top;//上
+		float bottom;//下
+		float front;//前
+	}SurfaceDirection;
+
 	//頂点部位
 	typedef enum VerticesParts {
 		LeftBottom,//左下
 		LeftTop,//左上
 		RightBottom,//右下
 		RightTop,//右上
-	}VerticesParts;
+	}Corner;
 
 public://基本関数
 	void Initialize(ObjectBasis* objBas);
@@ -71,19 +80,13 @@ public://アクセス
 	///ゲッタ
 
 	//座標を取得
-	const Vector2& GetPosition() const { return worldTransform_.position; }
+	const Vector3& GetPosition() const { return worldTransform_.position; }
 	//回転を取得
-	float GetRotation() const { return worldTransform_.rotation; }
+	const Vector3& GetRotation() const { return worldTransform_.rotation; }
 	//色を取得
 	const Vector4& GetColor() const { return color_; }
 	//サイズを取得
 	const Vector2& GetSize() const { return size_; }
-	//アンカーポイントを取得
-	const Vector2& GetAnchorPoint() const { return anchorPoint_;; }
-	//左右フリップフラグを取得
-	bool GetIsFlipX() const { return isFlipX_; }
-	//上下フリップフラグを取得
-	bool GetIsFlipY() const { return isFlipY_; }
 	//非表示フラグを取得
 	bool GetIsInvisible() const { return isInvisible_; }
 
@@ -93,21 +96,15 @@ public://アクセス
 	///セッタ
 
 	//座標をセット
-	void SetPosition(const Vector2& position) { worldTransform_.position = position; }
+	void SetPosition(const Vector3& position) { worldTransform_.position = position; }
 	//回転をセット
-	void SetRotation(float rotation) { worldTransform_.rotation = rotation; }
+	void SetRotation(const Vector3& rotation) { worldTransform_.rotation = rotation; }
 	//色をセット
 	void SetColor(const Vector4& color) { color_ = color; }
 	//サイズをセット
 	void SetSize(const Vector2& size) { size_ = size; }
-	//アンカーポイントをセット
-	void SetAnchorPoint(const Vector2& anchorPoint) { anchorPoint_ = anchorPoint; }
-	//左右フリップフラグをセット
-	void SetIsFlipX(bool isFlipX) { isFlipX_ = isFlipX; }
-	//上下フリップフラグをセット
-	void SetIsFlipY(bool isFlipY) { isFlipY_ = isFlipY; }
 	//非表示フラグをセット
-	void SetIsInvisible(bool isInvisible) { isInvisible_ = isInvisible; }
+	void SetInvisible(bool isInvisible) { isInvisible_ = isInvisible; }
 
 	//テクスチャ番号をセット
 	void SetTextureIndex(uint32_t textureIndex) { textureIndex_ = textureIndex; }
@@ -126,17 +123,9 @@ private://メンバ変数
 	Vector4 color_ = { 1,1,1,1 };
 	//表示サイズ
 	Vector2 size_ = { 100,100 };
-	//アンカーポイント
-	Vector2 anchorPoint_ = { 0,0 };
-	//左右反転フラグ
-	bool isFlipX_ = false;
-	//上下反転フラグ
-	bool isFlipY_ = false;
+
 	//非表示フラグ
 	bool isInvisible_ = false;
-
-	//平行投影変換行列
-	Matrix4 matOrtGrapricProjection_;
 
 	//オブジェクト基盤
 	ObjectBasis* objBas_ = nullptr;
