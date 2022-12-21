@@ -13,13 +13,28 @@ void Input::Initialize() {
 }
 
 void Input::Update() {
-	//key_配列を上書きする前に、内容をkeyPre_にコピー
+	//保存配列を上書きする前に、内容をPre保存配列にコピー
 	memcpy(keyPre_, key_, sizeof(key_));
+	mouseStatePre_ = mouseState_;
 
 	//キーボード情報取得開始
 	keyboard_->Acquire();
 	//全キーの入力情報を取得する
 	keyboard_->GetDeviceState(sizeof(key_), key_);
+
+	//マウス情報取得開始
+	mouse_->Acquire();
+	//全マウスの入力情報を取得する
+	mouse_->GetDeviceState(sizeof(mouseState_), &mouseState_);
+
+	POINT mousePosition;
+	//マウスのスクリーン座標を取得
+	GetCursorPos(&mousePosition);
+
+	//クライアントエリア座標に変換
+	ScreenToClient(winApp_->GetHWND(), &mousePosition);
+	mousePos_.x = static_cast<float>(mousePosition.x);
+	mousePos_.y = static_cast<float>(mousePosition.y);
 }
 
 bool Input::PressKey(BYTE keyNum) {
