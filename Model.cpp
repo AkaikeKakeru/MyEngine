@@ -184,6 +184,18 @@ void Model::CreateIndexBufferView() {
 	ibResDesc.SampleDesc.Count = 1;
 	ibResDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 #pragma endregion
+
+#pragma region インデックスバッファ生成
+	//インデックスバッファの生成
+	result = device_->CreateCommittedResource(
+		&ibHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&ibResDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&indBuff_));
+	assert(SUCCEEDED(result));
+#pragma endregion
 }
 
 void Model::GenerateConstBuffer() {
