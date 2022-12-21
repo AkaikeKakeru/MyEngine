@@ -72,6 +72,9 @@
     <ClCompile Include="Input.cpp">
       <Filter>ソース ファイル\base</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectBasis.cpp">
+      <Filter>ソース ファイル\Drawer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXBasis.h">
@@ -109,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>ヘッダー ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBasis.h">
+      <Filter>ヘッダー ファイル\Drawer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
