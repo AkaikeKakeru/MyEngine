@@ -196,6 +196,18 @@ void Model::CreateIndexBufferView() {
 		IID_PPV_ARGS(&indBuff_));
 	assert(SUCCEEDED(result));
 #pragma endregion
+
+#pragma region インデックスバッファへ転送
+	//GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
+	result = indBuff_->Map(0, nullptr, (void**)&indMap_);
+	assert(SUCCEEDED(result));
+	//全インデックスに対して
+	//インデックスをコピー
+	std::copy(std::begin(indices_), std::end(indices_), indMap_);
+
+	//繋がりを解除
+	indBuff_->Unmap(0, nullptr);
+#pragma endregion
 }
 
 void Model::GenerateConstBuffer() {
