@@ -12,7 +12,7 @@ typedef enum MouseButtonNum {
 	LeftButton,
 	RightButton,
 	CenterButton,
-};
+}MouseButtonNum;
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
@@ -47,6 +47,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	Sprite* sprite2_ = new Sprite();
 	sprite2_->Initialize(drawBas_);
+
+	Sprite* sprite3_ = new Sprite();
+	sprite3_->Initialize(drawBas_);
 
 	/// ゲームループ
 	while (true) {
@@ -83,6 +86,10 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		sprite2_->SetIsFlipY(true);
 		sprite2_->Update();
 
+		sprite3_->SetPosition(input_->GetMousePosition());
+		sprite3_->SetAnchorPoint(Vector2(0.5f, 0.5f));
+		sprite3_->Update();
+
 		/// 描画
 		//描画前処理
 		dxBas_->PreDraw();
@@ -92,6 +99,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 		sprite_->Draw();
 		sprite2_->Draw();
+		sprite3_->Draw();
 
 		drawBas_->PostDraw();
 
@@ -102,6 +110,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	/// 解放
 	SafeDelete(sprite_);
 	SafeDelete(sprite2_);
+	SafeDelete(sprite3_);
 
 	//SafeDelete(drawBas_);
 	//SafeDelete(dxBas_);

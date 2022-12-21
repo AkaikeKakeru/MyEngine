@@ -61,6 +61,8 @@ public: //public固有関数
 	/// <returns>今押した瞬間か否か</returns>
 	bool TriggerMouse(int32_t buttonNum);
 
+	const Vector2& GetMousePosition() const { return mousePos_; }
+
 public://固有関数
 	void GenerateDirectInput();
 	void GenerateKeyBoardDevice();
