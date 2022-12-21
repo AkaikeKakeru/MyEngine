@@ -208,6 +208,17 @@ void Model::CreateIndexBufferView() {
 	//繋がりを解除
 	indBuff_->Unmap(0, nullptr);
 #pragma endregion
+
+#pragma region インデックスバッファビュー作成
+	//インデックスバッファビューの作成
+
+	//GPU仮想アドレス
+	ibView_.BufferLocation = indBuff_->GetGPUVirtualAddress();
+	//フォーマット
+	ibView_.Format = DXGI_FORMAT_R16_UINT;
+	//インデックスバッファのサイズ
+	ibView_.SizeInBytes = sizeIB;
+#pragma endregion
 }
 
 void Model::GenerateConstBuffer() {
