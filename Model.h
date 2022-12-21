@@ -48,6 +48,7 @@ private://構造体
 		float top;//上
 		float bottom;//下
 		float front;//前
+		float back;//後
 	}SurfaceDirection;
 
 	//頂点部位
@@ -120,8 +121,8 @@ private://定数
 private://メンバ変数
 	//ワールド変換
 	WorldTransform worldTransform_;
-	//上下左右
-	Direction dir_;
+	//上下左右前後
+	SurfaceDirection dir_;
 
 	//色
 	Vector4 color_ = { 1,1,1,1 };

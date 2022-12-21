@@ -25,16 +25,18 @@ void Model::Initialize(ObjectBasis* objBas) {
 
 void Model::Update() {
 	//上下左右の数値の更新
-	dir_.left = 0.0f * size_.x;
-	dir_.right = 1.0f * size_.x;
-	dir_.top = 0.0f * size_.y;
-	dir_.bottom = 1.0f * size_.y;
+	dir_.left = -50.0f;// *size_.x;
+	dir_.right = +50.0f;// * size_.x;
+	dir_.top = +50.0f;// * size_.y;
+	dir_.bottom = -50.0f;// * size_.y;
+	dir_.front = 50.0f;
+	dir_.back = 50.0f;
 
 	//頂点データを設定
-	vertices_[LeftBottom].pos = Vector3(dir_.left, dir_.bottom, 0);
-	vertices_[LeftTop].pos = Vector3(dir_.left, dir_.top, 0);
-	vertices_[RightBottom].pos = Vector3(dir_.right, dir_.bottom, 0);
-	vertices_[RightTop].pos = Vector3(dir_.right, dir_.top, 0);
+	vertices_[LeftBottom].pos = Vector3(dir_.left, dir_.bottom, dir_.front);
+	vertices_[LeftTop].pos = Vector3(dir_.left, dir_.top, dir_.front);
+	vertices_[RightBottom].pos = Vector3(dir_.right, dir_.bottom, dir_.front);
+	vertices_[RightTop].pos = Vector3(dir_.right, dir_.top, dir_.front);
 
 	///値を書き込むと自動的に転送される
 
@@ -81,10 +83,12 @@ void Model::CreateVertexBufferView() {
 	HRESULT result;
 #pragma region 頂点データ
 	//上下左右の数値の設定
-	dir_.left = 0.0f * size_.x;
-	dir_.right = 1.0f * size_.x;
-	dir_.top = 0.0f * size_.y;
-	dir_.bottom = 1.0f * size_.y;
+	dir_.left = -50.0f;// *size_.x;
+	dir_.right = +50.0f;// * size_.x;
+	dir_.top = +50.0f;// * size_.y;
+	dir_.bottom = -50.0f;// * size_.y;
+	dir_.front = 50.0f;
+	dir_.back = 50.0f;
 
 	float leftUv = 0.0f;//左
 	float rightUv = 1.0f;//右
@@ -92,10 +96,10 @@ void Model::CreateVertexBufferView() {
 	float bottomUv = 1.0f;//下
 
 	//頂点データを設定
-	vertices_[LeftBottom].pos = Vector3(dir_.left, dir_.bottom, 0);
-	vertices_[LeftTop].pos = Vector3(dir_.left, dir_.top, 0);
-	vertices_[RightBottom].pos = Vector3(dir_.right, dir_.bottom, 0);
-	vertices_[RightTop].pos = Vector3(dir_.right, dir_.top, 0);
+	vertices_[LeftBottom].pos = Vector3(dir_.left, dir_.bottom, dir_.front);
+	vertices_[LeftTop].pos = Vector3(dir_.left, dir_.top, dir_.front);
+	vertices_[RightBottom].pos = Vector3(dir_.right, dir_.bottom, dir_.front);
+	vertices_[RightTop].pos = Vector3(dir_.right, dir_.top, dir_.front);
 
 	vertices_[LeftBottom].uv = Vector2(leftUv, bottomUv);
 	vertices_[LeftTop].uv = Vector2(leftUv, topUv);
