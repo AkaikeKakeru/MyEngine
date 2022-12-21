@@ -115,7 +115,7 @@ private://定数
 	//頂点数
 	static const int kVerticesNum = 4;
 	//インデックス数
-	static const int kindicesNum = 4;
+	static const int kIndicesNum = 2 * 3;
 
 private://メンバ変数
 	//ワールド変換
@@ -157,9 +157,9 @@ private://メンバ変数
 	/// </summary>
 
 	//インデックスデータ
-	uint32_t indices_[kindicesNum]{};
+	uint16_t indices_[kIndicesNum]{};
 	//インデックスデータマップ
-	uint32_t* indMap_ = nullptr;
+	uint16_t* indMap_ = nullptr;
 	//インデックスバッファ
 	ComPtr<ID3D12Resource> indBuff_;
 	//インデックスバッファビュー

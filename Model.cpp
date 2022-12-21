@@ -154,7 +154,19 @@ void Model::CreateVertexBufferView() {
 }
 
 void Model::CreateIndexBufferView() {
+	HRESULT result;
+#pragma region インデックスデータ
+	uint16_t indicesOrigin[] = {
+		0,1,2,//三角形1つ目
+		1,2,3,//三角形2つ目
+	};
 
+	for (size_t i = 0; i < kIndicesNum; i++){
+		indices_[i] = indicesOrigin[i];
+	}
+	//インデックスデータ全体のサイズ
+	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices_));
+#pragma endregion
 }
 
 void Model::GenerateConstBuffer() {
