@@ -41,12 +41,11 @@ void ObjectBasis::PreDraw(){
 	cmdList_->SetGraphicsRootSignature(rootSignature_.Get());
 
 	//プリミティブ形状の設定コマンド
-	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);//三角形ストリップ
+	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);//三角形リスト
 
-																		   //デスクリプタヒープの配列をセットするコマンド
+	//デスクリプタヒープの配列をセットするコマンド
 	ID3D12DescriptorHeap* ppHeaps[] = { srvHeap_.Get() };
 	cmdList_->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-
 }
 
 void ObjectBasis::SetTextureCommand(uint32_t textureIndex){
@@ -163,41 +162,41 @@ void ObjectBasis::AssembleGraphicsPipeline() {
 	//サンプルマスクの設定
 	pipelineDesc_.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//標準設定
 
-														 //ラスタライザの設定
+	//ラスタライザの設定
 	pipelineDesc_.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//カリングしない
 	pipelineDesc_.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ポリゴン内塗りつぶし
 	pipelineDesc_.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
 #pragma endregion
 
 #pragma endregion ブレンドステート
-														 //ブレンドステート
+	//ブレンドステート
 
-														 //レンダ―ターゲットビューのブレンド設定
+	//レンダ―ターゲットビューのブレンド設定
 	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc_.BlendState.RenderTarget[0];
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てにチャネルを描画
 
-																   //共通設定
+	//共通設定
 	blenddesc.BlendEnable = true;//ブレンドを有効にする
 	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;//加算
 	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
 	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;//デストの値を0%使う
 
-												//加算合成
-												//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-												//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
-												//blenddesc.DestBlend = D3D12_BLEND_ONE;//デストを100%使う
+	//加算合成
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
+	//blenddesc.DestBlend = D3D12_BLEND_ONE;//デストを100%使う
 
-												//減算合成
-												//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//デストからソースを減算
-												//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
-												//blenddesc.DestBlend = D3D12_BLEND_ONE;//デストを100%使う
+	//減算合成
+	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//デストからソースを減算
+	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
+	//blenddesc.DestBlend = D3D12_BLEND_ONE;//デストを100%使う
 
-												//色反転
-												//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-												//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f - デストカラーの値
-												//blenddesc.DestBlend = D3D12_BLEND_ZERO;//使わない
+	//色反転
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f - デストカラーの値
+	//blenddesc.DestBlend = D3D12_BLEND_ZERO;//使わない
 
-												//半透明合成
+	//半透明合成
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
 	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ソースのアルファ値
 	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0ff - ソースのアルファ値
@@ -236,18 +235,18 @@ void ObjectBasis::GenerateRootSignature() {
 	rootParams[0].Descriptor.ShaderRegister = 0;					//定数バッファ番号
 	rootParams[0].Descriptor.RegisterSpace = 0;						//デフォルト値
 	rootParams[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
-																	//テクスチャレジスタ0番
+	//テクスチャレジスタ0番
 	rootParams[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
 	rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange;			//デスクリプタレンジ
 	rootParams[1].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
 	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;				//全てのシェーダから見える
-																				//定数バッファ1番
+	//定数バッファ1番
 	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
 	rootParams[2].Descriptor.ShaderRegister = 1;					//定数バッファ番号
 	rootParams[2].Descriptor.RegisterSpace = 0;						//デフォルト値
 	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
 
-																	//テクスチャサンプラーの設定
+	//テクスチャサンプラーの設定
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
 	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
 	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
@@ -300,7 +299,7 @@ void ObjectBasis::LoadTexture(uint32_t textureIndex, const std::string& fileName
 	//ディレクトリパスとファイル名を連結して、フルパスを得る
 	std::string fullPath = textureDhirectoryPath_ + fileName;//「Resources」+「○○.拡張子」
 
-															 //ワイド文字列に変換した際の文字列バッファサイズを計算
+	//ワイド文字列に変換した際の文字列バッファサイズを計算
 	int filePathBufferSize = MultiByteToWideChar(
 		CP_ACP, 0, fullPath.c_str(), -1, nullptr, 0);
 
