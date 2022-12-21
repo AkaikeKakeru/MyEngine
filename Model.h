@@ -66,6 +66,8 @@ public://基本関数
 private://固有関数
 	//頂点バッファビュー作成
 	void CreateVertexBufferView();
+	//インデックスバッファビュー作成
+	void CreateIndexBufferView();
 	//定数バッファ生成
 	void GenerateConstBuffer();
 	//定数バッファマテリアル生成
@@ -110,8 +112,10 @@ public://アクセス
 	void SetTextureIndex(uint32_t textureIndex) { textureIndex_ = textureIndex; }
 
 private://定数
-		//頂点数
+	//頂点数
 	static const int kVerticesNum = 4;
+	//インデックス数
+	static const int kindicesNum = 4;
 
 private://メンバ変数
 	//ワールド変換
@@ -147,6 +151,19 @@ private://メンバ変数
 	ComPtr<ID3D12Resource> vertBuff_;
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView_{};
+
+	/// <summary>
+	/// インデックスバッファ
+	/// </summary>
+
+	//インデックスデータ
+	uint32_t indices_[kindicesNum]{};
+	//インデックスデータマップ
+	uint32_t* indMap_ = nullptr;
+	//インデックスバッファ
+	ComPtr<ID3D12Resource> indBuff_;
+	//インデックスバッファビュー
+	D3D12_INDEX_BUFFER_VIEW ibView_{};
 
 	/// <summary>
 	/// 定数バッファ
