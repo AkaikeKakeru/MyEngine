@@ -7,6 +7,13 @@
 #include "Sprite.h"
 #include "Degree.h"
 
+//マウスボタン
+typedef enum MouseButtonNum {
+	LeftButton,
+	RightButton,
+	CenterButton,
+};
+
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	///基盤初期化
@@ -32,7 +39,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	drawBas_ = DrawBasis::GetInstance();
 	drawBas_->Initialize();
 
-	drawBas_->LoadTexture(0,"smile.png");
+	drawBas_->LoadTexture(0, "smile.png");
 
 	//描画スプライト
 	Sprite* sprite_ = new Sprite();
@@ -55,7 +62,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		Vector2 pos = { 0,0 };
 
 		pos = sprite_->GetPosition();
-		pos.x += 2.0f;
+		if (input_->PressMouse(LeftButton)) {
+			pos.x += 2.0f;
+		}
 		sprite_->SetPosition(pos);
 		sprite_->SetRotation(ConvertToRadian(45.0f));
 		sprite_->SetColor(Vector4(0.5f, 1.0f, 0.2f, 0.4f));
@@ -64,7 +73,10 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		sprite_->Update();
 
 		pos = sprite2_->GetPosition();
-		pos.y += 2.0f;
+		if (input_->TriggerMouse(CenterButton)
+			|| input_->PressMouse(RightButton)) {
+			pos.y += 2.0f;
+		}
 		sprite2_->SetPosition(pos);
 		sprite2_->SetColor(Vector4(0.8f, 0.2f, 0.5f, 0.9f));
 		sprite2_->SetSize(Vector2(140, 50));
