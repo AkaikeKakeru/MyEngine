@@ -4,6 +4,8 @@
 #include <dinput.h>
 #include <wrl.h>
 
+#include "Vector2.h"
+
 class Input {
 private://省略
 	template <class T>
@@ -45,13 +47,24 @@ private://メンバ変数
 
 	//DirectInput
 	ComPtr<IDirectInput8> dInput_;
-	//キーボード情報
-	ComPtr<IDirectInputDevice8> keyboard_;
 
-	//押し続けられているかのキー情報保存配列
+	//キーボードデバイス
+	ComPtr<IDirectInputDevice8> keyboard_;
+	//マウスデバイス
+	ComPtr<IDirectInputDevice8> mouse_;
+
+	//今押されているかのキー情報保存配列
 	BYTE key_[256] = {};
-	//今押された瞬間かの確認用キー情報保存配列
+	//1F押されてたかの確認用キー情報保存配列
 	BYTE keyPre_[256] = {};
+
+	//マウスステート
+	DIMOUSESTATE2 mouseState_;
+	//1F前のマウスステート
+	DIMOUSESTATE2 mouseStatePre_;
+
+	//マウス座標
+	Vector2 mousePos_;
 
 private:
 	Input() = default;
