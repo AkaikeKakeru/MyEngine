@@ -40,6 +40,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	objectBas_ = ObjectBasis::GetInstance();
 	objectBas_->Initialize();
 
+	objectBas_->LoadTexture(0, "smile.png");
+
 	//描画基盤
 	DrawBasis* drawBas_ = nullptr;
 	drawBas_ = DrawBasis::GetInstance();

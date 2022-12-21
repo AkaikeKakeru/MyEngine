@@ -124,9 +124,18 @@
     <FxCompile Include="Resource\shader\SpritePS.hlsl">
       <Filter>シェーダ ファイル</Filter>
     </FxCompile>
+    <FxCompile Include="Resource\shader\ModelPS.hlsl">
+      <Filter>シェーダ ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resource\shader\ModelVS.hlsl">
+      <Filter>シェーダ ファイル</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\shader\Sprite.hlsli">
+      <Filter>シェーダ ファイル</Filter>
+    </None>
+    <None Include="Resource\shader\Model.hlsli">
       <Filter>シェーダ ファイル</Filter>
     </None>
   </ItemGroup>
