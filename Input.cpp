@@ -9,6 +9,7 @@ void Input::Initialize() {
 
 	GenerateDirectInput();
 	GenerateKeyBoardDevice();
+	GenerateMouseDevice();
 }
 
 void Input::Update() {
@@ -83,6 +84,25 @@ void Input::GenerateKeyBoardDevice() {
 	//排他制御レベルのセット
 	result = keyboard_->SetCooperativeLevel(
 		winApp_->GetHWND(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+	assert(SUCCEEDED(result));
+}
+
+void Input::GenerateMouseDevice(){
+	HRESULT result;
+
+	//マウスデバイス生成
+	result = dInput_->CreateDevice(
+		GUID_SysMouse, &mouse_, nullptr);
+	assert(SUCCEEDED(result));
+
+	//入力データ形式のセット
+	result = mouse_->SetDataFormat(
+		&c_dfDIMouse2);//拡張8ボタンまで
+	assert(SUCCEEDED(result));
+
+	//排他制御レベルのセット
+	result = mouse_->SetCooperativeLevel(
+		winApp_->GetHWND(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	assert(SUCCEEDED(result));
 }
 

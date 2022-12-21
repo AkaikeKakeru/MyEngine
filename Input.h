@@ -40,6 +40,7 @@ public: //public固有関数
 public://固有関数
 	void GenerateDirectInput();
 	void GenerateKeyBoardDevice();
+	void GenerateMouseDevice();
 
 private://メンバ変数
 	//Windowsアプリケーション
