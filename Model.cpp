@@ -21,12 +21,12 @@ void Model::Initialize(ObjectBasis* objBas) {
 
 void Model::Update() {
 	//上下左右の数値の更新
-	dir_.left = -50.0f;// *size_.x;
-	dir_.right = +50.0f;// * size_.x;
-	dir_.top = +50.0f;// * size_.y;
-	dir_.bottom = -50.0f;// * size_.y;
+	dir_.left = -0.4f;// *size_.x;
+	dir_.right = +0.4f;// * size_.x;
+	dir_.top = +0.7f;// * size_.y;
+	dir_.bottom = -0.7f;// * size_.y;
 	dir_.front = 0.0f;
-	dir_.back = 50.0f;
+	dir_.back = 0.5f;
 
 	//頂点データを設定
 	vertices_[LeftBottom].pos = Vector3(dir_.left, dir_.bottom, dir_.front);
@@ -72,19 +72,19 @@ void Model::Draw() {
 	cmdList_->SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
 
 	//インスタンス描画
-	cmdList_->DrawInstanced(_countof(indices_), 1, 0, 0);
+	cmdList_->DrawIndexedInstanced(_countof(indices_), 1, 0, 0, 0);
 }
 
 void Model::CreateVertexBufferView() {
 	HRESULT result;
 #pragma region 頂点データ
 	//上下左右の数値の設定
-	dir_.left = -50.0f;// *size_.x;
-	dir_.right = +50.0f;// * size_.x;
-	dir_.top = +50.0f;// * size_.y;
-	dir_.bottom = -50.0f;// * size_.y;
+	dir_.left = -0.4f;// *size_.x;
+	dir_.right = +0.4f;// * size_.x;
+	dir_.top = +0.7f;// * size_.y;
+	dir_.bottom = -0.7f;// * size_.y;
 	dir_.front = 0.0f;
-	dir_.back = 50.0f;
+	dir_.back = 0.5f;
 
 	float leftUv = 0.0f;//左
 	float rightUv = 1.0f;//右
@@ -263,9 +263,6 @@ void Model::CreateIndexBufferView() {
 	//全インデックスに対して
 	//インデックスをコピー
 	std::copy(std::begin(indices_), std::end(indices_), indMap_);
-	//for (size_t i = 0; i < _countof(indices_); i++) {
-	//	indMap_[i] = indices_[i];
-	//}
 
 	//繋がりを解除
 	indBuff_->Unmap(0, nullptr);
