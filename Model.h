@@ -29,14 +29,19 @@ private://構造体
 	}WorldTransform;
 
 	//プロジェクション構造体
-	typedef struct Projection{
+	typedef struct ViewProjection{
+		Vector3 eye{ 0,0,-100 };	//視点座標
+		Vector3 target{ 0,0,0 };	//注視点座標
+		Vector3 up{ 0,1,0 };	//上方向ベクトル
+
 		float angle;	//視野角
 		float aspect;	//アスペクト比
 		float nearClip;	//ニア
 		float farClip;	//ファー
 
+		Matrix4 matView{};	//	ビュー行列
 		Matrix4 matPerspective{};	//透視投影行列
-	}Projection;
+	}ViewProjection;
 
 	//頂点データ構造体
 	typedef struct VertexPosNormalUv {
@@ -135,7 +140,7 @@ private://メンバ変数
 	SurfaceDirection dir_;
 
 	//プロジェクション
-	Projection projection_;
+	ViewProjection viewProjection_;
 
 	//色
 	Vector4 color_ = { 1,1,1,1 };

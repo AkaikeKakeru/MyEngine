@@ -18,25 +18,25 @@ void Model::Initialize(ObjectBasis* objBas) {
 	worldTransform_.position = { 0,0,0 };
 	worldTransform_.matWorld = Matrix4Identity();
 
-	projection_.angle = ConvertToRadian(45.0f);
-	projection_.aspect = (float)WinApp::Win_Width / WinApp::Win_Height;
-	projection_.nearClip = 0.1f;
-	projection_.farClip = 1000.0f;
+	viewProjection_.angle = ConvertToRadian(45.0f);
+	viewProjection_.aspect = (float)WinApp::Win_Width / WinApp::Win_Height;
+	viewProjection_.nearClip = 0.1f;
+	viewProjection_.farClip = 1000.0f;
 
 	Vector4 pers = {
-		1 / static_cast<float>(tan(static_cast<float>(projection_.angle / 2))) / projection_.aspect,
-		1 / static_cast<float>(tan(static_cast<float>(projection_.angle / 2))),
-		1 / (projection_.farClip - projection_.nearClip) * projection_.farClip,
-		-projection_.nearClip / (projection_.farClip - projection_.nearClip) * projection_.farClip,
+		1 / static_cast<float>(tan(static_cast<float>(viewProjection_.angle / 2))) / viewProjection_.aspect,
+		1 / static_cast<float>(tan(static_cast<float>(viewProjection_.angle / 2))),
+		1 / (viewProjection_.farClip - viewProjection_.nearClip) * viewProjection_.farClip,
+		-viewProjection_.nearClip / (viewProjection_.farClip - viewProjection_.nearClip) * viewProjection_.farClip,
 	};
 
-	projection_.matPerspective = Matrix4Identity();
-	projection_.matPerspective.m[0][0] = pers.x;
-	projection_.matPerspective.m[1][1] = pers.y;
-	projection_.matPerspective.m[2][2] = pers.z;
-	projection_.matPerspective.m[2][3] = 1;
-	projection_.matPerspective.m[3][2] = pers.w;
-	projection_.matPerspective.m[3][3] = 0;
+	viewProjection_.matPerspective = Matrix4Identity();
+	viewProjection_.matPerspective.m[0][0] = pers.x;
+	viewProjection_.matPerspective.m[1][1] = pers.y;
+	viewProjection_.matPerspective.m[2][2] = pers.z;
+	viewProjection_.matPerspective.m[2][3] = 1;
+	viewProjection_.matPerspective.m[3][2] = pers.w;
+	viewProjection_.matPerspective.m[3][3] = 0;
 
 	CreateVertexBufferView();
 	CreateIndexBufferView();
@@ -327,7 +327,8 @@ void Model::GenerateConstTransform() {
 	ReCalcMatWorld();
 
 	//ワールド変換行列と、平行投影変換行列を掛ける
-	constMapTransform_->mat = worldTransform_.matWorld *= projection_.matPerspective;
+	constMapTransform_->mat = worldTransform_.matWorld *=
+		viewProjection_.matPerspective;
 }
 
 void Model::ReCalcMatWorld() {
