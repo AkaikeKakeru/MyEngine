@@ -20,20 +20,6 @@ void Model::Initialize(ObjectBasis* objBas) {
 }
 
 void Model::Update() {
-	//上下左右の数値の更新
-	dir_.left = -0.4f;// *size_.x;
-	dir_.right = +0.4f;// * size_.x;
-	dir_.top = +0.7f;// * size_.y;
-	dir_.bottom = -0.7f;// * size_.y;
-	dir_.front = 0.0f;
-	dir_.back = 0.5f;
-
-	//頂点データを設定
-	vertices_[LeftBottom].pos = Vector3(dir_.left, dir_.bottom, dir_.front);
-	vertices_[LeftTop].pos = Vector3(dir_.left, dir_.top, dir_.front);
-	vertices_[RightBottom].pos = Vector3(dir_.right, dir_.bottom, dir_.front);
-	vertices_[RightTop].pos = Vector3(dir_.right, dir_.top, dir_.front);
-
 	///値を書き込むと自動的に転送される
 
 	//頂点データをGPUに転送
@@ -75,6 +61,62 @@ void Model::Draw() {
 	cmdList_->DrawIndexedInstanced(_countof(indices_), 1, 0, 0, 0);
 }
 
+void Model::InitWorldTransform() {
+	worldTransform_.scale = { 1,1,0 };
+	worldTransform_.rotation = {
+		ConvertToRadian(0.0f),
+		ConvertToRadian(0.0f),
+		ConvertToRadian(0.0f) };
+	worldTransform_.position = { 0,0,0 };
+	worldTransform_.matWorld = Matrix4Identity();
+}
+
+void Model::InitView() {
+	viewProjection_.eye = { 0,0,-100 };
+	viewProjection_.target = { 0,0,0 };
+	viewProjection_.up = { 0,1,0 };
+
+	Vector3 axisZ_ = Vector3Normalize(viewProjection_.target - viewProjection_.eye);
+	Vector3 axisX_ = Vector3Normalize(Vector3Cross(viewProjection_.up, axisZ_));
+	Vector3 axisY_ = Vector3Cross(axisZ_, axisX_);
+
+	Vector3 cameraMoveVal_ = {
+		Vector3Dot(viewProjection_.eye,axisX_),
+		Vector3Dot(viewProjection_.eye,axisY_),
+		Vector3Dot(viewProjection_.eye,axisZ_)
+	};
+
+	viewProjection_.matView = Matrix4Identity();
+	viewProjection_.matView = {
+		axisX_.x,axisX_.y,axisX_.z,0,
+		axisY_.x,axisY_.y,axisY_.z,0,
+		axisZ_.x,axisZ_.y,axisZ_.z,0,
+		-cameraMoveVal_.x,-cameraMoveVal_.y,-cameraMoveVal_.z,1
+	};
+}
+
+void Model::InitProjection() {
+	viewProjection_.angle = ConvertToRadian(45.0f);
+	viewProjection_.aspect = (float)WinApp::Win_Width / WinApp::Win_Height;
+	viewProjection_.nearClip = 0.1f;
+	viewProjection_.farClip = 1000.0f;
+
+	Vector4 pers = {
+		1 / (static_cast<float>(tan(viewProjection_.angle / 2))) / viewProjection_.aspect,
+		1 / (static_cast<float>(tan(viewProjection_.angle / 2))),
+		1 / (viewProjection_.farClip - viewProjection_.nearClip) * viewProjection_.farClip,
+		-viewProjection_.nearClip / (viewProjection_.farClip - viewProjection_.nearClip) * viewProjection_.farClip,
+	};
+
+	viewProjection_.matPerspective = Matrix4Identity();
+	viewProjection_.matPerspective = {
+		pers.x,0,0,0,
+		0,pers.y,0,0,
+		0,0,pers.z,1,
+		0,0,pers.w,0
+	};
+}
+
 void Model::CreateVertexBufferView() {
 	HRESULT result;
 #pragma region 頂点データ
@@ -83,8 +125,8 @@ void Model::CreateVertexBufferView() {
 	dir_.right = +0.4f;// * size_.x;
 	dir_.top = +0.7f;// * size_.y;
 	dir_.bottom = -0.7f;// * size_.y;
-	dir_.front = 0.0f;
-	dir_.back = 0.5f;
+	dir_.front = -50.0f;
+	dir_.back = 50.0f;
 
 	float leftUv = 0.0f;//左
 	float rightUv = 1.0f;//右
@@ -92,15 +134,68 @@ void Model::CreateVertexBufferView() {
 	float bottomUv = 1.0f;//下
 
 	//頂点データを設定
-	vertices_[LeftBottom].pos = Vector3(dir_.left, dir_.bottom, dir_.front);
-	vertices_[LeftTop].pos = Vector3(dir_.left, dir_.top, dir_.front);
-	vertices_[RightBottom].pos = Vector3(dir_.right, dir_.bottom, dir_.front);
-	vertices_[RightTop].pos = Vector3(dir_.right, dir_.top, dir_.front);
+	//前
+	{
+		vertices_[LeftBottomFront].pos = Vector3(dir_.left, dir_.bottom, dir_.front);
+		vertices_[LeftTopFront].pos = Vector3(dir_.left, dir_.top, dir_.front);
+		vertices_[RightBottomFront].pos = Vector3(dir_.right, dir_.bottom, dir_.front);
+		vertices_[RightTopFront].pos = Vector3(dir_.right, dir_.top, dir_.front);
 
-	vertices_[LeftBottom].uv = Vector2(leftUv, bottomUv);
-	vertices_[LeftTop].uv = Vector2(leftUv, topUv);
-	vertices_[RightBottom].uv = Vector2(rightUv, bottomUv);
-	vertices_[RightTop].uv = Vector2(rightUv, topUv);
+		vertices_[LeftBottomFront].uv = Vector2(leftUv, bottomUv);
+		vertices_[LeftTopFront].uv = Vector2(leftUv, topUv);
+		vertices_[RightBottomFront].uv = Vector2(rightUv, bottomUv);
+		vertices_[RightTopFront].uv = Vector2(rightUv, topUv);
+	}
+	////後ろ
+	//{
+	//	vertices_[LeftBottomBack].pos = Vector3(dir_.left, dir_.bottom, dir_.back);
+	//	vertices_[LeftTopBack].pos = Vector3(dir_.left, dir_.top, dir_.back);
+	//	vertices_[RightBottomBack].pos = Vector3(dir_.right, dir_.bottom, dir_.back);
+	//	vertices_[RightTopBack].pos = Vector3(dir_.right, dir_.top, dir_.back);
+	//}
+	////左
+	//{
+	//	vertices_[LeftBottomFront].pos = Vector3(dir_.left, dir_.bottom, dir_.front);
+	//	vertices_[LeftTopFront].pos = Vector3(dir_.left, dir_.bottom, dir_.back);
+	//	vertices_[RightBottomFront].pos = Vector3(dir_.left, dir_.top, dir_.front);
+	//	vertices_[RightTopFront].pos = Vector3(dir_.left, dir_.top, dir_.back);
+	//}
+	////右
+	//{
+	//	vertices_[LeftBottomBack].pos = Vector3(dir_.right, dir_.bottom, dir_.front);
+	//	vertices_[LeftTopBack].pos = Vector3(dir_.right, dir_.bottom, dir_.back);
+	//	vertices_[RightBottomBack].pos = Vector3(dir_.right, dir_.top, dir_.front);
+	//	vertices_[RightTopBack].pos = Vector3(dir_.right, dir_.top, dir_.back);
+	//}
+	////下
+	//{
+	//	vertices_[LeftBottomBottom].pos = Vector3(dir_.left, dir_.bottom, dir_.front);
+	//	vertices_[LeftTopBottom].pos = Vector3(dir_.left, dir_.bottom, dir_.back);
+	//	vertices_[RightBottomBottom].pos = Vector3(dir_.right, dir_.bottom, dir_.front);
+	//	vertices_[RightTopBottom].pos = Vector3(dir_.right, dir_.bottom, dir_.back);
+	//}
+	////上
+	//{
+	//	vertices_[LeftBottomTop].pos = Vector3(dir_.left, dir_.top, dir_.front);
+	//	vertices_[LeftTopTop].pos = Vector3(dir_.left, dir_.top, dir_.back);
+	//	vertices_[RightBottomTop].pos = Vector3(dir_.right, dir_.top, dir_.front);
+	//	vertices_[RightTopTop].pos = Vector3(dir_.right, dir_.top, dir_.back);
+	//}
+
+	//for (size_t i = 0; i < kVerticesNum; i++) {
+	//	if (i % 4 == 0) {
+	//		vertices_[i].uv = Vector2(leftUv, bottomUv);
+	//	}
+	//	if (i % 4 == 1) {
+	//		vertices_[i].uv = Vector2(leftUv, topUv);
+	//	}
+	//	if (i % 4 == 2) {
+	//		vertices_[i].uv = Vector2(rightUv, bottomUv);
+	//	}
+	//	if (i % 4 == 3) {
+	//		vertices_[i].uv = Vector2(rightUv, topUv);
+	//	}
+	//}
 
 	//頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(vertices_[0]) * _countof(vertices_));
@@ -157,71 +252,31 @@ void Model::CreateVertexBufferView() {
 #pragma endregion
 }
 
-void Model::InitWorldTransform(){
-	worldTransform_.scale = { 1,1,0 };
-	worldTransform_.rotation = {
-		ConvertToRadian(0.0f),
-		ConvertToRadian(0.0f),
-		ConvertToRadian(0.0f)};
-	worldTransform_.position = { 0,0,0 };
-	worldTransform_.matWorld = Matrix4Identity();
-}
-
-void Model::InitView() {
-	viewProjection_.eye = { 0,0,-100 };
-	viewProjection_.target = { 0,0,0 };
-	viewProjection_.up = { 0,1,0 };
-
-	Vector3 axisZ_ = Vector3Normalize(viewProjection_.target - viewProjection_.eye);
-	Vector3 axisX_ = Vector3Normalize(Vector3Cross(viewProjection_.up, axisZ_));
-	Vector3 axisY_ = Vector3Cross(axisZ_, axisX_);
-
-	Vector3 cameraMoveVal_ = {
-		Vector3Dot(viewProjection_.eye,axisX_),
-		Vector3Dot(viewProjection_.eye,axisY_),
-		Vector3Dot(viewProjection_.eye,axisZ_)
-	};
-
-	viewProjection_.matView = Matrix4Identity();
-	viewProjection_.matView = {
-		axisX_.x,axisX_.y,axisX_.z,0,
-		axisY_.x,axisY_.y,axisY_.z,0,
-		axisZ_.x,axisZ_.y,axisZ_.z,0,
-		-cameraMoveVal_.x,-cameraMoveVal_.y,-cameraMoveVal_.z,1
-	};
-}
-
-void Model::InitProjection(){
-	viewProjection_.angle = ConvertToRadian(45.0f);
-	viewProjection_.aspect = (float)WinApp::Win_Width / WinApp::Win_Height;
-	viewProjection_.nearClip = 0.1f;
-	viewProjection_.farClip = 1000.0f;
-
-	Vector4 pers = {
-		1 / (static_cast<float>(tan(viewProjection_.angle / 2))) / viewProjection_.aspect,
-		1 / (static_cast<float>(tan(viewProjection_.angle / 2))),
-		1 / (viewProjection_.farClip - viewProjection_.nearClip) * viewProjection_.farClip,
-		-viewProjection_.nearClip / (viewProjection_.farClip - viewProjection_.nearClip) * viewProjection_.farClip,
-	};
-
-	viewProjection_.matPerspective = Matrix4Identity();
-	viewProjection_.matPerspective = {
-		pers.x,0,0,0,
-		0,pers.y,0,0,
-		0,0,pers.z,1,
-		0,0,pers.w,0
-	};
-}
-
 void Model::CreateIndexBufferView() {
 	HRESULT result;
 #pragma region インデックスデータ
 	unsigned short indicesOrigin[] = {
+		//前
 		0,1,2,//三角形1つ目
 		1,2,3,//三角形2つ目
+		////後ろ
+		//4,5,6,//三角形3つ目
+		//5,6,7,//三角形4つ目
+		////左
+		//8,9,10,//三角形5つ目
+		//9,10,11,//三角形6つ目
+		////右
+		//12,13,14,//三角形7つ目
+		//13,14,15,//三角形8つ目
+		////下
+		//16,17,18,//三角形9つ目
+		//17,18,19,//三角形10つ目
+		////上
+		//20,21,22,//三角形11つ目
+		//21,22,23,//三角形12つ目
 	};
 
-	for (size_t i = 0; i < _countof(indices_); i++){
+	for (size_t i = 0; i < _countof(indices_); i++) {
 		indices_[i] = indicesOrigin[i];
 	}
 	//インデックスデータ全体のサイズ
@@ -291,7 +346,7 @@ void Model::GenerateConstMaterial() {
 	//定数バッファヒープ設定
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
 	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
-											 //定数バッファリソース設定
+	//定数バッファリソース設定
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
 	cbResourceDesc.Width = (sizeof(ConstBufferDataMaterial) + 0xff) & ~0xff;//256バイトアライメント

@@ -10,7 +10,7 @@ private://省略
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 private://構造体
-		//定数バッファ用データ構造体(マテリアル)
+	//定数バッファ用データ構造体(マテリアル)
 	typedef struct ConstBufferDataMaterial {
 		Vector4 color;//色(RGBA)
 	}ConstBufferDataMaterial;
@@ -68,10 +68,36 @@ private://構造体
 
 	//頂点部位
 	typedef enum VerticesParts {
-		LeftBottom,//左下
-		LeftTop,//左上
-		RightBottom,//右下
-		RightTop,//右上
+		//前
+		LeftBottomFront,//左下
+		LeftTopFront,//左上
+		RightBottomFront,//右下
+		RightTopFront,//右上
+		//後ろ
+		LeftBottomBack,//左下
+		LeftTopBack,//左上
+		RightBottomBack,//右下
+		RightTopBack,//右上
+		//左
+		LeftBottomLeft,//左下
+		LeftTopLeft,//左上
+		RightBottomLeft,//右下
+		RightTopLeft,//右上
+		//右
+		LeftBottomRight,//左下
+		LeftTopRight,//左上
+		RightBottomRight,//右下
+		RightTopRight,//右上
+		//下
+		LeftBottomBottom,//左下
+		LeftTopBottom,//左上
+		RightBottomBottom,//右下
+		RightTopBottom,//右上
+		//上
+		LeftBottomTop,//左下
+		LeftTopTop,//左上
+		RightBottomTop,//右下
+		RightTopTop,//右上
 	}Corner;
 
 public://基本関数
@@ -132,10 +158,14 @@ public://アクセス
 	void SetTextureIndex(uint32_t textureIndex) { textureIndex_ = textureIndex; }
 
 private://定数
+	//三角形頂点数
+	static const int kTriangleNum = 3;
+	//面数
+	static const int kSurfaceNum = 6;
 	//頂点数
-	static const int kVerticesNum = 4;
+	static const int kVerticesNum = 4;// *kSurfaceNum;
 	//インデックス数
-	static const int kIndicesNum = 2 * 3;
+	static const int kIndicesNum = 2 * kTriangleNum;// *kSurfaceNum;
 
 private://メンバ変数
 	//ワールド変換
