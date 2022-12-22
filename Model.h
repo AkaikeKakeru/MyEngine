@@ -24,9 +24,19 @@ private://構造体
 	typedef struct WorldTransform {
 		Vector3 scale;		//スケール
 		Vector3 rotation;	//回転
-		Vector3 position;//平行移動
+		Vector3 position;	//平行移動
 		Matrix4 matWorld = Matrix4Identity();	//ワールド変換行列
 	}WorldTransform;
+
+	//プロジェクション構造体
+	typedef struct Projection{
+		float angle;	//視野角
+		float aspect;	//アスペクト比
+		float nearClip;	//ニア
+		float farClip;	//ファー
+
+		Matrix4 matPerspective{};	//透視投影行列
+	}Projection;
 
 	//頂点データ構造体
 	typedef struct VertexPosNormalUv {
@@ -124,6 +134,9 @@ private://メンバ変数
 	//上下左右前後
 	SurfaceDirection dir_;
 
+	//プロジェクション
+	Projection projection_;
+
 	//色
 	Vector4 color_ = { 1,1,1,1 };
 	//表示サイズ
@@ -160,7 +173,7 @@ private://メンバ変数
 	//インデックスデータ
 	unsigned short indices_[kIndicesNum]{};
 	//インデックスデータマップ
-	unsigned short* indMap_ = nullptr;
+	uint16_t* indMap_ = nullptr;
 	//インデックスバッファ
 	ComPtr<ID3D12Resource> indBuff_;
 	//インデックスバッファビュー

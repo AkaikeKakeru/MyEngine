@@ -18,6 +18,26 @@ void Model::Initialize(ObjectBasis* objBas) {
 	worldTransform_.position = { 0,0,0 };
 	worldTransform_.matWorld = Matrix4Identity();
 
+	projection_.angle = ConvertToRadian(45.0f);
+	projection_.aspect = (float)WinApp::Win_Width / WinApp::Win_Height;
+	projection_.nearClip = 0.1f;
+	projection_.farClip = 1000.0f;
+
+	Vector4 pers = {
+		1 / static_cast<float>(tan(static_cast<float>(projection_.angle / 2))) / projection_.aspect,
+		1 / static_cast<float>(tan(static_cast<float>(projection_.angle / 2))),
+		1 / (projection_.farClip - projection_.nearClip) * projection_.farClip,
+		-projection_.nearClip / (projection_.farClip - projection_.nearClip) * projection_.farClip,
+	};
+
+	projection_.matPerspective = Matrix4Identity();
+	projection_.matPerspective.m[0][0] = pers.x;
+	projection_.matPerspective.m[1][1] = pers.y;
+	projection_.matPerspective.m[2][2] = pers.z;
+	projection_.matPerspective.m[2][3] = 1;
+	projection_.matPerspective.m[3][2] = pers.w;
+	projection_.matPerspective.m[3][3] = 0;
+
 	CreateVertexBufferView();
 	CreateIndexBufferView();
 	GenerateConstBuffer();
@@ -29,7 +49,7 @@ void Model::Update() {
 	dir_.right = +50.0f;// * size_.x;
 	dir_.top = +50.0f;// * size_.y;
 	dir_.bottom = -50.0f;// * size_.y;
-	dir_.front = 50.0f;
+	dir_.front = 0.0f;
 	dir_.back = 50.0f;
 
 	//頂点データを設定
@@ -87,7 +107,7 @@ void Model::CreateVertexBufferView() {
 	dir_.right = +50.0f;// * size_.x;
 	dir_.top = +50.0f;// * size_.y;
 	dir_.bottom = -50.0f;// * size_.y;
-	dir_.front = 50.0f;
+	dir_.front = 0.0f;
 	dir_.back = 50.0f;
 
 	float leftUv = 0.0f;//左
@@ -169,11 +189,11 @@ void Model::CreateIndexBufferView() {
 		1,2,3,//三角形2つ目
 	};
 
-	for (size_t i = 0; i < kIndicesNum; i++){
+	for (size_t i = 0; i < _countof(indices_); i++){
 		indices_[i] = indicesOrigin[i];
 	}
 	//インデックスデータ全体のサイズ
-	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * _countof(indices_));
+	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices_));
 #pragma endregion
 
 #pragma region インデックスバッファ設定
@@ -211,6 +231,9 @@ void Model::CreateIndexBufferView() {
 	//全インデックスに対して
 	//インデックスをコピー
 	std::copy(std::begin(indices_), std::end(indices_), indMap_);
+	//for (size_t i = 0; i < _countof(indices_); i++) {
+	//	indMap_[i] = indices_[i];
+	//}
 
 	//繋がりを解除
 	indBuff_->Unmap(0, nullptr);
@@ -304,7 +327,7 @@ void Model::GenerateConstTransform() {
 	ReCalcMatWorld();
 
 	//ワールド変換行列と、平行投影変換行列を掛ける
-	constMapTransform_->mat = worldTransform_.matWorld;
+	constMapTransform_->mat = worldTransform_.matWorld *= projection_.matPerspective;
 }
 
 void Model::ReCalcMatWorld() {
