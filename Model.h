@@ -29,7 +29,7 @@ private://構造体
 	}WorldTransform;
 
 	//プロジェクション構造体
-	typedef struct ViewProjection{
+	typedef struct ViewProjection {
 		Vector3 eye{ 0,0,-100 };	//視点座標
 		Vector3 target{ 0,0,0 };	//注視点座標
 		Vector3 up{ 0,1,0 };	//上方向ベクトル
@@ -80,6 +80,10 @@ public://基本関数
 	void Draw();
 
 private://固有関数
+	void InitWorldTransform();
+	void InitView();
+	void InitProjection();
+
 	//頂点バッファビュー作成
 	void CreateVertexBufferView();
 	//インデックスバッファビュー作成

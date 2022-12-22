@@ -10,33 +10,9 @@ void Model::Initialize(ObjectBasis* objBas) {
 	device_ = objBas_->GetDevice();
 	cmdList_ = objBas_->GetCommandList();
 
-	worldTransform_.scale = { 1,1,1 };
-	worldTransform_.rotation = {
-		ConvertToRadian(0.0f),
-		ConvertToRadian(0.0f),
-		ConvertToRadian(0.0f)};
-	worldTransform_.position = { 0,0,0 };
-	worldTransform_.matWorld = Matrix4Identity();
-
-	viewProjection_.angle = ConvertToRadian(45.0f);
-	viewProjection_.aspect = (float)WinApp::Win_Width / WinApp::Win_Height;
-	viewProjection_.nearClip = 0.1f;
-	viewProjection_.farClip = 1000.0f;
-
-	Vector4 pers = {
-		1 / static_cast<float>(tan(static_cast<float>(viewProjection_.angle / 2))) / viewProjection_.aspect,
-		1 / static_cast<float>(tan(static_cast<float>(viewProjection_.angle / 2))),
-		1 / (viewProjection_.farClip - viewProjection_.nearClip) * viewProjection_.farClip,
-		-viewProjection_.nearClip / (viewProjection_.farClip - viewProjection_.nearClip) * viewProjection_.farClip,
-	};
-
-	viewProjection_.matPerspective = Matrix4Identity();
-	viewProjection_.matPerspective.m[0][0] = pers.x;
-	viewProjection_.matPerspective.m[1][1] = pers.y;
-	viewProjection_.matPerspective.m[2][2] = pers.z;
-	viewProjection_.matPerspective.m[2][3] = 1;
-	viewProjection_.matPerspective.m[3][2] = pers.w;
-	viewProjection_.matPerspective.m[3][3] = 0;
+	InitWorldTransform();
+	InitProjection();
+	InitView();
 
 	CreateVertexBufferView();
 	CreateIndexBufferView();
@@ -179,6 +155,62 @@ void Model::CreateVertexBufferView() {
 	//頂点1つ分のデータサイズ
 	vbView_.StrideInBytes = sizeof(vertices_[0]);
 #pragma endregion
+}
+
+void Model::InitWorldTransform(){
+	worldTransform_.scale = { 1,1,0 };
+	worldTransform_.rotation = {
+		ConvertToRadian(0.0f),
+		ConvertToRadian(0.0f),
+		ConvertToRadian(0.0f)};
+	worldTransform_.position = { 0,0,0 };
+	worldTransform_.matWorld = Matrix4Identity();
+}
+
+void Model::InitView() {
+	viewProjection_.eye = { 0,0,-100 };
+	viewProjection_.target = { 0,0,0 };
+	viewProjection_.up = { 0,1,0 };
+
+	Vector3 axisZ_ = Vector3Normalize(viewProjection_.target - viewProjection_.eye);
+	Vector3 axisX_ = Vector3Normalize(Vector3Cross(viewProjection_.up, axisZ_));
+	Vector3 axisY_ = Vector3Cross(axisZ_, axisX_);
+
+	Vector3 cameraMoveVal_ = {
+		Vector3Dot(viewProjection_.eye,axisX_),
+		Vector3Dot(viewProjection_.eye,axisY_),
+		Vector3Dot(viewProjection_.eye,axisZ_)
+	};
+
+	viewProjection_.matView = Matrix4Identity();
+	viewProjection_.matView = {
+		axisX_.x,axisX_.y,axisX_.z,0,
+		axisY_.x,axisY_.y,axisY_.z,0,
+		axisZ_.x,axisZ_.y,axisZ_.z,0,
+		-cameraMoveVal_.x,-cameraMoveVal_.y,-cameraMoveVal_.z,1
+	};
+}
+
+void Model::InitProjection(){
+	viewProjection_.angle = ConvertToRadian(45.0f);
+	viewProjection_.aspect = (float)WinApp::Win_Width / WinApp::Win_Height;
+	viewProjection_.nearClip = 0.1f;
+	viewProjection_.farClip = 1000.0f;
+
+	Vector4 pers = {
+		1 / (static_cast<float>(tan(viewProjection_.angle / 2))) / viewProjection_.aspect,
+		1 / (static_cast<float>(tan(viewProjection_.angle / 2))),
+		1 / (viewProjection_.farClip - viewProjection_.nearClip) * viewProjection_.farClip,
+		-viewProjection_.nearClip / (viewProjection_.farClip - viewProjection_.nearClip) * viewProjection_.farClip,
+	};
+
+	viewProjection_.matPerspective = Matrix4Identity();
+	viewProjection_.matPerspective = {
+		pers.x,0,0,0,
+		0,pers.y,0,0,
+		0,0,pers.z,1,
+		0,0,pers.w,0
+	};
 }
 
 void Model::CreateIndexBufferView() {
@@ -326,8 +358,9 @@ void Model::GenerateConstTransform() {
 	//ワールド行列を再計算
 	ReCalcMatWorld();
 
-	//ワールド変換行列と、平行投影変換行列を掛ける
+	//ワールド変換行列と、ビュー行列と、透視投影変換行列を掛ける
 	constMapTransform_->mat = worldTransform_.matWorld *=
+		viewProjection_.matView *=
 		viewProjection_.matPerspective;
 }
 
