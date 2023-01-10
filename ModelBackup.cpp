@@ -1,12 +1,12 @@
-#include "Model.h"
+#include "ModelBackup.h"
 #include "SafeDelete.h"
 #include "Degree.h"
 #include "WinApp.h"
 #include <cassert>
 
-Model::ViewProjection Model::viewProjection_;
+ModelBackup::ViewProjection ModelBackup::viewProjection_;
 
-void Model::Initialize(ObjectBasis* objBas) {
+void ModelBackup::Initialize(ObjectBasis* objBas) {
 	assert(objBas);
 	objBas_ = objBas;
 	device_ = objBas_->GetDevice();
@@ -21,7 +21,7 @@ void Model::Initialize(ObjectBasis* objBas) {
 	GenerateConstBuffer();
 }
 
-void Model::Update() {
+void ModelBackup::Update() {
 	CreateVertexBufferView();
 	CreateIndexBufferView();
 	GenerateConstBuffer();
@@ -42,7 +42,7 @@ void Model::Update() {
 	constMapTransform_->mat = worldTransform_.matWorld;
 }
 
-void Model::Draw() {
+void ModelBackup::Draw() {
 	//非表示
 	if (isInvisible_) {
 		return;
@@ -67,7 +67,7 @@ void Model::Draw() {
 	cmdList_->DrawIndexedInstanced(_countof(indices_), 1, 0, 0, 0);
 }
 
-void Model::InitWorldTransform() {
+void ModelBackup::InitWorldTransform() {
 	worldTransform_.scale = { 1,1,0 };
 	worldTransform_.rotation = {
 		ConvertToRadian(0.0f),
@@ -77,7 +77,7 @@ void Model::InitWorldTransform() {
 	worldTransform_.matWorld = Matrix4Identity();
 }
 
-void Model::InitView() {
+void ModelBackup::InitView() {
 	viewProjection_.eye = { 0,0,-100 };
 	viewProjection_.target = { 0,0,0 };
 	viewProjection_.up = { 0,1,0 };
@@ -101,7 +101,7 @@ void Model::InitView() {
 	};
 }
 
-void Model::InitProjection() {
+void ModelBackup::InitProjection() {
 	viewProjection_.angle = ConvertToRadian(45.0f);
 	viewProjection_.aspect = (float)WinApp::Win_Width / WinApp::Win_Height;
 	viewProjection_.nearClip = 0.1f;
@@ -123,7 +123,7 @@ void Model::InitProjection() {
 	};
 }
 
-void Model::CreateVertexBufferView() {
+void ModelBackup::CreateVertexBufferView() {
 	HRESULT result;
 #pragma region 頂点データ
 	//上下左右の数値の設定
@@ -261,7 +261,7 @@ void Model::CreateVertexBufferView() {
 #pragma endregion
 }
 
-void Model::CreateIndexBufferView() {
+void ModelBackup::CreateIndexBufferView() {
 	HRESULT result;
 #pragma region インデックスデータ
 	unsigned short indicesOrigin[] = {
@@ -344,12 +344,12 @@ void Model::CreateIndexBufferView() {
 #pragma endregion
 }
 
-void Model::GenerateConstBuffer() {
+void ModelBackup::GenerateConstBuffer() {
 	GenerateConstMaterial();
 	GenerateConstTransform();
 }
 
-void Model::GenerateConstMaterial() {
+void ModelBackup::GenerateConstMaterial() {
 	HRESULT result;
 
 	//定数バッファヒープ設定
@@ -385,7 +385,7 @@ void Model::GenerateConstMaterial() {
 	constMapMaterial_->color = color_;
 }
 
-void Model::GenerateConstTransform() {
+void ModelBackup::GenerateConstTransform() {
 	HRESULT result;
 
 	//定数バッファヒープ設定
@@ -425,7 +425,7 @@ void Model::GenerateConstTransform() {
 		viewProjection_.matPerspective;
 }
 
-void Model::ReCalcMatWorld() {
+void ModelBackup::ReCalcMatWorld() {
 	worldTransform_.matWorld = Matrix4Identity();
 
 	worldTransform_.matWorld *=
@@ -436,7 +436,7 @@ void Model::ReCalcMatWorld() {
 		Matrix4Translation(worldTransform_.position);
 }
 
-void Model::ReCalcMatView()
+void ModelBackup::ReCalcMatView()
 {
 	Vector3 axisZ_ = Vector3Normalize(viewProjection_.target - viewProjection_.eye);
 	Vector3 axisX_ = Vector3Normalize(Vector3Cross(viewProjection_.up, axisZ_));
@@ -457,7 +457,7 @@ void Model::ReCalcMatView()
 	};
 }
 
-void Model::CameraMoveEye(Vector3 move){
+void ModelBackup::CameraMoveEye(Vector3 move){
 	Vector3 eye_moved = GetEye();
 	Vector3 target_moved = GetTarget();
 

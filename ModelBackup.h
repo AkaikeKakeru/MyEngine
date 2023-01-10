@@ -4,7 +4,7 @@
 #include "Vector3.h"
 #include "Vector4.h"
 
-class Model {
+class ModelBackup {
 private://省略
 	template <class T>
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
