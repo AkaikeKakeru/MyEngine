@@ -3,57 +3,51 @@
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
-#include <DirectXMath.h>
 #include <d3dx12.h>
+
+#include "Matrix4.h"
+#include "Vector2.h"
+#include "Vector3.h"
+#include "Vector4.h"
 
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>
-class Object3d
-{
+class Object3d{
 private: // エイリアス
 	// Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::を省略
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMMATRIX = DirectX::XMMATRIX;
 
 public: // サブクラス
 	// 頂点データ構造体
-	struct VertexPosNormalUv
-	{
-		XMFLOAT3 pos; // xyz座標
-		XMFLOAT3 normal; // 法線ベクトル
-		XMFLOAT2 uv;  // uv座標
+	struct VertexPosNormalUv{
+		Vector3 pos; // xyz座標
+		Vector3 normal; // 法線ベクトル
+		Vector2 uv;  // uv座標
 	};
 
 	// 定数バッファ用データ構造体B0
-	struct ConstBufferDataB0
-	{
-		//XMFLOAT4 color;	// 色 (RGBA)
-		XMMATRIX mat;	// ３Ｄ変換行列
+	struct ConstBufferDataB0{
+		//Vector4 color;	// 色 (RGBA)
+		Matrix4 mat;	// ３Ｄ変換行列
 	};
 
 	// 定数バッファ用データ構造体B1
-	struct ConstBufferDataB1
-	{
-		XMFLOAT3 ambient;	//アンビエント係数
+	struct ConstBufferDataB1{
+		Vector3 ambient;	//アンビエント係数
 		float pad1;			//パディング
-		XMFLOAT3 diffuse;	//ディフューズ係数
+		Vector3 diffuse;	//ディフューズ係数
 		float pad2;			//パディング
-		XMFLOAT3 specular;	//スペキュラー係数
+		Vector3 specular;	//スペキュラー係数
 		float alpha;		//アルファ
 	};
 
 	//マテリアル
-	struct Material 
-	{
+	struct Material{
 		std::string name; //マテリアル名
-		XMFLOAT3 ambient; //アンビエント影響度
-		XMFLOAT3 diffuse; //ディフューズ影響度
-		XMFLOAT3 specular; //スペキュラー影響度
+		Vector3 ambient; //アンビエント影響度
+		Vector3 diffuse; //ディフューズ影響度
+		Vector3 specular; //スペキュラー影響度
 		float alpha; //アルファ
 		std::string textureFilename; //テクスチャファイル名
 		//コンストラクタ
@@ -104,37 +98,37 @@ public: // 静的メンバ関数
 	/// 視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	static const XMFLOAT3& GetEye() { return eye; }
+	static const Vector3& GetEye() { return eye; }
 
 	/// <summary>
 	/// 視点座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	static void SetEye(XMFLOAT3 eye);
+	static void SetEye(Vector3 eye);
 
 	/// <summary>
 	/// 注視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	static const XMFLOAT3& GetTarget() { return target; }
+	static const Vector3& GetTarget() { return target; }
 
 	/// <summary>
 	/// 注視点座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	static void SetTarget(XMFLOAT3 target);
+	static void SetTarget(Vector3 target);
 
 	/// <summary>
 	/// ベクトルによる移動
 	/// </summary>
 	/// <param name="move">移動量</param>
-	static void CameraMoveVector(XMFLOAT3 move);
+	static void CameraMoveVector(Vector3 move);
 
 	/// <summary>
 	/// ベクトルによる視点移動
 	/// </summary>
 	/// <param name="move">移動量</param>
-	static void CameraMoveEyeVector(XMFLOAT3 move);
+	static void CameraMoveEyeVector(Vector3 move);
 
 
 private: // 静的メンバ変数
@@ -161,15 +155,15 @@ private: // 静的メンバ変数
 	// シェーダリソースビューのハンドル(CPU)
 	static CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV;
 	// ビュー行列
-	static XMMATRIX matView;
+	static Matrix4 matView;
 	// 射影行列
-	static XMMATRIX matProjection;
+	static Matrix4 matProjection;
 	// 視点座標
-	static XMFLOAT3 eye;
+	static Vector3 eye;
 	// 注視点座標
-	static XMFLOAT3 target;
+	static Vector3 target;
 	// 上方向ベクトル
-	static XMFLOAT3 up;
+	static Vector3 up;
 	// 頂点バッファビュー
 	static D3D12_VERTEX_BUFFER_VIEW vbView;
 	// インデックスバッファビュー
@@ -238,27 +232,27 @@ public: // メンバ関数
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const XMFLOAT3& GetPosition() const { return position; }
+	const Vector3& GetPosition() const { return position; }
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(const XMFLOAT3& position) { this->position = position; }
+	void SetPosition(const Vector3& position) { this->position = position; }
 
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 	ComPtr<ID3D12Resource> constBuffB1; // 定数バッファ
 	// 色
-	XMFLOAT4 color = { 1,1,1,1 };
+	Vector4 color = { 1,1,1,1 };
 	// ローカルスケール
-	XMFLOAT3 scale = { 1,1,1 };
+	Vector3 scale = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation = { 0,0,0 };
+	Vector3 rotation = { 0,0,0 };
 	// ローカル座標
-	XMFLOAT3 position = { 0,0,0 };
+	Vector3 position = { 0,0,0 };
 	// ローカルワールド変換行列
-	XMMATRIX matWorld;
+	Matrix4 matWorld;
 	// 親オブジェクト
 	Object3d* parent = nullptr;
 };

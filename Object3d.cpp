@@ -6,6 +6,8 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include "Degree.h"
+#include "WinApp.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -29,11 +31,11 @@ ComPtr<ID3D12Resource> Object3d::indexBuff;
 ComPtr<ID3D12Resource> Object3d::texbuff;
 CD3DX12_CPU_DESCRIPTOR_HANDLE Object3d::cpuDescHandleSRV;
 CD3DX12_GPU_DESCRIPTOR_HANDLE Object3d::gpuDescHandleSRV;
-XMMATRIX Object3d::matView{};
-XMMATRIX Object3d::matProjection{};
-XMFLOAT3 Object3d::eye = { 0, 0, -50.0f };
-XMFLOAT3 Object3d::target = { 0, 0, 0 };
-XMFLOAT3 Object3d::up = { 0, 1, 0 };
+Matrix4 Object3d::matView{};
+Matrix4 Object3d::matProjection{};
+Vector3 Object3d::eye = { 0, 0, -50.0f };
+Vector3 Object3d::target = { 0, 0, 0 };
+Vector3 Object3d::up = { 0, 1, 0 };
 D3D12_VERTEX_BUFFER_VIEW Object3d::vbView{};
 D3D12_INDEX_BUFFER_VIEW Object3d::ibView{};
 std::vector<Object3d::VertexPosNormalUv> Object3d::vertices;
@@ -41,8 +43,7 @@ std::vector<unsigned short> Object3d::indices;
 
 Object3d::Material Object3d::material;
 
-void Object3d::StaticInitialize(ID3D12Device* device, int window_width, int window_height)
-{
+void Object3d::StaticInitialize(ID3D12Device* device, int window_width, int window_height){
 	// nullptrチェック
 	assert(device);
 
@@ -65,8 +66,7 @@ void Object3d::StaticInitialize(ID3D12Device* device, int window_width, int wind
 
 }
 
-void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
-{
+void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList){
 	// PreDrawとPostDrawがペアで呼ばれていなければエラー
 	assert(Object3d::cmdList == nullptr);
 
@@ -81,14 +81,12 @@ void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
-void Object3d::PostDraw()
-{
+void Object3d::PostDraw(){
 	// コマンドリストを解除
 	Object3d::cmdList = nullptr;
 }
 
-Object3d* Object3d::Create()
-{
+Object3d* Object3d::Create(){
 
 	// 3Dオブジェクトのインスタンスを生成
 	Object3d* object3d = new Object3d();
@@ -110,24 +108,21 @@ Object3d* Object3d::Create()
 	return object3d;
 }
 
-void Object3d::SetEye(XMFLOAT3 eye)
-{
+void Object3d::SetEye(Vector3 eye){
 	Object3d::eye = eye;
 
 	UpdateViewMatrix();
 }
 
-void Object3d::SetTarget(XMFLOAT3 target)
-{
+void Object3d::SetTarget(Vector3 target){
 	Object3d::target = target;
 
 	UpdateViewMatrix();
 }
 
-void Object3d::CameraMoveVector(XMFLOAT3 move)
-{
-	XMFLOAT3 eye_moved = GetEye();
-	XMFLOAT3 target_moved = GetTarget();
+void Object3d::CameraMoveVector(Vector3 move){
+	Vector3 eye_moved = GetEye();
+	Vector3 target_moved = GetTarget();
 
 	eye_moved.x += move.x;
 	eye_moved.y += move.y;
@@ -141,10 +136,9 @@ void Object3d::CameraMoveVector(XMFLOAT3 move)
 	SetTarget(target_moved);
 }
 
-void Object3d::CameraMoveEyeVector(XMFLOAT3 move)
-{
-	XMFLOAT3 eye_moved = GetEye();
-	XMFLOAT3 target_moved = GetTarget();
+void Object3d::CameraMoveEyeVector(Vector3 move){
+	Vector3 eye_moved = GetEye();
+	Vector3 target_moved = GetTarget();
 
 	eye_moved.x += move.x;
 	eye_moved.y += move.y;
@@ -154,8 +148,7 @@ void Object3d::CameraMoveEyeVector(XMFLOAT3 move)
 }
 
 
-void Object3d::InitializeDescriptorHeap()
-{
+void Object3d::InitializeDescriptorHeap(){
 	HRESULT result = S_FALSE;
 
 	// デスクリプタヒープを生成	
@@ -173,8 +166,7 @@ void Object3d::InitializeDescriptorHeap()
 
 }
 
-void Object3d::InitializeCamera(int window_width, int window_height)
-{
+void Object3d::InitializeCamera(int window_width, int window_height){
 	// ビュー行列の生成
 	//matView = XMMatrixLookAtLH(
 	//	XMLoadFloat3(&eye),
@@ -190,15 +182,34 @@ void Object3d::InitializeCamera(int window_width, int window_height)
 	//	window_height, 0,
 	//	0, 1);
 	// 透視投影による射影行列の生成
-	matProjection = XMMatrixPerspectiveFovLH(
-		XMConvertToRadians(60.0f),
-		(float)window_width / window_height,
-		0.1f, 1000.0f
-	);
+	//matProjection = XMMatrixPerspectiveFovLH(
+	//	XMConvertToRadians(60.0f),
+	//	(float)window_width / window_height,
+	//	0.1f, 1000.0f
+	//);
+
+	float angle = ConvertToRadian(45.0f);
+	float aspect = (float)WinApp::Win_Width / WinApp::Win_Height;
+	float nearClip = 0.1f;
+	float farClip = 1000.0f;
+
+	Vector4 pers = {
+		1 / (static_cast<float>(tan(angle / 2))) / aspect,
+		1 / (static_cast<float>(tan(angle / 2))),
+		1 / (farClip - nearClip) * farClip,
+		-nearClip / (farClip - nearClip) * farClip,
+	};
+
+	matProjection = Matrix4Identity();
+	matProjection = {
+		pers.x,0,0,0,
+		0,pers.y,0,0,
+		0,0,pers.z,1,
+		0,0,pers.w,0
+	};
 }
 
-void Object3d::InitializeGraphicsPipeline()
-{
+void Object3d::InitializeGraphicsPipeline(){
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> psBlob;	// ピクセルシェーダオブジェクト
@@ -438,8 +449,7 @@ bool Object3d::LoadTexture(const std::string& directoryPath, const std::string f
 	return true;
 }
 
-void Object3d::CreateModel()
-{
+void Object3d::CreateModel(){
 	//ファイルストリーム
 	std::ifstream file;
 	//モデル名
@@ -454,9 +464,9 @@ void Object3d::CreateModel()
 	//ファイルオープンの失敗を確認
 	assert(!file.fail());
 
-	vector<XMFLOAT3>positions;//頂点座標
-	vector<XMFLOAT3>normals;//法線ベクトル
-	vector<XMFLOAT2>texcoords;//テクスチャUV
+	vector<Vector3>positions;//頂点座標
+	vector<Vector3>normals;//法線ベクトル
+	vector<Vector2>texcoords;//テクスチャUV
 	//1行ずつ読み込む
 	string line;
 	while (getline(file, line)) {
@@ -470,7 +480,7 @@ void Object3d::CreateModel()
 		//先頭文字列がvなら頂点座標
 		if (key == "v") {
 			//X,Y,Z座標読み込み
-			XMFLOAT3 position{};
+			Vector3 position{};
 			line_stream >> position.x;
 			line_stream >> position.y;
 			line_stream >> position.z;
@@ -480,7 +490,7 @@ void Object3d::CreateModel()
 		//先頭文字列がvtならテクスチャ
 		if (key == "vt") {
 			//U,V成分読み込み
-			XMFLOAT2 texcoord{};
+			Vector2 texcoord{};
 			line_stream >> texcoord.x;
 			line_stream >> texcoord.y;
 			//V方向反転
@@ -491,7 +501,7 @@ void Object3d::CreateModel()
 		//先頭文字列がvnなら法線ベクトル
 		if (key == "vn") {
 			//X,Y,Z座標読み込み
-			XMFLOAT3 normal{};
+			Vector3 normal{};
 			line_stream >> normal.x;
 			line_stream >> normal.y;
 			line_stream >> normal.z;
@@ -668,68 +678,50 @@ void Object3d::LoadMaterial(
 	}
 }
 
-void Object3d::UpdateViewMatrix()
-{
+void Object3d::UpdateViewMatrix(){
 	// ビュー行列の更新
 	//matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
 
 	//視点座標
-	XMVECTOR eyePosition = XMLoadFloat3(&eye);
+	Vector3 eyePosition = eye;
 	//注視点座標
-	XMVECTOR targetPosition = XMLoadFloat3(&target);
+	Vector3 targetPosition = target;
 	//(仮の)上方向
-	XMVECTOR upVector = XMLoadFloat3(&up);
+	Vector3 upVector = up;
 
-	//カメラ座標(視線方向)
-	XMVECTOR cameraAxisZ = XMVectorSubtract(targetPosition, eyePosition);
-	//0ベクトルだと向きが定まらないので除外
-	assert(!XMVector3Equal(cameraAxisZ, XMVectorZero()));
-	assert(!XMVector3IsInfinite(cameraAxisZ));
-	assert(!XMVector3Equal(upVector, XMVectorZero()));
-	assert(!XMVector3IsInfinite(upVector));
-	//ベクトルを正規化
-	cameraAxisZ = XMVector3Normalize(cameraAxisZ);
-
-	//カメラのX軸(右方向)
-	XMVECTOR cameraAxisX;
-	//X軸は上方向→Z軸の外積で求まる
-	cameraAxisX = XMVector3Cross(upVector, cameraAxisZ);
-	//ベクトルを正規化
-	cameraAxisX = XMVector3Normalize(cameraAxisX);
-
-	//カメラのY軸(上方向)
-	XMVECTOR cameraAxisY;
-	//Y軸はZ軸→X軸の外積で求まる
-	cameraAxisY = XMVector3Cross(cameraAxisZ, cameraAxisX);
-	//ベクトルを正規化
-	cameraAxisY = XMVector3Normalize(cameraAxisY);
+	Vector3 axisZ = Vector3Normalize(target - eye);
+	Vector3 axisX = Vector3Normalize(Vector3Cross(up, axisZ));
+	Vector3 axisY = Vector3Cross(axisZ, axisX);
 
 	//カメラ回転行列
-	XMMATRIX matCameraRot;
-	//カメラ座標系→ワールド座標系の変換行列
-	matCameraRot.r[0] = cameraAxisX;
-	matCameraRot.r[1] = cameraAxisY;
-	matCameraRot.r[2] = cameraAxisZ;
-	matCameraRot.r[3] = XMVectorSet(0, 0, 0, 1);
+	Matrix4 matCameraRot;
+	//カメラ座標系→ワールド座標系の変換行列0
+	matCameraRot = {
+		axisX.x,axisX.y,axisX.z,0,
+		axisY.x,axisY.y,axisY.z,0,
+		axisZ.x,axisZ.y,axisZ.z,0,
+		0,0,0,1
+	};
 
 	//転置により逆行列(逆回転)を計算
-	matView = XMMatrixTranspose(matCameraRot);
+	matView = Matrix4Transposed(matCameraRot);
 
 	//視点座標に-1を掛けた座標
-	XMVECTOR reverseEyePosition = XMVectorNegate(eyePosition);
+	Vector3 reverseEyePosition = eyePosition * -1;
 	//カメラの位置からワールド原点へのベクトル(カメラ座標系)
-	XMVECTOR tX = XMVector3Dot(cameraAxisX, reverseEyePosition); //X成分
-	XMVECTOR tY = XMVector3Dot(cameraAxisY, reverseEyePosition); //Y成分
-	XMVECTOR tZ = XMVector3Dot(cameraAxisZ, reverseEyePosition); //Z成分
-	//一つのベクトルにまとめる
-	XMVECTOR translation = XMVectorSet(tX.m128_f32[0], tY.m128_f32[1], tZ.m128_f32[2], 1.0f);
-
+	Vector3 cameraMoveVal_ = {
+		Vector3Dot(reverseEyePosition,axisX),
+		Vector3Dot(reverseEyePosition,axisY),
+		Vector3Dot(reverseEyePosition,axisZ)
+	};
+	
 	//ビュー行列に平行移動成分を設定
-	matView.r[3] = translation;
+	matView.m[3][0] = cameraMoveVal_.x;
+	matView.m[3][1] = cameraMoveVal_.y;
+	matView.m[3][2] = cameraMoveVal_.z;
 }
 
-bool Object3d::Initialize()
-{
+bool Object3d::Initialize(){
 	// nullptrチェック
 	assert(device);
 
@@ -767,21 +759,20 @@ bool Object3d::Initialize()
 	return true;
 }
 
-void Object3d::Update()
-{
+void Object3d::Update(){
 	HRESULT result;
-	XMMATRIX matScale, matRot, matTrans;
+	Matrix4 matScale, matRot, matTrans;
 
 	// スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
-	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
-	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
-	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
-	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
+	matScale = Matrix4Scale(scale);
+	matRot = Matrix4Identity();
+	matRot *= Matrix4RotationZ(ConvertToRadian(rotation.z));
+	matRot *= Matrix4RotationX(ConvertToRadian(rotation.x));
+	matRot *= Matrix4RotationY(ConvertToRadian(rotation.y));
+	matTrans = Matrix4Translation(position);
 
 	// ワールド行列の合成
-	matWorld = XMMatrixIdentity(); // 変形をリセット
+	matWorld = Matrix4Identity(); // 変形をリセット
 	matWorld *= matScale; // ワールド行列にスケーリングを反映
 	matWorld *= matRot; // ワールド行列に回転を反映
 	matWorld *= matTrans; // ワールド行列に平行移動を反映
@@ -808,8 +799,7 @@ void Object3d::Update()
 	constBuffB1->Unmap(0, nullptr);
 }
 
-void Object3d::Draw()
-{
+void Object3d::Draw(){
 	// nullptrチェック
 	assert(device);
 	assert(Object3d::cmdList);
