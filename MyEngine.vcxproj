@@ -149,6 +149,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix4.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ModelBackup.cpp" />
     <ClCompile Include="Object3d.cpp" />
     <ClCompile Include="ObjectBasis.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Matrix4.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelBackup.h" />
     <ClInclude Include="Object3d.h" />
     <ClInclude Include="ObjectBasis.h" />
     <ClInclude Include="SafeDelete.h" />
