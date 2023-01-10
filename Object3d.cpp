@@ -443,7 +443,7 @@ void Object3d::CreateModel()
 	//ファイルストリーム
 	std::ifstream file;
 	//モデル名
-	const string modelname = "triangle_mat";
+	const string modelname = "cube";
 
 	const string filename = modelname + ".obj"; // "modelname.obj"
 	const string directoryPath = "Resource/" + modelname + "/"; // "Resources/modelname/"
@@ -829,7 +829,5 @@ void Object3d::Draw()
 	// シェーダリソースビューをセット
 	cmdList->SetGraphicsRootDescriptorTable(2, gpuDescHandleSRV);
 	// 描画コマンド
-	//cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
-	//インスタンス描画
-	cmdList->DrawIndexedInstanced(indices.size(), 1, 0, 0, 0);
+	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }
