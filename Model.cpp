@@ -11,7 +11,12 @@ using namespace DirectX;
 template <class T>
 using ComPtr = Microsoft::WRL::ComPtr<T>;
 
+//デバイス
 ComPtr<ID3D12Device> Model::device_ = nullptr;
+// デスクリプタサイズ
+UINT Model::descriptorIncrementSize_;
+// デスクリプタヒープ
+ComPtr<ID3D12DescriptorHeap> Model::descHeap_;
 
 Model* Model::LoadFromOBJ() {
 	//インスタンス
