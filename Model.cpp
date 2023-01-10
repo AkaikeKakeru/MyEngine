@@ -8,6 +8,11 @@
 using namespace std;
 using namespace DirectX;
 
+template <class T>
+using ComPtr = Microsoft::WRL::ComPtr<T>;
+
+ComPtr<ID3D12Device> Model::device_ = nullptr;
+
 Model* Model::LoadFromOBJ() {
 	//インスタンス
 	Model* model = new Model();

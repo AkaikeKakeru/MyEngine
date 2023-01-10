@@ -51,9 +51,12 @@ public://静的関数
 private: // 非公開メンバ変数
 	void LoadFromOBJInternal();
 
+public://セッタ
+	static void SetDevice(ID3D12Device* device) { Model::device_ = device; }
+
 private:
 	//デバイス
-	ComPtr<ID3D12Device> device_;
+	static ComPtr<ID3D12Device> device_;
 
 	// 頂点データ配列
 	std::vector<VertexPosNormalUv> vertices_;
