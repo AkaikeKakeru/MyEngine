@@ -64,6 +64,11 @@ private://変数
 	std::vector<ComPtr<ID3D12Resource>> backBuffers_;
 	ComPtr<ID3D12Fence> fence_;
 
+
+	ComPtr<ID3D12Resource> depthBuff_;
+	ComPtr<ID3D12DescriptorHeap> dsvHeap_;
+	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc_ = {};
+
 	/// <summary>
 	/// 重要生成物の設定用
 	/// </summary>

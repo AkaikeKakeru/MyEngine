@@ -10,7 +10,7 @@ private://省略
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 private://構造体
-	//定数バッファ用データ構造体(マテリアル)
+		//定数バッファ用データ構造体(マテリアル)
 	typedef struct ConstBufferDataMaterial {
 		Vector4 color;//色(RGBA)
 	}ConstBufferDataMaterial;
@@ -73,37 +73,42 @@ private://構造体
 		LeftTopFront,//左上
 		RightBottomFront,//右下
 		RightTopFront,//右上
-		//後ろ
-		LeftBottomBack,//左下
-		LeftTopBack,//左上
-		RightBottomBack,//右下
-		RightTopBack,//右上
-		//左
-		LeftBottomLeft,//左下
-		LeftTopLeft,//左上
-		RightBottomLeft,//右下
-		RightTopLeft,//右上
-		//右
-		LeftBottomRight,//左下
-		LeftTopRight,//左上
-		RightBottomRight,//右下
-		RightTopRight,//右上
-		//下
-		LeftBottomBottom,//左下
-		LeftTopBottom,//左上
-		RightBottomBottom,//右下
-		RightTopBottom,//右上
-		//上
-		LeftBottomTop,//左下
-		LeftTopTop,//左上
-		RightBottomTop,//右下
-		RightTopTop,//右上
+					  //後ろ
+					  LeftBottomBack,//左下
+					  LeftTopBack,//左上
+					  RightBottomBack,//右下
+					  RightTopBack,//右上
+								   //左
+								   LeftBottomLeft,//左下
+								   LeftTopLeft,//左上
+								   RightBottomLeft,//右下
+								   RightTopLeft,//右上
+												//右
+												LeftBottomRight,//左下
+												LeftTopRight,//左上
+												RightBottomRight,//右下
+												RightTopRight,//右上
+															  //下
+															  LeftBottomBottom,//左下
+															  LeftTopBottom,//左上
+															  RightBottomBottom,//右下
+															  RightTopBottom,//右上
+																			 //上
+																			 LeftBottomTop,//左下
+																			 LeftTopTop,//左上
+																			 RightBottomTop,//右下
+																			 RightTopTop,//右上
 	}Corner;
 
 public://基本関数
 	void Initialize(ObjectBasis* objBas);
 	void Update();
 	void Draw();
+
+	//カメラ視点移動
+	static void CameraMoveEye(Vector3 move);
+	//ビュー行列再計算
+	static void ReCalcMatView();
 
 private://固有関数
 	void InitWorldTransform();
@@ -125,9 +130,9 @@ private://固有関数
 	void ReCalcMatWorld();
 
 public://アクセス
-	///ゲッタ
+	   ///ゲッタ
 
-	//座標を取得
+	   //座標を取得
 	const Vector3& GetPosition() const { return worldTransform_.position; }
 	//回転を取得
 	const Vector3& GetRotation() const { return worldTransform_.rotation; }
@@ -140,6 +145,9 @@ public://アクセス
 
 	//テクスチャ番号を取得
 	uint32_t GetTextureIndex() const { return textureIndex_; }
+
+	static const Vector3& GetEye() { return viewProjection_.eye; };
+	static const Vector3& GetTarget() { return viewProjection_.target; };
 
 	///セッタ
 
@@ -157,24 +165,29 @@ public://アクセス
 	//テクスチャ番号をセット
 	void SetTextureIndex(uint32_t textureIndex) { textureIndex_ = textureIndex; }
 
+	static void SetEye(const Vector3& eye) {
+		viewProjection_.eye = eye;
+		ReCalcMatView();
+	};
+
 private://定数
-	//三角形頂点数
+		//三角形頂点数
 	static const int kTriangleNum = 3;
 	//面数
 	static const int kSurfaceNum = 6;
 	//頂点数
-	static const int kVerticesNum = 4;// *kSurfaceNum;
-	//インデックス数
-	static const int kIndicesNum = 2 * kTriangleNum;// *kSurfaceNum;
+	static const int kVerticesNum = 4 * kSurfaceNum;
+									  //インデックス数
+	static const int kIndicesNum = 2 * kTriangleNum*kSurfaceNum;
 
 private://メンバ変数
-	//ワールド変換
+		//ワールド変換
 	WorldTransform worldTransform_;
 	//上下左右前後
 	SurfaceDirection dir_;
 
 	//プロジェクション
-	ViewProjection viewProjection_;
+	static ViewProjection viewProjection_;
 
 	//色
 	Vector4 color_ = { 1,1,1,1 };

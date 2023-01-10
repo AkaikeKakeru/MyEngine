@@ -4,6 +4,8 @@
 #include "WinApp.h"
 #include <cassert>
 
+Model::ViewProjection Model::viewProjection_;
+
 void Model::Initialize(ObjectBasis* objBas) {
 	assert(objBas);
 	objBas_ = objBas;
@@ -20,6 +22,10 @@ void Model::Initialize(ObjectBasis* objBas) {
 }
 
 void Model::Update() {
+	CreateVertexBufferView();
+	CreateIndexBufferView();
+	GenerateConstBuffer();
+
 	///値を書き込むと自動的に転送される
 
 	//頂点データをGPUに転送
@@ -135,7 +141,6 @@ void Model::CreateVertexBufferView() {
 
 	//頂点データを設定
 	//前
-	{
 		vertices_[LeftBottomFront].pos = Vector3(dir_.left, dir_.bottom, dir_.front);
 		vertices_[LeftTopFront].pos = Vector3(dir_.left, dir_.top, dir_.front);
 		vertices_[RightBottomFront].pos = Vector3(dir_.right, dir_.bottom, dir_.front);
@@ -145,57 +150,61 @@ void Model::CreateVertexBufferView() {
 		vertices_[LeftTopFront].uv = Vector2(leftUv, topUv);
 		vertices_[RightBottomFront].uv = Vector2(rightUv, bottomUv);
 		vertices_[RightTopFront].uv = Vector2(rightUv, topUv);
-	}
-	////後ろ
-	//{
-	//	vertices_[LeftBottomBack].pos = Vector3(dir_.left, dir_.bottom, dir_.back);
-	//	vertices_[LeftTopBack].pos = Vector3(dir_.left, dir_.top, dir_.back);
-	//	vertices_[RightBottomBack].pos = Vector3(dir_.right, dir_.bottom, dir_.back);
-	//	vertices_[RightTopBack].pos = Vector3(dir_.right, dir_.top, dir_.back);
-	//}
-	////左
-	//{
-	//	vertices_[LeftBottomFront].pos = Vector3(dir_.left, dir_.bottom, dir_.front);
-	//	vertices_[LeftTopFront].pos = Vector3(dir_.left, dir_.bottom, dir_.back);
-	//	vertices_[RightBottomFront].pos = Vector3(dir_.left, dir_.top, dir_.front);
-	//	vertices_[RightTopFront].pos = Vector3(dir_.left, dir_.top, dir_.back);
-	//}
-	////右
-	//{
-	//	vertices_[LeftBottomBack].pos = Vector3(dir_.right, dir_.bottom, dir_.front);
-	//	vertices_[LeftTopBack].pos = Vector3(dir_.right, dir_.bottom, dir_.back);
-	//	vertices_[RightBottomBack].pos = Vector3(dir_.right, dir_.top, dir_.front);
-	//	vertices_[RightTopBack].pos = Vector3(dir_.right, dir_.top, dir_.back);
-	//}
-	////下
-	//{
-	//	vertices_[LeftBottomBottom].pos = Vector3(dir_.left, dir_.bottom, dir_.front);
-	//	vertices_[LeftTopBottom].pos = Vector3(dir_.left, dir_.bottom, dir_.back);
-	//	vertices_[RightBottomBottom].pos = Vector3(dir_.right, dir_.bottom, dir_.front);
-	//	vertices_[RightTopBottom].pos = Vector3(dir_.right, dir_.bottom, dir_.back);
-	//}
-	////上
-	//{
-	//	vertices_[LeftBottomTop].pos = Vector3(dir_.left, dir_.top, dir_.front);
-	//	vertices_[LeftTopTop].pos = Vector3(dir_.left, dir_.top, dir_.back);
-	//	vertices_[RightBottomTop].pos = Vector3(dir_.right, dir_.top, dir_.front);
-	//	vertices_[RightTopTop].pos = Vector3(dir_.right, dir_.top, dir_.back);
-	//}
+	
+	//後ろ
+		vertices_[LeftBottomBack].pos = Vector3(dir_.left, dir_.bottom, dir_.back);
+		vertices_[LeftTopBack].pos = Vector3(dir_.left, dir_.top, dir_.back);
+		vertices_[RightBottomBack].pos = Vector3(dir_.right, dir_.bottom, dir_.back);
+		vertices_[RightTopBack].pos = Vector3(dir_.right, dir_.top, dir_.back);
+	
+		vertices_[LeftBottomBack].uv = Vector2(leftUv, bottomUv);
+		vertices_[LeftTopBack].uv = Vector2(leftUv, topUv);
+		vertices_[RightBottomBack].uv = Vector2(rightUv, bottomUv);
+		vertices_[RightTopBack].uv = Vector2(rightUv, topUv);
 
-	//for (size_t i = 0; i < kVerticesNum; i++) {
-	//	if (i % 4 == 0) {
-	//		vertices_[i].uv = Vector2(leftUv, bottomUv);
-	//	}
-	//	if (i % 4 == 1) {
-	//		vertices_[i].uv = Vector2(leftUv, topUv);
-	//	}
-	//	if (i % 4 == 2) {
-	//		vertices_[i].uv = Vector2(rightUv, bottomUv);
-	//	}
-	//	if (i % 4 == 3) {
-	//		vertices_[i].uv = Vector2(rightUv, topUv);
-	//	}
-	//}
+	//左
+		vertices_[LeftBottomLeft].pos = Vector3(dir_.left, dir_.bottom, dir_.front);
+		vertices_[LeftTopLeft].pos = Vector3(dir_.left, dir_.bottom, dir_.back);
+		vertices_[RightBottomLeft].pos = Vector3(dir_.left, dir_.top, dir_.front);
+		vertices_[RightTopLeft].pos = Vector3(dir_.left, dir_.top, dir_.back);
+	
+		vertices_[LeftBottomLeft].uv = Vector2(leftUv, bottomUv);
+		vertices_[LeftTopLeft].uv = Vector2(leftUv, topUv);
+		vertices_[RightBottomLeft].uv = Vector2(rightUv, bottomUv);
+		vertices_[RightTopLeft].uv = Vector2(rightUv, topUv);
+
+	//右
+		vertices_[LeftBottomRight].pos = Vector3(dir_.right, dir_.bottom, dir_.front);
+		vertices_[LeftTopRight].pos = Vector3(dir_.right, dir_.bottom, dir_.back);
+		vertices_[RightBottomRight].pos = Vector3(dir_.right, dir_.top, dir_.front);
+		vertices_[RightTopRight].pos = Vector3(dir_.right, dir_.top, dir_.back);
+	
+		vertices_[LeftBottomRight].uv = Vector2(leftUv, bottomUv);
+		vertices_[LeftTopRight].uv = Vector2(leftUv, topUv);
+		vertices_[RightBottomRight].uv = Vector2(rightUv, bottomUv);
+		vertices_[RightTopRight].uv = Vector2(rightUv, topUv);
+
+	//下
+		vertices_[LeftBottomBottom].pos = Vector3(dir_.left, dir_.bottom, dir_.front);
+		vertices_[LeftTopBottom].pos = Vector3(dir_.left, dir_.bottom, dir_.back);
+		vertices_[RightBottomBottom].pos = Vector3(dir_.right, dir_.bottom, dir_.front);
+		vertices_[RightTopBottom].pos = Vector3(dir_.right, dir_.bottom, dir_.back);
+	
+		vertices_[LeftBottomBottom].uv = Vector2(leftUv, bottomUv);
+		vertices_[LeftTopBottom].uv = Vector2(leftUv, topUv);
+		vertices_[RightBottomBottom].uv = Vector2(rightUv, bottomUv);
+		vertices_[RightTopBottom].uv = Vector2(rightUv, topUv);
+
+	//上
+		vertices_[LeftBottomTop].pos = Vector3(dir_.left, dir_.top, dir_.front);
+		vertices_[LeftTopTop].pos = Vector3(dir_.left, dir_.top, dir_.back);
+		vertices_[RightBottomTop].pos = Vector3(dir_.right, dir_.top, dir_.front);
+		vertices_[RightTopTop].pos = Vector3(dir_.right, dir_.top, dir_.back);
+	
+		vertices_[LeftBottomTop].uv = Vector2(leftUv, bottomUv);
+		vertices_[LeftTopTop].uv = Vector2(leftUv, topUv);
+		vertices_[RightBottomTop].uv = Vector2(rightUv, bottomUv);
+		vertices_[RightTopTop].uv = Vector2(rightUv, topUv);
 
 	//頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(vertices_[0]) * _countof(vertices_));
@@ -259,21 +268,21 @@ void Model::CreateIndexBufferView() {
 		//前
 		0,1,2,//三角形1つ目
 		1,2,3,//三角形2つ目
-		////後ろ
-		//4,5,6,//三角形3つ目
-		//5,6,7,//三角形4つ目
-		////左
-		//8,9,10,//三角形5つ目
-		//9,10,11,//三角形6つ目
-		////右
-		//12,13,14,//三角形7つ目
-		//13,14,15,//三角形8つ目
-		////下
-		//16,17,18,//三角形9つ目
-		//17,18,19,//三角形10つ目
-		////上
-		//20,21,22,//三角形11つ目
-		//21,22,23,//三角形12つ目
+		//後ろ
+		4,5,6,//三角形3つ目
+		5,6,7,//三角形4つ目
+		//左
+		8,9,10,//三角形5つ目
+		9,10,11,//三角形6つ目
+		//右
+		12,13,14,//三角形7つ目
+		13,14,15,//三角形8つ目
+		//下
+		16,17,18,//三角形9つ目
+		17,18,19,//三角形10つ目
+		//上
+		20,21,22,//三角形11つ目
+		21,22,23,//三角形12つ目
 	};
 
 	for (size_t i = 0; i < _countof(indices_); i++) {
@@ -425,4 +434,36 @@ void Model::ReCalcMatWorld() {
 		Matrix4Rotation(worldTransform_.rotation);
 	worldTransform_.matWorld *=
 		Matrix4Translation(worldTransform_.position);
+}
+
+void Model::ReCalcMatView()
+{
+	Vector3 axisZ_ = Vector3Normalize(viewProjection_.target - viewProjection_.eye);
+	Vector3 axisX_ = Vector3Normalize(Vector3Cross(viewProjection_.up, axisZ_));
+	Vector3 axisY_ = Vector3Cross(axisZ_, axisX_);
+
+	Vector3 cameraMoveVal_ = {
+		Vector3Dot(viewProjection_.eye,axisX_),
+		Vector3Dot(viewProjection_.eye,axisY_),
+		Vector3Dot(viewProjection_.eye,axisZ_)
+	};
+
+	viewProjection_.matView = Matrix4Identity();
+	viewProjection_.matView = {
+		axisX_.x,axisX_.y,axisX_.z,0,
+		axisY_.x,axisY_.y,axisY_.z,0,
+		axisZ_.x,axisZ_.y,axisZ_.z,0,
+		-cameraMoveVal_.x,-cameraMoveVal_.y,-cameraMoveVal_.z,1
+	};
+}
+
+void Model::CameraMoveEye(Vector3 move){
+	Vector3 eye_moved = GetEye();
+	Vector3 target_moved = GetTarget();
+
+	eye_moved.x += move.x;
+	eye_moved.y += move.y;
+	eye_moved.z += move.z;
+
+	SetEye(eye_moved);
 }

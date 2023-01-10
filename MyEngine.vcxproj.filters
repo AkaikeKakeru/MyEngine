@@ -78,6 +78,9 @@
     <ClCompile Include="Model.cpp">
       <Filter>ソース ファイル\Drawer</Filter>
     </ClCompile>
+    <ClCompile Include="Object3d.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXBasis.h">
@@ -122,6 +125,9 @@
     <ClInclude Include="Model.h">
       <Filter>ヘッダー ファイル\Drawer</Filter>
     </ClInclude>
+    <ClInclude Include="Object3d.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resource\shader\SpriteVS.hlsl">
@@ -136,12 +142,21 @@
     <FxCompile Include="Resource\shader\ModelVS.hlsl">
       <Filter>シェーダ ファイル</Filter>
     </FxCompile>
+    <FxCompile Include="Resource\shader\ObjPS.hlsl">
+      <Filter>シェーダ ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resource\shader\ObjVS.hlsl">
+      <Filter>シェーダ ファイル</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\shader\Sprite.hlsli">
       <Filter>シェーダ ファイル</Filter>
     </None>
     <None Include="Resource\shader\Model.hlsli">
+      <Filter>シェーダ ファイル</Filter>
+    </None>
+    <None Include="Resource\shader\Obj.hlsli">
       <Filter>シェーダ ファイル</Filter>
     </None>
   </ItemGroup>

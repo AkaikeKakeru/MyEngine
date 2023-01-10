@@ -18,7 +18,7 @@ void DirectXBasis::Initialize(WinApp* winApp) {
 	InitCommand();
 	InitSwapChain();
 	InitRenderTargetView();
-	//InitDepthBuffer();
+	InitDepthBuffer();
 	InitFence();
 }
 
@@ -201,8 +201,8 @@ void DirectXBasis::InitDepthBuffer() {
 	//深度リソース設定
 	D3D12_RESOURCE_DESC depthResDesc{};
 	depthResDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	depthResDesc.Width = winApp_->Win_Width;
-	depthResDesc.Height = winApp_->Win_Height;
+	depthResDesc.Width = WinApp::Win_Width;
+	depthResDesc.Height = WinApp::Win_Height;
 	depthResDesc.DepthOrArraySize = 1;
 	depthResDesc.Format = DXGI_FORMAT_D32_FLOAT;
 	depthResDesc.SampleDesc.Count = 1;
@@ -217,14 +217,13 @@ void DirectXBasis::InitDepthBuffer() {
 	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;
 
 	//リソース生成
-	ComPtr<ID3D12Resource> depthBuff;
 	result = device_->CreateCommittedResource(
 		&depthHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&depthResDesc,
 		D3D12_RESOURCE_STATE_DEPTH_WRITE,
 		&depthClearValue,
-		IID_PPV_ARGS(&depthBuff));
+		IID_PPV_ARGS(&depthBuff_));
 #pragma endregion
 
 #pragma region 深度デスクリプタヒープ
@@ -232,17 +231,15 @@ void DirectXBasis::InitDepthBuffer() {
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
 	dsvHeapDesc.NumDescriptors = 1;
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
-	ComPtr<ID3D12DescriptorHeap> dsvHeap;
-	result = device_->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
+	result = device_->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap_));
 
 	//深度ビュー作成
-	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
-	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
-	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	dsvDesc_.Format = DXGI_FORMAT_D32_FLOAT;
+	dsvDesc_.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 	device_->CreateDepthStencilView(
-		depthBuff.Get(),
-		&dsvDesc,
-		dsvHeap.Get()->GetCPUDescriptorHandleForHeapStart());
+		depthBuff_.Get(),
+		&dsvDesc_,
+		dsvHeap_.Get()->GetCPUDescriptorHandleForHeapStart());
 #pragma endregion
 }
 
@@ -270,13 +267,15 @@ void DirectXBasis::PreDraw() {
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle =
 		rtvHeap_->GetCPUDescriptorHandleForHeapStart();
 	rtvHandle.ptr += bbIndex * device_->GetDescriptorHandleIncrementSize(rtvHeapDesc_.Type);
-	cmdList_->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap_->GetCPUDescriptorHandleForHeapStart();
+	cmdList_->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
 #pragma endregion
 
 #pragma region 画面クリアコマンド
 	///3.画面クリア            R,     G,    B,    A
 	FLOAT clearColor[] = { 0.1f, 0.25f, 0.5f, 0.0f };
 	cmdList_->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+	cmdList_->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 #pragma endregion
 
 	///4.描画コマンドスタート↓
