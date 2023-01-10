@@ -10,6 +10,8 @@
 #include "Vector3.h"
 #include "Vector4.h"
 
+#include "Model.h"
+
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>
@@ -240,6 +242,9 @@ public: // メンバ関数
 	/// <param name="position">座標</param>
 	void SetPosition(const Vector3& position) { this->position = position; }
 
+	//モデルセッタ
+	void SetModel(Model* model) { model_ = model; }
+
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 	ComPtr<ID3D12Resource> constBuffB1; // 定数バッファ
@@ -255,4 +260,7 @@ private: // メンバ変数
 	Matrix4 matWorld;
 	// 親オブジェクト
 	Object3d* parent = nullptr;
+
+	//モデル
+	Model* model_ = nullptr;
 };

@@ -1,8 +1,12 @@
 #pragma once
-#include "Object3d.h"
+//#include "Object3d.h"
 #include "Matrix4.h"
 #include "Vector3.h"
 #include "Vector4.h"
+#include <wrl.h>
+#include "Vector2.h"
+#include <d3d12.h>
+#include <d3dx12.h>
 
 class Model {
 private://省略
@@ -35,7 +39,7 @@ private://構造体
 	};
 
 public://関数
-	Model* LoadFromOBJ();
+	static Model* LoadFromOBJ();
 
 	/// <summary>
 	/// テクスチャ読み込み

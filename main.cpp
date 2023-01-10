@@ -39,18 +39,13 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	//オブジェクト基盤
 	Object3d::StaticInitialize(dxBas_->GetDevice().Get(), WinApp::Win_Width, WinApp::Win_Height);
-		 
-	//ObjectBasis* objectBas_ = nullptr;
-	//objectBas_ = ObjectBasis::GetInstance();
-	//objectBas_->Initialize();
 
-	//objectBas_->LoadTexture(0, "texture.png");
 
 	//オブジェクトモデル
-	Object3d* model_ = Object3d::Create();
+	Model* model_ = Model::LoadFromOBJ();
+	Object3d* object3d_ = Object3d::Create();
 
-	//Model* model_ = new Model();
-	//model_->Initialize(objectBas_);
+	object3d_->SetModel(model_);
 
 	//描画基盤
 	DrawBasis* drawBas_ = nullptr;
@@ -109,7 +104,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		//	else if (input_->PressKey(DIK_A)) { Model::CameraMoveEye({ -1.0f,0.0f,0.0f }); }
 		//}
 
-		model_->Update();
+		object3d_->Update();
 
 		//pos = sprite_->GetPosition();
 		//if (input_->PressMouse(LeftButton)) {
@@ -144,7 +139,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		//モデル本命処理
 		Object3d::PreDraw(dxBas_->GetCommandList().Get());
 		
-		model_->Draw();
+		object3d_->Draw();
 		
 		Object3d::PostDraw();
 
@@ -166,6 +161,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	}
 
 	/// 解放
+	SafeDelete(object3d_);
 	SafeDelete(model_);
 
 	//SafeDelete(sprite_);
