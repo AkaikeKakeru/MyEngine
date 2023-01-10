@@ -1,5 +1,4 @@
 #pragma once
-//#include "Object3d.h"
 #include "Matrix4.h"
 #include "Vector3.h"
 #include "Vector4.h"
@@ -19,6 +18,16 @@ private://構造体
 		Vector3 pos; // xyz座標
 		Vector3 normal; // 法線ベクトル
 		Vector2 uv;  // uv座標
+	};
+
+	// 定数バッファ用データ構造体B1
+	struct ConstBufferDataMaterial{
+		Vector3 ambient;	//アンビエント係数
+		float pad1;			//パディング
+		Vector3 diffuse;	//ディフューズ係数
+		float pad2;			//パディング
+		Vector3 specular;	//スペキュラー係数
+		float alpha;		//アルファ
 	};
 
 	//マテリアル
@@ -52,10 +61,15 @@ public://関数
 	/// </summary>
 	void LoadMaterial(const std::string& directoryPath,const std::string& filename);
 
+	//描画
+	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial);
+
 private: // 非公開メンバ関数
 	void LoadFromOBJInternal();
 	//デスクリプタヒープの初期化
 	void InitializeDescriptorHeap();
+	//バッファ生成
+	void CreateBaffers();
 
 public://セッタ
 	static void SetDevice(ID3D12Device* device) { Model::device_ = device; }
@@ -67,10 +81,26 @@ private:
 	static UINT descriptorIncrementSize_;
 	// デスクリプタヒープ
 	static ComPtr<ID3D12DescriptorHeap> descHeap_;
+	// シェーダリソースビューのハンドル(CPU)
+	static CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV_;
+	// シェーダリソースビューのハンドル(GPU)
+	static CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV_;
+
+	// 頂点バッファ
+	static ComPtr<ID3D12Resource> vertBuff_;
+	// インデックスバッファ
+	static ComPtr<ID3D12Resource> indexBuff_;
+	// 頂点バッファビュー
+	static D3D12_VERTEX_BUFFER_VIEW vbView_;
+	// インデックスバッファビュー
+	static D3D12_INDEX_BUFFER_VIEW ibView_;
+	// 定数バッファマテリアル
+	ComPtr<ID3D12Resource> constBuffMaterial_;
+
 	// 頂点データ配列
-	std::vector<VertexPosNormalUv> vertices_;
+	static std::vector<VertexPosNormalUv> vertices_;
 	// 頂点インデックス配列
-	std::vector<unsigned short> indices_;
+	static std::vector<unsigned short> indices_;
 
 	// テクスチャバッファ
 	ComPtr<ID3D12Resource> texbuff_;
