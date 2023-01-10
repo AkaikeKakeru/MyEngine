@@ -42,7 +42,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 
 	//オブジェクトモデル
-	Model* model_ = Model::LoadFromOBJ();
+	Model* model_ = Model::LoadFromOBJ("cube");
 	Object3d* object3d_ = Object3d::Create();
 
 	object3d_->SetModel(model_);
@@ -79,30 +79,28 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 		//オブジェクト更新
 
-		// //オブジェクト移動
-		//if (input_->PressKey(DIK_UP) || input_->PressKey(DIK_DOWN) || input_->PressKey(DIK_RIGHT) || input_->PressKey(DIK_LEFT))
-		//{
-		//	// 現在の座標を取得
-		//	Vector3 position = model_->GetPosition();
+		 //オブジェクト移動
+		if (input_->PressKey(DIK_UP) || input_->PressKey(DIK_DOWN) || input_->PressKey(DIK_RIGHT) || input_->PressKey(DIK_LEFT)){
+			// 現在の座標を取得
+			Vector3 position = object3d_->GetPosition();
 
-		//	// 移動後の座標を計算
-		//	if (input_->PressKey(DIK_UP)) { position.y += 1.0f; }
-		//	else if (input_->PressKey(DIK_DOWN)) { position.y -= 1.0f; }
-		//	if (input_->PressKey(DIK_RIGHT)) { position.x += 1.0f; }
-		//	else if (input_->PressKey(DIK_LEFT)) { position.x -= 1.0f; }
+			// 移動後の座標を計算
+			if (input_->PressKey(DIK_UP)) { position.y += 1.0f; }
+			else if (input_->PressKey(DIK_DOWN)) { position.y -= 1.0f; }
+			if (input_->PressKey(DIK_RIGHT)) { position.x += 1.0f; }
+			else if (input_->PressKey(DIK_LEFT)) { position.x -= 1.0f; }
 
-		//	// 座標の変更を反映
-		//	model_->SetPosition(position);
-		//}
+			// 座標の変更を反映
+			object3d_->SetPosition(position);
+		}
 
-		//// カメラ移動
-		//if (input_->PressKey(DIK_W) || input_->PressKey(DIK_S) || input_->PressKey(DIK_D) || input_->PressKey(DIK_A))
-		//{
-		//	if (input_->PressKey(DIK_W)) { Model::CameraMoveEye({ 0.0f,+1.0f,0.0f }); }
-		//	else if (input_->PressKey(DIK_S)) { Model::CameraMoveEye({ 0.0f,-1.0f,0.0f }); }
-		//	if (input_->PressKey(DIK_D)) { Model::CameraMoveEye({ +1.0f,0.0f,0.0f }); }
-		//	else if (input_->PressKey(DIK_A)) { Model::CameraMoveEye({ -1.0f,0.0f,0.0f }); }
-		//}
+		// カメラ移動
+		if (input_->PressKey(DIK_W) || input_->PressKey(DIK_S) || input_->PressKey(DIK_D) || input_->PressKey(DIK_A)){
+			if (input_->PressKey(DIK_W)) { Object3d::CameraMoveEyeVector({ 0.0f,+1.0f,0.0f }); }
+			else if (input_->PressKey(DIK_S)) { Object3d::CameraMoveEyeVector({ 0.0f,-1.0f,0.0f }); }
+			if (input_->PressKey(DIK_D)) { Object3d::CameraMoveEyeVector({ +1.0f,0.0f,0.0f }); }
+			else if (input_->PressKey(DIK_A)) { Object3d::CameraMoveEyeVector({ -1.0f,0.0f,0.0f }); }
+		}
 
 		object3d_->Update();
 
