@@ -48,7 +48,7 @@ private://構造体
 	};
 
 public://関数
-	static Model* LoadFromOBJ();
+	static Model* LoadFromOBJ(const std::string& modelname);
 
 	/// <summary>
 	/// テクスチャ読み込み
@@ -65,7 +65,7 @@ public://関数
 	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial);
 
 private: // 非公開メンバ関数
-	void LoadFromOBJInternal();
+	void LoadFromOBJInternal(const std::string& modelname);
 	//デスクリプタヒープの初期化
 	void InitializeDescriptorHeap();
 	//バッファ生成

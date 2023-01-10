@@ -35,7 +35,7 @@ std::vector<Model::VertexPosNormalUv> Model::vertices_;
 // 頂点インデックス配列
 std::vector<unsigned short> Model::indices_;
 
-Model* Model::LoadFromOBJ() {
+Model* Model::LoadFromOBJ(const std::string& modelname) {
 	//インスタンス
 	Model* model = new Model();
 
@@ -43,7 +43,7 @@ Model* Model::LoadFromOBJ() {
 	model->InitializeDescriptorHeap();
 
 	//読み込み
-	model->LoadFromOBJInternal();
+	model->LoadFromOBJInternal(modelname);
 	
 	//バッファ生成
 	model->CreateBaffers();
@@ -51,11 +51,11 @@ Model* Model::LoadFromOBJ() {
 	return model;
 }
 
-void Model::LoadFromOBJInternal(){
+void Model::LoadFromOBJInternal(const std::string& modelname){
 	//ファイルストリーム
 	std::ifstream file;
 	//モデル名
-	const string modelname = "cube";
+	//const string modelname = "cube";
 	const string filename = modelname + ".obj"; // "modelname.obj"
 	const string directoryPath = "Resource/" + modelname + "/"; // "Resources/modelname/"
 
