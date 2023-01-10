@@ -17,6 +17,9 @@ Model* Model::LoadFromOBJ() {
 	//インスタンス
 	Model* model = new Model();
 
+	//デスクリプタヒープの生成
+	model->InitializeDescriptorHeap();
+
 	//読み込み
 	model->LoadFromOBJInternal();
 	
@@ -32,7 +35,7 @@ void Model::LoadFromOBJInternal(){
 	const string filename = modelname + ".obj"; // "modelname.obj"
 	const string directoryPath = "Resource/" + modelname + "/"; // "Resources/modelname/"
 
-																//objファイルを開く
+	//objファイルを開く
 	file.open(directoryPath + filename);
 
 	//ファイルオープンの失敗を確認
@@ -118,8 +121,7 @@ void Model::LoadFromOBJInternal(){
 	file.close();
 }
 
-
-bool Model::LoadTexture(const std::string& directoryPath, const std::string filename) {
+void Model::LoadTexture(const std::string& directoryPath, const std::string filename) {
 	HRESULT result = S_FALSE;
 
 	TexMetadata metadata{};
@@ -187,8 +189,6 @@ bool Model::LoadTexture(const std::string& directoryPath, const std::string file
 		);
 		assert(SUCCEEDED(result));
 	}
-
-	return 0;
 }
 void Model::LoadMaterial(const std::string& directoryPath, const std::string& filename) {
 	//ファイルストリーム
@@ -247,4 +247,21 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 			LoadTexture(directoryPath, material_.textureFilename);
 		}
 	}
+}
+
+void Model::InitializeDescriptorHeap(){
+	HRESULT result = S_FALSE;
+
+	// デスクリプタヒープを生成	
+	D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
+	descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//シェーダから見えるように
+	descHeapDesc.NumDescriptors = 1; // シェーダーリソースビュー1つ
+	result = device_->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap_));//生成
+	if (FAILED(result)) {
+		assert(0);
+	}
+
+	// デスクリプタサイズを取得
+	descriptorIncrementSize_ = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 }

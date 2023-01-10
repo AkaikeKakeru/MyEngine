@@ -34,22 +34,24 @@ private://構造体
 		}
 	};
 
-public://静的関数
+public://関数
 	Model* LoadFromOBJ();
 
 	/// <summary>
 	/// テクスチャ読み込み
 	/// </summary>
 	/// <returns>成否</returns>
-	bool LoadTexture(const std::string& directoryPath, const std::string filename);
+	void LoadTexture(const std::string& directoryPath, const std::string filename);
 
 	/// <summary>
 	/// マテリアル読み込み
 	/// </summary>
 	void LoadMaterial(const std::string& directoryPath,const std::string& filename);
 
-private: // 非公開メンバ変数
+private: // 非公開メンバ関数
 	void LoadFromOBJInternal();
+	//デスクリプタヒープの初期化
+	void InitializeDescriptorHeap();
 
 public://セッタ
 	static void SetDevice(ID3D12Device* device) { Model::device_ = device; }
@@ -57,7 +59,10 @@ public://セッタ
 private:
 	//デバイス
 	static ComPtr<ID3D12Device> device_;
-
+	// デスクリプタサイズ
+	static UINT descriptorIncrementSize_;
+	// デスクリプタヒープ
+	static ComPtr<ID3D12DescriptorHeap> descHeap_;
 	// 頂点データ配列
 	std::vector<VertexPosNormalUv> vertices_;
 	// 頂点インデックス配列
