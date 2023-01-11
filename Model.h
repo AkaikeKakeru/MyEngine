@@ -12,7 +12,7 @@ private://省略
 	template <class T>
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-private://構造体
+public://構造体
 	// 頂点データ構造体
 	struct VertexPosNormalUv{
 		Vector3 pos; // xyz座標
@@ -54,12 +54,12 @@ public://関数
 	/// テクスチャ読み込み
 	/// </summary>
 	/// <returns>成否</returns>
-	void LoadTexture(const std::string& directoryPath, const std::string filename);
+	static void LoadTexture(const std::string& directoryPath, const std::string filename);
 
 	/// <summary>
 	/// マテリアル読み込み
 	/// </summary>
-	void LoadMaterial(const std::string& directoryPath,const std::string& filename);
+	static void LoadMaterial(const std::string& directoryPath,const std::string& filename);
 
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial);
@@ -95,7 +95,7 @@ private:
 	// インデックスバッファビュー
 	static D3D12_INDEX_BUFFER_VIEW ibView_;
 	// 定数バッファマテリアル
-	ComPtr<ID3D12Resource> constBuffMaterial_;
+	static ComPtr<ID3D12Resource> constBuffMaterial_;
 
 	// 頂点データ配列
 	static std::vector<VertexPosNormalUv> vertices_;
@@ -103,7 +103,7 @@ private:
 	static std::vector<unsigned short> indices_;
 
 	// テクスチャバッファ
-	ComPtr<ID3D12Resource> texbuff_;
+	static ComPtr<ID3D12Resource> texbuff_;
 	//マテリアル
-	Material material_;
+	static Material material_;
 };

@@ -26,7 +26,6 @@ ID3D12GraphicsCommandList* Object3d::cmdList = nullptr;
 ComPtr<ID3D12RootSignature> Object3d::rootsignature;
 ComPtr<ID3D12PipelineState> Object3d::pipelinestate;
 ComPtr<ID3D12DescriptorHeap> Object3d::descHeap;
-ComPtr<ID3D12Resource> Object3d::texbuff;
 Matrix4 Object3d::matView{};
 Matrix4 Object3d::matProjection{};
 Vector3 Object3d::eye = { 0, 0, -50.0f };

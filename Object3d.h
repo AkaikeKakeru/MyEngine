@@ -143,8 +143,6 @@ private: // 静的メンバ変数
 	static ComPtr<ID3D12PipelineState> pipelinestate;
 	// デスクリプタヒープ
 	static ComPtr<ID3D12DescriptorHeap> descHeap;
-	// テクスチャバッファ
-	static ComPtr<ID3D12Resource> texbuff;
 	// ビュー行列
 	static Matrix4 matView;
 	// 射影行列

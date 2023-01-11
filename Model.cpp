@@ -35,6 +35,13 @@ std::vector<Model::VertexPosNormalUv> Model::vertices_;
 // 頂点インデックス配列
 std::vector<unsigned short> Model::indices_;
 
+// 定数バッファマテリアル
+ComPtr<ID3D12Resource> Model::constBuffMaterial_;
+// テクスチャバッファ
+ComPtr<ID3D12Resource> Model::texbuff_;
+
+Model::Material Model::material_;
+
 Model* Model::LoadFromOBJ(const std::string& modelname) {
 	//インスタンス
 	Model* model = new Model();
@@ -55,7 +62,6 @@ void Model::LoadFromOBJInternal(const std::string& modelname){
 	//ファイルストリーム
 	std::ifstream file;
 	//モデル名
-	//const string modelname = "cube";
 	const string filename = modelname + ".obj"; // "modelname.obj"
 	const string directoryPath = "Resource/" + modelname + "/"; // "Resources/modelname/"
 
@@ -68,7 +74,7 @@ void Model::LoadFromOBJInternal(const std::string& modelname){
 	vector<Vector3>positions;//頂点座標
 	vector<Vector3>normals;//法線ベクトル
 	vector<Vector2>texcoords;//テクスチャUV
-							 //1行ずつ読み込む
+	//1行ずつ読み込む
 	string line;
 	while (getline(file, line)) {
 		//1行分の文字列をストリームに変換して解析しやすくする
@@ -387,15 +393,18 @@ void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial
 	cmdList->IASetVertexBuffers(0, 1, &vbView_);
 	// インデックスバッファの設定
 	cmdList->IASetIndexBuffer(&ibView_);
-	// 定数バッファビューをセット
-	cmdList->SetGraphicsRootConstantBufferView(1, constBuffMaterial_->GetGPUVirtualAddress());
+	// 定数バッファビューマテリアルをセット
+	cmdList->SetGraphicsRootConstantBufferView(rootParamIndexMaterial,
+		constBuffMaterial_->GetGPUVirtualAddress());
 
 	//デスクリプタヒープの配列
 	ID3D12DescriptorHeap* ppHeaps[] = { descHeap_.Get() };
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
-	// シェーダリソースビューをセット
-	cmdList->SetGraphicsRootDescriptorTable(2, gpuDescHandleSRV_);
+	if (material_.textureFilename.size() > 0) {
+		// シェーダリソースビューをセット
+		cmdList->SetGraphicsRootDescriptorTable(2, gpuDescHandleSRV_);
+	}
 	// 描画コマンド
 	cmdList->DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
 }

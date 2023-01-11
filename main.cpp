@@ -40,12 +40,28 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	//オブジェクト基盤
 	Object3d::StaticInitialize(dxBas_->GetDevice().Get(), WinApp::Win_Width, WinApp::Win_Height);
 
-
 	//オブジェクトモデル
 	Model* model_ = Model::LoadFromOBJ("cube");
+	Model* model_2 = Model::LoadFromOBJ("triangle_mat");
+	
+	Model* modelSkydome_ = Model::LoadFromOBJ("skydome");
+	Model* modelGround_ = Model::LoadFromOBJ("ground");
+
 	Object3d* object3d_ = Object3d::Create();
+	Object3d* object3d_2 = Object3d::Create();
+
+	Object3d* skydome_ = Object3d::Create();
+
+	Object3d* ground_ = Object3d::Create();
 
 	object3d_->SetModel(model_);
+	object3d_2->SetModel(model_2);
+
+	skydome_->SetModel(modelSkydome_);
+	ground_->SetModel(modelGround_);
+
+	object3d_->SetPosition({ -5.0f, 0.0f, -5.0f });
+	object3d_->SetPosition({ +5.0f, 0.0f, +5.0f });
 
 	//描画基盤
 	DrawBasis* drawBas_ = nullptr;
@@ -103,6 +119,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		}
 
 		object3d_->Update();
+		object3d_2->Update();
 
 		//pos = sprite_->GetPosition();
 		//if (input_->PressMouse(LeftButton)) {
@@ -137,7 +154,11 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		//モデル本命処理
 		Object3d::PreDraw(dxBas_->GetCommandList().Get());
 		
+		skydome_->Draw();
+		ground_->Draw();
+
 		object3d_->Draw();
+		object3d_2->Draw();
 		
 		Object3d::PostDraw();
 
@@ -159,8 +180,12 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	}
 
 	/// 解放
+	SafeDelete(skydome_);
+	SafeDelete(ground_);
 	SafeDelete(object3d_);
+	SafeDelete(object3d_2);
 	SafeDelete(model_);
+	SafeDelete(model_2);
 
 	//SafeDelete(sprite_);
 	//SafeDelete(sprite2_);
