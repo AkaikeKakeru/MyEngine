@@ -84,6 +84,9 @@
     <ClCompile Include="ModelBackup.cpp">
       <Filter>ソース ファイル\Drawer</Filter>
     </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>ソース ファイル\Drawer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXBasis.h">
@@ -132,6 +135,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ModelBackup.h">
+      <Filter>ヘッダー ファイル\Drawer</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
       <Filter>ヘッダー ファイル\Drawer</Filter>
     </ClInclude>
   </ItemGroup>
