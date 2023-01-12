@@ -34,6 +34,12 @@
     <Filter Include="シェーダ ファイル">
       <UniqueIdentifier>{9dfe84fe-8119-4607-8b00-8390a5a2a8e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Camera">
+      <UniqueIdentifier>{263692b1-64c5-4e18-8f83-4803e03f94eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Camera">
+      <UniqueIdentifier>{3a8c286b-1d43-4233-9db6-08b215d75bec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,9 +50,6 @@
     </ClCompile>
     <ClCompile Include="WinApp.cpp">
       <Filter>ソース ファイル\base</Filter>
-    </ClCompile>
-    <ClCompile Include="FixFPS.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="DrawBasis.cpp">
       <Filter>ソース ファイル\Drawer</Filter>
@@ -66,9 +69,6 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>ソース ファイル\Drawer</Filter>
     </ClCompile>
-    <ClCompile Include="Degree.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>ソース ファイル\base</Filter>
     </ClCompile>
@@ -78,14 +78,23 @@
     <ClCompile Include="Model.cpp">
       <Filter>ソース ファイル\Drawer</Filter>
     </ClCompile>
-    <ClCompile Include="Object3d.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="ModelBackup.cpp">
       <Filter>ソース ファイル\Drawer</Filter>
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
       <Filter>ソース ファイル\Drawer</Filter>
+    </ClCompile>
+    <ClCompile Include="Object3d.cpp">
+      <Filter>ソース ファイル\Drawer</Filter>
+    </ClCompile>
+    <ClCompile Include="FixFPS.cpp">
+      <Filter>ソース ファイル\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Degree.cpp">
+      <Filter>ソース ファイル\math</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewProjection.cpp">
+      <Filter>ソース ファイル\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,9 +106,6 @@
     </ClInclude>
     <ClInclude Include="WinApp.h">
       <Filter>ヘッダー ファイル\base</Filter>
-    </ClInclude>
-    <ClInclude Include="FixFPS.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="DrawBasis.h">
       <Filter>ヘッダー ファイル\Drawer</Filter>
@@ -131,14 +137,20 @@
     <ClInclude Include="Model.h">
       <Filter>ヘッダー ファイル\Drawer</Filter>
     </ClInclude>
-    <ClInclude Include="Object3d.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ModelBackup.h">
       <Filter>ヘッダー ファイル\Drawer</Filter>
     </ClInclude>
     <ClInclude Include="TextureManager.h">
       <Filter>ヘッダー ファイル\Drawer</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3d.h">
+      <Filter>ヘッダー ファイル\Drawer</Filter>
+    </ClInclude>
+    <ClInclude Include="FixFPS.h">
+      <Filter>ヘッダー ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewProjection.h">
+      <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
