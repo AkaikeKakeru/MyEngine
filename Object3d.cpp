@@ -26,11 +26,8 @@ ID3D12GraphicsCommandList* Object3d::cmdList = nullptr;
 ComPtr<ID3D12RootSignature> Object3d::rootsignature;
 ComPtr<ID3D12PipelineState> Object3d::pipelinestate;
 ComPtr<ID3D12DescriptorHeap> Object3d::descHeap;
-Matrix4 Object3d::matView{};
-Matrix4 Object3d::matProjection{};
-Vector3 Object3d::eye = { 0, 0, -50.0f };
-Vector3 Object3d::target = { 0, 0, 0 };
-Vector3 Object3d::up = { 0, 1, 0 };
+
+ViewProjection Object3d::viewProjection_;
 
 void Object3d::StaticInitialize(ID3D12Device* device, int window_width, int window_height){
 	// nullptrチェック
@@ -38,6 +35,8 @@ void Object3d::StaticInitialize(ID3D12Device* device, int window_width, int wind
 
 	Object3d::device = device;
 	Model::SetDevice(device);
+
+	viewProjection_.Initialize();
 
 	// カメラ初期化
 	InitializeCamera(window_width, window_height);
@@ -89,13 +88,13 @@ Object3d* Object3d::Create(){
 }
 
 void Object3d::SetEye(Vector3 eye){
-	Object3d::eye = eye;
+	Object3d::viewProjection_.camera_.eye_ = eye;
 
 	UpdateViewMatrix();
 }
 
 void Object3d::SetTarget(Vector3 target){
-	Object3d::target = target;
+	Object3d::viewProjection_.camera_.target_ = target;
 
 	UpdateViewMatrix();
 }
@@ -131,20 +130,15 @@ void Object3d::InitializeCamera(int window_width, int window_height){
 	//ビュー行列の計算
 	UpdateViewMatrix();
 
-	float angle = ConvertToRadian(45.0f);
-	float aspect = (float)WinApp::Win_Width / WinApp::Win_Height;
-	float nearClip = 0.1f;
-	float farClip = 1000.0f;
-
 	Vector4 pers = {
-		1 / (static_cast<float>(tan(angle / 2))) / aspect,
-		1 / (static_cast<float>(tan(angle / 2))),
-		1 / (farClip - nearClip) * farClip,
-		-nearClip / (farClip - nearClip) * farClip,
+		1 / (static_cast<float>(tan(viewProjection_.angle_ / 2))) / viewProjection_.aspect_,
+		1 / (static_cast<float>(tan(viewProjection_.angle_ / 2))),
+		1 / (viewProjection_.farClip_ - viewProjection_.nearClip_) * viewProjection_.farClip_,
+		-viewProjection_.nearClip_ / (viewProjection_.farClip_ - viewProjection_.nearClip_) * viewProjection_.farClip_,
 	};
 
-	matProjection = Matrix4Identity();
-	matProjection = {
+	viewProjection_.matProjection_ = Matrix4Identity();
+	viewProjection_.matProjection_ = {
 		pers.x,0,0,0,
 		0,pers.y,0,0,
 		0,0,pers.z,1,
@@ -300,19 +294,18 @@ void Object3d::InitializeGraphicsPipeline(){
 	// グラフィックスパイプラインの生成
 	result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelinestate));
 	assert(SUCCEEDED(result));
-
 }
 
 void Object3d::UpdateViewMatrix(){
 	//視点座標
-	Vector3 eyePosition = eye;
+	Vector3 eyePosition = viewProjection_.camera_.eye_;
 	//注視点座標
-	Vector3 targetPosition = target;
+	Vector3 targetPosition = viewProjection_.camera_.target_;
 	//(仮の)上方向
-	Vector3 upVector = up;
+	Vector3 upVector = viewProjection_.camera_.up_;
 
-	Vector3 axisZ = Vector3Normalize(target - eye);
-	Vector3 axisX = Vector3Normalize(Vector3Cross(up, axisZ));
+	Vector3 axisZ = Vector3Normalize(viewProjection_.camera_.target_ - viewProjection_.camera_.eye_);
+	Vector3 axisX = Vector3Normalize(Vector3Cross(viewProjection_.camera_.up_, axisZ));
 	Vector3 axisY = Vector3Cross(axisZ, axisX);
 
 	//カメラ回転行列
@@ -326,7 +319,7 @@ void Object3d::UpdateViewMatrix(){
 	};
 
 	//転置により逆行列(逆回転)を計算
-	matView = Matrix4Transposed(matCameraRot);
+	viewProjection_.matView_ = Matrix4Transposed(matCameraRot);
 
 	//視点座標に-1を掛けた座標
 	Vector3 reverseEyePosition = eyePosition * -1;
@@ -338,9 +331,9 @@ void Object3d::UpdateViewMatrix(){
 	};
 	
 	//ビュー行列に平行移動成分を設定
-	matView.m[3][0] = cameraMoveVal_.x;
-	matView.m[3][1] = cameraMoveVal_.y;
-	matView.m[3][2] = cameraMoveVal_.z;
+	viewProjection_.matView_.m[3][0] = cameraMoveVal_.x;
+	viewProjection_.matView_.m[3][1] = cameraMoveVal_.y;
+	viewProjection_.matView_.m[3][2] = cameraMoveVal_.z;
 }
 
 bool Object3d::Initialize(){
@@ -355,18 +348,6 @@ bool Object3d::Initialize(){
 	CD3DX12_RESOURCE_DESC resourceDesc =
 		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB0) + 0xff) & ~0xff);
 
-	//HRESULT result;
-
-	//// 定数バッファの生成
-	//result = device->CreateCommittedResource(
-	//	&heapProps, // アップロード可能
-	//	D3D12_HEAP_FLAG_NONE,
-	//	&resourceDesc,
-	//	D3D12_RESOURCE_STATE_GENERIC_READ, 
-	//	nullptr,
-	//	IID_PPV_ARGS(&constBuffB0));
-	//assert(SUCCEEDED(result));
-
 	// リソース設定
 	resourceDesc =
 		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB1) + 0xff) & ~0xff);
@@ -376,27 +357,6 @@ bool Object3d::Initialize(){
 
 void Object3d::Update(){
 	HRESULT result;
-	//Matrix4 matScale, matRot, matTrans;
-
-	//// スケール、回転、平行移動行列の計算
-	//matScale = Matrix4Scale(scale);
-	//matRot = Matrix4Identity();
-	//matRot *= Matrix4RotationZ(ConvertToRadian(rotation.z));
-	//matRot *= Matrix4RotationX(ConvertToRadian(rotation.x));
-	//matRot *= Matrix4RotationY(ConvertToRadian(rotation.y));
-	//matTrans = Matrix4Translation(position);
-
-	//// ワールド行列の合成
-	//matWorld = Matrix4Identity(); // 変形をリセット
-	//matWorld *= matScale; // ワールド行列にスケーリングを反映
-	//matWorld *= matRot; // ワールド行列に回転を反映
-	//matWorld *= matTrans; // ワールド行列に平行移動を反映
-
-	//// 親オブジェクトがあれば
-	//if (parent != nullptr) {
-	//	// 親オブジェクトのワールド行列を掛ける
-	//	matWorld *= parent->matWorld;
-	//}
 
 	worldTransform_.UpdateMatrix();
 
@@ -409,8 +369,8 @@ void Object3d::Update(){
 	// 行列の合成
 	worldTransform_.constMap_->mat_ = 
 		worldTransform_.matWorld_ 
-		* matView 
-		* matProjection;	
+		* viewProjection_.matView_
+		* viewProjection_.matProjection_;	
 	worldTransform_.constBuff_->Unmap(0, nullptr);
 }
 

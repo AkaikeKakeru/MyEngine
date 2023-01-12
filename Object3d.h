@@ -13,6 +13,7 @@
 #include "Model.h"
 
 #include "WorldTransform.h"
+#include "ViewProjection.h"
 
 /// <summary>
 /// 3Dオブジェクト
@@ -102,7 +103,7 @@ public: // 静的メンバ関数
 	/// 視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	static const Vector3& GetEye() { return eye; }
+	static const Vector3& GetEye() { return viewProjection_.camera_.eye_; }
 
 	/// <summary>
 	/// 視点座標の設定
@@ -114,7 +115,7 @@ public: // 静的メンバ関数
 	/// 注視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	static const Vector3& GetTarget() { return target; }
+	static const Vector3& GetTarget() { return viewProjection_.camera_.target_; }
 
 	/// <summary>
 	/// 注視点座標の設定
@@ -145,16 +146,9 @@ private: // 静的メンバ変数
 	static ComPtr<ID3D12PipelineState> pipelinestate;
 	// デスクリプタヒープ
 	static ComPtr<ID3D12DescriptorHeap> descHeap;
-	// ビュー行列
-	static Matrix4 matView;
-	// 射影行列
-	static Matrix4 matProjection;
-	// 視点座標
-	static Vector3 eye;
-	// 注視点座標
-	static Vector3 target;
-	// 上方向ベクトル
-	static Vector3 up;
+
+	//ビュープロジェクション
+	static ViewProjection viewProjection_;
 
 private:// 静的メンバ関数
 	/// <summary>
@@ -203,20 +197,10 @@ public: // メンバ関数
 	void SetModel(Model* model) { model_ = model; }
 
 private: // メンバ変数
-	//ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 	// 色
 	Vector4 color = { 1,1,1,1 };
-	//// ローカルスケール
-	//Vector3 scale = { 1,1,1 };
-	//// X,Y,Z軸回りのローカル回転角
-	//Vector3 rotation = { 0,0,0 };
-	//// ローカル座標
-	//Vector3 position = { 0,0,0 };
-	//// ローカルワールド変換行列
-	//Matrix4 matWorld = {};
-	//// 親オブジェクト
-	//Object3d* parent = nullptr;
 
+	//ワールドトランスフォーム
 	WorldTransform worldTransform_;
 
 	//モデル
