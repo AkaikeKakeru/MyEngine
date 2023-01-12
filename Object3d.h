@@ -12,6 +12,8 @@
 
 #include "Model.h"
 
+#include "WorldTransform.h"
+
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>
@@ -189,31 +191,33 @@ public: // メンバ関数
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const Vector3& GetPosition() const { return position; }
+	const Vector3& GetPosition() const { return worldTransform_.position_; }
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(const Vector3& position) { this->position = position; }
+	void SetPosition(const Vector3& position) { this->worldTransform_.position_ = position; }
 
 	//モデルセッタ
 	void SetModel(Model* model) { model_ = model; }
 
 private: // メンバ変数
-	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
+	//ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 	// 色
 	Vector4 color = { 1,1,1,1 };
-	// ローカルスケール
-	Vector3 scale = { 1,1,1 };
-	// X,Y,Z軸回りのローカル回転角
-	Vector3 rotation = { 0,0,0 };
-	// ローカル座標
-	Vector3 position = { 0,0,0 };
-	// ローカルワールド変換行列
-	Matrix4 matWorld = {};
-	// 親オブジェクト
-	Object3d* parent = nullptr;
+	//// ローカルスケール
+	//Vector3 scale = { 1,1,1 };
+	//// X,Y,Z軸回りのローカル回転角
+	//Vector3 rotation = { 0,0,0 };
+	//// ローカル座標
+	//Vector3 position = { 0,0,0 };
+	//// ローカルワールド変換行列
+	//Matrix4 matWorld = {};
+	//// 親オブジェクト
+	//Object3d* parent = nullptr;
+
+	WorldTransform worldTransform_;
 
 	//モデル
 	Model* model_ = nullptr;

@@ -83,7 +83,7 @@ Object3d* Object3d::Create(){
 
 	//スケールのセット
 	float scale_val = 5;
-	object3d->scale = { scale_val,scale_val,scale_val };
+	object3d->worldTransform_.scale_ = { scale_val,scale_val,scale_val };
 
 	return object3d;
 }
@@ -347,23 +347,25 @@ bool Object3d::Initialize(){
 	// nullptrチェック
 	assert(device);
 
-	// ヒーププロパティ
-	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	worldTransform_.Initialize();
+
+	//// ヒーププロパティ
+	//CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 	// リソース設定
 	CD3DX12_RESOURCE_DESC resourceDesc =
 		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB0) + 0xff) & ~0xff);
 
-	HRESULT result;
+	//HRESULT result;
 
-	// 定数バッファの生成
-	result = device->CreateCommittedResource(
-		&heapProps, // アップロード可能
-		D3D12_HEAP_FLAG_NONE,
-		&resourceDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ, 
-		nullptr,
-		IID_PPV_ARGS(&constBuffB0));
-	assert(SUCCEEDED(result));
+	//// 定数バッファの生成
+	//result = device->CreateCommittedResource(
+	//	&heapProps, // アップロード可能
+	//	D3D12_HEAP_FLAG_NONE,
+	//	&resourceDesc,
+	//	D3D12_RESOURCE_STATE_GENERIC_READ, 
+	//	nullptr,
+	//	IID_PPV_ARGS(&constBuffB0));
+	//assert(SUCCEEDED(result));
 
 	// リソース設定
 	resourceDesc =
@@ -374,34 +376,42 @@ bool Object3d::Initialize(){
 
 void Object3d::Update(){
 	HRESULT result;
-	Matrix4 matScale, matRot, matTrans;
+	//Matrix4 matScale, matRot, matTrans;
 
-	// スケール、回転、平行移動行列の計算
-	matScale = Matrix4Scale(scale);
-	matRot = Matrix4Identity();
-	matRot *= Matrix4RotationZ(ConvertToRadian(rotation.z));
-	matRot *= Matrix4RotationX(ConvertToRadian(rotation.x));
-	matRot *= Matrix4RotationY(ConvertToRadian(rotation.y));
-	matTrans = Matrix4Translation(position);
+	//// スケール、回転、平行移動行列の計算
+	//matScale = Matrix4Scale(scale);
+	//matRot = Matrix4Identity();
+	//matRot *= Matrix4RotationZ(ConvertToRadian(rotation.z));
+	//matRot *= Matrix4RotationX(ConvertToRadian(rotation.x));
+	//matRot *= Matrix4RotationY(ConvertToRadian(rotation.y));
+	//matTrans = Matrix4Translation(position);
 
-	// ワールド行列の合成
-	matWorld = Matrix4Identity(); // 変形をリセット
-	matWorld *= matScale; // ワールド行列にスケーリングを反映
-	matWorld *= matRot; // ワールド行列に回転を反映
-	matWorld *= matTrans; // ワールド行列に平行移動を反映
+	//// ワールド行列の合成
+	//matWorld = Matrix4Identity(); // 変形をリセット
+	//matWorld *= matScale; // ワールド行列にスケーリングを反映
+	//matWorld *= matRot; // ワールド行列に回転を反映
+	//matWorld *= matTrans; // ワールド行列に平行移動を反映
 
-	// 親オブジェクトがあれば
-	if (parent != nullptr) {
-		// 親オブジェクトのワールド行列を掛ける
-		matWorld *= parent->matWorld;
-	}
+	//// 親オブジェクトがあれば
+	//if (parent != nullptr) {
+	//	// 親オブジェクトのワールド行列を掛ける
+	//	matWorld *= parent->matWorld;
+	//}
+
+	worldTransform_.UpdateMatrix();
 
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap0 = nullptr;
-	result = constBuffB0->Map(0, nullptr, (void**)&constMap0);
+	result = worldTransform_.constBuff_->Map(0, nullptr, (void**)&constMap0);
+	
 	//constMap->color = color;
-	constMap0->mat = matWorld * matView * matProjection;	// 行列の合成
-	constBuffB0->Unmap(0, nullptr);
+	
+	// 行列の合成
+	worldTransform_.constMap_->mat_ = 
+		worldTransform_.matWorld_ 
+		* matView 
+		* matProjection;	
+	worldTransform_.constBuff_->Unmap(0, nullptr);
 }
 
 void Object3d::Draw(){
@@ -412,7 +422,7 @@ void Object3d::Draw(){
 	if (model_ == nullptr) return;
 
 	// 定数バッファビューをセット
-	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(0, worldTransform_.constBuff_->GetGPUVirtualAddress());
 
 	model_->Draw(cmdList, 1);
 }
