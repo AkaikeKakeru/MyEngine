@@ -69,17 +69,18 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	drawBas_->Initialize();
 
 	drawBas_->LoadTexture(0, "smile.png");
+	drawBas_->LoadTexture(1, "texture.png");
 
 	//描画スプライト
-	//Sprite* sprite_ = new Sprite();
-	//sprite_->Initialize(drawBas_);
+	Sprite* sprite_ = new Sprite();
+	sprite_->Initialize(drawBas_);
 
-	//Sprite* sprite2_ = new Sprite();
-	//sprite2_->Initialize(drawBas_);
+	Sprite* sprite2_ = new Sprite();
+	sprite2_->Initialize(drawBas_);
 
-	//Sprite* sprite3_ = new Sprite();
-	//sprite3_->Initialize(drawBas_);
-
+	Sprite* sprite3_ = new Sprite();
+	sprite3_->Initialize(drawBas_);
+	sprite3_->SetTextureIndex(1);
 	/// ゲームループ
 	while (true) {
 		//windowsのメッセージ処理
@@ -121,31 +122,31 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		object3d_->Update();
 		object3d_2->Update();
 
-		//pos = sprite_->GetPosition();
-		//if (input_->PressMouse(LeftButton)) {
-		//	pos.x += 2.0f;
-		//}
-		//sprite_->SetPosition(pos);
-		//sprite_->SetRotation(ConvertToRadian(45.0f));
-		//sprite_->SetColor(Vector4(0.5f, 1.0f, 0.2f, 0.4f));
-		//sprite_->SetSize(Vector2(80, 120));
-		//sprite_->SetIsFlipX(true);
-		//sprite_->Update();
+		pos = sprite_->GetPosition();
+		if (input_->PressMouse(LeftButton)) {
+			pos.x += 2.0f;
+		}
+		sprite_->SetPosition(pos);
+		sprite_->SetRotation(ConvertToRadian(45.0f));
+		sprite_->SetColor(Vector4(0.5f, 1.0f, 0.2f, 0.4f));
+		sprite_->SetSize(Vector2(80, 120));
+		sprite_->SetIsFlipX(true);
+		sprite_->Update();
 
-		//pos = sprite2_->GetPosition();
-		//if (input_->TriggerMouse(CenterButton)
-		//	|| input_->PressMouse(RightButton)) {
-		//	pos.y += 2.0f;
-		//}
-		//sprite2_->SetPosition(pos);
-		//sprite2_->SetColor(Vector4(0.8f, 0.2f, 0.5f, 0.9f));
-		//sprite2_->SetSize(Vector2(140, 50));
-		//sprite2_->SetIsFlipY(true);
-		//sprite2_->Update();
+		pos = sprite2_->GetPosition();
+		if (input_->TriggerMouse(CenterButton)
+			|| input_->PressMouse(RightButton)) {
+			pos.y += 2.0f;
+		}
+		sprite2_->SetPosition(pos);
+		sprite2_->SetColor(Vector4(0.8f, 0.2f, 0.5f, 0.9f));
+		sprite2_->SetSize(Vector2(140, 50));
+		sprite2_->SetIsFlipY(true);
+		sprite2_->Update();
 
-		//sprite3_->SetPosition(input_->GetMousePosition());
-		//sprite3_->SetAnchorPoint(Vector2(0.5f, 0.5f));
-		//sprite3_->Update();
+		sprite3_->SetPosition(input_->GetMousePosition());
+		sprite3_->SetAnchorPoint(Vector2(0.5f, 0.5f));
+		sprite3_->Update();
 
 		/// 描画
 		//描画前処理
@@ -169,9 +170,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		//スプライト本命処理
 		drawBas_->PreDraw();
 
-		//sprite_->Draw();
-		//sprite2_->Draw();
-		//sprite3_->Draw();
+		sprite_->Draw();
+		sprite2_->Draw();
+		sprite3_->Draw();
 
 		drawBas_->PostDraw();
 
@@ -187,9 +188,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	SafeDelete(model_);
 	SafeDelete(model_2);
 
-	//SafeDelete(sprite_);
-	//SafeDelete(sprite2_);
-	//SafeDelete(sprite3_);
+	SafeDelete(sprite_);
+	SafeDelete(sprite2_);
+	SafeDelete(sprite3_);
 
 	//SafeDelete(drawBas_);
 	//SafeDelete(dxBas_);
