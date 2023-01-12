@@ -96,6 +96,9 @@
     <ClCompile Include="ViewProjection.cpp">
       <Filter>ソース ファイル\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="WorldTransform.cpp">
+      <Filter>ソース ファイル\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXBasis.h">
@@ -150,6 +153,9 @@
       <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
     <ClInclude Include="ViewProjection.h">
+      <Filter>ヘッダー ファイル\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldTransform.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
   </ItemGroup>
