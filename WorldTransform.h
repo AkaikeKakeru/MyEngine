@@ -25,7 +25,7 @@ public:
 	// 座標
 	Vector3 position_ = {0, 0, 0};
 	// ワールド変換行列
-	Matrix4 matWorld_;
+	Matrix4 matWorld_ = {};
 	// 親へのポインタ
 	WorldTransform* parent_ = nullptr;
 

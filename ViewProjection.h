@@ -48,18 +48,17 @@ public:
 	void UpdateViewMatrix();
 
 	// ビュー行列
-	Matrix4 matView_;
+	Matrix4 matView_ = {};
 	// 射影行列
-	Matrix4 matProjection_;
+	Matrix4 matProjection_ ={};
 	//垂直視野角
-	float angle_;
+	float angle_ = 0.0f;
 	//アスペクト比
-	float aspect_;
+	float aspect_ = 0.0f;
 	//ニアクリップ
-	float nearClip_;
+	float nearClip_ = 0.0f;
 	//ファークリップ
-	float farClip_;
-
+	float farClip_ = 0.0f;
 	//カメラデータ
 	CameraData camera_;
 
