@@ -27,6 +27,10 @@ struct ConstBufferDataViewProjection {
 };
 
 struct ViewProjection {
+private: // エイリアス
+	// Microsoft::WRL::を省略
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+public:
 	//初期化
 	void Initialize();
 
@@ -60,7 +64,7 @@ struct ViewProjection {
 	CameraData camera_;
 
 	// 定数バッファ
-	Microsoft::WRL::ComPtr<ID3D12Resource> constBuff_;
+	ComPtr<ID3D12Resource> constBuff_;
 	// マッピング済みアドレス
 	ConstBufferDataViewProjection* constMap_ = nullptr;
 };
