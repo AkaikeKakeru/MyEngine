@@ -49,8 +49,11 @@ void DrawBasis::PreDraw() {
 }
 
 void DrawBasis::SetTextureCommand(uint32_t textureIndex){
-	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
+	////SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap_->GetGPUDescriptorHandleForHeapStart();
+	for (size_t i = 0; i <  textureIndex; i++){
+		srvGpuHandle.ptr += incrementSize_;
+	}
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	cmdList_->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 }
@@ -145,6 +148,7 @@ void DrawBasis::CreateGraphicsPipeline() {
 	AssembleGraphicsPipeline();
 	GenerateRootSignature();
 	GeneratePipelineState();
+	GenerateDescriptorHeap();
 }
 
 void DrawBasis::AssembleGraphicsPipeline() {
@@ -309,13 +313,6 @@ void DrawBasis::LoadTexture(uint32_t textureIndex, const std::string& fileName) 
 		CP_ACP, 0, fullPath.c_str(), -1, wfilePath.data(), filePathBufferSize);
 
 	GenerateTextureBuffer(textureIndex,wfilePath.data());
-	GenerateDescriptorHeap();
-	//SRVヒープの先頭アドレスを取得
-	srvHandle_ = srvHeap_->GetCPUDescriptorHandleForHeapStart();
-
-	for (size_t i = 0; i < textureIndex; i++){
-		srvHandle_.ptr += incrementSize_;
-	}
 	CreateShaderResourceView(textureIndex);
 }
 
@@ -406,8 +403,15 @@ void DrawBasis::GenerateDescriptorHeap() {
 }
 
 void DrawBasis::CreateShaderResourceView(uint32_t textureIndex) {
+	//SRVヒープの先頭アドレスを取得
+	srvHandle_ = srvHeap_->GetCPUDescriptorHandleForHeapStart();
+	for (size_t i = 0; i < textureIndex; i++){
+		srvHandle_.ptr += incrementSize_;
+	}
 	//シェーダーリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//設定構造体
+	texResDesc_ = texBuffs_[textureIndex]->GetDesc();
+
 	srvDesc.Format = texResDesc_.Format;//RGBA float
 	srvDesc.Shader4ComponentMapping =
 		D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -415,7 +419,10 @@ void DrawBasis::CreateShaderResourceView(uint32_t textureIndex) {
 		srvDesc.Texture2D.MipLevels = texResDesc_.MipLevels;
 
 	//ハンドルの指す位置にシェーダーリソースビュー作成
-	device_->CreateShaderResourceView(texBuffs_[textureIndex].Get(), &srvDesc, srvHandle_);
+	device_->CreateShaderResourceView(
+		texBuffs_[textureIndex].Get(),
+		&srvDesc,
+		srvHandle_);
 }
 
 DrawBasis* DrawBasis::GetInstance() {
