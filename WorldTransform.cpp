@@ -26,9 +26,13 @@ void WorldTransform::CreateConstBuffer() {
 		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataWorldTransform) + 0xff) & ~0xff);
 
 	// 定数バッファの生成
-	result = DirectXBasis::GetInstance()->GetDevice()->CreateCommittedResource(
+	result = DirectXBasis::GetInstance()->GetDevice()->
+		CreateCommittedResource(
 		&heapProps, // アップロード可能
-		D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
+		D3D12_HEAP_FLAG_NONE,
+		&resourceDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
 		IID_PPV_ARGS(&constBuff_));
 	assert(SUCCEEDED(result));
 }
