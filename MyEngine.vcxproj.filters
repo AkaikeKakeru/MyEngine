@@ -34,10 +34,10 @@
     <Filter Include="シェーダ ファイル">
       <UniqueIdentifier>{9dfe84fe-8119-4607-8b00-8390a5a2a8e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Camera">
+    <Filter Include="ソース ファイル\ConstBuffer">
       <UniqueIdentifier>{263692b1-64c5-4e18-8f83-4803e03f94eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Camera">
+    <Filter Include="ヘッダー ファイル\ConstBuffer">
       <UniqueIdentifier>{3a8c286b-1d43-4233-9db6-08b215d75bec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -94,10 +94,13 @@
       <Filter>ソース ファイル\math</Filter>
     </ClCompile>
     <ClCompile Include="ViewProjection.cpp">
-      <Filter>ソース ファイル\Camera</Filter>
+      <Filter>ソース ファイル\ConstBuffer</Filter>
     </ClCompile>
     <ClCompile Include="WorldTransform.cpp">
-      <Filter>ソース ファイル\Camera</Filter>
+      <Filter>ソース ファイル\ConstBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>ソース ファイル\ConstBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -153,10 +156,13 @@
       <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
     <ClInclude Include="ViewProjection.h">
-      <Filter>ヘッダー ファイル\Camera</Filter>
+      <Filter>ヘッダー ファイル\ConstBuffer</Filter>
     </ClInclude>
     <ClInclude Include="WorldTransform.h">
-      <Filter>ヘッダー ファイル\Camera</Filter>
+      <Filter>ヘッダー ファイル\ConstBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>ヘッダー ファイル\ConstBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
