@@ -85,6 +85,10 @@ public://アクセス
 	bool GetIsFlipY() const { return isFlipY_; }
 	//非表示フラグを取得
 	bool GetIsInvisible() const { return isInvisible_; }
+	//テクスチャ左上座標を取得
+	const Vector2& GetTextureLeftTop() const { return textureLeftTop_; }
+	//テクスチャ左上座標を取得
+	const Vector2& GetTextureSize() const { return textureSize_; }
 
 	//テクスチャ番号を取得
 	uint32_t GetTextureIndex() const { return textureIndex_; }
@@ -107,6 +111,10 @@ public://アクセス
 	void SetIsFlipY(bool isFlipY) { isFlipY_ = isFlipY; }
 	//非表示フラグをセット
 	void SetIsInvisible(bool isInvisible) { isInvisible_ = isInvisible; }
+	//テクスチャ左上座標をセット
+	void SetTextureLeftTop(const Vector2& textureLeftTop) { textureLeftTop_ = textureLeftTop; }
+	//テクスチャ左上座標をセット
+	void SetTextureSize(const Vector2& textureSize) { textureSize_ = textureSize; }
 
 	//テクスチャ番号をセット
 	void SetTextureIndex(uint32_t textureIndex) { textureIndex_ = textureIndex; }
@@ -133,6 +141,10 @@ private://メンバ変数
 	bool isFlipY_ = false;
 	//非表示フラグ
 	bool isInvisible_ = false;
+	//テクスチャ左上座標
+	Vector2 textureLeftTop_ = { 0.0f,0.0f };
+	//テクスチャ切り出しサイズ
+	Vector2 textureSize_ = { 100.0f,100.0f };
 
 	//平行投影変換行列
 	Matrix4 matOrtGrapricProjection_;
