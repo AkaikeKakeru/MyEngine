@@ -21,6 +21,7 @@ public://構造体
 	}MouseButtonNum;
 
 public://関数
+	void Run();
 	void Initialize();
 	void Update();
 	void Draw();

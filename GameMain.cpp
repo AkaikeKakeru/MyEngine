@@ -1,5 +1,28 @@
 #include "GameMain.h"
 
+void GameMain::Run(){
+	/// 初期化
+	Initialize();
+
+	/// ゲームループ
+	while (true) {
+		/// 更新
+		Update();
+
+		//windowsのメッセージ処理
+		if (winApp_->ProcessMessage()) {
+			//ゲームループを抜ける
+			//isEndRequest_ = true;
+			break;
+		}
+
+		/// 描画
+		Draw();
+	}
+
+	Finalize();
+}
+
 void GameMain::Initialize(){
 	///基盤初期化
 	//アプリケーション
@@ -54,11 +77,6 @@ void GameMain::Initialize(){
 }
 
 void GameMain::Update(){
-	//windowsのメッセージ処理
-	if (winApp_->ProcessMessage()) {
-		//ゲームループを抜ける
-		isEndRequest_ = true;
-	}
 
 	/// 更新
 	input_->Update();
