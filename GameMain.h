@@ -11,6 +11,7 @@
 #include "Degree.h"
 #include "TitleScene.h"
 #include "GamePlayScene.h"
+#include "SceneManager.h"
 
 class GameMain {
 public://構造体
@@ -36,6 +37,6 @@ private://変数
 	bool isEndRequest_ = false;
 
 	//シーン
-	TitleScene* scene_ = nullptr;
-	//GamePlayScene* scene_ = nullptr;
+	BaseScene* scene_ = nullptr;
+	SceneManager* sceneManager_ = nullptr;
 };

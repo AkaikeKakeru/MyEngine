@@ -38,22 +38,26 @@ void GameMain::Initialize(){
 	input_->Initialize();
 
 	//シーン
-	//scene_ = new GamePlayScene();
+	sceneManager_ = new SceneManager();
+
+	//最初のシーン
 	scene_ = new TitleScene();
 	scene_->Initialize();
+
+	//シーンマネージャーにセット
+	sceneManager_->SetNextScene(scene_);
 }
 
 void GameMain::Update(){
-
 	/// 更新
-	scene_->Update();
+	sceneManager_->Update();
 }
 
 void GameMain::Draw(){
 	//描画前処理
 	dxBas_->PreDraw();
 
-	scene_->Draw();
+	sceneManager_->Draw();
 
 	//描画後処理
 	dxBas_->PostDraw();
@@ -62,6 +66,4 @@ void GameMain::Draw(){
 void GameMain::Finalize(){
 	/// 解放
 	scene_->Finalize();
-
-	delete scene_;
 }
