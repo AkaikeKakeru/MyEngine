@@ -49,7 +49,7 @@ private://構造体
 	}VerticesParts;
 
 public://基本関数
-	void Initialize(DrawBasis* drawBas);
+	void Initialize(DrawBasis* drawBas,uint32_t textureIndex = UINT32_MAX);
 	void Update();
 	void Draw();
 
@@ -90,7 +90,7 @@ public://アクセス
 	bool GetIsInvisible() const { return isInvisible_; }
 	//テクスチャ左上座標を取得
 	const Vector2& GetTextureLeftTop() const { return textureLeftTop_; }
-	//テクスチャ左上座標を取得
+	//テクスチャ範囲を取得
 	const Vector2& GetTextureSize() const { return textureSize_; }
 
 	//テクスチャ番号を取得
@@ -116,7 +116,7 @@ public://アクセス
 	void SetIsInvisible(bool isInvisible) { isInvisible_ = isInvisible; }
 	//テクスチャ左上座標をセット
 	void SetTextureLeftTop(const Vector2& textureLeftTop) { textureLeftTop_ = textureLeftTop; }
-	//テクスチャ左上座標をセット
+	//テクスチャ範囲をセット
 	void SetTextureSize(const Vector2& textureSize) { textureSize_ = textureSize; }
 
 	//テクスチャ番号をセット

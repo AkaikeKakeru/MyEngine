@@ -4,11 +4,19 @@
 #include "WinApp.h"
 #include <cassert>
 
-void Sprite::Initialize(DrawBasis* drawBas) {
+void Sprite::Initialize(DrawBasis* drawBas,uint32_t textureIndex) {
 	assert(drawBas);
 	drawBas_ = drawBas;
 	device_ = drawBas_->GetDevice();
 	cmdList_ = drawBas_->GetCommandList();
+
+	//テクスチャサイズをイメージに合わせる
+	if (textureIndex != UINT32_MAX) {
+		textureIndex_ = textureIndex;
+		AdjustTextureSize();
+		//テクスチャサイズをスプライトのサイズに適用
+		size_ = textureSize_;
+	}
 
 	worldTransform_.scale = { 1,1,1 };
 	worldTransform_.rotation = ConvertToRadian(0.0f);
