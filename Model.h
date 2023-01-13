@@ -54,12 +54,12 @@ public://関数
 	/// テクスチャ読み込み
 	/// </summary>
 	/// <returns>成否</returns>
-	static void LoadTexture(const std::string& directoryPath, const std::string filename);
+	void LoadTexture(const std::string& directoryPath, const std::string filename);
 
 	/// <summary>
 	/// マテリアル読み込み
 	/// </summary>
-	static void LoadMaterial(const std::string& directoryPath,const std::string& filename);
+	void LoadMaterial(const std::string& directoryPath,const std::string& filename);
 
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial);
@@ -80,30 +80,30 @@ private:
 	// デスクリプタサイズ
 	static UINT descriptorIncrementSize_;
 	// デスクリプタヒープ
-	static ComPtr<ID3D12DescriptorHeap> descHeap_;
+	ComPtr<ID3D12DescriptorHeap> descHeap_;
 	// シェーダリソースビューのハンドル(CPU)
-	static CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV_;
+	CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV_;
 	// シェーダリソースビューのハンドル(GPU)
-	static CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV_;
+	CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV_;
 
 	// 頂点バッファ
-	static ComPtr<ID3D12Resource> vertBuff_;
+	ComPtr<ID3D12Resource> vertBuff_;
 	// インデックスバッファ
-	static ComPtr<ID3D12Resource> indexBuff_;
+	ComPtr<ID3D12Resource> indexBuff_;
 	// 頂点バッファビュー
-	static D3D12_VERTEX_BUFFER_VIEW vbView_;
+	D3D12_VERTEX_BUFFER_VIEW vbView_;
 	// インデックスバッファビュー
-	static D3D12_INDEX_BUFFER_VIEW ibView_;
+	D3D12_INDEX_BUFFER_VIEW ibView_;
 	// 定数バッファマテリアル
-	static ComPtr<ID3D12Resource> constBuffMaterial_;
+	ComPtr<ID3D12Resource> constBuffMaterial_;
 
 	// 頂点データ配列
-	static std::vector<VertexPosNormalUv> vertices_;
+	std::vector<VertexPosNormalUv> vertices_;
 	// 頂点インデックス配列
-	static std::vector<unsigned short> indices_;
+	std::vector<unsigned short> indices_;
 
 	// テクスチャバッファ
-	static ComPtr<ID3D12Resource> texbuff_;
+	ComPtr<ID3D12Resource> texbuff_;
 	//マテリアル
-	static Material material_;
+	Material material_;
 };

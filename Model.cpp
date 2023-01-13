@@ -15,32 +15,6 @@ using ComPtr = Microsoft::WRL::ComPtr<T>;
 ComPtr<ID3D12Device> Model::device_ = nullptr;
 // デスクリプタサイズ
 UINT Model::descriptorIncrementSize_;
-// デスクリプタヒープ
-ComPtr<ID3D12DescriptorHeap> Model::descHeap_;
-// シェーダリソースビューのハンドル(CPU)
-CD3DX12_CPU_DESCRIPTOR_HANDLE Model::cpuDescHandleSRV_;
-// シェーダリソースビューのハンドル(GPU)
-CD3DX12_GPU_DESCRIPTOR_HANDLE Model::gpuDescHandleSRV_;
-
-// 頂点バッファ
-ComPtr<ID3D12Resource> Model::vertBuff_;
-// インデックスバッファ
-ComPtr<ID3D12Resource> Model::indexBuff_;
-// 頂点バッファビュー
-D3D12_VERTEX_BUFFER_VIEW Model::vbView_;
-// インデックスバッファビュー
-D3D12_INDEX_BUFFER_VIEW Model::ibView_;
-// 頂点データ配列
-std::vector<Model::VertexPosNormalUv> Model::vertices_;
-// 頂点インデックス配列
-std::vector<unsigned short> Model::indices_;
-
-// 定数バッファマテリアル
-ComPtr<ID3D12Resource> Model::constBuffMaterial_;
-// テクスチャバッファ
-ComPtr<ID3D12Resource> Model::texbuff_;
-
-Model::Material Model::material_;
 
 Model* Model::LoadFromOBJ(const std::string& modelname) {
 	//インスタンス
