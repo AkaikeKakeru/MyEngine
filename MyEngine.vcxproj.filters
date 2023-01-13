@@ -40,6 +40,12 @@
     <Filter Include="ヘッダー ファイル\ConstBuffer">
       <UniqueIdentifier>{3a8c286b-1d43-4233-9db6-08b215d75bec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game">
+      <UniqueIdentifier>{54875764-5be1-47a8-a8ba-ed8f73c65333}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game">
+      <UniqueIdentifier>{081e5067-28d1-4bb0-93d5-a8532d1f7312}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -102,6 +108,9 @@
     <ClCompile Include="Material.cpp">
       <Filter>ソース ファイル\ConstBuffer</Filter>
     </ClCompile>
+    <ClCompile Include="GameMain.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXBasis.h">
@@ -163,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>ヘッダー ファイル\ConstBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMain.h">
+      <Filter>ヘッダー ファイル\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
