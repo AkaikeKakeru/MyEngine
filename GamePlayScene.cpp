@@ -15,14 +15,17 @@ void GamePlayScene::Initialize(){
 	model_2 = Model::LoadFromOBJ("triangle_mat");
 	modelSkydome_ = Model::LoadFromOBJ("skydome");
 	modelGround_ = Model::LoadFromOBJ("ground");
+	modelPlane_ = Model::LoadFromOBJ("plane");
 
 	object3d_ = Object3d::Create();
 	object3d_2 = Object3d::Create();
 	skydome_ = Object3d::Create();
 	ground_ = Object3d::Create();
+	plane_ = Object3d::Create();
 
 	object3d_->SetModel(model_);
 	object3d_2->SetModel(model_2);
+	plane_->SetModel(modelPlane_);
 
 	skydome_->SetModel(modelSkydome_);
 	ground_->SetModel(modelGround_);
@@ -78,6 +81,7 @@ void GamePlayScene::Update(){
 	ground_->Update();
 	object3d_->Update();
 	object3d_2->Update();
+	plane_->Update();
 
 	pos = sprite_->GetPosition();
 	if (input_->PressMouse(LeftButton)) {
@@ -117,6 +121,7 @@ void GamePlayScene::Draw(){
 
 	object3d_2->Draw();
 	object3d_->Draw();
+	plane_->Draw();
 
 	Object3d::PostDraw();
 
@@ -139,6 +144,9 @@ void GamePlayScene::Finalize(){
 	SafeDelete(model_2);
 	SafeDelete(modelSkydome_);
 	SafeDelete(modelGround_);
+
+	SafeDelete(plane_);
+	SafeDelete(modelPlane_);
 
 	SafeDelete(sprite_);
 	SafeDelete(sprite2_);

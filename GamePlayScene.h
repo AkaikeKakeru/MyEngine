@@ -7,6 +7,9 @@
 #include "Sprite.h"
 #include "Object3d.h"
 
+#include "TitleScene.h"
+#include "SceneManager.h"
+
 class GamePlayScene : public BaseScene{
 public://構造体
 	  //マウスボタン
@@ -31,10 +34,14 @@ private:
 	Model* modelSkydome_ = nullptr;
 	Model* modelGround_ = nullptr;
 
+	Model* modelPlane_ = nullptr;
+
 	Object3d* object3d_ = nullptr;
 	Object3d* object3d_2 = nullptr;
 	Object3d* skydome_ = nullptr;
 	Object3d* ground_ = nullptr;
+
+	Object3d* plane_ = nullptr;
 
 	/// <summary>
 	/// スプライト
@@ -47,4 +54,7 @@ private:
 	Sprite* sprite_ = new Sprite();
 	Sprite* sprite2_ = new Sprite();
 	Sprite* sprite3_ = new Sprite();
+
+	//シーン
+	SceneManager* sceneManager_ = nullptr;
 };

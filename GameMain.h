@@ -9,11 +9,10 @@
 #include "Sprite.h"
 #include "Object3d.h"
 #include "Degree.h"
-#include "TitleScene.h"
 #include "GamePlayScene.h"
-#include "SceneManager.h"
+#include "Framework.h"
 
-class GameMain {
+class GameMain :public FrameworkΓ{
 public://構造体
 	//マウスボタン
 	typedef enum MouseButtonNum {
@@ -23,19 +22,11 @@ public://構造体
 	}MouseButtonNum;
 
 public://関数
-	void Run();
-	void Initialize();
-	void Update();
-	void Draw();
-	void Finalize();
-	bool IsEndRequest() { return isEndRequest_; };
+	void Initialize() override;
+	void Update() override;
+	void Draw() override;
+	void Finalize() override;
+
 private://変数
-	WinApp* winApp_ = nullptr;
-	DirectXBasis* dxBas_ = nullptr;
-	Input* input_ = nullptr;
-
-	bool isEndRequest_ = false;
-
-	//シーン
-	SceneManager* sceneManager_ = nullptr;
+	BaseScene* scene_ = nullptr;
 };

@@ -149,6 +149,7 @@
     <ClCompile Include="DirectXBasis.cpp" />
     <ClCompile Include="DrawBasis.cpp" />
     <ClCompile Include="FixFPS.cpp" />
+    <ClCompile Include="Framework.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="GamePlayScene.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="DirectXBasis.h" />
     <ClInclude Include="DrawBasis.h" />
     <ClInclude Include="FixFPS.h" />
+    <ClInclude Include="Framework.h" />
     <ClInclude Include="GameMain.h" />
     <ClInclude Include="GamePlayScene.h" />
     <ClInclude Include="Input.h" />

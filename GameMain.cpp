@@ -1,68 +1,32 @@
 #include "GameMain.h"
 
-void GameMain::Run(){
-	/// 初期化
-	Initialize();
-
-	/// ゲームループ
-	while (true) {
-		/// 更新
-		Update();
-
-		//windowsのメッセージ処理
-		if (winApp_->ProcessMessage()) {
-			//ゲームループを抜ける
-			//isEndRequest_ = true;
-			break;
-		}
-
-		/// 描画
-		Draw();
-	}
-
-	Finalize();
-}
-
 void GameMain::Initialize(){
-	///基盤初期化
-	//アプリケーション
-	winApp_ = WinApp::GetInstance();
-	winApp_->Initialize();
 
-	//DirectX基盤
-	dxBas_ = DirectXBasis::GetInstance();
-	dxBas_->Initialize(winApp_);
+	FrameworkΓ::Initialize();
 
-	//Input
-	input_ = Input::GetInstance();
-	input_->Initialize();
+	scene_ = new GamePlayScene();
+	scene_->Initialize();
 
-	//シーン
-	sceneManager_ = new SceneManager();
-
-	//最初のシーン
-	BaseScene* scene_ = new TitleScene();
-
-	//シーンマネージャーにセット
-	sceneManager_->SetNextScene(scene_);
 }
 
 void GameMain::Update(){
-	/// 更新
-	sceneManager_->Update();
+	FrameworkΓ::Update();
+
+	scene_->Update();
 }
 
 void GameMain::Draw(){
 	//描画前処理
-	dxBas_->PreDraw();
+	FrameworkΓ::GetDirectXBasis()->PreDraw();
 
-	sceneManager_->Draw();
+	scene_->Draw();
 
 	//描画後処理
-	dxBas_->PostDraw();
+	FrameworkΓ::GetDirectXBasis()->PostDraw();
 }
 
 void GameMain::Finalize(){
-	/// 解放
-	SafeDelete(sceneManager_);
+
+	scene_->Finalize();
+	//FrameworkΓ::Finalize();
 }
