@@ -91,9 +91,9 @@ private:
 	// インデックスバッファ
 	ComPtr<ID3D12Resource> indexBuff_;
 	// 頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vbView_;
+	D3D12_VERTEX_BUFFER_VIEW vbView_{};
 	// インデックスバッファビュー
-	D3D12_INDEX_BUFFER_VIEW ibView_;
+	D3D12_INDEX_BUFFER_VIEW ibView_{};
 	// 定数バッファマテリアル
 	ComPtr<ID3D12Resource> constBuffMaterial_;
 
