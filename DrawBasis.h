@@ -112,6 +112,7 @@ private://メンバ変数
 public://ゲッタ
 	ComPtr<ID3D12Device> GetDevice() { return device_; }
 	ComPtr<ID3D12GraphicsCommandList> GetCommandList() { return cmdList_; }
+	ID3D12Resource* GetTextureBuffer(uint32_t index) const { return texBuffs_[index].Get(); }
 
 private:
 	DrawBasis() = default;
