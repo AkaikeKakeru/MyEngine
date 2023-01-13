@@ -1,11 +1,13 @@
 #include "GamePlayScene.h"
-
 #include "SafeDelete.h"
 
-void GamePlayScene::Initialize(DirectXBasis* dxBas){
+DirectXBasis* GamePlayScene::dxBas_ = DirectXBasis::GetInstance();
+Input* GamePlayScene::input_ = Input::GetInstance();
+
+void GamePlayScene::Initialize(){
 	/// 描画初期化
 	//オブジェクト基盤
-	Object3d::StaticInitialize(dxBas->GetDevice().Get(), WinApp::Win_Width, WinApp::Win_Height);
+	Object3d::StaticInitialize(dxBas_->GetDevice().Get(), WinApp::Win_Width, WinApp::Win_Height);
 
 	//オブジェクトモデル
 
@@ -42,34 +44,34 @@ void GamePlayScene::Initialize(DirectXBasis* dxBas){
 	sprite3_->Initialize(drawBas_,1);
 }
 
-void GamePlayScene::Update(Input*input){
-	input->Update();
+void GamePlayScene::Update(){
+	input_->Update();
 
 	Vector2 pos = { 0,0 };
 
 	//オブジェクト更新
 
 	//オブジェクト移動
-	if (input->PressKey(DIK_UP) || input->PressKey(DIK_DOWN) || input->PressKey(DIK_RIGHT) || input->PressKey(DIK_LEFT)) {
+	if (input_->PressKey(DIK_UP) || input_->PressKey(DIK_DOWN) || input_->PressKey(DIK_RIGHT) || input_->PressKey(DIK_LEFT)) {
 		// 現在の座標を取得
 		Vector3 position = object3d_->GetPosition();
 
 		// 移動後の座標を計算
-		if (input->PressKey(DIK_UP)) { position.y += 1.0f; }
-		else if (input->PressKey(DIK_DOWN)) { position.y -= 1.0f; }
-		if (input->PressKey(DIK_RIGHT)) { position.x += 1.0f; }
-		else if (input->PressKey(DIK_LEFT)) { position.x -= 1.0f; }
+		if (input_->PressKey(DIK_UP)) { position.y += 1.0f; }
+		else if (input_->PressKey(DIK_DOWN)) { position.y -= 1.0f; }
+		if (input_->PressKey(DIK_RIGHT)) { position.x += 1.0f; }
+		else if (input_->PressKey(DIK_LEFT)) { position.x -= 1.0f; }
 
 		// 座標の変更を反映
 		object3d_->SetPosition(position);
 	}
 
 	// カメラ移動
-	if (input->PressKey(DIK_W) || input->PressKey(DIK_S) || input->PressKey(DIK_D) || input->PressKey(DIK_A)) {
-		if (input->PressKey(DIK_W)) { Object3d::CameraMoveEyeVector({ 0.0f,+1.0f,0.0f }); }
-		else if (input->PressKey(DIK_S)) { Object3d::CameraMoveEyeVector({ 0.0f,-1.0f,0.0f }); }
-		if (input->PressKey(DIK_D)) { Object3d::CameraMoveEyeVector({ +1.0f,0.0f,0.0f }); }
-		else if (input->PressKey(DIK_A)) { Object3d::CameraMoveEyeVector({ -1.0f,0.0f,0.0f }); }
+	if (input_->PressKey(DIK_W) || input_->PressKey(DIK_S) || input_->PressKey(DIK_D) || input_->PressKey(DIK_A)) {
+		if (input_->PressKey(DIK_W)) { Object3d::CameraMoveEyeVector({ 0.0f,+1.0f,0.0f }); }
+		else if (input_->PressKey(DIK_S)) { Object3d::CameraMoveEyeVector({ 0.0f,-1.0f,0.0f }); }
+		if (input_->PressKey(DIK_D)) { Object3d::CameraMoveEyeVector({ +1.0f,0.0f,0.0f }); }
+		else if (input_->PressKey(DIK_A)) { Object3d::CameraMoveEyeVector({ -1.0f,0.0f,0.0f }); }
 	}
 
 	skydome_->Update();
@@ -78,7 +80,7 @@ void GamePlayScene::Update(Input*input){
 	object3d_2->Update();
 
 	pos = sprite_->GetPosition();
-	if (input->PressMouse(LeftButton)) {
+	if (input_->PressMouse(LeftButton)) {
 		pos.x += 2.0f;
 	}
 	sprite_->SetPosition(pos);
@@ -89,8 +91,8 @@ void GamePlayScene::Update(Input*input){
 	sprite_->Update();
 
 	pos = sprite2_->GetPosition();
-	if (input->TriggerMouse(CenterButton)
-		|| input->PressMouse(RightButton)) {
+	if (input_->TriggerMouse(CenterButton)
+		|| input_->PressMouse(RightButton)) {
 		pos.y += 2.0f;
 	}
 	sprite2_->SetPosition(pos);
@@ -99,16 +101,16 @@ void GamePlayScene::Update(Input*input){
 	sprite2_->SetIsFlipY(true);
 	sprite2_->Update();
 
-	sprite3_->SetPosition(input->GetMousePosition());
+	sprite3_->SetPosition(input_->GetMousePosition());
 	sprite3_->SetAnchorPoint(Vector2(0.5f, 0.5f));
 	sprite3_->SetSize({ 100,100 });
 	sprite3_->SetTextureSize({256,256});
 	sprite3_->Update();
 }
 
-void GamePlayScene::Draw(DirectXBasis* dxBas){
+void GamePlayScene::Draw(){
 	//モデル本命処理
-	Object3d::PreDraw(dxBas->GetCommandList().Get());
+	Object3d::PreDraw(dxBas_->GetCommandList().Get());
 
 	skydome_->Draw();
 	ground_->Draw();

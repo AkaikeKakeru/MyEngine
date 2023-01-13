@@ -38,21 +38,22 @@ void GameMain::Initialize(){
 	input_->Initialize();
 
 	//シーン
-	scene_ = new GamePlayScene();
-	scene_->Initialize(dxBas_);
+	//scene_ = new GamePlayScene();
+	scene_ = new TitleScene();
+	scene_->Initialize();
 }
 
 void GameMain::Update(){
 
 	/// 更新
-	scene_->Update(input_);
+	scene_->Update();
 }
 
 void GameMain::Draw(){
 	//描画前処理
 	dxBas_->PreDraw();
 
-	scene_->Draw(dxBas_);
+	scene_->Draw();
 
 	//描画後処理
 	dxBas_->PostDraw();

@@ -9,6 +9,7 @@
 #include "Sprite.h"
 #include "Object3d.h"
 #include "Degree.h"
+#include "TitleScene.h"
 #include "GamePlayScene.h"
 
 class GameMain {
@@ -35,5 +36,6 @@ private://変数
 	bool isEndRequest_ = false;
 
 	//シーン
-	GamePlayScene* scene_ = nullptr;
+	TitleScene* scene_ = nullptr;
+	//GamePlayScene* scene_ = nullptr;
 };
