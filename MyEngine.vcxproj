@@ -149,6 +149,7 @@
     <ClCompile Include="DrawBasis.cpp" />
     <ClCompile Include="FixFPS.cpp" />
     <ClCompile Include="GameMain.cpp" />
+    <ClCompile Include="GamePlayScene.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="DrawBasis.h" />
     <ClInclude Include="FixFPS.h" />
     <ClInclude Include="GameMain.h" />
+    <ClInclude Include="GamePlayScene.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Matrix4.h" />
