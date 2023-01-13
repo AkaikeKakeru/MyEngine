@@ -41,8 +41,7 @@ void GameMain::Initialize(){
 	sceneManager_ = new SceneManager();
 
 	//最初のシーン
-	scene_ = new TitleScene();
-	scene_->Initialize();
+	BaseScene* scene_ = new TitleScene();
 
 	//シーンマネージャーにセット
 	sceneManager_->SetNextScene(scene_);
@@ -65,5 +64,5 @@ void GameMain::Draw(){
 
 void GameMain::Finalize(){
 	/// 解放
-	scene_->Finalize();
+	SafeDelete(sceneManager_);
 }

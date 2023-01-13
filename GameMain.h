@@ -37,6 +37,5 @@ private://変数
 	bool isEndRequest_ = false;
 
 	//シーン
-	BaseScene* scene_ = nullptr;
 	SceneManager* sceneManager_ = nullptr;
 };
