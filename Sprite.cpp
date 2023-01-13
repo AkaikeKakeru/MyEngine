@@ -52,6 +52,24 @@ void Sprite::Update() {
 	vertices_[RightBottom].pos = Vector3(dir_.right, dir_.bottom, 0);
 	vertices_[RightTop].pos = Vector3(dir_.right, dir_.top, 0);
 
+	ID3D12Resource* textureBuffer = drawBas_->GetTextureBuffer(textureIndex_);
+	//指定番号の画像が読み込み済みなら
+	if (textureBuffer) {
+		//テクスチャ情報取得
+		D3D12_RESOURCE_DESC texResDesc = textureBuffer->GetDesc();
+		
+		float tex_left = textureLeftTop_.x / texResDesc.Width;
+		float tex_right = (textureLeftTop_.x + textureSize_.x) / texResDesc.Width;
+		float tex_top = textureLeftTop_.y / texResDesc.Height;
+		float tex_bottom = (textureLeftTop_.y + textureSize_.y) / texResDesc.Height;
+	
+		//頂点のUVに反映する
+		vertices_[LeftBottom].uv = { tex_left,tex_bottom };//左下
+		vertices_[LeftTop].uv = { tex_left,tex_top };//左上
+		vertices_[RightBottom].uv = { tex_right,tex_bottom };//右下
+		vertices_[RightTop].uv = { tex_right,tex_top };//右上
+	}
+
 	///値を書き込むと自動的に転送される
 
 	//頂点データをGPUに転送
