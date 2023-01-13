@@ -66,6 +66,9 @@ private://固有関数
 	//ワールド行列再計算
 	void ReCalcMatWorld();
 
+	//テクスチャサイズをイメージに合わせる
+	void AdjustTextureSize();
+
 public://アクセス
 	///ゲッタ
 

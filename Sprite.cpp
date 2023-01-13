@@ -290,3 +290,14 @@ void Sprite::ReCalcMatWorld() {
 				worldTransform_.position.y,
 				0.0f));
 }
+
+void Sprite::AdjustTextureSize(){
+	ID3D12Resource* textureBuffer = drawBas_->GetTextureBuffer(textureIndex_);
+	assert(textureBuffer);
+
+	//テクスチャ情報取得
+	D3D12_RESOURCE_DESC texResDesc = textureBuffer->GetDesc();
+
+	textureSize_.x = static_cast<float>(texResDesc.Width);
+	textureSize_.y = static_cast<float>(texResDesc.Height);
+}
