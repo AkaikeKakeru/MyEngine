@@ -10,6 +10,12 @@
 #include "TitleScene.h"
 #include "SceneManager.h"
 
+#include "Player.h"
+#include "Enemy.h"
+
+#include <memory>
+#include <List>
+
 class GamePlayScene : public BaseScene{
 public://構造体
 	  //マウスボタン
@@ -25,23 +31,19 @@ public:
 	void Draw() override;
 	void Finalize() override;
 private:
+	//static const int kMaxEnemyNum = 64;
+
+private:
 	/// <summary>
 	/// オブジェクト
 	/// </summary>
-
-	Model* model_ = nullptr;
-	Model* model_2 = nullptr;
 	Model* modelSkydome_ = nullptr;
-	Model* modelGround_ = nullptr;
+	Model* modelPlayer_ = nullptr;
+	Model* modelEnemy_ = nullptr;
 
-	Model* modelPlane_ = nullptr;
-
-	Object3d* object3d_ = nullptr;
-	Object3d* object3d_2 = nullptr;
 	Object3d* skydome_ = nullptr;
-	Object3d* ground_ = nullptr;
-
 	Object3d* plane_ = nullptr;
+	Object3d* planeEnemy_ = nullptr;
 
 	/// <summary>
 	/// スプライト
@@ -49,11 +51,12 @@ private:
 	static DirectXBasis* dxBas_;
 	static Input* input_;
 
-	DrawBasis* drawBas_ = nullptr;
+	static DrawBasis* drawBas_;
 
-	Sprite* sprite_ = new Sprite();
-	Sprite* sprite2_ = new Sprite();
-	Sprite* sprite3_ = new Sprite();
+	Sprite* reticle_ = nullptr;
+
+	std::unique_ptr<Player> player_;
+	std::list<std::unique_ptr<Enemy>> enemys_;
 
 	//シーン
 	SceneManager* sceneManager_ = nullptr;
