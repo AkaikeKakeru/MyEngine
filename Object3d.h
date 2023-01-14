@@ -187,6 +187,13 @@ public: // メンバ関数
 	/// <returns>座標</returns>
 	const Vector3& GetPosition() const { return worldTransform_.position_; }
 
+	//スケールの取得
+	const Vector3& GetScale() const { return worldTransform_.scale_; }
+
+	//回転の取得
+	const Vector3& GetRotation() const { return worldTransform_.rotation_; }
+
+
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
