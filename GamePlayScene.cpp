@@ -1,6 +1,7 @@
 #include "GamePlayScene.h"
 #include "SafeDelete.h"
 #include "Collision.h"
+#include <random>
 
 DirectXBasis* GamePlayScene::dxBas_ = DirectXBasis::GetInstance();
 Input* GamePlayScene::input_ = Input::GetInstance();
@@ -46,7 +47,10 @@ void GamePlayScene::Initialize3d(){
 	//敵機
 	modelEnemy_ = Model::LoadFromOBJ("planeEnemy");
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
-	newEnemy->Initialize(modelEnemy_);
+	newEnemy->Initialize(modelEnemy_,{
+		RandomOutput(-62.0f,62.0f),
+		RandomOutput(-38.0f,38.0f),
+		100.0f});
 	enemys_.push_back(std::move(newEnemy));
 }
 
@@ -67,13 +71,27 @@ void GamePlayScene::Update3d(){
 		return enemy->IsDead();
 		});
 
+	//レベルアップタイマーカウントダウン
+	levelUpTimer_--;
+
+	if (levelUpTimer_ <= 0) {
+		spawnNum_++;
+		levelUpTimer_ = kLevelInterval;
+	}
+
 	//湧きタイマーカウントダウン
 	spawnTimer_--;
 
 	if (spawnTimer_ <= 0) {
-		std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
-		newEnemy->Initialize(modelEnemy_);
-		enemys_.push_back(std::move(newEnemy));
+
+		for (size_t i = 0; i < spawnNum_; i++){
+			std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+			newEnemy->Initialize(modelEnemy_,{
+				RandomOutput(-62.0f,62.0f),
+				RandomOutput(-38.0f,38.0f),
+				100.0f});
+			enemys_.push_back(std::move(newEnemy));
+		}
 
 		spawnTimer_ = kSpawnInterval;
 	}
@@ -184,5 +202,12 @@ void GamePlayScene::CheckAllCollisions() {
 			}
 		}
 	}
+}
 
+float GamePlayScene::RandomOutput(float min, float max){
+	std::random_device seed_gen;
+	std::mt19937_64 engine(seed_gen());
+	std::uniform_real_distribution<float> dist(min,max);
+
+	return dist(engine);
 }

@@ -44,9 +44,13 @@ private:
 	void Draw3d();
 	void Draw2d();
 
+	float RandomOutput(float min,float max);
+
 public:
 	//生成間隔
-	static const int kSpawnInterval = 60 * 2;
+	static const int kSpawnInterval = 60 * 1;
+
+	static const int kLevelInterval = 60 * 4;
 
 private:
 	/// <summary>
@@ -72,6 +76,11 @@ private:
 
 	//湧きタイマー
 	int32_t spawnTimer_ = kSpawnInterval;
+	//湧き数
+	int32_t spawnNum_ = 1;
+
+	//レベルアップタイマー
+	int32_t levelUpTimer_ = kLevelInterval;
 
 	//シーン
 	std::unique_ptr<SceneManager> sceneManager_;
