@@ -64,6 +64,12 @@
     <Filter Include="ソース ファイル\Game\Enemy">
       <UniqueIdentifier>{3feccba0-2aac-4d52-89c1-002c82b39b73}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Field">
+      <UniqueIdentifier>{4fbeeae5-5ad3-4cdd-990c-0b640a17d8ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Field">
+      <UniqueIdentifier>{63f57e01-74e2-4d33-8af7-b82fd8f51b95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -150,6 +156,9 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>ソース ファイル\Game\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Skydome.cpp">
+      <Filter>ソース ファイル\Game\Field</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXBasis.h">
@@ -235,6 +244,9 @@
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>ヘッダー ファイル\Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Skydome.h">
+      <Filter>ヘッダー ファイル\Game\Field</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
