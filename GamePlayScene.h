@@ -63,10 +63,9 @@ private:
 
 	Sprite* reticle_ = nullptr;
 
-	std::unique_ptr<Player> player_;
+	std::list<std::unique_ptr<Player>> player_;
 	std::list<std::unique_ptr<Enemy>> enemys_;
-	std::unique_ptr<Skydome> skydome_;
-
+	std::list<std::unique_ptr<Skydome>> skydome_;
 
 	//湧きタイマー
 	int32_t spawnTimer_ = kSpawnInterval;

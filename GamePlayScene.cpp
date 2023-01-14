@@ -32,13 +32,15 @@ void GamePlayScene::Draw(){
 void GamePlayScene::Initialize3d(){
 	//天球
 	modelSkydome_ = Model::LoadFromOBJ("skydome");
-	skydome_ = std::make_unique<Skydome>();
-	skydome_->Initialize(modelSkydome_);
+	std::unique_ptr<Skydome> newSkydome = std::make_unique<Skydome>();
+	newSkydome->Initialize(modelSkydome_);
+	skydome_.push_back(std::move(newSkydome));
 
 	//自機
 	modelPlayer_ = Model::LoadFromOBJ("plane");
-	player_ = std::make_unique<Player>();
-	player_->Initialize(modelPlayer_);
+	std::unique_ptr<Player> newPlayer = std::make_unique<Player>();
+	newPlayer->Initialize(modelPlayer_);
+	player_.push_back(std::move(newPlayer));
 
 	//敵機
 	modelEnemy_ = Model::LoadFromOBJ("planeEnemy");
@@ -85,8 +87,14 @@ void GamePlayScene::Update3d(){
 		else if (input_->PressKey(DIK_A)) { Object3d::CameraMoveEyeVector({ -1.0f,0.0f,0.0f }); }
 	}
 
-	skydome_->Update();
-	player_->Update();
+	for (std::unique_ptr<Skydome>& skydome:skydome_){
+		skydome->Update();
+	}
+
+	for (std::unique_ptr<Player>& player:player_){
+		player->Update();
+	}
+
 	for (std::unique_ptr<Enemy>& enemy:enemys_){
 		enemy->Update();
 	}
@@ -101,13 +109,17 @@ void GamePlayScene::Update2d(){
 }
 
 void GamePlayScene::Draw3d(){
-	skydome_->Draw();
+	for (std::unique_ptr<Skydome>& skydome:skydome_){
+		skydome->Draw();
+	}
 
 	for (std::unique_ptr<Enemy>& enemy:enemys_){
 		enemy->Draw();
 	}
 
-	player_->Draw();
+	for (std::unique_ptr<Player>& player:player_){
+		player->Draw();
+	}
 }
 
 void GamePlayScene::Draw2d(){
@@ -122,6 +134,14 @@ void GamePlayScene::Finalize(){
 	//デスフラグが立ったら削除
 	enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
 		return enemy->IsDead();
+		});
+
+	player_.remove_if([](std::unique_ptr<Player>& player) {
+		return true;
+		});
+
+	skydome_.remove_if([](std::unique_ptr<Skydome>& skydome) {
+		return true;
 		});
 
 	SafeDelete(modelSkydome_);
