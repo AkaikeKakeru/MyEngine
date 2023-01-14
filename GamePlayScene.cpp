@@ -1,5 +1,6 @@
 #include "GamePlayScene.h"
 #include "SafeDelete.h"
+#include "Collision.h"
 
 DirectXBasis* GamePlayScene::dxBas_ = DirectXBasis::GetInstance();
 Input* GamePlayScene::input_ = Input::GetInstance();
@@ -63,7 +64,7 @@ void GamePlayScene::Initialize2d(){
 void GamePlayScene::Update3d(){
 	//デスフラグが立ったら削除
 	enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
-			return enemy->IsDead();
+		return enemy->IsDead();
 		});
 
 	//湧きタイマーカウントダウン
@@ -98,6 +99,8 @@ void GamePlayScene::Update3d(){
 	for (std::unique_ptr<Enemy>& enemy:enemys_){
 		enemy->Update();
 	}
+
+	CheckAllCollisions();
 }
 
 void GamePlayScene::Update2d(){
@@ -149,4 +152,25 @@ void GamePlayScene::Finalize(){
 	SafeDelete(modelPlayer_);
 
 	SafeDelete(reticle_);
+}
+
+void GamePlayScene::CheckAllCollisions() {
+	Vector3 posA, posB;
+	float radA, radB;
+
+	for (const std::unique_ptr<Player>& player : player_) {
+		posA = player->GetPosition();
+		radA = player->GetRadian();
+
+		for (const std::unique_ptr<Enemy>& enemy : enemys_) {
+			posB = enemy->GetPosition();
+			radB = enemy->GetRadian();
+
+			if (Collision_SphereToSphere(posA, posB, radA, radB)) {
+				player->OnCollision();
+				enemy->OnCollision();
+			}
+		}
+	}
+
 }

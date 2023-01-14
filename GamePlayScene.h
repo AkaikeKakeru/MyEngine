@@ -31,6 +31,9 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Finalize() override;
+
+	//衝突確認
+	void CheckAllCollisions();
 private:
 	void Initialize3d();
 	void Initialize2d();
