@@ -21,6 +21,9 @@ private:
 	Object3d* object_ = nullptr;
 	WorldTransform worldTransform_;
 
+	float speed_ = 1.0f;
+	float speed_slow = 0.7f;
+
 	float gravity_ = 0.01f;
 
 	float radian_ = 5.8f;

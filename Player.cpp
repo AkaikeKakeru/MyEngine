@@ -17,12 +17,61 @@ void Player::Update() {
 	Vector3 position = object_->GetPosition();
 
 	//オブジェクト移動
-	if (input_->PressKey(DIK_UP) || input_->PressKey(DIK_DOWN) || input_->PressKey(DIK_RIGHT) || input_->PressKey(DIK_LEFT)) {
-		// 移動後の座標を計算
-		if (input_->PressKey(DIK_UP)) { position.y += 1.0f; }
-		else if (input_->PressKey(DIK_DOWN)) { position.y -= 1.0f; }
-		if (input_->PressKey(DIK_RIGHT)) { position.x += 1.0f; }
-		else if (input_->PressKey(DIK_LEFT)) { position.x -= 1.0f; }
+	// 移動後の座標を計算
+	if (input_->PressKey(DIK_UP)) {
+		if (input_->PressKey(DIK_RIGHT) ||
+			input_->PressKey(DIK_LEFT)) {
+			if (input_->PressKey(DIK_RIGHT)) {
+				position.x += speed_slow;
+			}
+			if (input_->PressKey(DIK_LEFT)) {
+				position.x -= speed_slow;
+			}
+			position.y += speed_slow;
+		}
+		else {
+			position.y += speed_;
+		}
+	}
+
+	else if (input_->PressKey(DIK_DOWN)) {
+		if (input_->PressKey(DIK_RIGHT) ||
+			input_->PressKey(DIK_LEFT)) {
+			if (input_->PressKey(DIK_RIGHT)) {
+				position.x += speed_slow;
+			}
+			if (input_->PressKey(DIK_LEFT)) {
+				position.x -= speed_slow;
+			}
+			position.y -= speed_slow;
+		}
+		else {
+			position.y -= speed_;
+		}
+	}
+
+	else if (input_->PressKey(DIK_RIGHT)) {
+		position.x += speed_;
+	}
+
+	else if (input_->PressKey(DIK_LEFT)) {
+		position.x -= speed_;
+	}
+
+	if (position.x > 62.0f) {
+		position.x = 62.0f;
+	}
+
+	if (position.x < -62.0f) {
+		position.x = -62.0f;
+	}
+
+	if (position.y > 38.0f) {
+		position.y = 37.5f;
+	}
+
+	if (position.y < -38.0f) {
+		position.y = -37.5f;
 	}
 
 	position.y -= gravity_;
@@ -38,7 +87,7 @@ void Player::Draw() {
 	object_->Draw();
 }
 
-void Player::OnCollision(){
+void Player::OnCollision() {
 	gravity_ += 0.07f;
 }
 
