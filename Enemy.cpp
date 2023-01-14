@@ -13,6 +13,11 @@ void Enemy::Initialize(Model* model) {
 }
 
 void Enemy::Update() {
+	//時間経過で消滅
+	if (--deathTimer_ <= 0) {
+		isDead_ = true;
+	}
+
 	//オブジェクト移動
 	// 現在の座標を取得
 	Vector3 position = object_->GetPosition();
