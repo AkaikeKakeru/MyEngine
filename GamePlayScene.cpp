@@ -67,6 +67,11 @@ void GamePlayScene::Initialize2d(){
 }
 
 void GamePlayScene::Update3d(){
+	//デスフラグが立ったら削除
+	enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
+			return enemy->IsDead();
+		});
+
 	if (input_->TriggerKey(DIK_RETURN)) {
 		std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 		newEnemy->Initialize(modelEnemy_);
