@@ -5,7 +5,7 @@
 
 class Enemy {
 public:
-	void Initialize(Model* model);
+	void Initialize(Model* model,Vector3 position);
 	void Update();
 	void Draw();
 	void Finalize();
@@ -21,12 +21,14 @@ public:
 
 private:
 	//寿命
-	static const int32_t kLifeTime = 60 * 5;
+	static const int32_t kLifeTime = 60 * 3;
 
 private:
 	static Input* input_;
 	Object3d* object_ = nullptr;
 	WorldTransform worldTransform_;
+
+	float speed_ = 2.4f;
 
 	float radian_ = 5.8f;
 

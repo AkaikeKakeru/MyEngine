@@ -4,12 +4,12 @@
 
 Input* Enemy::input_ = Input::GetInstance();
 
-void Enemy::Initialize(Model* model) {
+void Enemy::Initialize(Model* model,Vector3 position) {
 	object_ = Object3d::Create();
 
 	object_->SetModel(model);
 	object_->SetScale({ 2.0f,2.0f,2.0f });
-	object_->SetPosition({ 0.0f,0.0f,50.0f });
+	object_->SetPosition(position);
 }
 
 void Enemy::Update() {
@@ -23,7 +23,7 @@ void Enemy::Update() {
 	Vector3 position = object_->GetPosition();
 
 	// 移動後の座標を計算
-	position.z -= 0.3f;
+	position.z -= speed_;
 
 	// 座標の変更を反映
 	object_->SetPosition(position);
