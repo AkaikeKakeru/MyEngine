@@ -47,10 +47,7 @@ void GamePlayScene::Initialize3d(){
 	//敵機
 	modelEnemy_ = Model::LoadFromOBJ("planeEnemy");
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
-	newEnemy->Initialize(modelEnemy_,{
-		RandomOutput(-62.0f,62.0f),
-		RandomOutput(-38.0f,38.0f),
-		100.0f});
+	newEnemy->Initialize(modelEnemy_,{ 0.0f,30.0f,100.0f });
 	enemys_.push_back(std::move(newEnemy));
 }
 
