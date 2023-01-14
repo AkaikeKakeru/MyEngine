@@ -81,11 +81,23 @@ void GamePlayScene::Update3d(){
 	Vector2 pos = { 0,0 };
 
 	// カメラ移動
-	if (input_->PressKey(DIK_W) || input_->PressKey(DIK_S) || input_->PressKey(DIK_D) || input_->PressKey(DIK_A)) {
-		if (input_->PressKey(DIK_W)) { Object3d::CameraMoveEyeVector({ 0.0f,+1.0f,0.0f }); }
-		else if (input_->PressKey(DIK_S)) { Object3d::CameraMoveEyeVector({ 0.0f,-1.0f,0.0f }); }
-		if (input_->PressKey(DIK_D)) { Object3d::CameraMoveEyeVector({ +1.0f,0.0f,0.0f }); }
-		else if (input_->PressKey(DIK_A)) { Object3d::CameraMoveEyeVector({ -1.0f,0.0f,0.0f }); }
+	if (input_->PressKey(DIK_W) ||
+		input_->PressKey(DIK_S) ||
+		input_->PressKey(DIK_D) ||
+		input_->PressKey(DIK_A) ||
+		input_->PressKey(DIK_Q) ||
+		input_->PressKey(DIK_C)) {
+
+		Vector3 eyeVector = { 0,0,0 };
+
+		if (input_->PressKey(DIK_W)) { eyeVector.y += 1.0f; }
+		else if (input_->PressKey(DIK_S)) { eyeVector.y -= 1.0f; }
+		if (input_->PressKey(DIK_D)) { eyeVector.x += 1.0f; }
+		else if (input_->PressKey(DIK_A)) { eyeVector.x -= 1.0f; }
+		if (input_->PressKey(DIK_Q)) { eyeVector.z  += 1.0f; }
+		else if (input_->PressKey(DIK_C)) { eyeVector.z -= 1.0f;}
+	
+		Object3d::CameraMoveEyeVector(eyeVector);
 	}
 
 	for (std::unique_ptr<Skydome>& skydome:skydome_){
@@ -146,7 +158,7 @@ void GamePlayScene::Finalize(){
 	skydome_.remove_if([](std::unique_ptr<Skydome>& skydome) {
 		return true;
 		});
-
+	
 	SafeDelete(modelSkydome_);
 	SafeDelete(modelEnemy_);
 	SafeDelete(modelPlayer_);
