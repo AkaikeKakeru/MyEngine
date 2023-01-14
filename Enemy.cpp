@@ -36,6 +36,10 @@ void Enemy::Draw() {
 	object_->Draw();
 }
 
+void Enemy::Finalize(){
+	isDead_ = true;
+}
+
 Enemy::~Enemy() {
 	delete object_;
 }

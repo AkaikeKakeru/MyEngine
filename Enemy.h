@@ -8,6 +8,7 @@ public:
 	void Initialize(Model* model);
 	void Update();
 	void Draw();
+	void Finalize();
 
 public:
 	bool IsDead() const { return isDead_; }
