@@ -12,6 +12,7 @@
 
 #include "Player.h"
 #include "Enemy.h"
+#include "Skydome.h"
 
 #include <memory>
 #include <List>
@@ -31,6 +32,9 @@ public:
 	void Draw() override;
 	void Finalize() override;
 private:
+	void Update3d();
+	void Update2d();
+
 	//static const int kMaxEnemyNum = 64;
 
 private:
@@ -41,9 +45,9 @@ private:
 	Model* modelPlayer_ = nullptr;
 	Model* modelEnemy_ = nullptr;
 
-	Object3d* skydome_ = nullptr;
-	Object3d* plane_ = nullptr;
-	Object3d* planeEnemy_ = nullptr;
+	//Object3d* skydome_ = nullptr;
+	//Object3d* plane_ = nullptr;
+	//Object3d* planeEnemy_ = nullptr;
 
 	/// <summary>
 	/// スプライト
@@ -57,6 +61,7 @@ private:
 
 	std::unique_ptr<Player> player_;
 	std::list<std::unique_ptr<Enemy>> enemys_;
+	std::unique_ptr<Skydome> skydome_;
 
 	//シーン
 	SceneManager* sceneManager_ = nullptr;
