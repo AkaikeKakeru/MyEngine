@@ -32,10 +32,14 @@ public:
 	void Draw() override;
 	void Finalize() override;
 private:
+	void Initialize3d();
+	void Initialize2d();
+
 	void Update3d();
 	void Update2d();
 
-	//static const int kMaxEnemyNum = 64;
+	void Draw3d();
+	void Draw2d();
 
 private:
 	/// <summary>

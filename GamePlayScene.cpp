@@ -6,8 +6,38 @@ Input* GamePlayScene::input_ = Input::GetInstance();
 DrawBasis* GamePlayScene::drawBas_ = DrawBasis::GetInstance();
 
 void GamePlayScene::Initialize(){
-	/// 描画初期化
+	Initialize3d();
 
+	Initialize2d();
+}
+
+void GamePlayScene::Update(){
+	input_->Update();
+
+	Update3d();
+
+	Update2d();
+}
+
+void GamePlayScene::Draw(){
+	Object3d::PreDraw(dxBas_->GetCommandList().Get());
+	Draw3d();
+	Object3d::PostDraw();
+
+	drawBas_->PreDraw();
+	Draw2d();
+	drawBas_->PostDraw();
+}
+
+void GamePlayScene::Finalize(){
+	SafeDelete(modelSkydome_);
+	SafeDelete(modelEnemy_);
+	SafeDelete(modelPlayer_);
+
+	SafeDelete(reticle_);
+}
+
+void GamePlayScene::Initialize3d(){
 	//天球
 	modelSkydome_ = Model::LoadFromOBJ("skydome");
 	skydome_ = std::make_unique<Skydome>();
@@ -23,56 +53,17 @@ void GamePlayScene::Initialize(){
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 	newEnemy->Initialize(modelEnemy_);
 	enemys_.push_back(std::move(newEnemy));
+}
 
+void GamePlayScene::Initialize2d(){
 	//描画基盤
 	drawBas_->LoadTexture(0, "smile.png");
 	drawBas_->LoadTexture(1, "texture.png");
 
 	//描画スプライト
-
 	//レティクル
 	reticle_ = new Sprite();
 	reticle_->Initialize(drawBas_,1);
-}
-
-void GamePlayScene::Update(){
-	input_->Update();
-
-	//3D更新
-	Update3d();
-
-	//2D更新
-	Update2d();
-}
-
-void GamePlayScene::Draw(){
-	//モデル本命処理
-	Object3d::PreDraw(dxBas_->GetCommandList().Get());
-
-	skydome_->Draw();
-
-	for (std::unique_ptr<Enemy>& enemy:enemys_){
-		enemy->Draw();
-	}
-
-	player_->Draw();
-
-	Object3d::PostDraw();
-
-	//スプライト本命処理
-	drawBas_->PreDraw();
-
-	reticle_->Draw();
-
-	drawBas_->PostDraw();
-}
-
-void GamePlayScene::Finalize(){
-	SafeDelete(modelSkydome_);
-	SafeDelete(modelEnemy_);
-	SafeDelete(modelPlayer_);
-
-	SafeDelete(reticle_);
 }
 
 void GamePlayScene::Update3d(){
@@ -93,9 +84,7 @@ void GamePlayScene::Update3d(){
 	}
 
 	skydome_->Update();
-
 	player_->Update();
-
 	for (std::unique_ptr<Enemy>& enemy:enemys_){
 		enemy->Update();
 	}
@@ -107,4 +96,18 @@ void GamePlayScene::Update2d(){
 	reticle_->SetSize({ 100,100 });
 	reticle_->SetTextureSize({256,256});
 	reticle_->Update();
+}
+
+void GamePlayScene::Draw3d(){
+	skydome_->Draw();
+
+	for (std::unique_ptr<Enemy>& enemy:enemys_){
+		enemy->Draw();
+	}
+
+	player_->Draw();
+}
+
+void GamePlayScene::Draw2d(){
+	reticle_->Draw();
 }
