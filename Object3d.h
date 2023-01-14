@@ -193,6 +193,13 @@ public: // メンバ関数
 	/// <param name="position">座標</param>
 	void SetPosition(const Vector3& position) { this->worldTransform_.position_ = position; }
 
+	//スケールの設定
+	void SetScale(const Vector3& scale) { this->worldTransform_.scale_ = scale; }
+
+	//回転の設定
+	void SetRotation(const Vector3& rotation) { this->worldTransform_.rotation_ = rotation; }
+
+
 	//モデルセッタ
 	void SetModel(Model* model) { model_ = model; }
 
