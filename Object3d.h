@@ -193,6 +193,8 @@ public: // メンバ関数
 	//回転の取得
 	const Vector3& GetRotation() const { return worldTransform_.rotation_; }
 
+	//ビュープロジェクションの取得
+	const ViewProjection& GetViewProjection() const { return viewProjection_; }
 
 	/// <summary>
 	/// 座標の設定
@@ -206,6 +208,11 @@ public: // メンバ関数
 	//回転の設定
 	void SetRotation(const Vector3& rotation) { this->worldTransform_.rotation_ = rotation; }
 
+	//ワールド変換の設定
+	void SetWorldTransform(const WorldTransform worldTransform) { worldTransform_ = worldTransform; }
+
+	//ビュープロジェクションの設定
+	void SetViewProjection(const ViewProjection& viewProjection) { viewProjection_ = viewProjection; }
 
 	//モデルセッタ
 	void SetModel(Model* model) { model_ = model; }
