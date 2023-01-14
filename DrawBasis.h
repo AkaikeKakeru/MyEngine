@@ -14,9 +14,10 @@ private://省略
 private://構造体
 
 public://基本関数
-	void Initialize();
-	void PreDraw();
-	void PostDraw();
+
+	static void Initialize();
+	static void PreDraw();
+	static void PostDraw();
 
 public://publicな固有関数
 	//テクスチャ読み込み
@@ -30,17 +31,17 @@ private://固有関数
 	/// </summary>
 
 	//シェーダーファイルのコンパイル
-	void CompileShaderFile();
+	static void CompileShaderFile();
 	//頂点レイアウト組み立て
-	void AssembleVertexLayout();
+	static void AssembleVertexLayout();
 	//グラフィックスパイプライン作成
-	void CreateGraphicsPipeline();
+	static void CreateGraphicsPipeline();
 	//グラフィックスパイプライン組み立て
-	void AssembleGraphicsPipeline();
+	static void AssembleGraphicsPipeline();
 	//ルートシグネイチャ生成
-	void GenerateRootSignature();
+	static void GenerateRootSignature();
 	//パイプラインステート生成
-	void GeneratePipelineState();
+	static void GeneratePipelineState();
 
 	/// <summary>
 	/// テクスチャ
@@ -49,7 +50,7 @@ private://固有関数
 	//テクスチャバッファ生成
 	void GenerateTextureBuffer(uint32_t textureIndex,const wchar_t* wfileName);
 	//デスクリプタヒープ生成
-	void GenerateDescriptorHeap();
+	static void GenerateDescriptorHeap();
 	//シェーダーリソースビュー作成
 	void CreateShaderResourceView(uint32_t textureIndex);
 
@@ -66,31 +67,31 @@ private://定数
 
 private://メンバ変数
 	//Draw基盤
-	DirectXBasis* dxBas_ = nullptr;
+	static DirectXBasis* dxBas_;
 
 	//デバイス
-	ComPtr<ID3D12Device> device_;
+	static ComPtr<ID3D12Device> device_;
 	//コマンドリスト
-	ComPtr<ID3D12GraphicsCommandList> cmdList_;
+	static ComPtr<ID3D12GraphicsCommandList> cmdList_;
 
 	/// <summary>
 	/// パイプライン
 	/// </summary>
 
 	//頂点シェーダオブジェクト
-	ComPtr<ID3DBlob> vsBlob_;
+	static ComPtr<ID3DBlob> vsBlob_;
 	//ピクセルシェーダオブジェクト
-	ComPtr<ID3DBlob> psBlob_;
+	static ComPtr<ID3DBlob> psBlob_;
 	//エラーオブジェクト
-	ComPtr<ID3DBlob> errorBlob_;
+	static ComPtr<ID3DBlob> errorBlob_;
 	//頂点レイアウト
-	D3D12_INPUT_ELEMENT_DESC inputLayout_[kInputLayoutElement];
+	static D3D12_INPUT_ELEMENT_DESC inputLayout_[kInputLayoutElement];
 	//グラフィックスパイプラインデスク
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc_{};
+	static D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc_;
 	//ルートシグネイチャ
-	ComPtr<ID3D12RootSignature> rootSignature_;
+	static ComPtr<ID3D12RootSignature> rootSignature_;
 	//パイプラインステート
-	ComPtr<ID3D12PipelineState> pipelineState_;
+	static ComPtr<ID3D12PipelineState> pipelineState_;
 
 	/// <summary>
 	/// テクスチャ
@@ -101,13 +102,13 @@ private://メンバ変数
 	//テクスチャリソースデスク
 	D3D12_RESOURCE_DESC texResDesc_{};
 	//デスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> srvHeap_;
+	static ComPtr<ID3D12DescriptorHeap> srvHeap_;
 	//SRVヒープのアドレス
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle_;
 	//インクリメントサイズ
-	UINT incrementSize_;
+	static UINT incrementSize_;
 	//テクスチャ格納ディレクトリ
-	std::string textureDhirectoryPath_;
+	static std::string textureDhirectoryPath_;
 
 public://ゲッタ
 	ComPtr<ID3D12Device> GetDevice() { return device_; }

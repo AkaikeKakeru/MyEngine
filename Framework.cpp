@@ -1,4 +1,6 @@
 #include "Framework.h"
+#include "Object3d.h"
+#include "DrawBasis.h"
 
 void FrameworkΓ::Run(){
 	/// 初期化
@@ -35,24 +37,23 @@ void FrameworkΓ::Initialize(){
 	input_ = Input::GetInstance();
 	input_->Initialize();
 
-	//シーン
-	//sceneManager_ = new SceneManager();
+	//オブジェクト基盤
+	Object3d::StaticInitialize(dxBas_->GetDevice().Get(), WinApp::Win_Width, WinApp::Win_Height);
 
+	DrawBasis::GetInstance();
+	DrawBasis::Initialize();
+
+	//drawBas_ = DrawBasis::GetInstance();
+	//drawBas_->Initialize();
 }
 
 void FrameworkΓ::Update(){
-
 	//windowsのメッセージ処理
 	if (winApp_->ProcessMessage()) {
 		//ゲームループを抜ける
 		isEndRequest_ = true;
 	}
-	/// 更新
-	//sceneManager_->Update();
-
 }
 
 void FrameworkΓ::Finalize(){
-	/// 解放
-	//delete sceneManager_;
 }

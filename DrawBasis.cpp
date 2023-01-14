@@ -15,6 +15,44 @@ using ComPtr = Microsoft::WRL::ComPtr<T>;
 //デフォルトテクスチャ格納ディレクトリ
 std::string DrawBasis::kDefaultTextureDhirectoryPath = "Resource/";
 
+//Draw基盤
+DirectXBasis* DrawBasis::dxBas_ = nullptr;
+
+//デバイス
+ComPtr<ID3D12Device> DrawBasis::device_;
+//コマンドリスト
+ComPtr<ID3D12GraphicsCommandList> DrawBasis::cmdList_;
+
+/// <summary>
+/// パイプライン
+/// </summary>
+
+//頂点シェーダオブジェクト
+ComPtr<ID3DBlob> DrawBasis::vsBlob_;
+//ピクセルシェーダオブジェクト
+ComPtr<ID3DBlob> DrawBasis::psBlob_;
+//エラーオブジェクト
+ComPtr<ID3DBlob> DrawBasis::errorBlob_;
+//頂点レイアウト
+D3D12_INPUT_ELEMENT_DESC DrawBasis::inputLayout_[kInputLayoutElement];
+//グラフィックスパイプラインデスク
+D3D12_GRAPHICS_PIPELINE_STATE_DESC DrawBasis::pipelineDesc_{};
+//ルートシグネイチャ
+ComPtr<ID3D12RootSignature> DrawBasis::rootSignature_;
+//パイプラインステート
+ComPtr<ID3D12PipelineState> DrawBasis::pipelineState_;
+
+/// <summary>
+/// テクスチャ
+/// </summary>
+
+//デスクリプタヒープ
+ComPtr<ID3D12DescriptorHeap> DrawBasis::srvHeap_;
+//インクリメントサイズ
+UINT DrawBasis::incrementSize_;
+//テクスチャ格納ディレクトリ
+std::string DrawBasis::textureDhirectoryPath_;
+
 void DrawBasis::Initialize() {
 	dxBas_ = DirectXBasis::GetInstance();
 
