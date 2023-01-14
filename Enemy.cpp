@@ -40,6 +40,10 @@ void Enemy::Finalize(){
 	isDead_ = true;
 }
 
+void Enemy::OnCollision(){
+	isDead_ = true;
+}
+
 Enemy::~Enemy() {
 	delete object_;
 }

@@ -13,20 +13,22 @@ void Player::Initialize(Model* model) {
 }
 
 void Player::Update() {
+	// 現在の座標を取得
+	Vector3 position = object_->GetPosition();
+
 	//オブジェクト移動
 	if (input_->PressKey(DIK_UP) || input_->PressKey(DIK_DOWN) || input_->PressKey(DIK_RIGHT) || input_->PressKey(DIK_LEFT)) {
-		// 現在の座標を取得
-		Vector3 position = object_->GetPosition();
-
 		// 移動後の座標を計算
 		if (input_->PressKey(DIK_UP)) { position.y += 1.0f; }
 		else if (input_->PressKey(DIK_DOWN)) { position.y -= 1.0f; }
 		if (input_->PressKey(DIK_RIGHT)) { position.x += 1.0f; }
 		else if (input_->PressKey(DIK_LEFT)) { position.x -= 1.0f; }
-
-		// 座標の変更を反映
-		object_->SetPosition(position);
 	}
+
+	position.y -= gravity_;
+
+	// 座標の変更を反映
+	object_->SetPosition(position);
 
 	//更新
 	object_->Update();
@@ -34,6 +36,10 @@ void Player::Update() {
 
 void Player::Draw() {
 	object_->Draw();
+}
+
+void Player::OnCollision(){
+	gravity_ += 0.07f;
 }
 
 Player::~Player() {

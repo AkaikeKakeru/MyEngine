@@ -10,6 +10,12 @@ public:
 	void Draw();
 	void Finalize();
 
+	//衝突コールバック
+	void OnCollision();
+
+	const Vector3& GetPosition()const { return object_->GetPosition(); }
+	float GetRadian()const { return radian_; }
+
 public:
 	bool IsDead() const { return isDead_; }
 
@@ -21,6 +27,8 @@ private:
 	static Input* input_;
 	Object3d* object_ = nullptr;
 	WorldTransform worldTransform_;
+
+	float radian_ = 5.8f;
 
 	//デスタイマー
 	int32_t deathTimer_ = kLifeTime;
