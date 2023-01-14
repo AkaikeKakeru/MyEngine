@@ -41,6 +41,10 @@ private:
 	void Draw3d();
 	void Draw2d();
 
+public:
+	//生成間隔
+	static const int kSpawnInterval = 60 * 2;
+
 private:
 	/// <summary>
 	/// オブジェクト
@@ -48,10 +52,6 @@ private:
 	Model* modelSkydome_ = nullptr;
 	Model* modelPlayer_ = nullptr;
 	Model* modelEnemy_ = nullptr;
-
-	//Object3d* skydome_ = nullptr;
-	//Object3d* plane_ = nullptr;
-	//Object3d* planeEnemy_ = nullptr;
 
 	/// <summary>
 	/// スプライト
@@ -67,6 +67,10 @@ private:
 	std::list<std::unique_ptr<Enemy>> enemys_;
 	std::unique_ptr<Skydome> skydome_;
 
+
+	//湧きタイマー
+	int32_t spawnTimer_ = kSpawnInterval;
+
 	//シーン
-	SceneManager* sceneManager_ = nullptr;
+	std::unique_ptr<SceneManager> sceneManager_;
 };

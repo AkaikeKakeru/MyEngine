@@ -29,14 +29,6 @@ void GamePlayScene::Draw(){
 	drawBas_->PostDraw();
 }
 
-void GamePlayScene::Finalize(){
-	SafeDelete(modelSkydome_);
-	SafeDelete(modelEnemy_);
-	SafeDelete(modelPlayer_);
-
-	SafeDelete(reticle_);
-}
-
 void GamePlayScene::Initialize3d(){
 	//天球
 	modelSkydome_ = Model::LoadFromOBJ("skydome");
@@ -72,10 +64,15 @@ void GamePlayScene::Update3d(){
 			return enemy->IsDead();
 		});
 
-	if (input_->TriggerKey(DIK_RETURN)) {
+	//湧きタイマーカウントダウン
+	spawnTimer_--;
+
+	if (spawnTimer_ <= 0) {
 		std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 		newEnemy->Initialize(modelEnemy_);
 		enemys_.push_back(std::move(newEnemy));
+
+		spawnTimer_ = kSpawnInterval;
 	}
 
 	Vector2 pos = { 0,0 };
@@ -115,4 +112,21 @@ void GamePlayScene::Draw3d(){
 
 void GamePlayScene::Draw2d(){
 	reticle_->Draw();
+}
+
+void GamePlayScene::Finalize(){
+	for (std::unique_ptr<Enemy>& enemy:enemys_){
+		enemy->Finalize();
+	}
+
+	//デスフラグが立ったら削除
+	enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
+		return enemy->IsDead();
+		});
+
+	SafeDelete(modelSkydome_);
+	SafeDelete(modelEnemy_);
+	SafeDelete(modelPlayer_);
+
+	SafeDelete(reticle_);
 }
