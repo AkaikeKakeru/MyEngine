@@ -96,4 +96,18 @@ private:
 
 	//ゲームオーバーフラグ
 	bool isGameOver_ = false;
+
+	bool isStart_ = false;
+
+	Vector3 overStartPos_ = {};
+	Vector3 overEndPos_ = {};
+	Vector3 backStartPos_ = {};
+	Vector3 backEndPos_ = {};
+	Vector3 uiStartPos_ = {};
+	Vector3 uiEndPos_ = {};
+
+	float MaxTime_ = 2.0f;
+	float timeRate_;
+
+	float count_ = 0.0f;
 };

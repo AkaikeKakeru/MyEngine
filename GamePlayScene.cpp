@@ -29,6 +29,8 @@ void GamePlayScene::Initialize() {
 	//ゲームオーバーフラグ
 	isGameOver_ = false;
 
+	isStart_ = false;
+
 	Initialize3d();
 
 	Initialize2d();
@@ -101,15 +103,51 @@ void GamePlayScene::Initialize2d() {
 	over_->SetPosition({ WinApp::Win_Width / 2 + 100.0f,WinApp::Win_Height / 2 - 150.0f });
 	over_->Update();
 
+	overStartPos_ = {
+		over_->GetPosition().x,
+		over_->GetPosition().y,
+		0
+	};
+
+	overEndPos_ = {
+		over_->GetPosition().x,
+		-200.0f,
+		0
+	};
+
 	back_->Initialize(drawBas_, 2);
 	back_->SetAnchorPoint({ 0.5f,0.5f });
 	back_->SetPosition({ WinApp::Win_Width / 2,WinApp::Win_Height / 2 });
 	back_->Update();
 
+	backStartPos_ = {
+		back_->GetPosition().x,
+		back_->GetPosition().y,
+		0
+	};
+
+	backEndPos_ = {
+		back_->GetPosition().x,
+		-500.0f,
+		0
+	};
+
 	ui_->Initialize(drawBas_, 1);
 	ui_->SetAnchorPoint({ 0.5f,0.5f });
 	ui_->SetPosition({ WinApp::Win_Width / 2 + 260.0f,WinApp::Win_Height / 2 + 160.0f });
 	ui_->Update();
+
+	uiStartPos_ = {
+		ui_->GetPosition().x,
+		ui_->GetPosition().y,
+		0
+	};
+
+	uiEndPos_ = {
+		ui_->GetPosition().x,
+		900.0f,
+		0
+	};
 }
 
 void GamePlayScene::Update3d() {
@@ -170,6 +208,27 @@ void GamePlayScene::Update3d() {
 }
 
 void GamePlayScene::Update2d() {
+	if (input_->PressKey(DIK_RETURN)) {
+		isStart_ = true;
+	}
+
+	if (isStart_) {
+
+		count_ += 0.1f;
+
+		timeRate_ = min(count_ / MaxTime_, 1.0f);
+
+		Vector3 posOver = EaseOut(overStartPos_, overEndPos_, timeRate_);
+		Vector3 posBack = EaseIn(backStartPos_, backEndPos_, timeRate_);
+		Vector3 posUi = EaseIn(uiStartPos_, uiEndPos_, timeRate_);
+
+		back_->SetPosition({ posBack.x, posBack.y });
+		back_->Update();
+		ui_->SetPosition({ posUi.x, posUi.y });
+		ui_->Update();
+		over_->SetPosition({ posOver.x, posOver.y });
+		over_->Update();
+	}
 }
 
 void GamePlayScene::Draw3d() {
