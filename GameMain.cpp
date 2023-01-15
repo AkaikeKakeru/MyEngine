@@ -22,6 +22,10 @@ void GameMain::Update() {
 			break;
 
 		case GamePlay_scene:
+			scene_->Finalize();
+			delete scene_;
+
+			scene_ = new GamePlayScene();
 			scene_->Initialize();
 			break;
 
