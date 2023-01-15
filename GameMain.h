@@ -29,7 +29,7 @@ public://関数
 
 private:
 	//開始間隔
-	static const int kStartInterval = 60 * 1;
+	static const int kStartInterval = 30;//60 * 0.5
 
 private://変数
 	static Input* input_;

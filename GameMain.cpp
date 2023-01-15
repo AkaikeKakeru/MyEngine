@@ -22,11 +22,7 @@ void GameMain::Update() {
 			break;
 
 		case GamePlay_scene:
-			scene_->Finalize();
-			delete scene_;
-
-			scene_ = new GamePlayScene();
-			scene_->Initialize();
+			sceneNum = Wait_scene;
 			break;
 
 		default:
@@ -48,6 +44,7 @@ void GameMain::Update() {
 			scene_->Initialize();
 		}
 	}
+
 	scene_->Update();
 }
 
