@@ -39,4 +39,16 @@ private:
 	Sprite* ui_ = nullptr;
 
 	bool isStart_ = false;
+
+	Vector3 titleStartPos_ = {};
+	Vector3 titleEndPos_ = {};
+	Vector3 backStartPos_ = {};
+	Vector3 backEndPos_ = {};
+	Vector3 uiStartPos_ = {};
+	Vector3 uiEndPos_ = {};
+
+	float MaxTime_ = 2.0f;
+	float timeRate_;
+
+	float count_ = 0.0f;
 };
