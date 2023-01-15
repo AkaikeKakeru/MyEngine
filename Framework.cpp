@@ -43,12 +43,6 @@ void FrameworkΓ::Initialize(){
 
 	DrawBasis::GetInstance();
 	DrawBasis::Initialize();
-
-	//drawBas_ = DrawBasis::GetInstance();
-	//drawBas_->Initialize();
-
-	//シーンマネージャ
-	sceneManager_ = new SceneManager();
 }
 
 void FrameworkΓ::Update(){
@@ -58,9 +52,7 @@ void FrameworkΓ::Update(){
 		isEndRequest_ = true;
 	}
 
-	sceneManager_->Update();
 }
 
 void FrameworkΓ::Finalize(){
-	delete sceneManager_;
 }

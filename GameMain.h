@@ -10,16 +10,21 @@
 #include "Object3d.h"
 #include "Degree.h"
 #include "Framework.h"
-#include "SceneManager.h"
+#include "BaseScene.h"
 
 class GameMain :public FrameworkΓ{
 public://構造体
-	//マウスボタン
-	typedef enum MouseButtonNum {
-		LeftButton,
-		RightButton,
-		CenterButton,
-	}MouseButtonNum;
+	////マウスボタン
+	//typedef enum MouseButtonNum {
+	//	LeftButton,
+	//	RightButton,
+	//	CenterButton,
+	//}MouseButtonNum;
+
+	enum SceneNum{
+		Title_scene,
+		GamePlay_scene
+	};
 
 public://関数
 	void Initialize() override;
@@ -28,5 +33,8 @@ public://関数
 	void Finalize() override;
 
 private://変数
-	SceneManager* sceneManager_ = nullptr;
+	static Input* input_;
+	BaseScene* scene_ = nullptr;
+
+	int32_t sceneNum = Title_scene;
 };

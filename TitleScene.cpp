@@ -28,14 +28,6 @@ void TitleScene::Initialize(){
 void TitleScene::Update(){
 	input_->Update();
 	sprite_->Update();
-
-	if (input_->TriggerKey(DIK_RETURN)) {
-		//次のシーン生成
-		BaseScene* scene_ = new GamePlayScene();
-
-		//シーン切り替え依頼
-		sceneManager_->SetNextScene(scene_);
-	}
 }
 
 void TitleScene::Draw(){

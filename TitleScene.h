@@ -35,7 +35,4 @@ private:
 	DrawBasis* drawBas_ = nullptr;
 
 	Sprite* sprite_ = new Sprite();
-
-	//シーン
-	SceneManager* sceneManager_;
 };
