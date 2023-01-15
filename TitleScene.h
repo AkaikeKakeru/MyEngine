@@ -7,6 +7,8 @@
 #include "Sprite.h"
 #include "Object3d.h"
 
+#include "SceneManager.h"
+
 class TitleScene : public BaseScene{
 public://構造体
 	   //マウスボタン
@@ -35,5 +37,5 @@ private:
 	Sprite* sprite_ = new Sprite();
 
 	//シーン
-	//SceneManager* sceneManager_;
+	SceneManager* sceneManager_;
 };

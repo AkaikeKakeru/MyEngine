@@ -1,8 +1,8 @@
 #include "TitleScene.h"
+#include "GamePlayScene.h"
 #include "SafeDelete.h"
 
-//#include "SceneManager.h"
-#include "GamePlayScene.h"
+#include "Framework.h"
 
 DirectXBasis* TitleScene::dxBas_ = DirectXBasis::GetInstance();
 Input* TitleScene::input_ = Input::GetInstance();
@@ -29,13 +29,13 @@ void TitleScene::Update(){
 	input_->Update();
 	sprite_->Update();
 
-	//if (input_->TriggerKey(DIK_RETURN)) {
-	//	//最初のシーン
-	//	BaseScene* scene_ = new GamePlayScene();
+	if (input_->TriggerKey(DIK_RETURN)) {
+		//次のシーン生成
+		BaseScene* scene_ = new GamePlayScene();
 
-	//	//シーンマネージャーにセット
-	//	sceneManager_->SetNextScene(scene_);
-	//}
+		//シーン切り替え依頼
+		sceneManager_->SetNextScene(scene_);
+	}
 }
 
 void TitleScene::Draw(){

@@ -7,9 +7,6 @@
 #include "Sprite.h"
 #include "Object3d.h"
 
-#include "TitleScene.h"
-#include "SceneManager.h"
-
 #include "Player.h"
 #include "Enemy.h"
 #include "Skydome.h"
@@ -81,7 +78,4 @@ private:
 
 	//レベルアップタイマー
 	int32_t levelUpTimer_ = kLevelInterval;
-
-	//シーン
-	std::unique_ptr<SceneManager> sceneManager_;
 };

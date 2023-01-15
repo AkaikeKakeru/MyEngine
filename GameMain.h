@@ -9,7 +9,6 @@
 #include "Sprite.h"
 #include "Object3d.h"
 #include "Degree.h"
-#include "GamePlayScene.h"
 #include "Framework.h"
 #include "SceneManager.h"
 
@@ -29,6 +28,5 @@ public://関数
 	void Finalize() override;
 
 private://変数
-	//BaseScene* scene_ = nullptr;
 	SceneManager* sceneManager_ = nullptr;
 };
