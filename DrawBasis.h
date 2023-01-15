@@ -48,7 +48,7 @@ private://固有関数
 	/// </summary>
 
 	//テクスチャバッファ生成
-	void GenerateTextureBuffer(uint32_t textureIndex,const wchar_t* wfileName);
+	void GenerateTextureBuffer(uint32_t textureIndex, const wchar_t* wfileName);
 	//デスクリプタヒープ生成
 	static void GenerateDescriptorHeap();
 	//シェーダーリソースビュー作成
@@ -98,7 +98,7 @@ private://メンバ変数
 	/// </summary>
 
 	//テクスチャバッファ
-	std::array<ComPtr<ID3D12Resource>,kMaxSRVCount> texBuffs_;
+	std::array<ComPtr<ID3D12Resource>, kMaxSRVCount> texBuffs_;
 	//テクスチャリソースデスク
 	D3D12_RESOURCE_DESC texResDesc_{};
 	//デスクリプタヒープ

@@ -15,6 +15,13 @@ public:
 	const Vector3& GetPosition()const { return object_->GetPosition(); }
 
 	float GetRadian()const { return radian_; }
+	bool IsCollision()const { return isCollision_; }
+
+	bool IsGameOver()const { return isGameOver_; }
+private:
+	void Move();
+
+	void Rotation();
 
 private:
 	static Input* input_;
@@ -27,6 +34,10 @@ private:
 	float gravity_ = 0.01f;
 
 	float radian_ = 5.8f;
+
+	bool isCollision_ = false;
+
+	bool isGameOver_ = false;
 public:
 	~Player();
 };

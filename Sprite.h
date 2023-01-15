@@ -49,7 +49,7 @@ private://構造体
 	}VerticesParts;
 
 public://基本関数
-	void Initialize(DrawBasis* drawBas,uint32_t textureIndex = UINT32_MAX);
+	void Initialize(DrawBasis* drawBas, uint32_t textureIndex = UINT32_MAX);
 	void Update();
 	void Draw();
 

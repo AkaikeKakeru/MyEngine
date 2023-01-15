@@ -86,17 +86,17 @@ void DrawBasis::PreDraw() {
 	cmdList_->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 }
 
-void DrawBasis::SetTextureCommand(uint32_t textureIndex){
+void DrawBasis::SetTextureCommand(uint32_t textureIndex) {
 	////SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap_->GetGPUDescriptorHandleForHeapStart();
-	for (size_t i = 0; i <  textureIndex; i++){
+	for (size_t i = 0; i < textureIndex; i++) {
 		srvGpuHandle.ptr += incrementSize_;
 	}
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	cmdList_->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 }
 
-void DrawBasis::PostDraw(){
+void DrawBasis::PostDraw() {
 
 }
 
@@ -340,7 +340,7 @@ void DrawBasis::GeneratePipelineState() {
 void DrawBasis::LoadTexture(uint32_t textureIndex, const std::string& fileName) {
 	//ディレクトリパスとファイル名を連結して、フルパスを得る
 	std::string fullPath = textureDhirectoryPath_ + fileName;//「Resources」+「○○.拡張子」
-	
+
 	//ワイド文字列に変換した際の文字列バッファサイズを計算
 	int filePathBufferSize = MultiByteToWideChar(
 		CP_ACP, 0, fullPath.c_str(), -1, nullptr, 0);
@@ -350,11 +350,11 @@ void DrawBasis::LoadTexture(uint32_t textureIndex, const std::string& fileName) 
 	MultiByteToWideChar(
 		CP_ACP, 0, fullPath.c_str(), -1, wfilePath.data(), filePathBufferSize);
 
-	GenerateTextureBuffer(textureIndex,wfilePath.data());
+	GenerateTextureBuffer(textureIndex, wfilePath.data());
 	CreateShaderResourceView(textureIndex);
 }
 
-void DrawBasis::GenerateTextureBuffer(uint32_t textureIndex,const wchar_t* wfileName) {
+void DrawBasis::GenerateTextureBuffer(uint32_t textureIndex, const wchar_t* wfileName) {
 	HRESULT result;
 
 	TexMetadata metadata{};
@@ -443,7 +443,7 @@ void DrawBasis::GenerateDescriptorHeap() {
 void DrawBasis::CreateShaderResourceView(uint32_t textureIndex) {
 	//SRVヒープの先頭アドレスを取得
 	srvHandle_ = srvHeap_->GetCPUDescriptorHandleForHeapStart();
-	for (size_t i = 0; i < textureIndex; i++){
+	for (size_t i = 0; i < textureIndex; i++) {
 		srvHandle_.ptr += incrementSize_;
 	}
 	//シェーダーリソースビュー設定

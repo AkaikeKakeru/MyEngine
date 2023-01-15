@@ -7,21 +7,61 @@ DirectXBasis* GamePlayScene::dxBas_ = DirectXBasis::GetInstance();
 Input* GamePlayScene::input_ = Input::GetInstance();
 DrawBasis* GamePlayScene::drawBas_ = DrawBasis::GetInstance();
 
-void GamePlayScene::Initialize(){
+void GamePlayScene::Initialize() {
+	//湧きタイマー
+	spawnTimer_ = kSpawnInterval;
+	//湧き数
+	spawnNum_ = 1;
+
+	//レベルアップタイマー
+	levelUpTimer_ = kLevelInterval;
+
+	//ヒットストップフラグ
+	isHitStop_ = false;
+	//ヒットストップタイマー
+	hitStopTimer_ = kHitStopInterval;
+
+	//無敵フラグ
+	isInvincible_ = false;
+	//無敵タイマー
+	invincibleTimer_ = kInvincibleInterval;
+
+	//ゲームオーバーフラグ
+	isGameOver_ = false;
+
 	Initialize3d();
 
 	Initialize2d();
 }
 
-void GamePlayScene::Update(){
+void GamePlayScene::Update() {
 	input_->Update();
 
-	Update3d();
+	//自機の衝突判定時に、ヒットストップを起動
+	if (player_->IsCollision() && !isInvincible_) {
+		isHitStop_ = true;
+		isInvincible_ = true;
+	}
 
+	if (isHitStop_ == true) {
+		//ヒットストップタイマーカウントダウン
+		hitStopTimer_--;
+
+		if (hitStopTimer_ <= 0) {
+			hitStopTimer_ = kHitStopInterval;
+			isHitStop_ = false;
+		}
+
+	}
+	else {
+		if (!isGameOver_) {
+			Update3d();
+		}
+	}
 	Update2d();
 }
 
-void GamePlayScene::Draw(){
+void GamePlayScene::Draw() {
 	Object3d::PreDraw(dxBas_->GetCommandList().Get());
 	Draw3d();
 	Object3d::PostDraw();
@@ -31,38 +71,48 @@ void GamePlayScene::Draw(){
 	drawBas_->PostDraw();
 }
 
-void GamePlayScene::Initialize3d(){
+void GamePlayScene::Initialize3d() {
 	//天球
 	modelSkydome_ = Model::LoadFromOBJ("skydome");
-	std::unique_ptr<Skydome> newSkydome = std::make_unique<Skydome>();
-	newSkydome->Initialize(modelSkydome_);
-	skydome_.push_back(std::move(newSkydome));
+	skydome_ = new Skydome();
+	skydome_->Initialize(modelSkydome_);
 
 	//自機
 	modelPlayer_ = Model::LoadFromOBJ("plane");
-	std::unique_ptr<Player> newPlayer = std::make_unique<Player>();
-	newPlayer->Initialize(modelPlayer_);
-	player_.push_back(std::move(newPlayer));
+	player_ = new Player();
+	player_->Initialize(modelPlayer_);
 
 	//敵機
 	modelEnemy_ = Model::LoadFromOBJ("planeEnemy");
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
-	newEnemy->Initialize(modelEnemy_,{ 0.0f,30.0f,100.0f });
+	newEnemy->Initialize(modelEnemy_, { 0.0f,30.0f,100.0f });
 	enemys_.push_back(std::move(newEnemy));
 }
 
-void GamePlayScene::Initialize2d(){
+void GamePlayScene::Initialize2d() {
 	//描画基盤
-	drawBas_->LoadTexture(0, "smile.png");
-	drawBas_->LoadTexture(1, "texture.png");
-
 	//描画スプライト
-	//レティクル
-	reticle_ = new Sprite();
-	reticle_->Initialize(drawBas_,1);
+	back_ = new Sprite();
+	ui_ = new Sprite();
+	over_ = new Sprite();
+
+	over_->Initialize(drawBas_, 3);
+	over_->SetAnchorPoint({ 0.5f,0.5f });
+	over_->SetPosition({ WinApp::Win_Width / 2 + 100.0f,WinApp::Win_Height / 2 - 150.0f });
+	over_->Update();
+
+	back_->Initialize(drawBas_, 2);
+	back_->SetAnchorPoint({ 0.5f,0.5f });
+	back_->SetPosition({ WinApp::Win_Width / 2,WinApp::Win_Height / 2 });
+	back_->Update();
+
+	ui_->Initialize(drawBas_, 1);
+	ui_->SetAnchorPoint({ 0.5f,0.5f });
+	ui_->SetPosition({ WinApp::Win_Width / 2 + 260.0f,WinApp::Win_Height / 2 + 160.0f });
+	ui_->Update();
 }
 
-void GamePlayScene::Update3d(){
+void GamePlayScene::Update3d() {
 	//デスフラグが立ったら削除
 	enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
 		return enemy->IsDead();
@@ -81,83 +131,69 @@ void GamePlayScene::Update3d(){
 
 	if (spawnTimer_ <= 0) {
 
-		for (size_t i = 0; i < spawnNum_; i++){
+		for (size_t i = 0; i < spawnNum_; i++) {
 			std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
-			newEnemy->Initialize(modelEnemy_,{
+			newEnemy->Initialize(modelEnemy_, {
 				RandomOutput(-62.0f,62.0f),
 				RandomOutput(-38.0f,38.0f),
-				100.0f});
+				100.0f });
 			enemys_.push_back(std::move(newEnemy));
 		}
 
 		spawnTimer_ = kSpawnInterval;
 	}
 
-	Vector2 pos = { 0,0 };
+	skydome_->Update();
 
-	// カメラ移動
-	if (input_->PressKey(DIK_W) ||
-		input_->PressKey(DIK_S) ||
-		input_->PressKey(DIK_D) ||
-		input_->PressKey(DIK_A) ||
-		input_->PressKey(DIK_Q) ||
-		input_->PressKey(DIK_C)) {
+	player_->Update();
 
-		Vector3 eyeVector = { 0,0,0 };
-
-		if (input_->PressKey(DIK_W)) { eyeVector.y += 1.0f; }
-		else if (input_->PressKey(DIK_S)) { eyeVector.y -= 1.0f; }
-		if (input_->PressKey(DIK_D)) { eyeVector.x += 1.0f; }
-		else if (input_->PressKey(DIK_A)) { eyeVector.x -= 1.0f; }
-		if (input_->PressKey(DIK_Q)) { eyeVector.z  += 1.0f; }
-		else if (input_->PressKey(DIK_C)) { eyeVector.z -= 1.0f;}
-	
-		Object3d::CameraMoveEyeVector(eyeVector);
-	}
-
-	for (std::unique_ptr<Skydome>& skydome:skydome_){
-		skydome->Update();
-	}
-
-	for (std::unique_ptr<Player>& player:player_){
-		player->Update();
-	}
-
-	for (std::unique_ptr<Enemy>& enemy:enemys_){
+	for (std::unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->Update();
 	}
 
-	CheckAllCollisions();
-}
+	if (isInvincible_ == true) {
+		//無敵タイマーカウントダウン
+		invincibleTimer_--;
 
-void GamePlayScene::Update2d(){
-	reticle_->SetPosition(input_->GetMousePosition());
-	reticle_->SetAnchorPoint(Vector2(0.5f, 0.5f));
-	reticle_->SetSize({ 100,100 });
-	reticle_->SetTextureSize({256,256});
-	reticle_->Update();
-}
-
-void GamePlayScene::Draw3d(){
-	for (std::unique_ptr<Skydome>& skydome:skydome_){
-		skydome->Draw();
+		if (invincibleTimer_ <= 0) {
+			invincibleTimer_ = kInvincibleInterval;
+			isInvincible_ = false;
+		}
+	}
+	else {
+		CheckAllCollisions();
 	}
 
-	for (std::unique_ptr<Enemy>& enemy:enemys_){
+	if (player_->IsGameOver()) {
+		isGameOver_ = true;
+	}
+}
+
+void GamePlayScene::Update2d() {
+}
+
+void GamePlayScene::Draw3d() {
+	skydome_->Draw();
+
+	for (std::unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->Draw();
 	}
 
-	for (std::unique_ptr<Player>& player:player_){
-		player->Draw();
+	if (invincibleTimer_ % 2 == 0) {
+		player_->Draw();
 	}
 }
 
-void GamePlayScene::Draw2d(){
-	reticle_->Draw();
+void GamePlayScene::Draw2d() {
+	if (isGameOver_) {
+		back_->Draw();
+		ui_->Draw();
+		over_->Draw();
+	}
 }
 
-void GamePlayScene::Finalize(){
-	for (std::unique_ptr<Enemy>& enemy:enemys_){
+void GamePlayScene::Finalize() {
+	for (std::unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->Finalize();
 	}
 
@@ -166,45 +202,40 @@ void GamePlayScene::Finalize(){
 		return enemy->IsDead();
 		});
 
-	player_.remove_if([](std::unique_ptr<Player>& player) {
-		return true;
-		});
+	SafeDelete(ui_);
+	SafeDelete(back_);
+	SafeDelete(over_);
 
-	skydome_.remove_if([](std::unique_ptr<Skydome>& skydome) {
-		return true;
-		});
-	
+	SafeDelete(skydome_);
+	SafeDelete(player_);
+
 	SafeDelete(modelSkydome_);
 	SafeDelete(modelEnemy_);
 	SafeDelete(modelPlayer_);
-
-	SafeDelete(reticle_);
 }
 
 void GamePlayScene::CheckAllCollisions() {
 	Vector3 posA, posB;
 	float radA, radB;
 
-	for (const std::unique_ptr<Player>& player : player_) {
-		posA = player->GetPosition();
-		radA = player->GetRadian();
+	posA = player_->GetPosition();
+	radA = player_->GetRadian();
 
-		for (const std::unique_ptr<Enemy>& enemy : enemys_) {
-			posB = enemy->GetPosition();
-			radB = enemy->GetRadian();
+	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
+		posB = enemy->GetPosition();
+		radB = enemy->GetRadian();
 
-			if (Collision_SphereToSphere(posA, posB, radA, radB)) {
-				player->OnCollision();
-				enemy->OnCollision();
-			}
+		if (Collision_SphereToSphere(posA, posB, radA, radB)) {
+			player_->OnCollision();
+			enemy->OnCollision();
 		}
 	}
 }
 
-float GamePlayScene::RandomOutput(float min, float max){
+float GamePlayScene::RandomOutput(float min, float max) {
 	std::random_device seed_gen;
 	std::mt19937_64 engine(seed_gen());
-	std::uniform_real_distribution<float> dist(min,max);
+	std::uniform_real_distribution<float> dist(min, max);
 
 	return dist(engine);
 }

@@ -4,7 +4,7 @@
 
 Input* Enemy::input_ = Input::GetInstance();
 
-void Enemy::Initialize(Model* model,Vector3 position) {
+void Enemy::Initialize(Model* model, Vector3 position) {
 	object_ = Object3d::Create();
 
 	object_->SetModel(model);
@@ -36,11 +36,11 @@ void Enemy::Draw() {
 	object_->Draw();
 }
 
-void Enemy::Finalize(){
+void Enemy::Finalize() {
 	isDead_ = true;
 }
 
-void Enemy::OnCollision(){
+void Enemy::OnCollision() {
 	isDead_ = true;
 }
 

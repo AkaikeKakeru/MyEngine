@@ -29,7 +29,7 @@ ComPtr<ID3D12DescriptorHeap> Object3d::descHeap;
 
 ViewProjection Object3d::viewProjection_;
 
-void Object3d::StaticInitialize(ID3D12Device* device, int window_width, int window_height){
+void Object3d::StaticInitialize(ID3D12Device* device, int window_width, int window_height) {
 	// nullptrチェック
 	assert(device);
 
@@ -45,7 +45,7 @@ void Object3d::StaticInitialize(ID3D12Device* device, int window_width, int wind
 	InitializeGraphicsPipeline();
 }
 
-void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList){
+void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList) {
 	// PreDrawとPostDrawがペアで呼ばれていなければエラー
 	assert(Object3d::cmdList == nullptr);
 
@@ -60,12 +60,12 @@ void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList){
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
-void Object3d::PostDraw(){
+void Object3d::PostDraw() {
 	// コマンドリストを解除
 	Object3d::cmdList = nullptr;
 }
 
-Object3d* Object3d::Create(){
+Object3d* Object3d::Create() {
 
 	// 3Dオブジェクトのインスタンスを生成
 	Object3d* object3d = new Object3d();
@@ -87,19 +87,19 @@ Object3d* Object3d::Create(){
 	return object3d;
 }
 
-void Object3d::SetEye(Vector3 eye){
+void Object3d::SetEye(Vector3 eye) {
 	Object3d::viewProjection_.camera_.eye_ = eye;
 
 	UpdateViewMatrix();
 }
 
-void Object3d::SetTarget(Vector3 target){
+void Object3d::SetTarget(Vector3 target) {
 	Object3d::viewProjection_.camera_.target_ = target;
 
 	UpdateViewMatrix();
 }
 
-void Object3d::CameraMoveVector(Vector3 move){
+void Object3d::CameraMoveVector(Vector3 move) {
 	Vector3 eye_moved = GetEye();
 	Vector3 target_moved = GetTarget();
 
@@ -115,7 +115,7 @@ void Object3d::CameraMoveVector(Vector3 move){
 	SetTarget(target_moved);
 }
 
-void Object3d::CameraMoveEyeVector(Vector3 move){
+void Object3d::CameraMoveEyeVector(Vector3 move) {
 	Vector3 eye_moved = GetEye();
 	Vector3 target_moved = GetTarget();
 
@@ -126,7 +126,7 @@ void Object3d::CameraMoveEyeVector(Vector3 move){
 	SetEye(eye_moved);
 }
 
-void Object3d::InitializeCamera(int window_width, int window_height){
+void Object3d::InitializeCamera(int window_width, int window_height) {
 	//ビュー行列の計算
 	UpdateViewMatrix();
 
@@ -146,7 +146,7 @@ void Object3d::InitializeCamera(int window_width, int window_height){
 	};
 }
 
-void Object3d::InitializeGraphicsPipeline(){
+void Object3d::InitializeGraphicsPipeline() {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> psBlob;	// ピクセルシェーダオブジェクト
@@ -265,7 +265,7 @@ void Object3d::InitializeGraphicsPipeline(){
 	descRangeSRV.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0); // t0 レジスタ
 
 	// ルートパラメータ
-	CD3DX12_ROOT_PARAMETER rootparams[3]={};
+	CD3DX12_ROOT_PARAMETER rootparams[3] = {};
 	rootparams[0].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_ALL);
 	rootparams[1].InitAsConstantBufferView(1, 0, D3D12_SHADER_VISIBILITY_ALL);
 	rootparams[2].InitAsDescriptorTable(1, &descRangeSRV, D3D12_SHADER_VISIBILITY_ALL);
@@ -296,7 +296,7 @@ void Object3d::InitializeGraphicsPipeline(){
 	assert(SUCCEEDED(result));
 }
 
-void Object3d::UpdateViewMatrix(){
+void Object3d::UpdateViewMatrix() {
 	//視点座標
 	Vector3 eyePosition = viewProjection_.camera_.eye_;
 	//注視点座標
@@ -329,14 +329,14 @@ void Object3d::UpdateViewMatrix(){
 		Vector3Dot(reverseEyePosition,axisY),
 		Vector3Dot(reverseEyePosition,axisZ)
 	};
-	
+
 	//ビュー行列に平行移動成分を設定
 	viewProjection_.matView_.m[3][0] = cameraMoveVal_.x;
 	viewProjection_.matView_.m[3][1] = cameraMoveVal_.y;
 	viewProjection_.matView_.m[3][2] = cameraMoveVal_.z;
 }
 
-bool Object3d::Initialize(){
+bool Object3d::Initialize() {
 	// nullptrチェック
 	assert(device);
 
@@ -355,7 +355,7 @@ bool Object3d::Initialize(){
 	return true;
 }
 
-void Object3d::Update(){
+void Object3d::Update() {
 	HRESULT result;
 
 	worldTransform_.UpdateMatrix();
@@ -363,18 +363,18 @@ void Object3d::Update(){
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap0 = nullptr;
 	result = worldTransform_.constBuff_->Map(0, nullptr, (void**)&constMap0);
-	
+
 	//constMap->color = color;
-	
+
 	// 行列の合成
-	worldTransform_.constMap_->mat_ = 
-		worldTransform_.matWorld_ 
+	worldTransform_.constMap_->mat_ =
+		worldTransform_.matWorld_
 		* viewProjection_.matView_
-		* viewProjection_.matProjection_;	
+		* viewProjection_.matProjection_;
 	worldTransform_.constBuff_->Unmap(0, nullptr);
 }
 
-void Object3d::Draw(){
+void Object3d::Draw() {
 	// nullptrチェック
 	assert(device);
 	assert(Object3d::cmdList);

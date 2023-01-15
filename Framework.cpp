@@ -3,7 +3,7 @@
 #include "DrawBasis.h"
 #include "TitleScene.h"
 
-void FrameworkΓ::Run(){
+void FrameworkΓ::Run() {
 	/// 初期化
 	Initialize();
 
@@ -24,7 +24,7 @@ void FrameworkΓ::Run(){
 	Finalize();
 }
 
-void FrameworkΓ::Initialize(){
+void FrameworkΓ::Initialize() {
 	///基盤初期化
 	//アプリケーション
 	winApp_ = WinApp::GetInstance();
@@ -45,14 +45,13 @@ void FrameworkΓ::Initialize(){
 	DrawBasis::Initialize();
 }
 
-void FrameworkΓ::Update(){
+void FrameworkΓ::Update() {
 	//windowsのメッセージ処理
 	if (winApp_->ProcessMessage()) {
 		//ゲームループを抜ける
 		isEndRequest_ = true;
 	}
-
 }
 
-void FrameworkΓ::Finalize(){
+void FrameworkΓ::Finalize() {
 }

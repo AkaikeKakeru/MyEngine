@@ -8,7 +8,6 @@ public:
 	virtual void Finalize() = 0;
 
 private:
-
 public:
 	virtual ~BaseScene() = default;
 };

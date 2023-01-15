@@ -4,7 +4,7 @@
 #include "WinApp.h"
 #include <cassert>
 
-void Sprite::Initialize(DrawBasis* drawBas,uint32_t textureIndex) {
+void Sprite::Initialize(DrawBasis* drawBas, uint32_t textureIndex) {
 	assert(drawBas);
 	drawBas_ = drawBas;
 	device_ = drawBas_->GetDevice();
@@ -65,12 +65,12 @@ void Sprite::Update() {
 	if (textureBuffer) {
 		//テクスチャ情報取得
 		D3D12_RESOURCE_DESC texResDesc = textureBuffer->GetDesc();
-		
+
 		float tex_left = textureLeftTop_.x / texResDesc.Width;
 		float tex_right = (textureLeftTop_.x + textureSize_.x) / texResDesc.Width;
 		float tex_top = textureLeftTop_.y / texResDesc.Height;
 		float tex_bottom = (textureLeftTop_.y + textureSize_.y) / texResDesc.Height;
-	
+
 		//頂点のUVに反映する
 		vertices_[LeftBottom].uv = { tex_left,tex_bottom };//左下
 		vertices_[LeftTop].uv = { tex_left,tex_top };//左上
@@ -299,7 +299,7 @@ void Sprite::ReCalcMatWorld() {
 				0.0f));
 }
 
-void Sprite::AdjustTextureSize(){
+void Sprite::AdjustTextureSize() {
 	ID3D12Resource* textureBuffer = drawBas_->GetTextureBuffer(textureIndex_);
 	assert(textureBuffer);
 

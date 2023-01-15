@@ -14,14 +14,14 @@ private://省略
 
 public://構造体
 	// 頂点データ構造体
-	struct VertexPosNormalUv{
+	struct VertexPosNormalUv {
 		Vector3 pos; // xyz座標
 		Vector3 normal; // 法線ベクトル
 		Vector2 uv;  // uv座標
 	};
 
 	// 定数バッファ用データ構造体B1
-	struct ConstBufferDataMaterial{
+	struct ConstBufferDataMaterial {
 		Vector3 ambient;	//アンビエント係数
 		float pad1;			//パディング
 		Vector3 diffuse;	//ディフューズ係数
@@ -31,7 +31,7 @@ public://構造体
 	};
 
 	//マテリアル
-	struct Material{
+	struct Material {
 		std::string name; //マテリアル名
 		Vector3 ambient; //アンビエント影響度
 		Vector3 diffuse; //ディフューズ影響度
@@ -59,7 +59,7 @@ public://関数
 	/// <summary>
 	/// マテリアル読み込み
 	/// </summary>
-	void LoadMaterial(const std::string& directoryPath,const std::string& filename);
+	void LoadMaterial(const std::string& directoryPath, const std::string& filename);
 
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial);

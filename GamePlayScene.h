@@ -14,15 +14,7 @@
 #include <memory>
 #include <List>
 
-class GamePlayScene : public BaseScene{
-public://構造体
-	  //マウスボタン
-	typedef enum MouseButtonNum {
-		LeftButton,
-		RightButton,
-		CenterButton,
-	}MouseButtonNum;
-
+class GamePlayScene : public BaseScene {
 public:
 	void Initialize() override;
 	void Update() override;
@@ -31,6 +23,8 @@ public:
 
 	//衝突確認
 	void CheckAllCollisions();
+
+	bool IsGameOver() { return isGameOver_; };
 private:
 	void Initialize3d();
 	void Initialize2d();
@@ -41,13 +35,20 @@ private:
 	void Draw3d();
 	void Draw2d();
 
-	float RandomOutput(float min,float max);
+	float RandomOutput(float min, float max);
 
 public:
 	//生成間隔
 	static const int kSpawnInterval = 60 * 1;
 
+	//レベル間隔
 	static const int kLevelInterval = 60 * 4;
+
+	//ヒットストップ間隔
+	static const int kHitStopInterval = 24;//60*0.4
+
+	//無敵間隔
+	static const int kInvincibleInterval = 78;//60*1.3
 
 private:
 	/// <summary>
@@ -65,11 +66,15 @@ private:
 
 	static DrawBasis* drawBas_;
 
-	Sprite* reticle_ = nullptr;
+	Sprite* back_ = nullptr;
+	Sprite* ui_ = nullptr;
+	Sprite* over_ = nullptr;
 
-	std::list<std::unique_ptr<Player>> player_;
+	Player* player_ = nullptr;
+
 	std::list<std::unique_ptr<Enemy>> enemys_;
-	std::list<std::unique_ptr<Skydome>> skydome_;
+
+	Skydome* skydome_ = nullptr;
 
 	//湧きタイマー
 	int32_t spawnTimer_ = kSpawnInterval;
@@ -78,4 +83,17 @@ private:
 
 	//レベルアップタイマー
 	int32_t levelUpTimer_ = kLevelInterval;
+
+	//ヒットストップフラグ
+	bool isHitStop_ = false;
+	//ヒットストップタイマー
+	int32_t hitStopTimer_ = kHitStopInterval;
+
+	//無敵フラグ
+	bool isInvincible_ = false;
+	//無敵タイマー
+	int32_t invincibleTimer_ = kInvincibleInterval;
+
+	//ゲームオーバーフラグ
+	bool isGameOver_ = false;
 };

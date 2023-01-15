@@ -5,7 +5,7 @@
 
 class Enemy {
 public:
-	void Initialize(Model* model,Vector3 position);
+	void Initialize(Model* model, Vector3 position);
 	void Update();
 	void Draw();
 	void Finalize();

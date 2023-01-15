@@ -7,16 +7,10 @@
 #include "Sprite.h"
 #include "Object3d.h"
 
-#include "SceneManager.h"
+#include "Player.h"
+#include "Skydome.h"
 
-class TitleScene : public BaseScene{
-public://構造体
-	   //マウスボタン
-	typedef enum MouseButtonNum {
-		LeftButton,
-		RightButton,
-		CenterButton,
-	}MouseButtonNum;
+class TitleScene : public BaseScene {
 
 public:
 	void Initialize() override;
@@ -34,5 +28,15 @@ private:
 	static Input* input_;
 	DrawBasis* drawBas_ = nullptr;
 
-	Sprite* sprite_ = new Sprite();
+	Model* modelSkydome_ = nullptr;
+	Skydome* skydome_ = nullptr;
+
+	Model* modelPlayer_ = nullptr;
+	Player* player_ = nullptr;
+
+	Sprite* title_ = nullptr;
+	Sprite* back_ = nullptr;
+	Sprite* ui_ = nullptr;
+
+	bool isStart_ = false;
 };

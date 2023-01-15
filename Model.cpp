@@ -25,14 +25,14 @@ Model* Model::LoadFromOBJ(const std::string& modelname) {
 
 	//読み込み
 	model->LoadFromOBJInternal(modelname);
-	
+
 	//バッファ生成
 	model->CreateBaffers();
 
 	return model;
 }
 
-void Model::LoadFromOBJInternal(const std::string& modelname){
+void Model::LoadFromOBJInternal(const std::string& modelname) {
 	//ファイルストリーム
 	std::ifstream file;
 	//モデル名
@@ -266,7 +266,7 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 	}
 }
 
-void Model::InitializeDescriptorHeap(){
+void Model::InitializeDescriptorHeap() {
 	HRESULT result = S_FALSE;
 
 	// デスクリプタヒープを生成	
@@ -283,7 +283,7 @@ void Model::InitializeDescriptorHeap(){
 	descriptorIncrementSize_ = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 }
 
-void Model::CreateBaffers(){
+void Model::CreateBaffers() {
 	HRESULT result = S_FALSE;
 
 	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv) * vertices_.size());
@@ -338,7 +338,7 @@ void Model::CreateBaffers(){
 	// ヒーププロパティ
 	CD3DX12_HEAP_PROPERTIES heapPropsMaterial = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 	// リソース設定
-	CD3DX12_RESOURCE_DESC resourceDescMaterial = CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataMaterial) + 0xff)& ~0xff);
+	CD3DX12_RESOURCE_DESC resourceDescMaterial = CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataMaterial) + 0xff) & ~0xff);
 
 	// 定数バッファの生成
 	result = device_->CreateCommittedResource(
@@ -362,7 +362,7 @@ void Model::CreateBaffers(){
 	}
 }
 
-void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial){
+void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial) {
 	// 頂点バッファの設定
 	cmdList->IASetVertexBuffers(0, 1, &vbView_);
 	// インデックスバッファの設定

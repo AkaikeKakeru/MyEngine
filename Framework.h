@@ -25,6 +25,6 @@ private:
 
 	bool isEndRequest_ = false;
 
-public: 
+public:
 	virtual ~FrameworkΓ() = default;
 };

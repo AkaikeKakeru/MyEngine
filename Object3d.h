@@ -18,27 +18,27 @@
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>
-class Object3d{
+class Object3d {
 private: // エイリアス
 	// Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 public: // サブクラス
 	// 頂点データ構造体
-	struct VertexPosNormalUv{
+	struct VertexPosNormalUv {
 		Vector3 pos; // xyz座標
 		Vector3 normal; // 法線ベクトル
 		Vector2 uv;  // uv座標
 	};
 
 	// 定数バッファ用データ構造体B0
-	struct ConstBufferDataB0{
+	struct ConstBufferDataB0 {
 		//Vector4 color;	// 色 (RGBA)
 		Matrix4 mat;	// ３Ｄ変換行列
 	};
 
 	// 定数バッファ用データ構造体B1
-	struct ConstBufferDataB1{
+	struct ConstBufferDataB1 {
 		Vector3 ambient;	//アンビエント係数
 		float pad1;			//パディング
 		Vector3 diffuse;	//ディフューズ係数
@@ -48,7 +48,7 @@ public: // サブクラス
 	};
 
 	//マテリアル
-	struct Material{
+	struct Material {
 		std::string name; //マテリアル名
 		Vector3 ambient; //アンビエント影響度
 		Vector3 diffuse; //ディフューズ影響度
