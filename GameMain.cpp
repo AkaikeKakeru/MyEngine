@@ -3,23 +3,21 @@
 void GameMain::Initialize(){
 
 	FrameworkΓ::Initialize();
+	sceneManager_ = FrameworkΓ::GetSceneManager();
 
-	scene_ = new GamePlayScene();
-	scene_->Initialize();
-
+	BaseScene* scene = new TitleScene();
+	sceneManager_->SetNextScene(scene);
 }
 
 void GameMain::Update(){
 	FrameworkΓ::Update();
-
-	scene_->Update();
 }
 
 void GameMain::Draw(){
 	//描画前処理
 	FrameworkΓ::GetDirectXBasis()->PreDraw();
 
-	scene_->Draw();
+	sceneManager_->Draw();
 
 	//描画後処理
 	FrameworkΓ::GetDirectXBasis()->PostDraw();
@@ -27,6 +25,6 @@ void GameMain::Draw(){
 
 void GameMain::Finalize(){
 
-	scene_->Finalize();
-	//FrameworkΓ::Finalize();
+	//scene_->Finalize();
+	FrameworkΓ::Finalize();
 }

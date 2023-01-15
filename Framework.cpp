@@ -1,6 +1,7 @@
 #include "Framework.h"
 #include "Object3d.h"
 #include "DrawBasis.h"
+#include "TitleScene.h"
 
 void FrameworkΓ::Run(){
 	/// 初期化
@@ -45,6 +46,9 @@ void FrameworkΓ::Initialize(){
 
 	//drawBas_ = DrawBasis::GetInstance();
 	//drawBas_->Initialize();
+
+	//シーンマネージャ
+	sceneManager_ = new SceneManager();
 }
 
 void FrameworkΓ::Update(){
@@ -53,7 +57,10 @@ void FrameworkΓ::Update(){
 		//ゲームループを抜ける
 		isEndRequest_ = true;
 	}
+
+	sceneManager_->Update();
 }
 
 void FrameworkΓ::Finalize(){
+	delete sceneManager_;
 }

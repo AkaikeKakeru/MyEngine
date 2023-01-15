@@ -2,6 +2,7 @@
 #include "WinApp.h"
 #include "DirectXBasis.h"
 #include "Input.h"
+#include "SceneManager.h"
 
 class FrameworkΓ {
 public:
@@ -17,6 +18,7 @@ public:
 	WinApp* GetWinApp()const { return winApp_; }
 	DirectXBasis* GetDirectXBasis()const { return dxBas_; }
 	Input* GetInput()const { return input_; }
+	SceneManager* GetSceneManager()const { return sceneManager_; }
 
 private:
 	WinApp* winApp_ = nullptr;
@@ -24,6 +26,8 @@ private:
 	Input* input_ = nullptr;
 
 	bool isEndRequest_ = false;
+
+	SceneManager* sceneManager_ = nullptr;
 public: 
 	virtual ~FrameworkΓ() = default;
 };

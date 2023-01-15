@@ -11,6 +11,7 @@
 #include "Degree.h"
 #include "GamePlayScene.h"
 #include "Framework.h"
+#include "SceneManager.h"
 
 class GameMain :public FrameworkΓ{
 public://構造体
@@ -28,5 +29,6 @@ public://関数
 	void Finalize() override;
 
 private://変数
-	BaseScene* scene_ = nullptr;
+	//BaseScene* scene_ = nullptr;
+	SceneManager* sceneManager_ = nullptr;
 };
