@@ -14,7 +14,7 @@ void SceneManager::Update(){
 		nextScene_ = nullptr;
 
 		//シーンマネージャをセット
-		//scene_->SetSceneManager(this);
+		scene_->SetSceneManager(this);
 
 		//次のシーンを初期化
 		scene_->Initialize();
@@ -28,13 +28,14 @@ void SceneManager::Draw(){
 	scene_->Draw();
 }
 
-SceneManager* SceneManager::GetInstance(){
-	static SceneManager instance;
-	return &instance;
-}
-
-SceneManager::~SceneManager(){
+void SceneManager::Finalize(){
 	//最後のシーンの終了と解放
 	scene_->Finalize();
 	delete scene_;
+}
+
+SceneManager* SceneManager::GetInstance(){
+	static SceneManager instance ;
+
+	return &instance;
 }

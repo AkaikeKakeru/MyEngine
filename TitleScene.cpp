@@ -3,6 +3,7 @@
 #include "SafeDelete.h"
 
 #include "Framework.h"
+#include "SceneManager.h"
 
 DirectXBasis* TitleScene::dxBas_ = DirectXBasis::GetInstance();
 Input* TitleScene::input_ = Input::GetInstance();
@@ -28,6 +29,17 @@ void TitleScene::Initialize(){
 void TitleScene::Update(){
 	input_->Update();
 	sprite_->Update();
+
+	if (input_->TriggerKey(DIK_RETURN)) {
+		//次のシーンを生成
+		BaseScene* scene = new GamePlayScene();
+
+		//シーンマネージャのインスタンスを取得
+		SceneManager* sceneManager = SceneManager::GetInstance();
+
+		//シーンの切り替えを依頼
+		sceneManager->SetNextScene(scene);
+	}
 }
 
 void TitleScene::Draw(){

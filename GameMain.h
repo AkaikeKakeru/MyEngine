@@ -1,30 +1,10 @@
 #pragma once
-#include <Windows.h>
 #include "SafeDelete.h"
-#include "WinApp.h"
-#include "DirectXBasis.h"
-#include "Input.h"
-#include "DrawBasis.h"
-#include "Model.h"
-#include "Sprite.h"
-#include "Object3d.h"
-#include "Degree.h"
 #include "Framework.h"
 #include "BaseScene.h"
 
 class GameMain :public FrameworkΓ{
 public://構造体
-	////マウスボタン
-	//typedef enum MouseButtonNum {
-	//	LeftButton,
-	//	RightButton,
-	//	CenterButton,
-	//}MouseButtonNum;
-
-	enum SceneNum{
-		Title_scene,
-		GamePlay_scene
-	};
 
 public://関数
 	void Initialize() override;
@@ -33,8 +13,5 @@ public://関数
 	void Finalize() override;
 
 private://変数
-	static Input* input_;
-	BaseScene* scene_ = nullptr;
-
-	int32_t sceneNum = Title_scene;
+	SceneManager* sceneManager_ = nullptr;
 };
