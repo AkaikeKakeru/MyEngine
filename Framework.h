@@ -20,7 +20,7 @@ public:
 	DirectXBasis* GetDirectXBasis()const { return dxBas_; }
 	Input* GetInput()const { return input_; }
 	
-	SceneManager* GetSceneManager()const { return sceneManager_; }
+	static SceneManager* GetSceneManager(){ return sceneManager_; }
 
 private:
 	WinApp* winApp_ = nullptr;
@@ -29,7 +29,7 @@ private:
 
 	bool isEndRequest_ = false;
 
-	SceneManager* sceneManager_ = nullptr;
+	static SceneManager* sceneManager_;
 
 public: 
 	virtual ~FrameworkΓ() = default;

@@ -3,6 +3,8 @@
 #include "DrawBasis.h"
 #include "TitleScene.h"
 
+SceneManager* FrameworkΓ::sceneManager_ = SceneManager::GetInstance();
+
 void FrameworkΓ::Run(){
 	/// 初期化
 	Initialize();
@@ -44,8 +46,6 @@ void FrameworkΓ::Initialize(){
 	DrawBasis::GetInstance();
 	DrawBasis::Initialize();
 
-	//シーンマネージャ
-	sceneManager_ = SceneManager::GetInstance();
 }
 
 void FrameworkΓ::Update(){

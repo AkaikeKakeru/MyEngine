@@ -14,7 +14,7 @@ public:
 
 private:
 	//シーンマネージャ(借りてくる)
-	SceneManager* sceneManager_ = nullptr;
+	static SceneManager* sceneManager_;
 
 public:
 	virtual ~BaseScene() = default;

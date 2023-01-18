@@ -2,6 +2,8 @@
 #include "TitleScene.h"
 #include "GamePlayScene.h"
 
+SceneManager* GameMain::sceneManager_ = FrameworkΓ::GetSceneManager();
+
 void GameMain::Initialize() {
 	FrameworkΓ::Initialize();
 
