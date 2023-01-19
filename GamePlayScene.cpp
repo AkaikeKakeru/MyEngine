@@ -31,9 +31,9 @@ void GamePlayScene::Initialize() {
 
 	isStart_ = false;
 
-	Initialize3d();
 
 	Initialize2d();
+	Initialize3d();
 }
 
 void GamePlayScene::Update() {
@@ -82,7 +82,7 @@ void GamePlayScene::Initialize3d() {
 	//自機
 	modelPlayer_ = Model::LoadFromOBJ("plane");
 	player_ = new Player();
-	player_->Initialize(modelPlayer_);
+	player_->Initialize(reticle_,modelPlayer_);
 
 	//敵機
 	modelEnemy_ = Model::LoadFromOBJ("planeEnemy");
@@ -97,6 +97,7 @@ void GamePlayScene::Initialize2d() {
 	back_ = new Sprite();
 	ui_ = new Sprite();
 	over_ = new Sprite();
+	reticle_ = new Sprite();
 
 	over_->Initialize(drawBas_, 3);
 	over_->SetAnchorPoint({ 0.5f,0.5f });
@@ -148,6 +149,12 @@ void GamePlayScene::Initialize2d() {
 		900.0f,
 		0
 	};
+
+	reticle_->Initialize(drawBas_, 4);
+	reticle_->SetAnchorPoint({ 0.5f, 0.5f });
+	reticle_->SetPosition({ WinApp::Win_Width / 2,WinApp::Win_Height / 2});
+	reticle_->SetSize({ 50, 50 });
+	reticle_->Update();
 }
 
 void GamePlayScene::Update3d() {
@@ -199,11 +206,11 @@ void GamePlayScene::Update3d() {
 		}
 	}
 	else {
-		CheckAllCollisions();
+		//CheckAllCollisions();
 	}
 
 	if (player_->IsGameOver()) {
-		isGameOver_ = true;
+		//isGameOver_ = true;
 	}
 }
 
@@ -249,6 +256,8 @@ void GamePlayScene::Draw2d() {
 		ui_->Draw();
 		over_->Draw();
 	}
+
+	player_->Draw2d();
 }
 
 void GamePlayScene::Finalize() {

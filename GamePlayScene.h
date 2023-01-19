@@ -71,6 +71,7 @@ private:
 	Sprite* over_ = nullptr;
 
 	Player* player_ = nullptr;
+	Sprite* reticle_ = nullptr;
 
 	std::list<std::unique_ptr<Enemy>> enemys_;
 
