@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="Degree.cpp" />
     <ClCompile Include="DirectXBasis.cpp" />
     <ClCompile Include="DrawBasis.cpp" />
@@ -178,6 +179,7 @@
   <ItemGroup>
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="Cursor.h" />
     <ClInclude Include="Degree.h" />
     <ClInclude Include="DirectXBasis.h" />
     <ClInclude Include="DrawBasis.h" />

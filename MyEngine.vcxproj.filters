@@ -70,6 +70,9 @@
     <Filter Include="ソース ファイル\Game\Field">
       <UniqueIdentifier>{63f57e01-74e2-4d33-8af7-b82fd8f51b95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\Cursor">
+      <UniqueIdentifier>{fe5e1437-36be-449e-a80e-f0a027a82381}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -162,6 +165,9 @@
     <ClCompile Include="Collision.cpp">
       <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Cursor.cpp">
+      <Filter>ソース ファイル\Game\Cursor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXBasis.h">
@@ -252,6 +258,9 @@
       <Filter>ヘッダー ファイル\Game\Field</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">
+      <Filter>ヘッダー ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Cursor.h">
       <Filter>ヘッダー ファイル\Game</Filter>
     </ClInclude>
   </ItemGroup>
