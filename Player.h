@@ -2,12 +2,14 @@
 #include "Input.h"
 #include "Object3d.h"
 #include "WorldTransform.h"
+#include "Sprite.h"
 
 class Player {
 public:
-	void Initialize(Model* model);
+	void Initialize(Sprite*sprite,Model* model);
 	void Update();
 	void Draw();
+	void Draw2d();
 
 	//衝突コールバック
 	void OnCollision();
@@ -23,10 +25,17 @@ private:
 
 	void Rotation();
 
+	void Reticle();
+
 private:
 	static Input* input_;
 	Object3d* object_ = nullptr;
 	WorldTransform worldTransform_;
+
+	Object3d* objectReticle_ = nullptr;
+	WorldTransform worldTransformReticle_;
+
+	Sprite* spriteRethicle_ = nullptr;
 
 	float speed_ = 1.0f;
 	float speed_slow = 0.7f;
