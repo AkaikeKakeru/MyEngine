@@ -22,10 +22,10 @@ void TitleScene::Initialize() {
 	skydome_->Update();
 
 	//自機
-	modelPlayer_ = Model::LoadFromOBJ("plane");
-	player_ = new Player();
-	player_->Initialize(modelPlayer_);
-	player_->Update();
+	//modelPlayer_ = Model::LoadFromOBJ("plane");
+	//player_ = new Player();
+	//player_->Initialize(drawBas_,modelPlayer_);
+	//player_->Update();
 
 	//描画基盤
 	drawBas_ = DrawBasis::GetInstance();
@@ -35,6 +35,7 @@ void TitleScene::Initialize() {
 	drawBas_->LoadTexture(1, "press.png");
 	drawBas_->LoadTexture(2, "back.png");
 	drawBas_->LoadTexture(3, "over.png");
+	drawBas_->LoadTexture(4, "texture.png");
 
 	//描画スプライト
 	title_ = new Sprite();
@@ -126,7 +127,7 @@ void TitleScene::Draw() {
 
 	skydome_->Draw();
 
-	player_->Draw();
+	//player_->Draw();
 
 	Object3d::PostDraw();
 
@@ -146,7 +147,7 @@ void TitleScene::Finalize() {
 	SafeDelete(title_);
 
 	SafeDelete(skydome_);
-	SafeDelete(player_);
+	//SafeDelete(player_);
 
 	SafeDelete(modelSkydome_);
 	SafeDelete(modelPlayer_);

@@ -32,7 +32,7 @@ private:
 	Skydome* skydome_ = nullptr;
 
 	Model* modelPlayer_ = nullptr;
-	Player* player_ = nullptr;
+	//Player* player_ = nullptr;
 
 	Sprite* title_ = nullptr;
 	Sprite* back_ = nullptr;
