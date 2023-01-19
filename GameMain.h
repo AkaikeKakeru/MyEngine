@@ -15,12 +15,6 @@
 class GameMain :public FrameworkΓ {
 public://構造体
 
-	enum SceneNum {
-		Title_scene,
-		Wait_scene,
-		GamePlay_scene
-	};
-
 public://関数
 	void Initialize() override;
 	void Update() override;
@@ -28,15 +22,8 @@ public://関数
 	void Finalize() override;
 
 private:
-	//開始間隔
-	static const int kStartInterval = 30;//60 * 0.5
 
 private://変数
 	static Input* input_;
 	BaseScene* scene_ = nullptr;
-
-	int32_t sceneNum = Title_scene;
-
-	//開始タイマー
-	int32_t startTimer_ = kStartInterval;
 };

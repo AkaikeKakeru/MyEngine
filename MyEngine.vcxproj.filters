@@ -52,26 +52,11 @@
     <Filter Include="ヘッダー ファイル\Game\Scene">
       <UniqueIdentifier>{2df4e35c-6300-4ebf-bca6-82bb19d4e89c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Game\Player">
-      <UniqueIdentifier>{3d2308b9-6f28-47d1-acbe-b5873317dee1}</UniqueIdentifier>
+    <Filter Include="ヘッダー ファイル\Function">
+      <UniqueIdentifier>{67c04d07-7e6d-40f9-b072-45e9e03aa9b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Game\Enemy">
-      <UniqueIdentifier>{218ccee5-80b0-4724-bc37-8d94392f58b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\Player">
-      <UniqueIdentifier>{9c5e3931-a80a-4e73-ab60-bfc9add52cb2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\Enemy">
-      <UniqueIdentifier>{3feccba0-2aac-4d52-89c1-002c82b39b73}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Game\Field">
-      <UniqueIdentifier>{4fbeeae5-5ad3-4cdd-990c-0b640a17d8ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\Field">
-      <UniqueIdentifier>{63f57e01-74e2-4d33-8af7-b82fd8f51b95}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\Cursor">
-      <UniqueIdentifier>{fe5e1437-36be-449e-a80e-f0a027a82381}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Function">
+      <UniqueIdentifier>{1d450669-1a6d-4371-87eb-dfb1fcf01934}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -141,32 +126,23 @@
     <ClCompile Include="GamePlayScene.cpp">
       <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="TitleScene.cpp">
-      <Filter>ソース ファイル\Game\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="BaseScene.cpp">
       <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Framework.cpp">
-      <Filter>ソース ファイル\Game</Filter>
+    <ClCompile Include="Cursor.cpp">
+      <Filter>ソース ファイル\Function</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル\Game\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>ソース ファイル\Game\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Skydome.cpp">
-      <Filter>ソース ファイル\Game\Field</Filter>
+    <ClCompile Include="Random.cpp">
+      <Filter>ソース ファイル\Function</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp">
-      <Filter>ソース ファイル\Game</Filter>
+      <Filter>ソース ファイル\Function</Filter>
     </ClCompile>
-    <ClCompile Include="Cursor.cpp">
-      <Filter>ソース ファイル\Game\Cursor</Filter>
+    <ClCompile Include="Framework.cpp">
+      <Filter>ソース ファイル\base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -236,32 +212,23 @@
     <ClInclude Include="GamePlayScene.h">
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="TitleScene.h">
-      <Filter>ヘッダー ファイル\Game\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="BaseScene.h">
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Framework.h">
-      <Filter>ヘッダー ファイル\Game</Filter>
+    <ClInclude Include="Cursor.h">
+      <Filter>ヘッダー ファイル\Function</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ヘッダー ファイル\Game\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>ヘッダー ファイル\Game\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Skydome.h">
-      <Filter>ヘッダー ファイル\Game\Field</Filter>
+    <ClInclude Include="Random.h">
+      <Filter>ヘッダー ファイル\Function</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">
-      <Filter>ヘッダー ファイル\Game</Filter>
+      <Filter>ヘッダー ファイル\Function</Filter>
     </ClInclude>
-    <ClInclude Include="Cursor.h">
-      <Filter>ヘッダー ファイル\Game</Filter>
+    <ClInclude Include="Framework.h">
+      <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

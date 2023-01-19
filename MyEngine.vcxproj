@@ -150,7 +150,6 @@
     <ClCompile Include="Degree.cpp" />
     <ClCompile Include="DirectXBasis.cpp" />
     <ClCompile Include="DrawBasis.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FixFPS.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="GameMain.cpp" />
@@ -163,12 +162,10 @@
     <ClCompile Include="ModelBackup.cpp" />
     <ClCompile Include="Object3d.cpp" />
     <ClCompile Include="ObjectBasis.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Random.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Skydome.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TextureManager.cpp" />
-    <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Vector4.cpp" />
@@ -183,7 +180,6 @@
     <ClInclude Include="Degree.h" />
     <ClInclude Include="DirectXBasis.h" />
     <ClInclude Include="DrawBasis.h" />
-    <ClInclude Include="Enemy.h" />
     <ClInclude Include="FixFPS.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="GameMain.h" />
@@ -195,13 +191,11 @@
     <ClInclude Include="ModelBackup.h" />
     <ClInclude Include="Object3d.h" />
     <ClInclude Include="ObjectBasis.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="SafeDelete.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Skydome.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TextureManager.h" />
-    <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />
