@@ -58,6 +58,18 @@
     <Filter Include="ソース ファイル\Function">
       <UniqueIdentifier>{1d450669-1a6d-4371-87eb-dfb1fcf01934}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Drawer\2d">
+      <UniqueIdentifier>{af0096c8-e12f-4256-98a7-47b528a4933a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Drawer\3d">
+      <UniqueIdentifier>{4ca26c06-58c6-4e47-9284-1b70c6b6389b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Drawer\2d">
+      <UniqueIdentifier>{b58220ef-7491-4aa3-b09c-34b3c3646e2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Drawer\3d">
+      <UniqueIdentifier>{8ad474be-2355-4864-8ed3-5446ec2f0d1c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -68,9 +80,6 @@
     </ClCompile>
     <ClCompile Include="WinApp.cpp">
       <Filter>ソース ファイル\base</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawBasis.cpp">
-      <Filter>ソース ファイル\Drawer</Filter>
     </ClCompile>
     <ClCompile Include="Vector2.cpp">
       <Filter>ソース ファイル\math</Filter>
@@ -84,26 +93,8 @@
     <ClCompile Include="Matrix4.cpp">
       <Filter>ソース ファイル\math</Filter>
     </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>ソース ファイル\Drawer</Filter>
-    </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>ソース ファイル\base</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectBasis.cpp">
-      <Filter>ソース ファイル\Drawer</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>ソース ファイル\Drawer</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelBackup.cpp">
-      <Filter>ソース ファイル\Drawer</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
-      <Filter>ソース ファイル\Drawer</Filter>
-    </ClCompile>
-    <ClCompile Include="Object3d.cpp">
-      <Filter>ソース ファイル\Drawer</Filter>
     </ClCompile>
     <ClCompile Include="FixFPS.cpp">
       <Filter>ソース ファイル\base</Filter>
@@ -115,9 +106,6 @@
       <Filter>ソース ファイル\ConstBuffer</Filter>
     </ClCompile>
     <ClCompile Include="WorldTransform.cpp">
-      <Filter>ソース ファイル\ConstBuffer</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
       <Filter>ソース ファイル\ConstBuffer</Filter>
     </ClCompile>
     <ClCompile Include="GameMain.cpp">
@@ -144,6 +132,24 @@
     <ClCompile Include="Framework.cpp">
       <Filter>ソース ファイル\base</Filter>
     </ClCompile>
+    <ClCompile Include="DrawBasis.cpp">
+      <Filter>ソース ファイル\Drawer\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>ソース ファイル\Drawer\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelBackup.cpp">
+      <Filter>ソース ファイル\Drawer\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Object3d.cpp">
+      <Filter>ソース ファイル\Drawer\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>ソース ファイル\Drawer\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectBasis.cpp">
+      <Filter>ソース ファイル\Drawer\3d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXBasis.h">
@@ -154,9 +160,6 @@
     </ClInclude>
     <ClInclude Include="WinApp.h">
       <Filter>ヘッダー ファイル\base</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawBasis.h">
-      <Filter>ヘッダー ファイル\Drawer</Filter>
     </ClInclude>
     <ClInclude Include="Vector2.h">
       <Filter>ヘッダー ファイル\math</Filter>
@@ -170,29 +173,11 @@
     <ClInclude Include="Matrix4.h">
       <Filter>ヘッダー ファイル\math</Filter>
     </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>ヘッダー ファイル\Drawer</Filter>
-    </ClInclude>
     <ClInclude Include="Degree.h">
       <Filter>ヘッダー ファイル\math</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>ヘッダー ファイル\base</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectBasis.h">
-      <Filter>ヘッダー ファイル\Drawer</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>ヘッダー ファイル\Drawer</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelBackup.h">
-      <Filter>ヘッダー ファイル\Drawer</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>ヘッダー ファイル\Drawer</Filter>
-    </ClInclude>
-    <ClInclude Include="Object3d.h">
-      <Filter>ヘッダー ファイル\Drawer</Filter>
     </ClInclude>
     <ClInclude Include="FixFPS.h">
       <Filter>ヘッダー ファイル\base</Filter>
@@ -203,9 +188,6 @@
     <ClInclude Include="WorldTransform.h">
       <Filter>ヘッダー ファイル\ConstBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>ヘッダー ファイル\ConstBuffer</Filter>
-    </ClInclude>
     <ClInclude Include="GameMain.h">
       <Filter>ヘッダー ファイル\Game</Filter>
     </ClInclude>
@@ -213,9 +195,6 @@
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="BaseScene.h">
-      <Filter>ヘッダー ファイル\Game\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Cursor.h">
@@ -229,6 +208,27 @@
     </ClInclude>
     <ClInclude Include="Framework.h">
       <Filter>ヘッダー ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawBasis.h">
+      <Filter>ヘッダー ファイル\Drawer\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>ヘッダー ファイル\Drawer\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBasis.h">
+      <Filter>ヘッダー ファイル\Drawer\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3d.h">
+      <Filter>ヘッダー ファイル\Drawer\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelBackup.h">
+      <Filter>ヘッダー ファイル\Drawer\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>ヘッダー ファイル\Drawer\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
