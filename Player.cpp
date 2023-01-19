@@ -2,6 +2,7 @@
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Degree.h"
+#include "Cursor.h"
 
 Input* Player::input_ = Input::GetInstance();
 
@@ -184,50 +185,13 @@ void Player::Rotation() {
 void Player::Reticle(){
 	//マウスの座標を取得
 	Vector2 mousePosition = input_->GetMousePosition();
-
-	Vector2 spritePosition = 
-			Vector2(mousePosition.x, mousePosition.y);
 	
-	//ビュープロジェクションビューポート合成行列
-	Matrix4 matViewPort = Matrix4Identity();
-	matViewPort.m[0][0] = static_cast<float>(WinApp::Win_Width) / 2;
-	matViewPort.m[1][1] = static_cast<float>(-(WinApp::Win_Height)) / 2;
-	matViewPort.m[3][0] = static_cast<float>(WinApp::Win_Width) / 2;
-	matViewPort.m[3][1] = static_cast<float>(WinApp::Win_Height) / 2;
-
-	Matrix4 matVPV = objectReticle_->GetViewProjection().matView_
-		* objectReticle_->GetViewProjection().matProjection_
-		* matViewPort;
-
-	//上を逆行列化
-	Matrix4 matInverseVPV = Matrix4Inverse(matVPV);
-
-
-	//ニア
-	Vector3 posNear = Vector3(
-		spritePosition.x,
-		spritePosition.y,
-		0);
-	posNear = Vector3Transform(posNear, matInverseVPV);
-	//ファー
-	Vector3 posFar = Vector3(
-		spritePosition.x,
-		spritePosition.y,
-		1);
-	posFar = Vector3Transform(posFar, matInverseVPV);
-
-	//レイ
-	Vector3 rayDirection = posFar - posNear;
-
-	const float kDistanceTestObject = 50;
-	//ニア→レイ
-	Vector3 offset = rayDirection - posNear;
-	offset = Vector3Normalize(offset);
-
-	Vector3 position = objectReticle_->GetPosition();
-
-	position = offset * kDistanceTestObject;
-	position.z -= 100;
+	Corsor corsor;
+	Vector3 position = 
+		corsor.Get3DRethiclePosition(
+		objectReticle_,
+			-(objectReticle_->GetViewProjection().camera_.eye_.z),
+			true);
 
 	//転送
 	spriteRethicle_->SetPosition(mousePosition);
