@@ -5,7 +5,7 @@
 
 Input* Player::input_ = Input::GetInstance();
 
-void Player::Initialize(Model* model) {
+void Player::Initialize(Sprite*sprite,Model* model) {
 
 	speed_ = 1.0f;
 	speed_slow = 0.7f;
@@ -23,12 +23,23 @@ void Player::Initialize(Model* model) {
 	object_->SetModel(model);
 	object_->SetScale({ 2.0f,2.0f,2.0f });
 	object_->SetRotation({ 0,ConvertToRadian(180),0 });
+
+	objectReticle_ = Object3d::Create();
+
+	objectReticle_->SetModel(model);
+	objectReticle_->SetScale({ 1.0f,1.0f,1.0f });
+	objectReticle_->SetRotation({ 0,0,0 });
+
+	spriteRethicle_ = new Sprite();
+	spriteRethicle_ = sprite;
+	spriteRethicle_->Update();
 }
 
 void Player::Update() {
 	if (isCollision_) {
 		isCollision_ = false;
 	}
+	Reticle();
 
 	Move();
 	Rotation();
@@ -42,7 +53,12 @@ void Player::Update() {
 }
 
 void Player::Draw() {
+	objectReticle_->Draw();
 	object_->Draw();
+}
+
+void Player::Draw2d(){
+	spriteRethicle_->Draw();
 }
 
 void Player::OnCollision() {
@@ -165,6 +181,64 @@ void Player::Rotation() {
 	object_->SetRotation(object_->GetRotation() + rotation);
 }
 
+void Player::Reticle(){
+	//マウスの座標を取得
+	Vector2 mousePosition = input_->GetMousePosition();
+
+	Vector2 spritePosition = 
+			Vector2(mousePosition.x, mousePosition.y);
+	
+	//ビュープロジェクションビューポート合成行列
+	Matrix4 matViewPort = Matrix4Identity();
+	matViewPort.m[0][0] = static_cast<float>(WinApp::Win_Width) / 2;
+	matViewPort.m[1][1] = static_cast<float>(-(WinApp::Win_Height)) / 2;
+	matViewPort.m[3][0] = static_cast<float>(WinApp::Win_Width) / 2;
+	matViewPort.m[3][1] = static_cast<float>(WinApp::Win_Height) / 2;
+
+	Matrix4 matVPV = objectReticle_->GetViewProjection().matView_
+		* objectReticle_->GetViewProjection().matProjection_
+		* matViewPort;
+
+	//上を逆行列化
+	Matrix4 matInverseVPV = Matrix4Inverse(matVPV);
+
+
+	//ニア
+	Vector3 posNear = Vector3(
+		spritePosition.x,
+		spritePosition.y,
+		0);
+	posNear = Vector3Transform(posNear, matInverseVPV);
+	//ファー
+	Vector3 posFar = Vector3(
+		spritePosition.x,
+		spritePosition.y,
+		1);
+	posFar = Vector3Transform(posFar, matInverseVPV);
+
+	//レイ
+	Vector3 rayDirection = posFar - posNear;
+
+	const float kDistanceTestObject = 50;
+	//ニア→レイ
+	Vector3 offset = rayDirection - posNear;
+	offset = Vector3Normalize(offset);
+
+	Vector3 position = objectReticle_->GetPosition();
+
+	position = offset * kDistanceTestObject;
+	position.z -= 100;
+
+	//転送
+	spriteRethicle_->SetPosition(mousePosition);
+	spriteRethicle_->Update();
+	
+	objectReticle_->SetPosition(position);
+	objectReticle_->Update();
+}
+
 Player::~Player() {
 	delete object_;
+	delete objectReticle_;
+	delete spriteRethicle_;
 }
