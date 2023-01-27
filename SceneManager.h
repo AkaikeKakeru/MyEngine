@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseScene.h"
+#include "AbstractSceneFactory.h"
 
 class SceneManager final{
 public:
@@ -10,11 +11,17 @@ public:
 	//次シーン予約
 	void SetNextScene(BaseScene* nextScene) { nextScene_ = nextScene; }
 
+	//シーンファクトリーのセット
+	void SetSceneFactory(SceneFactory* sceneFactory) { sceneFactory_ = sceneFactory; }
+
 private:
 	//現在シーン
 	BaseScene* scene_ = nullptr;
 	//次のシーン
 	BaseScene* nextScene_ = nullptr;
+
+	//シーンファクトリ―(借りてくる)
+	AbstractSceneFactory* sceneFactory_ = nullptr;
 
 private:
 	SceneManager() = default;

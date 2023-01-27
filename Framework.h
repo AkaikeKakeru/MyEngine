@@ -5,6 +5,8 @@
 
 #include "SceneManager.h"
 
+#include "SceneFactory.h"
+
 class FrameworkΓ {
 public:
 	//実行
@@ -31,6 +33,7 @@ private:
 
 	static SceneManager* sceneManager_;
 
+	AbstractSceneFactory* sceneFactory_ = nullptr;
 public: 
 	virtual ~FrameworkΓ() = default;
 };
