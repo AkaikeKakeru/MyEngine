@@ -1,7 +1,6 @@
 #include "Framework.h"
 #include "Object3d.h"
 #include "DrawBasis.h"
-#include "TitleScene.h"
 
 void FrameworkΓ::Run() {
 	/// 初期化
