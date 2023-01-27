@@ -38,7 +38,7 @@ void FrameworkΓ::Initialize() {
 	input_->Initialize();
 
 	//オブジェクト基盤
-	Object3d::StaticInitialize(dxBas_->GetDevice().Get(), WinApp::Win_Width, WinApp::Win_Height);
+	Object3d::StaticInitialize(dxBas_->GetDevice().Get());
 
 	DrawBasis::GetInstance();
 	DrawBasis::Initialize();

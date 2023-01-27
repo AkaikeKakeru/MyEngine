@@ -6,16 +6,6 @@
 #include <wrl.h>
 #include "Degree.h"
 
-//カメラデータ構造体
-struct CameraData {
-	// 視点座標
-	Vector3 eye_;
-	// 注視点座標
-	Vector3 target_;
-	// 上方向ベクトル
-	Vector3 up_;
-};
-
 //定数バッファデータ構造体(ビュープロジェクション)
 struct ConstBufferDataViewProjection {
 	//ビュー
@@ -28,7 +18,7 @@ struct ConstBufferDataViewProjection {
 
 struct ViewProjection {
 private: // エイリアス
-	// Microsoft::WRL::を省略
+		 // Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 public:
 	//初期化
@@ -41,16 +31,28 @@ public:
 	void Maping();
 
 	//行列の更新
-	void UpdeteMatrix();
+	void UpdateMatrix();
 	//プロジェクション行列更新
 	void UpdateProjectionMatrix();
 	//ビュー行列更新
 	void UpdateViewMatrix();
 
+	//転送
+	void TransferMatrix();
+
 	// ビュー行列
-	Matrix4 matView_ = {};
+	Matrix4 matView_ = Matrix4Identity();
 	// 射影行列
-	Matrix4 matProjection_ ={};
+	Matrix4 matProjection_ = Matrix4Identity();
+
+	//ビュプロジェクション行列
+	Matrix4 matViewProjection_ = Matrix4Identity();
+
+	// ビルボード行列
+	Matrix4 matBillboard_ = Matrix4Identity();
+	// Y軸回りビルボード行列
+	Matrix4 matBillboardY_ = Matrix4Identity();
+
 	//垂直視野角
 	float angle_ = 0.0f;
 	//アスペクト比
@@ -59,8 +61,13 @@ public:
 	float nearClip_ = 0.0f;
 	//ファークリップ
 	float farClip_ = 0.0f;
-	//カメラデータ
-	CameraData camera_;
+
+	// 視点座標
+	Vector3 eye_;
+	// 注視点座標
+	Vector3 target_;
+	// 上方向ベクトル
+	Vector3 up_;
 
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuff_;

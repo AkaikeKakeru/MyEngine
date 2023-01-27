@@ -6,7 +6,9 @@
 
 // 定数バッファデータワールド変換
 struct ConstBufferDataWorldTransform{
-	Matrix4 mat_;	// 3D変換行列
+	Matrix4 viewproj_;//ビュープロジェクション行列
+	Matrix4 world_;//ワールド行列
+	Vector3 cameraPos_;//カメラ座標(ワールド座標)
 };
 
 struct WorldTransform {

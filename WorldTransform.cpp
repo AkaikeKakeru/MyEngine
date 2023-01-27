@@ -62,7 +62,4 @@ void WorldTransform::UpdateMatrix() {
 	if (parent_) {
 		matWorld_ *= parent_->matWorld_;
 	}
-
-	// 定数バッファに書き込み
-	constMap_->mat_ = matWorld_;
 }

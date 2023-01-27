@@ -70,6 +70,18 @@
     <Filter Include="ヘッダー ファイル\Drawer\3d">
       <UniqueIdentifier>{8ad474be-2355-4864-8ed3-5446ec2f0d1c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Drawer\3d\Camera">
+      <UniqueIdentifier>{190a9d02-6cb6-4838-b9bd-988188c22f2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Drawer\3d\Light">
+      <UniqueIdentifier>{502c5d9c-8b46-4503-871a-f33473232b09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Drawer\3d\Camera">
+      <UniqueIdentifier>{05c91b98-e548-4e90-8a8d-7dda94a583c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Drawer\3d\Light">
+      <UniqueIdentifier>{406486f3-c958-417d-8b4e-440faa068564}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -148,6 +160,18 @@
       <Filter>ソース ファイル\Drawer\3d</Filter>
     </ClCompile>
     <ClCompile Include="ObjectBasis.cpp">
+      <Filter>ソース ファイル\Drawer\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>ソース ファイル\Drawer\3d\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>ソース ファイル\Drawer\3d\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>ソース ファイル\Drawer\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
       <Filter>ソース ファイル\Drawer\3d</Filter>
     </ClCompile>
   </ItemGroup>
@@ -229,6 +253,18 @@
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>ヘッダー ファイル\Drawer\3d\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>ヘッダー ファイル\Drawer\3d\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>ヘッダー ファイル\Drawer\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>ヘッダー ファイル\Drawer\3d</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

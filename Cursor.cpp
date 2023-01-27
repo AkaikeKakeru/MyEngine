@@ -1,10 +1,14 @@
 #include "Cursor.h"
 #include "Input.h"
 
-Vector3 Corsor::Get3DRethiclePosition(const Object3d* object,
+Camera* Corsor::camera_ = nullptr;
+
+Vector3 Corsor::Get3DRethiclePosition(Camera* camera, const Object3d* object,
 	const float distance, const bool isOnScreen){
+	camera_ = camera;
+
 	GetMousePosition();
-	CreateMatrixInverseViewPort(object);
+	CreateMatrixInverseViewPort(/*camera_*/);
 	CheckRayDirection();
 
 	Vector3 position = object->GetPosition();
@@ -23,15 +27,15 @@ void Corsor::GetMousePosition() {
 	mousePosition_ = Input::GetInstance()->GetMousePosition();
 }
 
-void Corsor::CreateMatrixInverseViewPort(const Object3d* object){
+void Corsor::CreateMatrixInverseViewPort(){
 	Matrix4 matViewPort = Matrix4Identity();
 	matViewPort.m[0][0] = static_cast<float>(WinApp::Win_Width) / 2;
 	matViewPort.m[1][1] = static_cast<float>(-(WinApp::Win_Height)) / 2;
 	matViewPort.m[3][0] = static_cast<float>(WinApp::Win_Width) / 2;
 	matViewPort.m[3][1] = static_cast<float>(WinApp::Win_Height) / 2;
 
-	Matrix4 matVPV = object->GetViewProjection().matView_
-		* object->GetViewProjection().matProjection_
+	Matrix4 matVPV = camera_->GetViewMatrix()
+		* camera_->GetProjectionMatrix()
 		* matViewPort;
 
 	//上を逆行列化
