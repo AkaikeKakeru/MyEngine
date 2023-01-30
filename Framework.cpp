@@ -60,4 +60,5 @@ void FrameworkΓ::Update(){
 
 void FrameworkΓ::Finalize(){
 	sceneManager_->Finalize();
+	delete sceneFactory_;
 }

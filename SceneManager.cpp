@@ -1,4 +1,5 @@
 #include "SceneManager.h"
+#include <cassert>
 
 void SceneManager::Update(){
 	//次のシーンの予約があるなら
@@ -32,6 +33,14 @@ void SceneManager::Finalize(){
 	//最後のシーンの終了と解放
 	scene_->Finalize();
 	delete scene_;
+}
+
+void SceneManager::ChangeScene(const std::string& sceneName) {
+	assert(sceneFactory_);
+	assert(nextScene_ == nullptr);
+
+	//次シーンを生成
+	nextScene_ = sceneFactory_->CreateScene(sceneName);
 }
 
 SceneManager* SceneManager::GetInstance(){

@@ -5,7 +5,7 @@
 
 #include "SceneManager.h"
 
-#include "SceneFactory.h"
+#include "AbstractSceneFactory.h"
 
 class FrameworkΓ {
 public:
@@ -31,8 +31,10 @@ private:
 
 	bool isEndRequest_ = false;
 
+	//シーンマネージャー
 	static SceneManager* sceneManager_;
-
+public:
+	//シーンファクトリ―
 	AbstractSceneFactory* sceneFactory_ = nullptr;
 public: 
 	virtual ~FrameworkΓ() = default;

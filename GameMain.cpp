@@ -1,6 +1,5 @@
 #include "GameMain.h"
-#include "TitleScene.h"
-#include "GamePlayScene.h"
+#include "SceneFactory.h"
 
 SceneManager* GameMain::sceneManager_ = FrameworkΓ::GetSceneManager();
 
@@ -9,9 +8,12 @@ void GameMain::Initialize() {
 
 	sceneManager_ = FrameworkΓ::GetSceneManager();
 
-	BaseScene* scene = new TitleScene();
+	//シーンファクトリーを生成し、マネージャーにセット
+	sceneFactory_ = new SceneFactory();
+	SceneManager::GetInstance()->SetSceneFactory(sceneFactory_);
 
-	sceneManager_->SetNextScene(scene);
+	//シーンマネージャーに最初のシーンをセット
+	SceneManager::GetInstance()->ChangeScene("TITLE");
 }
 
 void GameMain::Update() {

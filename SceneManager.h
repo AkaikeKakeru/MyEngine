@@ -9,10 +9,10 @@ public:
 	void Finalize();
 
 	//次シーン予約
-	void SetNextScene(BaseScene* nextScene) { nextScene_ = nextScene; }
+	void ChangeScene(const std::string& sceneName);
 
 	//シーンファクトリーのセット
-	void SetSceneFactory(SceneFactory* sceneFactory) { sceneFactory_ = sceneFactory; }
+	void SetSceneFactory(AbstractSceneFactory* sceneFactory) { sceneFactory_ = sceneFactory; }
 
 private:
 	//現在シーン
