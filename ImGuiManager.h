@@ -1,6 +1,7 @@
 #pragma once
+#include "DirectXBasis.h"
 
 class ImGuiManager {
 public:
-	void Initialize();
+	void Initialize(DirectXBasis* dXBas);
 };
