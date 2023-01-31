@@ -18,13 +18,13 @@ public:
 	Vector2& operator/=(float s);
 };
 //長さ
-float Vector2Length(Vector2 v);
+const float Vector2Length(Vector2 v);
 //正規化
-Vector2& Vector2Normalize(Vector2 v);
+const Vector2& Vector2Normalize(Vector2 v);
 //内積
-float Vector2Dot(Vector2& v1, Vector2& v2);
+const float Vector2Dot(Vector2& v1, Vector2& v2);
 //外積
-float Vector2Cross(Vector2& v1, Vector2& v2);
+const float Vector2Cross(Vector2& v1, Vector2& v2);
 
 const Vector2 operator+(const Vector2& v1, const Vector2& v2);
 const Vector2 operator-(const Vector2& v1, const Vector2& v2);

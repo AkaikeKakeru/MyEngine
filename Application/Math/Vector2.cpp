@@ -9,23 +9,24 @@ Vector2::Vector2(float x, float y)
 	: x(x), y(y) {
 }
 
-float Vector2Length(Vector2 v) {
+const float Vector2Length(Vector2 v) {
 	return sqrt((v.x * v.x) + (v.y * v.y));
 }
 
-Vector2& Vector2Normalize(Vector2 v) {
+const Vector2& Vector2Normalize(Vector2 v) {
+	Vector2 temp(v);
 	float len = Vector2Length(v);
 	if (len != 0) {
-		return v /= len;
+		return temp /= len;
 	}
-	return v;
+	return temp /= 1;
 }
 
-float Vector2Dot(Vector2& v1, Vector2& v2) {
+const float Vector2Dot(Vector2& v1, Vector2& v2) {
 	return v1.x * v2.x + v1.y * v2.y;
 }
 
-float Vector2Cross(Vector2& v1, Vector2& v2) {
+const float Vector2Cross(Vector2& v1, Vector2& v2) {
 	return v1.x * v2.y - v1.y * v2.x;
 }
 
@@ -75,7 +76,12 @@ const Vector2 operator-(const Vector2& v1, const Vector2& v2) {
 
 const Vector2 operator*(const Vector2& v, float s) {
 	Vector2 temp(v);
-	return temp * s;
+
+	float x = temp.x * s;
+
+	float y = temp.y * s;
+
+	return Vector2(x,y);
 }
 
 const Vector2 operator*(float s, const Vector2& v) {
@@ -84,5 +90,10 @@ const Vector2 operator*(float s, const Vector2& v) {
 
 const Vector2 operator/(const Vector2& v, float s) {
 	Vector2 temp(v);
-	return temp / s;
+
+	float x = temp.x / s;
+
+	float y = temp.y / s;
+
+	return Vector2(x,y);
 }
