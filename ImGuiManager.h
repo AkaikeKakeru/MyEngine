@@ -26,6 +26,9 @@ private:
 	const ImGuiManager& operator=(const ImGuiManager&) = delete;
 
 public:
+	//DirectX基盤
+	DirectXBasis* dXBas_ = nullptr;
+
 	//SRV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> srvHeap_;
 
