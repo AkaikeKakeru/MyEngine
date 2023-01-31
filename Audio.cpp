@@ -26,6 +26,20 @@ void Audio::Initialize() {
 	SUCCEEDED(result);
 }
 
+Audio::SoundData Audio::SoundLoadWave(const char* filename) {
+	HRESULT result;
+	
+#pragma region OpenFile
+	std::ifstream file;
+	//wavをバイナリモードで開く
+	file.open(filename, std::ios_base::binary);
+	//ファイルオープン失敗を検出
+	assert(file.is_open());
+#pragma endregion
+
+	return SoundData();
+}
+
 Audio* Audio::GetInstance() {
 	static Audio instance;
 	return &instance;

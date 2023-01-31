@@ -30,8 +30,12 @@ public://構造体
 		unsigned int bufferSize_;
 	};
 
+
 public://メンバ関数
 	void Initialize();
+
+	//音声データ読み込み
+	SoundData SoundLoadWave(const char* filename);
 
 private:
 
