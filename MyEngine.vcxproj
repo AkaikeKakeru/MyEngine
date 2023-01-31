@@ -166,6 +166,7 @@
     <ClCompile Include="Object3d.cpp" />
     <ClCompile Include="ObjectBasis.cpp" />
     <ClCompile Include="Random.cpp" />
+    <ClCompile Include="SceneFactory.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="ObjectBasis.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="SafeDelete.h" />
+    <ClInclude Include="SceneFactory.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Vector2.h" />
