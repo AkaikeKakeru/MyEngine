@@ -21,6 +21,25 @@ void Audio::Initialize() {
 	SUCCEEDED(result);
 }
 
+void Audio::SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData) {
+	HRESULT result;
+
+	//波形フォーマットを元にソースボイスを生成
+	IXAudio2SourceVoice* pSourceVoice = nullptr;
+	result = xAudio2->CreateSourceVoice(&pSourceVoice, &soundData.wfex_);
+	assert(SUCCEEDED(result));
+
+	//再生する波形データの設定
+	XAUDIO2_BUFFER buf{};
+	buf.pAudioData = soundData.pBuffer_;
+	buf.AudioBytes = soundData.bufferSize_;
+	buf.Flags = XAUDIO2_END_OF_STREAM;
+
+	//波形データの再生
+	result = pSourceVoice->SubmitSourceBuffer(&buf);
+	result = pSourceVoice->Start();
+}
+
 Audio::SoundData Audio::SoundLoadWave(const char* filename) {
 #pragma region OpenFile
 	std::ifstream file;
