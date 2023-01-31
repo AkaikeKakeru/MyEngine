@@ -58,3 +58,8 @@ void ImGuiManager::Begin() {
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 }
+
+void ImGuiManager::End() {
+	//描画前準備
+	ImGui::Render();
+}
