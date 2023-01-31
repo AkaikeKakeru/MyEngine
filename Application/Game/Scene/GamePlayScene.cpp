@@ -28,6 +28,20 @@ void GamePlayScene::Draw() {
 }
 
 void GamePlayScene::Initialize3d() {
+	planeModel_ = new Model();
+	planeModel_ = Model::LoadFromOBJ("plane", false);
+
+	skydomeModel_ = new Model();
+	skydomeModel_ = Model::LoadFromOBJ("skydome",false);
+
+
+	planeObj_ = new Object3d();
+	planeObj_ = Object3d::Create();
+	planeObj_->SetModel(planeModel_);
+
+	skydomeObj_ = new Object3d();
+	skydomeObj_ = Object3d::Create();
+	skydomeObj_->SetModel(skydomeModel_);
 }
 
 void GamePlayScene::Initialize2d() {
@@ -36,6 +50,8 @@ void GamePlayScene::Initialize2d() {
 }
 
 void GamePlayScene::Update3d() {
+	skydomeObj_->Update();
+	planeObj_->Update();
 }
 
 void GamePlayScene::Update2d() {
@@ -43,6 +59,8 @@ void GamePlayScene::Update2d() {
 }
 
 void GamePlayScene::Draw3d() {
+	skydomeObj_->Draw();
+	planeObj_->Draw();
 }
 
 void GamePlayScene::Draw2d() {
@@ -50,5 +68,9 @@ void GamePlayScene::Draw2d() {
 }
 
 void GamePlayScene::Finalize() {
+	SafeDelete(planeObj_);
+	SafeDelete(skydomeObj_);
+	SafeDelete(planeModel_);
+	SafeDelete(skydomeModel_);
 	SafeDelete(sprite_);
 }

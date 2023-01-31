@@ -37,6 +37,11 @@ private:
 	/// <summary>
 	/// オブジェクト
 	/// </summary>
+	Object3d* planeObj_ = nullptr;
+	Model* planeModel_ = nullptr;
+
+	Object3d* skydomeObj_ = nullptr;
+	Model* skydomeModel_ = nullptr;
 
 	/// <summary>
 	/// スプライト

@@ -12,7 +12,7 @@ ComPtr<ID3D12Device> Model::device_ = nullptr;
 // デスクリプタサイズ
 UINT Model::descriptorIncrementSize_;
 
-const std::string Model::Directory_ = "Resources/";
+const std::string Model::Directory_ = "Resource/";
 
 void Model::StaticInitialize(ID3D12Device* device) {
 	Model::device_ = device;
