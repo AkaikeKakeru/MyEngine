@@ -13,7 +13,7 @@ template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 void Audio::Initialize() {
 	HRESULT result;
-
+	
 	ComPtr<IXAudio2> xAudio2;
 	IXAudio2MasteringVoice* masterVoice;
 
@@ -27,8 +27,6 @@ void Audio::Initialize() {
 }
 
 Audio::SoundData Audio::SoundLoadWave(const char* filename) {
-	HRESULT result;
-	
 #pragma region OpenFile
 	std::ifstream file;
 	//wavをバイナリモードで開く
@@ -38,8 +36,6 @@ Audio::SoundData Audio::SoundLoadWave(const char* filename) {
 #pragma endregion
 
 #pragma region LoadWave
-
-#pragma region CheckFile
 	//RIFFヘッダー読み込み
 	RiffHeader riff;
 	file.read((char*)&riff, sizeof(riff));
@@ -86,9 +82,14 @@ Audio::SoundData Audio::SoundLoadWave(const char* filename) {
 
 #pragma endregion
 
-#pragma endregion
+	//返す音声データ
+	SoundData soundData = {};
 
-	return SoundData();
+	soundData.wfex_ = format.fmt_;
+	soundData.pBuffer_ = reinterpret_cast<BYTE*>(pBuffer);
+	soundData.bufferSize_ = data.size_;
+
+	return soundData;
 }
 
 Audio* Audio::GetInstance() {
