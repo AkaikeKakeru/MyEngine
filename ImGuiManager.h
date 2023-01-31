@@ -10,6 +10,13 @@ public:
 	void Initialize(DirectXBasis* dXBas);
 	void Finalize();
 
+	//ImGui受付開始
+	void Begin();
+	//ImGui受付終了
+	void End();
+	//画面への描画
+	void Draw();
+
 private:
 	ImGuiManager() = default;
 	~ImGuiManager() = default;
