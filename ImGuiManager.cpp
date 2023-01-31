@@ -36,4 +36,8 @@ void ImGuiManager::Initialize(DirectXBasis* dXBas) {
 		srvHeap_->GetCPUDescriptorHandleForHeapStart(),
 		srvHeap_->GetGPUDescriptorHandleForHeapStart()
 	);
+
+	ImGuiIO& io = ImGui::GetIO();
+	//標準フォント追加
+	io.Fonts->AddFontDefault();
 }
