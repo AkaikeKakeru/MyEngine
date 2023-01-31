@@ -16,7 +16,7 @@ void DebugText::Initialize(UINT fontTexNum) {
 	}
 }
 
-void DebugText::Print(const std::string & text, float x, float y, float scale = 1.0f) {
+void DebugText::Print(const std::string & text, float x, float y, float scale) {
 	// 全ての文字について
 	for (int i = 0; i < text.size(); i++) {
 		// 最大文字数超過
