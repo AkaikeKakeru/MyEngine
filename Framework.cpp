@@ -2,7 +2,7 @@
 #include "Object3d.h"
 #include "DrawBasis.h"
 #include "TitleScene.h"
-#include <imgui_widgets.cpp>
+#include <imgui.h>
 
 SceneManager* FrameworkΓ::sceneManager_ = SceneManager::GetInstance();
 
@@ -62,10 +62,13 @@ void FrameworkΓ::Update(){
 	}
 
 	imGuiManager_->Begin();
+#ifdef _DEBUG
 	ImGui::Text("Hello, world");
 
+	//デモを表示
+	ImGui::ShowDemoWindow();
+#endif
 	imGuiManager_->End();
-
 	sceneManager_->Update();
 }
 
