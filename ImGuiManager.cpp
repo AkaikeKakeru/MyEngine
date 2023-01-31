@@ -2,6 +2,11 @@
 #include <imgui_impl_win32.h>
 #include "WinApp.h"
 
+ImGuiManager* ImGuiManager::GetInstance() {
+	static ImGuiManager instance;
+	return &instance;
+}
+
 void ImGuiManager::Initialize(DirectXBasis* dXBas) {
 	//コンテキストを生成
 	ImGui::CreateContext();

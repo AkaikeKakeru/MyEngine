@@ -40,12 +40,14 @@ void FrameworkΓ::Initialize(){
 	input_ = Input::GetInstance();
 	input_->Initialize();
 
-	ImGuiManager* imGuiManager_ = new ImGuiManager();
+	//ImGuiマネージャー
+	imGuiManager_ = ImGuiManager::GetInstance();
 	imGuiManager_->Initialize(dxBas_);
 
 	//オブジェクト基盤
 	Object3d::StaticInitialize(dxBas_->GetDevice().Get());
 
+	//描画基盤(スプライト)
 	DrawBasis::GetInstance();
 	DrawBasis::Initialize();
 
@@ -64,5 +66,4 @@ void FrameworkΓ::Update(){
 void FrameworkΓ::Finalize(){
 	sceneManager_->Finalize();
 	delete sceneFactory_;
-	delete imGuiManager_;
 }
