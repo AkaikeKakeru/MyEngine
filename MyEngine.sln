@@ -5,11 +5,11 @@ VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyEngine", "MyEngine.vcxproj", "{449322F5-C1F7-49C5-B5A9-752A9FE7B3F6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTex", "DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj", "{371B9FA9-4C90-4AC6-A123-ACED756D6C77}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imGui", "imGui\imGui.vcxproj", "{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{4C00579B-6B51-4194-A7BE-55783FF564B4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTex", "External\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj", "{371B9FA9-4C90-4AC6-A123-ACED756D6C77}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imGui", "External\imGui\imGui.vcxproj", "{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,12 +66,12 @@ Global
 		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Debug|x64.Build.0 = Debug|x64
 		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Debug|x86.ActiveCfg = Debug|Win32
 		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Debug|x86.Build.0 = Debug|Win32
-		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Profile|ARM64.ActiveCfg = Release|Win32
-		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Profile|ARM64.Build.0 = Release|Win32
-		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Profile|x64.ActiveCfg = Release|x64
-		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Profile|x64.Build.0 = Release|x64
-		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Profile|x86.ActiveCfg = Release|Win32
-		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Profile|x86.Build.0 = Release|Win32
+		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Profile|ARM64.ActiveCfg = Debug|Win32
+		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Profile|ARM64.Build.0 = Debug|Win32
+		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Profile|x64.ActiveCfg = Debug|x64
+		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Profile|x64.Build.0 = Debug|x64
+		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Profile|x86.ActiveCfg = Debug|Win32
+		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Profile|x86.Build.0 = Debug|Win32
 		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Release|ARM64.ActiveCfg = Release|x64
 		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Release|ARM64.Build.0 = Release|x64
 		{A6D1A3EB-A4F1-499F-827A-5D864BFA923B}.Release|x64.ActiveCfg = Release|x64
