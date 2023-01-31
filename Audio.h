@@ -22,13 +22,13 @@ public://構造体
 	//FMTチャンク
 	struct FormatChunk {
 		ChunkHeader chunk_;//"fmt "
-		WAVEFORMAT fmt_;//波形フォーマット
+		WAVEFORMATEX fmt_;//波形フォーマット
 	};
 
 	//音声データ
 	struct SoundData {
 		//波形フォーマット
-		WAVEFORMAT wfex_;
+		WAVEFORMATEX wfex_;
 		//バッファの先頭アドレス
 		BYTE* pBuffer_;
 		//バッファのサイズ
@@ -38,9 +38,11 @@ public://構造体
 public://メンバ関数
 	void Initialize();
 
+	//音声再生
+	void SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData);
+
 	//音声データ読み込み
 	SoundData SoundLoadWave(const char* filename);
-
 	//音声データ解放
 	void SoundUnload(SoundData* soundData);
 
