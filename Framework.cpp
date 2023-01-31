@@ -60,7 +60,12 @@ void FrameworkΓ::Update(){
 		isEndRequest_ = true;
 	}
 
+	imGuiManager_->Begin();
+
 	sceneManager_->Update();
+
+	imGuiManager_->End();
+
 }
 
 void FrameworkΓ::Finalize(){
