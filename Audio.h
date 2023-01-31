@@ -1,11 +1,15 @@
 #pragma once
 
 #include <xaudio2.h>
+#include <wrl.h>
 #include <fstream>
 
 #pragma comment(lib,"xaudio2.lib")
 
 class Audio {
+	//省略
+	template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+
 public://構造体
 	//チャンクヘッダ
 	struct ChunkHeader {
@@ -37,6 +41,7 @@ public://構造体
 
 public://メンバ関数
 	void Initialize();
+	void Finalize();
 
 	//音声再生
 	void SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData);
@@ -46,7 +51,12 @@ public://メンバ関数
 	//音声データ解放
 	void SoundUnload(SoundData* soundData);
 
+	//XAudio2取得
+	ComPtr<IXAudio2> GetXAudio2() { return xAudio2_; }
+
 private:
+	ComPtr<IXAudio2> xAudio2_;
+	IXAudio2MasteringVoice* masterVoice_{};
 
 private:
 	Audio() = default;
