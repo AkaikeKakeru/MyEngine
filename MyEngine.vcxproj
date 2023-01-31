@@ -119,6 +119,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>$(ProjectDir)Application\Base;$(ProjectDir)Application\Function;$(ProjectDir)Application\Game;$(ProjectDir)Application\Game\Scene;$(ProjectDir)Application\Game\Scene\Manager;$(ProjectDir)Application\Math;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\ConstBuffer;$(ProjectDir)Engine\Debug;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d\Camera;$(ProjectDir)Engine\3d\Light;$(ProjectDir)Engine\3d\Object;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -135,6 +136,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir)Application\Base;$(ProjectDir)Application\Function;$(ProjectDir)Application\Game;$(ProjectDir)Application\Game\Scene;$(ProjectDir)Application\Game\Scene\Manager;$(ProjectDir)Application\Math;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\ConstBuffer;$(ProjectDir)Engine\Debug;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d\Camera;$(ProjectDir)Engine\3d\Light;$(ProjectDir)Engine\3d\Object;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -144,79 +146,79 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Audio.cpp" />
-    <ClCompile Include="BaseScene.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="Cursor.cpp" />
-    <ClCompile Include="DebugText.cpp" />
-    <ClCompile Include="Degree.cpp" />
-    <ClCompile Include="DirectXBasis.cpp" />
-    <ClCompile Include="DrawBasis.cpp" />
-    <ClCompile Include="FixFPS.cpp" />
-    <ClCompile Include="Framework.cpp" />
-    <ClCompile Include="GameMain.cpp" />
-    <ClCompile Include="GamePlayScene.cpp" />
-    <ClCompile Include="ImGuiManager.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Application\Game\Scene\GamePlayScene.cpp" />
+    <ClCompile Include="Application\Game\Scene\Manager\BaseScene.cpp" />
+    <ClCompile Include="Engine\Audio\Audio.cpp" />
+    <ClCompile Include="Engine\3d\Camera\Camera.cpp" />
+    <ClCompile Include="Application\Function\Collision.cpp" />
+    <ClCompile Include="Application\Function\Cursor.cpp" />
+    <ClCompile Include="Engine\Debug\DebugText.cpp" />
+    <ClCompile Include="Application\Math\Degree.cpp" />
+    <ClCompile Include="Application\Base\DirectXBasis.cpp" />
+    <ClCompile Include="Engine\2d\DrawBasis.cpp" />
+    <ClCompile Include="Application\Base\FixFPS.cpp" />
+    <ClCompile Include="Application\Base\Framework.cpp" />
+    <ClCompile Include="Application\Game\GameMain.cpp" />
+    <ClCompile Include="Engine\Debug\ImGuiManager.cpp" />
+    <ClCompile Include="Application\Base\Input.cpp" />
+    <ClCompile Include="Engine\3d\Light\Light.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Matrix4.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="ModelBackup.cpp" />
-    <ClCompile Include="Object3d.cpp" />
-    <ClCompile Include="ObjectBasis.cpp" />
-    <ClCompile Include="Random.cpp" />
-    <ClCompile Include="SceneFactory.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="TitleScene.cpp" />
-    <ClCompile Include="Vector2.cpp" />
-    <ClCompile Include="Vector3.cpp" />
-    <ClCompile Include="Vector4.cpp" />
-    <ClCompile Include="ViewProjection.cpp" />
-    <ClCompile Include="WinApp.cpp" />
-    <ClCompile Include="WorldTransform.cpp" />
+    <ClCompile Include="Engine\3d\Object\Material.cpp" />
+    <ClCompile Include="Application\Math\Matrix4.cpp" />
+    <ClCompile Include="Engine\3d\Object\Mesh.cpp" />
+    <ClCompile Include="Engine\3d\Object\Model.cpp" />
+    <ClCompile Include="Engine\3d\Object\ModelBackup.cpp" />
+    <ClCompile Include="Engine\3d\Object\Object3d.cpp" />
+    <ClCompile Include="Engine\3d\Object\ObjectBasis.cpp" />
+    <ClCompile Include="Application\Function\Random.cpp" />
+    <ClCompile Include="Application\Game\Scene\Manager\SceneFactory.cpp" />
+    <ClCompile Include="Application\Game\Scene\Manager\SceneManager.cpp" />
+    <ClCompile Include="Engine\2d\Sprite.cpp" />
+    <ClCompile Include="Application\Game\Scene\TitleScene.cpp" />
+    <ClCompile Include="Application\Math\Vector2.cpp" />
+    <ClCompile Include="Application\Math\Vector3.cpp" />
+    <ClCompile Include="Application\Math\Vector4.cpp" />
+    <ClCompile Include="Engine\ConstBuffer\ViewProjection.cpp" />
+    <ClCompile Include="Application\Base\WinApp.cpp" />
+    <ClCompile Include="Engine\ConstBuffer\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractSceneFactory.h" />
-    <ClInclude Include="Audio.h" />
-    <ClInclude Include="BaseScene.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Collision.h" />
-    <ClInclude Include="Cursor.h" />
-    <ClInclude Include="DebugText.h" />
-    <ClInclude Include="Degree.h" />
-    <ClInclude Include="DirectXBasis.h" />
-    <ClInclude Include="DrawBasis.h" />
-    <ClInclude Include="FixFPS.h" />
-    <ClInclude Include="Framework.h" />
-    <ClInclude Include="GameMain.h" />
-    <ClInclude Include="GamePlayScene.h" />
-    <ClInclude Include="ImGuiManager.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="Matrix4.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="ModelBackup.h" />
-    <ClInclude Include="Object3d.h" />
-    <ClInclude Include="ObjectBasis.h" />
-    <ClInclude Include="Random.h" />
-    <ClInclude Include="SafeDelete.h" />
-    <ClInclude Include="SceneFactory.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="TitleScene.h" />
-    <ClInclude Include="Vector2.h" />
-    <ClInclude Include="Vector3.h" />
-    <ClInclude Include="Vector4.h" />
-    <ClInclude Include="ViewProjection.h" />
-    <ClInclude Include="WinApp.h" />
-    <ClInclude Include="WorldTransform.h" />
+    <ClInclude Include="Application\Game\GameMain.h" />
+    <ClInclude Include="Application\Game\Scene\Manager\AbstractSceneFactory.h" />
+    <ClInclude Include="Application\Game\Scene\Manager\BaseScene.h" />
+    <ClInclude Include="Engine\Audio\Audio.h" />
+    <ClInclude Include="Engine\3d\Camera\Camera.h" />
+    <ClInclude Include="Application\Function\Collision.h" />
+    <ClInclude Include="Application\Function\Cursor.h" />
+    <ClInclude Include="Engine\Debug\DebugText.h" />
+    <ClInclude Include="Application\Math\Degree.h" />
+    <ClInclude Include="Application\Base\DirectXBasis.h" />
+    <ClInclude Include="Engine\2d\DrawBasis.h" />
+    <ClInclude Include="Application\Base\FixFPS.h" />
+    <ClInclude Include="Application\Base\Framework.h" />
+    <ClInclude Include="Application\Game\Scene\GamePlayScene.h" />
+    <ClInclude Include="Engine\Debug\ImGuiManager.h" />
+    <ClInclude Include="Application\Base\Input.h" />
+    <ClInclude Include="Engine\3d\Light\Light.h" />
+    <ClInclude Include="Engine\3d\Object\Material.h" />
+    <ClInclude Include="Application\Math\Matrix4.h" />
+    <ClInclude Include="Engine\3d\Object\Mesh.h" />
+    <ClInclude Include="Engine\3d\Object\Model.h" />
+    <ClInclude Include="Engine\3d\Object\ModelBackup.h" />
+    <ClInclude Include="Engine\3d\Object\Object3d.h" />
+    <ClInclude Include="Engine\3d\Object\ObjectBasis.h" />
+    <ClInclude Include="Application\Function\Random.h" />
+    <ClInclude Include="Application\Function\SafeDelete.h" />
+    <ClInclude Include="Application\Game\Scene\Manager\SceneFactory.h" />
+    <ClInclude Include="Application\Game\Scene\Manager\SceneManager.h" />
+    <ClInclude Include="Engine\2d\Sprite.h" />
+    <ClInclude Include="Application\Game\Scene\TitleScene.h" />
+    <ClInclude Include="Application\Math\Vector2.h" />
+    <ClInclude Include="Application\Math\Vector3.h" />
+    <ClInclude Include="Application\Math\Vector4.h" />
+    <ClInclude Include="Engine\ConstBuffer\ViewProjection.h" />
+    <ClInclude Include="Application\Base\WinApp.h" />
+    <ClInclude Include="Engine\ConstBuffer\WorldTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resource\shader\ObjPS.hlsl">
