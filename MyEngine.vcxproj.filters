@@ -272,6 +272,9 @@
     <ClInclude Include="SceneFactory.h">
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="AbstractSceneFactory.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resource\shader\SpriteVS.hlsl">
