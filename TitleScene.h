@@ -11,12 +11,6 @@
 
 class TitleScene : public BaseScene{
 public://構造体
-	   //マウスボタン
-	typedef enum MouseButtonNum {
-		LeftButton,
-		RightButton,
-		CenterButton,
-	}MouseButtonNum;
 
 public:
 	void Initialize() override;
@@ -24,15 +18,15 @@ public:
 	void Draw() override;
 	void Finalize() override;
 private:
+	static DirectXBasis* dxBas_;
+	static Input* input_;
+	DrawBasis* drawBas_ = nullptr;
 	/// <summary>
 	/// オブジェクト
 	/// </summary>
 	/// <summary>
+
 	/// スプライト
 	/// </summary>
-	static DirectXBasis* dxBas_;
-	static Input* input_;
-	DrawBasis* drawBas_ = nullptr;
-
 	Sprite* sprite_ = new Sprite();
 };
