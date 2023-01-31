@@ -1,30 +1,36 @@
 #include "GameMain.h"
-#include "GamePlayScene.h"
+#include "SceneFactory.h"
 
-Input* GameMain::input_ = Input::GetInstance();
+SceneManager* GameMain::sceneManager_ = FrameworkΓ::GetSceneManager();
 
 void GameMain::Initialize() {
 	FrameworkΓ::Initialize();
-	scene_ = new GamePlayScene();
-	scene_->Initialize();
+
+	sceneManager_ = FrameworkΓ::GetSceneManager();
+
+	//シーンファクトリーを生成し、マネージャーにセット
+	sceneFactory_ = new SceneFactory();
+	SceneManager::GetInstance()->SetSceneFactory(sceneFactory_);
+
+	//シーンマネージャーに最初のシーンをセット
+	SceneManager::GetInstance()->ChangeScene("TITLE");
 }
 
 void GameMain::Update() {
 	FrameworkΓ::Update();
-
-	scene_->Update();
 }
 
 void GameMain::Draw() {
 	//描画前処理
 	FrameworkΓ::GetDirectXBasis()->PreDraw();
-	scene_->Draw();
+
+	sceneManager_ = FrameworkΓ::GetSceneManager();
+	sceneManager_->Draw();
+
 	//描画後処理
 	FrameworkΓ::GetDirectXBasis()->PostDraw();
 }
 
 void GameMain::Finalize() {
-	scene_->Finalize();
-	delete scene_;
 	FrameworkΓ::Finalize();
 }
