@@ -1,24 +1,20 @@
 #include "Audio.h"
-#include <wrl.h>
-
 #include <cassert>
-
-//省略
-template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 void Audio::Initialize() {
 	HRESULT result;
-	
-	ComPtr<IXAudio2> xAudio2;
-	IXAudio2MasteringVoice* masterVoice;
-
 	//XAudioエンジンのインスタンス生成
-	result = XAudio2Create(&xAudio2, 0, XAUDIO2_DEFAULT_PROCESSOR);
+	result = XAudio2Create(&xAudio2_, 0, XAUDIO2_DEFAULT_PROCESSOR);
 	SUCCEEDED(result);
 	
 	//マスタリングボイス生成
-	result = xAudio2->CreateMasteringVoice(&masterVoice);
+	result = xAudio2_->CreateMasteringVoice(&masterVoice_);
 	SUCCEEDED(result);
+}
+
+void Audio::Finalize() {
+	//解放
+	xAudio2_.Reset();
 }
 
 void Audio::SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData) {
@@ -58,7 +54,7 @@ Audio::SoundData Audio::SoundLoadWave(const char* filename) {
 		assert(0);
 	}
 	//ファイルがWAVEがチェック
-	if (strncmp(riff.chunk_.id_, "WAVE", 4) != 0) {
+	if (strncmp(riff.type_, "WAVE", 4) != 0) {
 		assert(0);
 	}
 
