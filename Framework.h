@@ -3,6 +3,10 @@
 #include "DirectXBasis.h"
 #include "Input.h"
 
+#include "SceneManager.h"
+
+#include "AbstractSceneFactory.h"
+
 class FrameworkΓ {
 public:
 	//実行
@@ -18,6 +22,8 @@ public:
 	DirectXBasis* GetDirectXBasis()const { return dxBas_; }
 	Input* GetInput()const { return input_; }
 
+	static SceneManager* GetSceneManager(){ return sceneManager_; }
+
 private:
 	WinApp* winApp_ = nullptr;
 	DirectXBasis* dxBas_ = nullptr;
@@ -25,6 +31,11 @@ private:
 
 	bool isEndRequest_ = false;
 
+	//シーンマネージャー
+	static SceneManager* sceneManager_;
 public:
+	//シーンファクトリ―
+	AbstractSceneFactory* sceneFactory_ = nullptr;
+public: 
 	virtual ~FrameworkΓ() = default;
 };
