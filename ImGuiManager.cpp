@@ -51,3 +51,10 @@ void ImGuiManager::Finalize() {
 	//デスクリプタヒープ解放
 	srvHeap_.Reset();
 }
+
+void ImGuiManager::Begin() {
+	//ImGuiフレーム開始
+	ImGui_ImplDX12_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+}
