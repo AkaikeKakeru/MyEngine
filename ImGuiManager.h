@@ -8,6 +8,8 @@ private://省略
 
 public:
 	void Initialize(DirectXBasis* dXBas);
+	void Finalize();
+
 private:
 	ImGuiManager() = default;
 	~ImGuiManager() = default;

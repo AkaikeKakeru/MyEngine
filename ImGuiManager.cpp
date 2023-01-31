@@ -41,3 +41,13 @@ void ImGuiManager::Initialize(DirectXBasis* dXBas) {
 	//標準フォント追加
 	io.Fonts->AddFontDefault();
 }
+
+void ImGuiManager::Finalize() {
+	//後始末
+	ImGui_ImplDX12_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
+
+	//デスクリプタヒープ解放
+	srvHeap_.Reset();
+}

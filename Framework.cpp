@@ -64,6 +64,7 @@ void FrameworkΓ::Update(){
 }
 
 void FrameworkΓ::Finalize(){
+	imGuiManager_->Finalize();
 	sceneManager_->Finalize();
 	delete sceneFactory_;
 }
