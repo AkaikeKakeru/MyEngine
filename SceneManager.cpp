@@ -1,4 +1,5 @@
 #include "SceneManager.h"
+#include "ImGuiManager.h"
 #include <cassert>
 
 void SceneManager::Update(){
@@ -27,6 +28,7 @@ void SceneManager::Update(){
 
 void SceneManager::Draw(){
 	scene_->Draw();
+	ImGuiManager::GetInstance()->Draw();
 }
 
 void SceneManager::Finalize(){
