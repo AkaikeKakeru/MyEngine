@@ -87,6 +87,15 @@ Audio::SoundData Audio::SoundLoadWave(const char* filename) {
 	return soundData;
 }
 
+void Audio::SoundUnload(SoundData* soundData) {
+	//バッファのメモリを解放
+	delete[] soundData->pBuffer_;
+
+	soundData->pBuffer_ = 0;
+	soundData->bufferSize_ = 0;
+	soundData->wfex_ = {};
+}
+
 Audio* Audio::GetInstance() {
 	static Audio instance;
 	return &instance;

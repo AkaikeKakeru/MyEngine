@@ -41,6 +41,9 @@ public://メンバ関数
 	//音声データ読み込み
 	SoundData SoundLoadWave(const char* filename);
 
+	//音声データ解放
+	void SoundUnload(SoundData* soundData);
+
 private:
 
 private:
