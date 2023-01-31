@@ -2,6 +2,7 @@
 #include "WinApp.h"
 #include "DirectXBasis.h"
 #include "Input.h"
+#include "ImGuiManager.h"
 
 #include "SceneManager.h"
 
@@ -33,6 +34,9 @@ private:
 
 	//シーンマネージャー
 	static SceneManager* sceneManager_;
+
+	//ImGuiマネージャー
+	ImGuiManager* imGuiManager_ = nullptr;
 public:
 	//シーンファクトリ―
 	AbstractSceneFactory* sceneFactory_ = nullptr;
