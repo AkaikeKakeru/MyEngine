@@ -148,6 +148,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="Degree.cpp" />
     <ClCompile Include="DirectXBasis.cpp" />
     <ClCompile Include="DrawBasis.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Cursor.h" />
+    <ClInclude Include="DebugText.h" />
     <ClInclude Include="Degree.h" />
     <ClInclude Include="DirectXBasis.h" />
     <ClInclude Include="DrawBasis.h" />
