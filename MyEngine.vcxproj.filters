@@ -186,6 +186,9 @@
     <ClCompile Include="DebugText.cpp">
       <Filter>ソース ファイル\Drawer</Filter>
     </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>ソース ファイル\base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXBasis.h">
@@ -292,6 +295,9 @@
     </ClInclude>
     <ClInclude Include="DebugText.h">
       <Filter>ヘッダー ファイル\Drawer</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
