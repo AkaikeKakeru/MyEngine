@@ -237,7 +237,6 @@ bool Object3d::Initialize() {
 }
 
 void Object3d::Update() {
-	HRESULT result;
 	assert(camera_);
 
 	worldTransform_.UpdateMatrix();
@@ -267,8 +266,6 @@ void Object3d::Draw() {
 }
 
 void Object3d::TransferMatrixWorld() {
-	HRESULT result;
-
 	const Matrix4& matViewProjection = camera_->GetViewProjectionMatrix();
 	const Vector3& cameraPos = camera_->GetEye();
 
