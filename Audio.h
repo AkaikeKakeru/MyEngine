@@ -16,7 +16,7 @@ public://構造体
 
 	//FMTチャンク
 	struct FormatChunk {
-		ChunkHeader chunk_;//"FMT"
+		ChunkHeader chunk_;//"fmt "
 		WAVEFORMAT fmt_;//波形フォーマット
 	};
 
