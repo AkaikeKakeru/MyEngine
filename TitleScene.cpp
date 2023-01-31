@@ -18,7 +18,7 @@ void TitleScene::Initialize(){
 	drawBas_ = DrawBasis::GetInstance();
 	drawBas_->Initialize();
 
-	drawBas_->LoadTexture(0, "HoppingTitle.png");
+	drawBas_->LoadTexture(0, "title.png");
 
 	//描画スプライト
 
