@@ -36,8 +36,13 @@ private://固有関数
 	void InitFence();
 
 public://アクセス
+	//デバイス取得
 	ComPtr<ID3D12Device> GetDevice() { return device_; }
+	//コマンドリスト取得
 	ComPtr<ID3D12GraphicsCommandList> GetCommandList() { return cmdList_; }
+
+	//バックバッファの数取得
+	size_t GetBackBufferCount() const { return backBuffers_.size(); }
 
 public://定数
 	static const int BackBufferCount = 2;
