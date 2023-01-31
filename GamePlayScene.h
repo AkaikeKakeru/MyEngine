@@ -41,4 +41,5 @@ private:
 	/// <summary>
 	/// スプライト
 	/// </summary>
+	Sprite* sprite_ = new Sprite();
 };

@@ -31,19 +31,24 @@ void GamePlayScene::Initialize3d() {
 }
 
 void GamePlayScene::Initialize2d() {
+	drawBas_->LoadTexture(1, "texture.png");
+	sprite_->Initialize(drawBas_,1);
 }
 
 void GamePlayScene::Update3d() {
 }
 
 void GamePlayScene::Update2d() {
+	sprite_->Update();
 }
 
 void GamePlayScene::Draw3d() {
 }
 
 void GamePlayScene::Draw2d() {
+	sprite_->Draw();
 }
 
 void GamePlayScene::Finalize() {
+	SafeDelete(sprite_);
 }
