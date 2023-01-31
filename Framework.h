@@ -2,10 +2,9 @@
 #include "WinApp.h"
 #include "DirectXBasis.h"
 #include "Input.h"
+#include "Audio.h"
 #include "ImGuiManager.h"
-
 #include "SceneManager.h"
-
 #include "AbstractSceneFactory.h"
 
 class FrameworkΓ {
@@ -26,9 +25,18 @@ public:
 	static SceneManager* GetSceneManager(){ return sceneManager_; }
 
 private:
+	//ウィンドウアプリ
 	WinApp* winApp_ = nullptr;
+	//DirectX基盤
 	DirectXBasis* dxBas_ = nullptr;
+	//入力
 	Input* input_ = nullptr;
+
+	//オーディオ
+	Audio* audio_ = nullptr;
+
+	//サウンドデータ
+	Audio::SoundData soundData1 = {};
 
 	bool isEndRequest_ = false;
 

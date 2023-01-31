@@ -41,6 +41,15 @@ void FrameworkΓ::Initialize(){
 	input_ = Input::GetInstance();
 	input_->Initialize();
 
+	//音声
+	audio_ = Audio::GetInstance();
+	audio_->Initialize();
+
+	soundData1 = audio_->SoundLoadWave("Resource/fanfare.wav");
+
+	//再生
+	audio_->SoundPlayWave(audio_->GetXAudio2().Get(), soundData1);
+
 	//ImGuiマネージャー
 	imGuiManager_ = ImGuiManager::GetInstance();
 	imGuiManager_->Initialize(dxBas_);
@@ -73,6 +82,9 @@ void FrameworkΓ::Update(){
 }
 
 void FrameworkΓ::Finalize(){
+	audio_->Finalize();
+	Audio::GetInstance()-> SoundUnload(&soundData1);
+
 	imGuiManager_->Finalize();
 	sceneManager_->Finalize();
 	delete sceneFactory_;
