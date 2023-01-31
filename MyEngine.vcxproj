@@ -155,6 +155,7 @@
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="GamePlayScene.cpp" />
+    <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="Framework.h" />
     <ClInclude Include="GameMain.h" />
     <ClInclude Include="GamePlayScene.h" />
+    <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
