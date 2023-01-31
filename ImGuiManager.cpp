@@ -9,7 +9,10 @@ ImGuiManager* ImGuiManager::GetInstance() {
 }
 
 void ImGuiManager::Initialize(DirectXBasis* dXBas) {
+	assert(dXBas);
+
 	HRESULT result;
+	dXBas_ = dXBas;
 
 	//コンテキストを生成
 	ImGui::CreateContext();
@@ -25,13 +28,13 @@ void ImGuiManager::Initialize(DirectXBasis* dXBas) {
 	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 
 	//デスクリプタヒープ生成
-	result = dXBas->GetDevice()->CreateDescriptorHeap(
+	result = dXBas_->GetDevice()->CreateDescriptorHeap(
 		&desc, IID_PPV_ARGS(&srvHeap_));
 	assert(SUCCEEDED(result));
 
 	ImGui_ImplDX12_Init(
-		dXBas->GetDevice().Get(),
-		static_cast<int>(dXBas->GetBackBufferCount()),
+		dXBas_->GetDevice().Get(),
+		static_cast<int>(dXBas_->GetBackBufferCount()),
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, srvHeap_.Get(),
 		srvHeap_->GetCPUDescriptorHandleForHeapStart(),
 		srvHeap_->GetGPUDescriptorHandleForHeapStart()
@@ -62,4 +65,15 @@ void ImGuiManager::Begin() {
 void ImGuiManager::End() {
 	//描画前準備
 	ImGui::Render();
+}
+
+void ImGuiManager::Draw() {
+	ID3D12GraphicsCommandList* cmdList = dXBas_->GetCommandList().Get();
+
+	//デスクリプタヒープの配列をセットするコマンド
+	ID3D12DescriptorHeap* ppHeaps[] = { srvHeap_.Get() };
+	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
+	//描画コマンド発行
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), cmdList);
 }
