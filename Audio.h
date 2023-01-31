@@ -1,5 +1,10 @@
 #pragma once
 
+#include <xaudio2.h>
+#include <fstream>
+
+#pragma comment(lib,"xaudio2.lib")
+
 class Audio {
 public://構造体
 	//チャンクヘッダ
@@ -29,7 +34,6 @@ public://構造体
 		//バッファのサイズ
 		unsigned int bufferSize_;
 	};
-
 
 public://メンバ関数
 	void Initialize();

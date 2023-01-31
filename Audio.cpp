@@ -1,12 +1,7 @@
 #include "Audio.h"
-#include <xaudio2.h>
 #include <wrl.h>
 
-#include <fstream>
 #include <cassert>
-
-#pragma comment(lib,"xaudio2.lib")
-
 
 //省略
 template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
