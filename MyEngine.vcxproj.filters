@@ -225,6 +225,9 @@
     <ClCompile Include="Application\Game\Scene\Manager\BaseScene.cpp">
       <Filter>ソース ファイル\Application\Game\Scene\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Math\Quaternion.cpp">
+      <Filter>ソース ファイル\Application\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Base\DirectXBasis.h">
@@ -334,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="Application\Game\Scene\Manager\BaseScene.h">
       <Filter>ヘッダー ファイル\Application\Game\Scene\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Math\Quaternion.h">
+      <Filter>ヘッダー ファイル\Application\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
