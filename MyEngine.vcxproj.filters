@@ -49,9 +49,6 @@
     <Filter Include="ソース ファイル\Application\Game\Scene\Manager">
       <UniqueIdentifier>{dc611737-edda-4e6f-95ba-9b1726663745}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Engine\Debug">
-      <UniqueIdentifier>{9ef49b36-62de-456b-b9bc-29b225e76709}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Engine">
       <UniqueIdentifier>{df60637e-9d90-438e-8a1d-63db3cba854a}</UniqueIdentifier>
     </Filter>
@@ -117,6 +114,9 @@
     </Filter>
     <Filter Include="ソース ファイル\Engine\3d\Object">
       <UniqueIdentifier>{31212c29-6ac3-45fd-9ed8-5253cde751c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Debuger">
+      <UniqueIdentifier>{9ef49b36-62de-456b-b9bc-29b225e76709}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -186,11 +186,11 @@
     <ClCompile Include="Engine\Audio\Audio.cpp">
       <Filter>ソース ファイル\Engine\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\DebugText.cpp">
-      <Filter>ソース ファイル\Engine\Debug</Filter>
+    <ClCompile Include="Engine\Debuger\DebugText.cpp">
+      <Filter>ソース ファイル\Engine\Debuger</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\ImGuiManager.cpp">
-      <Filter>ソース ファイル\Engine\Debug</Filter>
+    <ClCompile Include="Engine\Debuger\ImGuiManager.cpp">
+      <Filter>ソース ファイル\Engine\Debuger</Filter>
     </ClCompile>
     <ClCompile Include="Engine\3d\Object\ObjectBasis.cpp">
       <Filter>ソース ファイル\Engine\3d\Object</Filter>
@@ -311,10 +311,10 @@
     <ClInclude Include="Application\Game\Scene\Manager\SceneManager.h">
       <Filter>ヘッダー ファイル\Application\Game\Scene\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\DebugText.h">
+    <ClInclude Include="Engine\Debuger\DebugText.h">
       <Filter>ヘッダー ファイル\Engine\Debug</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\ImGuiManager.h">
+    <ClInclude Include="Engine\Debuger\ImGuiManager.h">
       <Filter>ヘッダー ファイル\Engine\Debug</Filter>
     </ClInclude>
     <ClInclude Include="Application\Function\SafeDelete.h">
