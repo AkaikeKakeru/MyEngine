@@ -43,15 +43,8 @@ void GamePlayScene::Initialize3d() {
 	planeObj_ = Object3d::Create();
 	planeObj_->SetModel(planeModel_);
 	planeObj_->SetScale({ 1, 1, 1 });
-
-	//回転軸アングル
-	Quaternion rotation = MakeAxisAngle(
-		{ 0.0f,1.0f,0.0f }, ConvertToRadian(1.0f));
-
-	//1F当たりの回転角度
-	Vector3 point = { 0.0f,ConvertToRadian(180.0f),0.0f };
-
-	planeObj_->SetRotation(RotateVector(point, rotation));
+	planeObj_->SetRotation(CreateRotationVector(
+		{ 0.0f,1.0f,0.0f },ConvertToRadian(180.0f)));
 
 	skydomeObj_ = new Object3d();
 	skydomeObj_ = Object3d::Create();
