@@ -31,7 +31,7 @@ void GamePlayScene::Draw() {
 void GamePlayScene::Initialize3d() {
 	//カメラ生成
 	camera_ = new Camera();
-	Object3d::SetCamera(camera_);
+	camera_player = new Camera();
 
 	planeModel_ = new Model();
 	planeModel_ = Model::LoadFromOBJ("plane", true);
@@ -44,12 +44,14 @@ void GamePlayScene::Initialize3d() {
 	planeObj_->SetModel(planeModel_);
 	planeObj_->SetScale({ 1, 1, 1 });
 	planeObj_->SetRotation(CreateRotationVector(
-		{ 0.0f,1.0f,0.0f },ConvertToRadian(180.0f)));
+		{ 0.0f,1.0f,0.0f }, ConvertToRadian(180.0f)));
+	planeObj_->SetCamera(camera_player);
 
 	skydomeObj_ = new Object3d();
 	skydomeObj_ = Object3d::Create();
 	skydomeObj_->SetModel(skydomeModel_);
 	skydomeObj_->SetScale({ 30, 30, 30 });
+	skydomeObj_->SetCamera(camera_);
 
 	//ライト生成
 	light_ = new Light();
@@ -152,18 +154,31 @@ void GamePlayScene::Update3d() {
 	{
 		static Vector3 lightDir = { 0,1,5 };
 
-		if (input_->PressKey(DIK_W) ||
-			input_->PressKey(DIK_S) ||
-			input_->PressKey(DIK_D) ||
-			input_->PressKey(DIK_A)) {
-			if (input_->PressKey(DIK_W)) { lightDir.y += 1.0f; }
-			else if (input_->PressKey(DIK_S)) { lightDir.y -= 1.0f; }
-			if (input_->PressKey(DIK_D)) { lightDir.x += 1.0f; }
-			else if (input_->PressKey(DIK_A)) { lightDir.x -= 1.0f; }
-		}
+		//	if (input_->PressKey(DIK_W) ||
+		//		input_->PressKey(DIK_S) ||
+		//		input_->PressKey(DIK_D) ||
+		//		input_->PressKey(DIK_A)) {
+		//		if (input_->PressKey(DIK_W)) { lightDir.y += 1.0f; }
+		//		else if (input_->PressKey(DIK_S)) { lightDir.y -= 1.0f; }
+		//		if (input_->PressKey(DIK_D)) { lightDir.x += 1.0f; }
+		//		else if (input_->PressKey(DIK_A)) { lightDir.x -= 1.0f; }
+		//	}
 		light_->SetLightDir(lightDir);
 	}
 
+	// カメラ移動
+	if (input_->PressKey(DIK_W) ||
+		input_->PressKey(DIK_S) ||
+		input_->PressKey(DIK_D) ||
+		input_->PressKey(DIK_A)) {
+		if (input_->PressKey(DIK_W)) { camera_->MoveVector({ 0.0f,+1.0f,0.0f }); }
+		else if (input_->PressKey(DIK_S)) { camera_->MoveVector({ 0.0f,-1.0f,0.0f }); }
+		if (input_->PressKey(DIK_D)) { camera_->MoveVector({ +1.0f,0.0f,0.0f }); }
+		else if (input_->PressKey(DIK_A)) { camera_->MoveVector({ -1.0f,0.0f,0.0f }); }
+	}
+
+	camera_->Update();
+	camera_player->Update();
 	light_->Update();
 	skydomeObj_->Update();
 	planeObj_->Update();
@@ -206,4 +221,5 @@ void GamePlayScene::Finalize() {
 
 	SafeDelete(light_);
 	SafeDelete(camera_);
+	SafeDelete(camera_player);
 }

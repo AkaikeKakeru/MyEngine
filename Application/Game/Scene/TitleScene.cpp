@@ -16,7 +16,6 @@ void TitleScene::Initialize(){
 
 	//カメラ生成
 	camera_ = new Camera();
-	Object3d::SetCamera(camera_);
 
 	planeModel_ = new Model();
 	planeModel_ = Model::LoadFromOBJ("plane", false);
@@ -28,10 +27,12 @@ void TitleScene::Initialize(){
 	planeObj_ = new Object3d();
 	planeObj_ = Object3d::Create();
 	planeObj_->SetModel(planeModel_);
+	planeObj_->SetCamera(camera_);
 
 	skydomeObj_ = new Object3d();
 	skydomeObj_ = Object3d::Create();
 	skydomeObj_->SetModel(skydomeModel_);
+	skydomeObj_->SetCamera(camera_);
 
 	//ライト生成
 	light_ = new Light();
