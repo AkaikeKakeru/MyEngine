@@ -39,6 +39,7 @@ private:
 	static DrawBasis* drawBas_;
 
 	Camera* camera_ = nullptr;
+	Camera* camera_player = nullptr;
 	Light* light_ = nullptr;
 
 	/// <summary>
