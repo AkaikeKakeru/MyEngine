@@ -20,11 +20,11 @@
 /// </summary>
 class Object3d {
 private: // エイリアス
-		 // Microsoft::WRL::を省略
+	// Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 public: // サブクラス
-		// パイプラインセット
+	// パイプラインセット
 	struct PipelineSet {
 		// ルートシグネチャ
 		ComPtr<ID3D12RootSignature> rootsignature_;
@@ -35,8 +35,8 @@ public: // サブクラス
 private: // 定数
 
 public: // 静的メンバ関数
-		// 静的初期化
-	static void StaticInitialize(ID3D12Device* device, Camera* camera = nullptr);
+	// 静的初期化
+	static void StaticInitialize(ID3D12Device* device);
 
 	// 描画前処理
 	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
@@ -51,11 +51,6 @@ public: // 静的メンバ関数
 		Object3d::light_ = light;
 	}
 
-	//カメラセット
-	static void SetCamera(Camera* camera) {
-		camera_ = camera;
-	}
-
 private: // 静的メンバ変数
 		 // デバイス
 	static ID3D12Device* device_;
@@ -65,9 +60,6 @@ private: // 静的メンバ変数
 	static ComPtr<ID3D12RootSignature> rootsignature_;
 	// テクスチャあり用パイプライン
 	static PipelineSet pipelineSet_;
-
-	//カメラ
-	static Camera* camera_;
 
 	//ライト
 	static Light* light_;
@@ -110,10 +102,16 @@ public: // メンバ関数
 	//モデルセッタ
 	void SetModel(Model* model) { model_ = model; }
 
+	//カメラセット
+	void SetCamera(Camera* camera) { camera_ = camera; }
+
 private: // メンバ変数
-		 //ワールドトランスフォーム
+	//ワールドトランスフォーム
 	WorldTransform worldTransform_;
 
 	//モデル
 	Model* model_ = nullptr;
+
+	//カメラ
+	Camera* camera_ = nullptr;
 };

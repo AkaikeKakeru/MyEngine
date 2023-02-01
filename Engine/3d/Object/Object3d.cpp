@@ -24,17 +24,13 @@ ID3D12GraphicsCommandList* Object3d::cmdList_ = nullptr;
 ComPtr<ID3D12RootSignature> Object3d::rootsignature_;
 Object3d::PipelineSet Object3d::pipelineSet_;
 
-Camera* Object3d::camera_ = nullptr;
-
 Light* Object3d::light_ = nullptr;
 
-void Object3d::StaticInitialize(ID3D12Device* device,Camera* camera) {
+void Object3d::StaticInitialize(ID3D12Device* device) {
 	// nullptrチェック
 	assert(device);
 
 	Object3d::device_ = device;
-
-	camera_ = camera;
 
 	// パイプライン初期化
 	InitializeGraphicsPipeline();
@@ -237,7 +233,6 @@ bool Object3d::Initialize() {
 }
 
 void Object3d::Update() {
-	HRESULT result;
 	assert(camera_);
 
 	worldTransform_.UpdateMatrix();
@@ -267,8 +262,6 @@ void Object3d::Draw() {
 }
 
 void Object3d::TransferMatrixWorld() {
-	HRESULT result;
-
 	const Matrix4& matViewProjection = camera_->GetViewProjectionMatrix();
 	const Vector3& cameraPos = camera_->GetEye();
 
