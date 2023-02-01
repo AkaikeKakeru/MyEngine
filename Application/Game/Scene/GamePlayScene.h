@@ -2,6 +2,7 @@
 #include "BaseScene.h"
 
 #include "Input.h"
+#include "DebugText.h"
 #include "DrawBasis.h"
 #include "Model.h"
 #include "Sprite.h"
@@ -29,8 +30,12 @@ private:
 
 	void Draw3d();
 	void Draw2d();
+
 public:
 	Vector3 CreateRotationVector(Vector3 axisAngle, float angleRadian);
+
+private: // 静的メンバ変数
+	static const int debugTextTexNumber = 0;
 
 private:
 	//基盤
@@ -38,8 +43,9 @@ private:
 	static Input* input_;
 	static DrawBasis* drawBas_;
 
+	DebugText debugText_;
+
 	Camera* camera_ = nullptr;
-	Camera* camera_player = nullptr;
 	Light* light_ = nullptr;
 
 	/// <summary>

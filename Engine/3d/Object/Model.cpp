@@ -65,7 +65,6 @@ void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
 	// メッシュ生成
 	Mesh* mesh = new Mesh;
 	int indexCountTex = 0;
-	int indexCountNoTex = 0;
 
 	vector<Vector3>positions;//頂点座標
 	vector<Vector3>normals;//法線ベクトル
@@ -83,10 +82,10 @@ void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
 		//マテリアル
 		if (key == "mtllib") {
 			// マテリアルのファイル名読み込み
-			string filename;
-			line_stream >> filename;
+			string filenameM;
+			line_stream >> filenameM;
 			// マテリアル読み込み
-			LoadMaterial(directoryPath, filename);
+			LoadMaterial(directoryPath, filenameM);
 		}
 		// 先頭文字列がgならグループの開始
 		if (key == "g") {
@@ -169,7 +168,7 @@ void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
 					vertex.uv = texcoords[indexTexcoord - 1];
 					mesh->AddVertex(vertex);
 					//エッジ平滑化のデータを追加
-					if(smoothing) {
+					if (smoothing) {
 						mesh->AddSmoothData(indexPosition, (unsigned short)mesh->GetVertexCount() - 1);
 					}
 				}
@@ -177,12 +176,12 @@ void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
 				if (faceIndexCount >= 3) {
 					// 四角形ポリゴンの4点目なので、
 					// 四角形の0,1,2,3の内 2,3,0で三角形を構築する
-					mesh->AddIndex(indexCountTex - 1);
-					mesh->AddIndex(indexCountTex);
-					mesh->AddIndex(indexCountTex - 3);
+					mesh->AddIndex(static_cast<unsigned short>(indexCountTex - 1));
+					mesh->AddIndex(static_cast<unsigned short>(indexCountTex));
+					mesh->AddIndex(static_cast<unsigned short>(indexCountTex - 3));
 				}
 				else {
-					mesh->AddIndex(indexCountTex);
+					mesh->AddIndex(static_cast<unsigned short>(indexCountTex));
 				}
 				indexCountTex++;
 				faceIndexCount++;

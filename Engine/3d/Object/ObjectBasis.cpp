@@ -48,7 +48,7 @@ void ObjectBasis::PreDraw(){
 	cmdList_->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 }
 
-void ObjectBasis::SetTextureCommand(uint32_t textureIndex){
+void ObjectBasis::SetTextureCommand(){
 	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap_->GetGPUDescriptorHandleForHeapStart();
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定

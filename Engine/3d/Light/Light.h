@@ -52,7 +52,7 @@ private://メンバ変数
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuff_;
 	//ライト光線方向(単位ベクトル)
-	Vector3 lightdir_ = { 1,0,0 };
+	Vector3 lightdir_ = { 0,0,1 };
 	//ライト色
 	Vector3 lightcolor_ = { 1,1,1 };
 	//ダーティフラグ

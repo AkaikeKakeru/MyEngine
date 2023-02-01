@@ -31,7 +31,6 @@ void GamePlayScene::Draw() {
 void GamePlayScene::Initialize3d() {
 	//カメラ生成
 	camera_ = new Camera();
-	camera_player = new Camera();
 
 	planeModel_ = new Model();
 	planeModel_ = Model::LoadFromOBJ("plane", true);
@@ -45,7 +44,7 @@ void GamePlayScene::Initialize3d() {
 	planeObj_->SetScale({ 1, 1, 1 });
 	planeObj_->SetRotation(CreateRotationVector(
 		{ 0.0f,1.0f,0.0f }, ConvertToRadian(180.0f)));
-	planeObj_->SetCamera(camera_player);
+	planeObj_->SetCamera(camera_);
 
 	skydomeObj_ = new Object3d();
 	skydomeObj_ = Object3d::Create();
@@ -56,14 +55,18 @@ void GamePlayScene::Initialize3d() {
 	//ライト生成
 	light_ = new Light();
 	light_ = Light::Create();
-	light_->SetLightColor({ 1,1,1 });
 	Object3d::SetLight(light_);
 }
 
 void GamePlayScene::Initialize2d() {
-	drawBas_->LoadTexture(1, "texture.png");
-	sprite_->Initialize(drawBas_, 1);
+	// デバッグテキスト用テクスチャ読み込み
+	drawBas_->LoadTexture(debugTextTexNumber,"debugfont.png");
+	// デバッグテキスト初期化
+	debugText_.Initialize(debugTextTexNumber);
 
+	drawBas_->LoadTexture(1, "texture.png");
+
+	sprite_->Initialize(drawBas_, 1);
 	sprite_->SetAnchorPoint({ 0.5f, 0.5f });
 	sprite_->SetSize({ 64,64 });
 }
@@ -75,7 +78,6 @@ void GamePlayScene::Update3d() {
 		Vector3 rot = skydomeObj_->GetRotation();
 
 		// 移動後の座標を計算
-
 		//回転軸アングル
 		//ここではY軸回転を指定
 		Quaternion rotation = MakeAxisAngle(
@@ -151,21 +153,6 @@ void GamePlayScene::Update3d() {
 		planeObj_->SetPosition(position);
 	}
 
-	{
-		static Vector3 lightDir = { 0,1,5 };
-
-		//	if (input_->PressKey(DIK_W) ||
-		//		input_->PressKey(DIK_S) ||
-		//		input_->PressKey(DIK_D) ||
-		//		input_->PressKey(DIK_A)) {
-		//		if (input_->PressKey(DIK_W)) { lightDir.y += 1.0f; }
-		//		else if (input_->PressKey(DIK_S)) { lightDir.y -= 1.0f; }
-		//		if (input_->PressKey(DIK_D)) { lightDir.x += 1.0f; }
-		//		else if (input_->PressKey(DIK_A)) { lightDir.x -= 1.0f; }
-		//	}
-		light_->SetLightDir(lightDir);
-	}
-
 	// カメラ移動
 	if (input_->PressKey(DIK_W) ||
 		input_->PressKey(DIK_S) ||
@@ -178,10 +165,11 @@ void GamePlayScene::Update3d() {
 	}
 
 	camera_->Update();
-	camera_player->Update();
 	light_->Update();
 	skydomeObj_->Update();
 	planeObj_->Update();
+
+	debugText_.Print("Hello World", 10, 10);
 }
 
 void GamePlayScene::Update2d() {
@@ -203,6 +191,9 @@ void GamePlayScene::Draw3d() {
 
 void GamePlayScene::Draw2d() {
 	sprite_->Draw();
+
+	// デバッグテキストの描画
+	debugText_.DrawAll();
 }
 
 Vector3 GamePlayScene::CreateRotationVector(Vector3 axisAngle, float angleRadian) {
@@ -221,5 +212,4 @@ void GamePlayScene::Finalize() {
 
 	SafeDelete(light_);
 	SafeDelete(camera_);
-	SafeDelete(camera_player);
 }

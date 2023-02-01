@@ -1,12 +1,11 @@
 #include "Framework.h"
 #include "Object3d.h"
 #include "DrawBasis.h"
-#include "TitleScene.h"
 #include <imgui.h>
 
-SceneManager* FrameworkΓ::sceneManager_ = SceneManager::GetInstance();
+SceneManager* Framework_KA::sceneManager_ = SceneManager::GetInstance();
 
-void FrameworkΓ::Run(){
+void Framework_KA::Run(){
 	/// 初期化
 	Initialize();
 
@@ -27,7 +26,7 @@ void FrameworkΓ::Run(){
 	Finalize();
 }
 
-void FrameworkΓ::Initialize(){
+void Framework_KA::Initialize(){
 	///基盤初期化
 	//アプリケーション
 	winApp_ = WinApp::GetInstance();
@@ -44,12 +43,7 @@ void FrameworkΓ::Initialize(){
 	//音声
 	audio_ = Audio::GetInstance();
 	audio_->Initialize();
-
-	soundData1 = audio_->SoundLoadWave("Resource/fanfare.wav");
-
-	//再生
-	audio_->SoundPlayWave(audio_->GetXAudio2().Get(), soundData1);
-
+	
 	//ImGuiマネージャー
 	imGuiManager_ = ImGuiManager::GetInstance();
 	imGuiManager_->Initialize(dxBas_);
@@ -63,11 +57,9 @@ void FrameworkΓ::Initialize(){
 
 	//ライト静的初期化
 	Light::StaticInitialize(dxBas_->GetDevice().Get());
-
-
 }
 
-void FrameworkΓ::Update(){
+void Framework_KA::Update(){
 	//windowsのメッセージ処理
 	if (winApp_->ProcessMessage()) {
 		//ゲームループを抜ける
@@ -76,19 +68,13 @@ void FrameworkΓ::Update(){
 
 	imGuiManager_->Begin();
 #ifdef _DEBUG
-	ImGui::Text("Hello, world");
-
-	//デモを表示
-	ImGui::ShowDemoWindow();
 #endif
 	imGuiManager_->End();
 	sceneManager_->Update();
 }
 
-void FrameworkΓ::Finalize(){
+void Framework_KA::Finalize(){
 	audio_->Finalize();
-	Audio::GetInstance()-> SoundUnload(&soundData1);
-
 	imGuiManager_->Finalize();
 	sceneManager_->Finalize();
 	delete sceneFactory_;

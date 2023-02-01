@@ -118,13 +118,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(ProjectDir)Application\Base;$(ProjectDir)Application\Function;$(ProjectDir)Application\Game;$(ProjectDir)Application\Game\Scene;$(ProjectDir)Application\Game\Scene\Manager;$(ProjectDir)Application\Math;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\ConstBuffer;$(ProjectDir)Engine\Debug;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d\Camera;$(ProjectDir)Engine\3d\Light;$(ProjectDir)Engine\3d\Object;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -133,7 +133,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -142,7 +142,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(ProjectDir)Application\Base;$(ProjectDir)Application\Function;$(ProjectDir)Application\Game;$(ProjectDir)Application\Game\Scene;$(ProjectDir)Application\Game\Scene\Manager;$(ProjectDir)Application\Math;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\ConstBuffer;$(ProjectDir)Engine\Debug;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d\Camera;$(ProjectDir)Engine\3d\Light;$(ProjectDir)Engine\3d\Object;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -174,14 +174,12 @@
     <ClCompile Include="Application\Math\Matrix4.cpp" />
     <ClCompile Include="Engine\3d\Object\Mesh.cpp" />
     <ClCompile Include="Engine\3d\Object\Model.cpp" />
-    <ClCompile Include="Engine\3d\Object\ModelBackup.cpp" />
     <ClCompile Include="Engine\3d\Object\Object3d.cpp" />
     <ClCompile Include="Engine\3d\Object\ObjectBasis.cpp" />
     <ClCompile Include="Application\Function\Random.cpp" />
     <ClCompile Include="Application\Game\Scene\Manager\SceneFactory.cpp" />
     <ClCompile Include="Application\Game\Scene\Manager\SceneManager.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
-    <ClCompile Include="Application\Game\Scene\TitleScene.cpp" />
     <ClCompile Include="Application\Math\Vector2.cpp" />
     <ClCompile Include="Application\Math\Vector3.cpp" />
     <ClCompile Include="Application\Math\Vector4.cpp" />
@@ -212,7 +210,6 @@
     <ClInclude Include="Application\Math\Matrix4.h" />
     <ClInclude Include="Engine\3d\Object\Mesh.h" />
     <ClInclude Include="Engine\3d\Object\Model.h" />
-    <ClInclude Include="Engine\3d\Object\ModelBackup.h" />
     <ClInclude Include="Engine\3d\Object\Object3d.h" />
     <ClInclude Include="Engine\3d\Object\ObjectBasis.h" />
     <ClInclude Include="Application\Function\Random.h" />
@@ -220,7 +217,6 @@
     <ClInclude Include="Application\Game\Scene\Manager\SceneFactory.h" />
     <ClInclude Include="Application\Game\Scene\Manager\SceneManager.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
-    <ClInclude Include="Application\Game\Scene\TitleScene.h" />
     <ClInclude Include="Application\Math\Vector2.h" />
     <ClInclude Include="Application\Math\Vector3.h" />
     <ClInclude Include="Application\Math\Vector4.h" />

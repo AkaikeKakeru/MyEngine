@@ -302,11 +302,7 @@ void DirectXBasis::PreDraw() {
 
 void DirectXBasis::PostDraw() {
 	///4.描画コマンドエンド↑
-
 	HRESULT result;
-
-	//バックバッファの番号取得
-	UINT bbIndex = swapChain_->GetCurrentBackBufferIndex();
 
 #pragma region リソースバリア復帰コマンド
 	///5.リソースバリアを隠す

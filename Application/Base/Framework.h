@@ -7,7 +7,7 @@
 #include "SceneManager.h"
 #include "AbstractSceneFactory.h"
 
-class FrameworkΓ {
+class Framework_KA {
 public:
 	//実行
 	void Run();
@@ -35,9 +35,6 @@ private:
 	//オーディオ
 	Audio* audio_ = nullptr;
 
-	//サウンドデータ
-	Audio::SoundData soundData1 = {};
-
 	bool isEndRequest_ = false;
 
 	//シーンマネージャー
@@ -49,5 +46,5 @@ public:
 	//シーンファクトリ―
 	AbstractSceneFactory* sceneFactory_ = nullptr;
 public: 
-	virtual ~FrameworkΓ() = default;
+	virtual ~Framework_KA() = default;
 };

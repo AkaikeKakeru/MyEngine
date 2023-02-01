@@ -183,9 +183,6 @@
     <ClCompile Include="Engine\3d\Camera\Camera.cpp">
       <Filter>ソース ファイル\Engine\3d\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Game\Scene\TitleScene.cpp">
-      <Filter>ソース ファイル\Application\Game\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Audio\Audio.cpp">
       <Filter>ソース ファイル\Engine\Audio</Filter>
     </ClCompile>
@@ -199,9 +196,6 @@
       <Filter>ソース ファイル\Engine\3d\Object</Filter>
     </ClCompile>
     <ClCompile Include="Engine\3d\Object\Object3d.cpp">
-      <Filter>ソース ファイル\Engine\3d\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\3d\Object\ModelBackup.cpp">
       <Filter>ソース ファイル\Engine\3d\Object</Filter>
     </ClCompile>
     <ClCompile Include="Engine\3d\Object\Material.cpp">
@@ -290,9 +284,6 @@
     <ClInclude Include="Engine\3d\Camera\Camera.h">
       <Filter>ヘッダー ファイル\Engine\3d\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Game\Scene\TitleScene.h">
-      <Filter>ヘッダー ファイル\Application\Game\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Audio\Audio.h">
       <Filter>ヘッダー ファイル\Engine\Audio</Filter>
     </ClInclude>
@@ -303,9 +294,6 @@
       <Filter>ヘッダー ファイル\Engine\3d\Object</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3d\Object\Model.h">
-      <Filter>ヘッダー ファイル\Engine\3d\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3d\Object\ModelBackup.h">
       <Filter>ヘッダー ファイル\Engine\3d\Object</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3d\Object\Object3d.h">
