@@ -1,6 +1,51 @@
 #include "Quaternion.h"
 #include <cmath>
 
+
+Quaternion& operator+(Quaternion q0, Quaternion q1) {
+	q0.x += q1.x;
+	q0.y += q1.y;
+	q0.z += q1.z;
+	q0.w += q1.w;
+
+	return q0;
+}
+
+Quaternion& operator*(Quaternion q, float s) {
+	q.x *= s;
+	q.y *= s;
+	q.z *= s;
+	q.w *= s;
+
+	return q;
+}
+
+Quaternion& operator*=(Quaternion q, float s) {
+	q.x *= s;
+	q.y *= s;
+	q.z *= s;
+	q.w *= s;
+
+	return q;
+}
+
+Quaternion& operator*(float s, Quaternion q) {
+	q.x *= s;
+	q.y *= s;
+	q.z *= s;
+	q.w *= s;
+
+	return q;
+}
+Quaternion& operator*=(float s, Quaternion q) {
+	q.x *= s;
+	q.y *= s;
+	q.z *= s;
+	q.w *= s;
+
+	return q;
+}
+
 Quaternion& operator/(Quaternion q, float s) {
 	q.x /= s;
 	q.y /= s;
@@ -142,4 +187,62 @@ Matrix4 MakeRotateMatrix(const Quaternion& quaternion) {
 	R.m[3][3] = 1.0f;
 
 	return R;
+}
+
+const float QuaternionDot(const Quaternion& q0, const Quaternion& q1) {
+	return q0.x * q1.x + q0.y * q1.y + q0.z * q1.z + q0.w * q1.w;
+}
+
+Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t) {
+	const float EPSILON = 0.0005f;
+
+	//q0とq1の内積
+	float dot = QuaternionDot(q0, q1);
+
+	Quaternion qA = q0;
+
+	//内積が +か -かを確認
+	if (dot < 0) {
+		qA = qA * -1.0f;//もう片方の回転を利用
+		dot = -dot;//内積も反転
+	}
+
+	if (dot >= 1.0f - EPSILON) {
+		return (1.0f - t) * q0 + t * q1;
+	}
+
+	//なす角を求める
+	float theta = std::acos(dot);
+
+	//補間係数を求める
+	float scale0 = sin((1 - t) * theta) / sin(theta);
+	//補間係数を求める
+	float scale1 = sin(t * theta) / sin(theta);
+
+	//補間係数を用いて、補間後のQuaternionを返す
+	return scale0 * q0 + scale1 * q1;
+}
+
+Quaternion DirectionToDirection(const Vector3& u, const Vector3& v) {
+	//uとvを正規化して内積を求める。
+	float dot = Vector3Dot(
+		Vector3Normalize(u),
+		Vector3Normalize(v));
+
+	//uとvの外積
+	Vector3 cross = Vector3Cross(u, v);
+
+	//軸は正規化必須
+	Vector3 axis = Vector3Normalize(cross);
+
+	//単位ベクトルで内積を取っているのでacosで角度を求める
+	float theta = std::acos(dot);
+
+	//任意軸回転を作る
+	return Quaternion({
+		axis.x * sin(theta / 2),
+		axis.y * sin(theta / 2),
+		axis.z * sin(theta / 2),
+		cos(theta / 2)
+		});
 }
