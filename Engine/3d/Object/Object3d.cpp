@@ -86,7 +86,7 @@ void Object3d::InitializeGraphicsPipeline() {
 	ComPtr<ID3DBlob> psBlob;	// ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> errorBlob; // エラーオブジェクト
 
-	// 頂点シェーダの読み込みとコンパイル
+								// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
 		L"Resource/shader/ObjVS.hlsl",	// シェーダファイル名
 		nullptr,
@@ -237,6 +237,7 @@ bool Object3d::Initialize() {
 }
 
 void Object3d::Update() {
+	HRESULT result;
 	assert(camera_);
 
 	worldTransform_.UpdateMatrix();
@@ -266,6 +267,8 @@ void Object3d::Draw() {
 }
 
 void Object3d::TransferMatrixWorld() {
+	HRESULT result;
+
 	const Matrix4& matViewProjection = camera_->GetViewProjectionMatrix();
 	const Vector3& cameraPos = camera_->GetEye();
 

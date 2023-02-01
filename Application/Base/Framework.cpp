@@ -61,6 +61,10 @@ void FrameworkΓ::Initialize(){
 	DrawBasis::GetInstance();
 	DrawBasis::Initialize();
 
+	//ライト静的初期化
+	Light::StaticInitialize(dxBas_->GetDevice().Get());
+
+
 }
 
 void FrameworkΓ::Update(){

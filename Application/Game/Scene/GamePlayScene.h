@@ -7,6 +7,9 @@
 #include "Sprite.h"
 #include "Object3d.h"
 
+#include "Camera.h"
+#include "Light.h"
+
 #include <memory>
 #include <List>
 
@@ -33,6 +36,9 @@ private:
 	static DirectXBasis* dxBas_;
 	static Input* input_;
 	static DrawBasis* drawBas_;
+
+	Camera* camera_ = nullptr;
+	Light* light_ = nullptr;
 
 	/// <summary>
 	/// オブジェクト

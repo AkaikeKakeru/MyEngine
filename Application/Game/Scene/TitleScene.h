@@ -7,6 +7,9 @@
 #include "Sprite.h"
 #include "Object3d.h"
 
+#include "Camera.h"
+#include "Light.h"
+
 #include "SceneManager.h"
 
 class TitleScene : public BaseScene{
@@ -21,11 +24,18 @@ private:
 	static DirectXBasis* dxBas_;
 	static Input* input_;
 	DrawBasis* drawBas_ = nullptr;
+
+	Camera* camera_ = nullptr;
+	Light* light_ = nullptr;
 	/// <summary>
 	/// オブジェクト
 	/// </summary>
 	/// <summary>
+	Object3d* planeObj_ = nullptr;
+	Model* planeModel_ = nullptr;
 
+	Object3d* skydomeObj_ = nullptr;
+	Model* skydomeModel_ = nullptr;
 	/// スプライト
 	/// </summary>
 	Sprite* sprite_ = new Sprite();

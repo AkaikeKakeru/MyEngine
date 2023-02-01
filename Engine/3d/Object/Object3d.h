@@ -35,7 +35,7 @@ public: // サブクラス
 private: // 定数
 
 public: // 静的メンバ関数
-	// 静的初期化
+		// 静的初期化
 	static void StaticInitialize(ID3D12Device* device, Camera* camera = nullptr);
 
 	// 描画前処理
@@ -53,7 +53,7 @@ public: // 静的メンバ関数
 
 	//カメラセット
 	static void SetCamera(Camera* camera) {
-		camera_ = camera; 
+		camera_ = camera;
 	}
 
 private: // 静的メンバ変数
@@ -73,7 +73,7 @@ private: // 静的メンバ変数
 	static Light* light_;
 
 private:// 静的メンバ関数
-	// グラフィックパイプライン生成
+		// グラフィックパイプライン生成
 	static void InitializeGraphicsPipeline();
 
 public: // メンバ関数
@@ -111,7 +111,7 @@ public: // メンバ関数
 	void SetModel(Model* model) { model_ = model; }
 
 private: // メンバ変数
-	//ワールドトランスフォーム
+		 //ワールドトランスフォーム
 	WorldTransform worldTransform_;
 
 	//モデル

@@ -14,6 +14,31 @@ void TitleScene::Initialize(){
 
 	//オブジェクトモデル
 
+	//カメラ生成
+	camera_ = new Camera();
+	Object3d::SetCamera(camera_);
+
+	planeModel_ = new Model();
+	planeModel_ = Model::LoadFromOBJ("plane", false);
+
+	skydomeModel_ = new Model();
+	skydomeModel_ = Model::LoadFromOBJ("skydome",false);
+
+
+	planeObj_ = new Object3d();
+	planeObj_ = Object3d::Create();
+	planeObj_->SetModel(planeModel_);
+
+	skydomeObj_ = new Object3d();
+	skydomeObj_ = Object3d::Create();
+	skydomeObj_->SetModel(skydomeModel_);
+
+	//ライト生成
+	light_ = new Light();
+	light_ = Light::Create();
+	light_->SetLightColor({ 1,1,1 });
+	Object3d::SetLight(light_);
+
 	//描画基盤
 	drawBas_ = DrawBasis::GetInstance();
 	drawBas_->Initialize();
@@ -27,6 +52,12 @@ void TitleScene::Initialize(){
 
 void TitleScene::Update(){
 	input_->Update();
+
+	light_->Update();
+
+	skydomeObj_->Update();
+	planeObj_->Update();
+
 	sprite_->Update();
 
 	if (input_->TriggerKey(DIK_RETURN)) {
@@ -39,6 +70,9 @@ void TitleScene::Draw(){
 	//モデル本命処理
 	Object3d::PreDraw(dxBas_->GetCommandList().Get());
 
+	skydomeObj_->Draw();
+	planeObj_->Draw();
+
 	Object3d::PostDraw();
 
 	//スプライト本命処理
@@ -50,5 +84,12 @@ void TitleScene::Draw(){
 }
 
 void TitleScene::Finalize(){
+	SafeDelete(planeObj_);
+	SafeDelete(skydomeObj_);
+	SafeDelete(planeModel_);
+	SafeDelete(skydomeModel_);
 	SafeDelete(sprite_);
+
+	SafeDelete(light_);
+	SafeDelete(camera_);
 }
