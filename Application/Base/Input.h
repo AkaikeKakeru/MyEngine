@@ -1,5 +1,4 @@
 #pragma once
-#include "WinApp.h"
 #define DIRECTINPUT_VERSION 0x0800 //DirectInput Version
 #include <dinput.h>
 #include <wrl.h>
@@ -69,9 +68,6 @@ public://固有関数
 	void GenerateMouseDevice();
 
 private://メンバ変数
-	//Windowsアプリケーション
-	WinApp* winApp_ = nullptr;
-
 	//DirectInput
 	ComPtr<IDirectInput8> dInput_;
 

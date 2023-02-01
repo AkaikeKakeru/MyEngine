@@ -1,12 +1,11 @@
 #include "Input.h"
 #include <cassert>
+#include <WinApp.h>
 
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
 
 void Input::Initialize() {
-	winApp_ = WinApp::GetInstance();
-
 	GenerateDirectInput();
 	GenerateKeyBoardDevice();
 	GenerateMouseDevice();
@@ -32,7 +31,7 @@ void Input::Update() {
 	GetCursorPos(&mousePosition);
 
 	//クライアントエリア座標に変換
-	ScreenToClient(winApp_->GetHWND(), &mousePosition);
+	ScreenToClient(WinApp::GetInstance()->GetHWND(), &mousePosition);
 	mousePos_.x = static_cast<float>(mousePosition.x);
 	mousePos_.y = static_cast<float>(mousePosition.y);
 }
@@ -102,7 +101,7 @@ void Input::GenerateDirectInput() {
 
 	//DirectInput初期化
 	result = DirectInput8Create(
-		winApp_->GetHInstance(), DIRECTINPUT_VERSION,
+		WinApp::GetInstance()->GetHInstance(), DIRECTINPUT_VERSION,
 		IID_IDirectInput8,
 		(void**)&dInput_, nullptr);
 	assert(SUCCEEDED(result));
@@ -123,7 +122,7 @@ void Input::GenerateKeyBoardDevice() {
 
 	//排他制御レベルのセット
 	result = keyboard_->SetCooperativeLevel(
-		winApp_->GetHWND(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+		WinApp::GetInstance()->GetHWND(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 }
 
@@ -142,7 +141,7 @@ void Input::GenerateMouseDevice(){
 
 	//排他制御レベルのセット
 	result = mouse_->SetCooperativeLevel(
-		winApp_->GetHWND(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+		WinApp::GetInstance()->GetHWND(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	assert(SUCCEEDED(result));
 }
 

@@ -1,5 +1,6 @@
 #include "Cursor.h"
 #include "Input.h"
+#include <WinApp.h>
 
 Camera* Corsor::camera_ = nullptr;
 
