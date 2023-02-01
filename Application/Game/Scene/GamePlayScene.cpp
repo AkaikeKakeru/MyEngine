@@ -106,48 +106,48 @@ void GamePlayScene::Update3d() {
 		// 現在の座標を取得
 		Vector3 rot = planeObj_->GetRotation();
 
-		//回転軸アングル
-		Quaternion rotation = MakeAxisAngle(
-			{ 0.0f,0.0f,0.0f }, ConvertToRadian(1.0f));
+		//回転ベクトル
+		Vector3 rotVector = {};
 
-		//1F当たりの回転角度
-		Vector3 point = { 0.0f,0.0f,0.0f };
+		//移動スピード
+		float moveSpeed = 0.5f;
+		//回転スピード
+		float rotSpeed = ConvertToRadian(1.0f);
+
+		Vector3 angleX = { 1.0f,0.0f,0.0f };
+		Vector3 angleZ = { 0.0f,0.0f,1.0f };
 
 		//移動後の座標を計算
 		if (input_->PressKey(DIK_UP)) {
 			// 移動後の座標を計算
-			position.y += 0.5f;
+			position.y += moveSpeed;
 
-			rotation = MakeAxisAngle(
-				{ 1.0f,0.0f,0.0f }, ConvertToRadian(1.0f));
-			point = { ConvertToRadian(1.0f), 0.0f,0.0f };
+			rotVector = CreateRotationVector(
+				angleX, rotSpeed);
 		}
 
 		else if (input_->PressKey(DIK_DOWN)) {
-			position.y -= 0.5f;
+			position.y -= moveSpeed;
 
-			rotation = MakeAxisAngle(
-				{ 1.0f,0.0f,0.0f }, ConvertToRadian(1.0f));
-			point = { -ConvertToRadian(1.0f), 0.0f,0.0f };
+			rotVector = CreateRotationVector(
+				angleX, -rotSpeed);
 		}
 
 		if (input_->PressKey(DIK_RIGHT)) {
-			position.x += 0.5f;
+			position.x += moveSpeed;
 
-			rotation = MakeAxisAngle(
-				{ 0.0f,0.0f,1.0f }, ConvertToRadian(1.0f));
-			point = { 0.0f,0.0f,ConvertToRadian(1.0f) };
+			rotVector = CreateRotationVector(
+				angleZ, rotSpeed);
 		}
 
 		else if (input_->PressKey(DIK_LEFT)) {
-			position.x -= 0.5f;
+			position.x -= moveSpeed;
 
-			rotation = MakeAxisAngle(
-				{ 0.0f,0.0f,1.0f }, ConvertToRadian(1.0f));
-			point = { 0.0f,0.0f,-ConvertToRadian(1.0f) };
+			rotVector = CreateRotationVector(
+				angleZ, -rotSpeed);
 		}
 
-		rot += RotateVector(point, rotation);
+		rot += rotVector;
 
 		// 座標の変更を反映
 		planeObj_->SetRotation(rot);
@@ -195,6 +195,13 @@ void GamePlayScene::Draw3d() {
 
 void GamePlayScene::Draw2d() {
 	sprite_->Draw();
+}
+
+Vector3 GamePlayScene::CreateRotationVector(Vector3 axisAngle, float angleRadian) {
+	Quaternion rotation = MakeAxisAngle(axisAngle, ConvertToRadian(1.0f));
+	Vector3 point = axisAngle * angleRadian;
+
+	return RotateVector(point, rotation);
 }
 
 void GamePlayScene::Finalize() {

@@ -30,6 +30,7 @@ private:
 	void Draw3d();
 	void Draw2d();
 public:
+	Vector3 CreateRotationVector(Vector3 axisAngle, float angleRadian);
 
 private:
 	//基盤
