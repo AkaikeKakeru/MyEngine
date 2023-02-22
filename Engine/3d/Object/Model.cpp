@@ -238,18 +238,10 @@ void Model::LoadTextures() {
 		cpuDescHandleSRV.ptr +=
 			(descriptorIncrementSize_ * textureIndex);
 
-		/*	D3D12_CPU_DESCRIPTOR_HANDLE(
-			descHeap_->GetCPUDescriptorHandleForHeapStart(), textureIndex,
-			descriptorIncrementSize_);*/
-
 		D3D12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV =
 			descHeap_->GetGPUDescriptorHandleForHeapStart();
 		gpuDescHandleSRV.ptr +=
 			(descriptorIncrementSize_ * textureIndex);
-
-		/*D3D12_GPU_DESCRIPTOR_HANDLE(
-			descHeap_->GetGPUDescriptorHandleForHeapStart(), textureIndex,
-			descriptorIncrementSize_);*/
 
 		// テクスチャなし
 		if (material->filename_.size() <= 0) {
