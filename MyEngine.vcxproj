@@ -175,7 +175,6 @@
     <ClCompile Include="Engine\3d\Object\Model.cpp" />
     <ClCompile Include="Engine\3d\Object\ModelBackup.cpp" />
     <ClCompile Include="Engine\3d\Object\Object3d.cpp" />
-    <ClCompile Include="Engine\3d\Object\ObjectBasis.cpp" />
     <ClCompile Include="Application\Function\Random.cpp" />
     <ClCompile Include="Application\Game\Scene\Manager\SceneFactory.cpp" />
     <ClCompile Include="Application\Game\Scene\Manager\SceneManager.cpp" />
@@ -212,7 +211,6 @@
     <ClInclude Include="Engine\3d\Object\Model.h" />
     <ClInclude Include="Engine\3d\Object\ModelBackup.h" />
     <ClInclude Include="Engine\3d\Object\Object3d.h" />
-    <ClInclude Include="Engine\3d\Object\ObjectBasis.h" />
     <ClInclude Include="Application\Function\Random.h" />
     <ClInclude Include="Application\Function\SafeDelete.h" />
     <ClInclude Include="Application\Game\Scene\Manager\SceneFactory.h" />

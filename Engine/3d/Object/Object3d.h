@@ -33,6 +33,7 @@ public: // サブクラス
 	};
 
 private: // 定数
+	static const int kRootParamCount_ = 4;
 
 public: // 静的メンバ関数
 		// 静的初期化

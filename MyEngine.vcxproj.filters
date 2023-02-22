@@ -189,9 +189,6 @@
     <ClCompile Include="Engine\Audio\Audio.cpp">
       <Filter>ソース ファイル\Engine\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3d\Object\ObjectBasis.cpp">
-      <Filter>ソース ファイル\Engine\3d\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\3d\Object\Object3d.cpp">
       <Filter>ソース ファイル\Engine\3d\Object</Filter>
     </ClCompile>
@@ -306,9 +303,6 @@
       <Filter>ヘッダー ファイル\Engine\3d\Object</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3d\Object\Object3d.h">
-      <Filter>ヘッダー ファイル\Engine\3d\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3d\Object\ObjectBasis.h">
       <Filter>ヘッダー ファイル\Engine\3d\Object</Filter>
     </ClInclude>
     <ClInclude Include="Application\Game\Scene\Manager\AbstractSceneFactory.h">
