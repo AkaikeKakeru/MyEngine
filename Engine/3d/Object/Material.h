@@ -1,15 +1,16 @@
 #pragma once
 
 #include <d3d12.h>
-#include <d3dx12.h>
 #include <string>
 #include <wrl.h>
 #include "Vector3.h"
+//using namespace DirectX;
 
 class Material {
 private: // エイリアス
 	//省略
 	template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+
 
 public: //サブクラス
 		//マテリアル
@@ -48,11 +49,11 @@ public:
 
 	//テクスチャ読み込み
 	void LoadTexture(const std::string& directoryPath,
-		CD3DX12_CPU_DESCRIPTOR_HANDLE cpuHandle,
-		CD3DX12_GPU_DESCRIPTOR_HANDLE gpuHandle);
+		D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle,
+		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle);
 
-	const CD3DX12_CPU_DESCRIPTOR_HANDLE& GetCpuHandle() { return cpuDescHandleSRV_; }
-	const CD3DX12_GPU_DESCRIPTOR_HANDLE& GetGpuHandle() { return gpuDescHandleSRV_; }
+	const D3D12_CPU_DESCRIPTOR_HANDLE& GetCpuHandle() { return cpuDescHandleSRV_; }
+	const D3D12_GPU_DESCRIPTOR_HANDLE& GetGpuHandle() { return gpuDescHandleSRV_; }
 
 private:
 	// テクスチャバッファ
@@ -60,9 +61,9 @@ private:
 	// 定数バッファマテリアル
 	ComPtr<ID3D12Resource> constBuff_;
 	// シェーダリソースビューのハンドル(CPU)
-	CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV_;
+	D3D12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV_;
 	// シェーダリソースビューのハンドル(GPU)
-	CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV_;
+	D3D12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV_;
 	//定数バッファマップ
 	ConstBufferDataMaterial* constMap_ = nullptr;
 

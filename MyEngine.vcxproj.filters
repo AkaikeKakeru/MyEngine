@@ -112,11 +112,11 @@
     <Filter Include="ソース ファイル\Engine\3d\Object">
       <UniqueIdentifier>{31212c29-6ac3-45fd-9ed8-5253cde751c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Engine\Debuger">
-      <UniqueIdentifier>{9ef49b36-62de-456b-b9bc-29b225e76709}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Debuger">
+    <Filter Include="ヘッダー ファイル\Engine\Debugger">
       <UniqueIdentifier>{95c6bd55-b4ed-4c19-8f8e-b57a9e39ae49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Debugger">
+      <UniqueIdentifier>{9ef49b36-62de-456b-b9bc-29b225e76709}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -189,9 +189,6 @@
     <ClCompile Include="Engine\Audio\Audio.cpp">
       <Filter>ソース ファイル\Engine\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3d\Object\ObjectBasis.cpp">
-      <Filter>ソース ファイル\Engine\3d\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\3d\Object\Object3d.cpp">
       <Filter>ソース ファイル\Engine\3d\Object</Filter>
     </ClCompile>
@@ -219,14 +216,11 @@
     <ClCompile Include="Application\Game\Scene\Manager\BaseScene.cpp">
       <Filter>ソース ファイル\Application\Game\Scene\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Math\Quaternion.cpp">
-      <Filter>ソース ファイル\Application\math</Filter>
+    <ClCompile Include="Engine\Debugger\DebugText.cpp">
+      <Filter>ソース ファイル\Engine\Debugger</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debuger\DebugText.cpp">
-      <Filter>ソース ファイル\Engine\Debuger</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Debuger\ImGuiManager.cpp">
-      <Filter>ソース ファイル\Engine\Debuger</Filter>
+    <ClCompile Include="Engine\Debugger\ImGuiManager.cpp">
+      <Filter>ソース ファイル\Engine\Debugger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -311,9 +305,6 @@
     <ClInclude Include="Engine\3d\Object\Object3d.h">
       <Filter>ヘッダー ファイル\Engine\3d\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3d\Object\ObjectBasis.h">
-      <Filter>ヘッダー ファイル\Engine\3d\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Game\Scene\Manager\AbstractSceneFactory.h">
       <Filter>ヘッダー ファイル\Application\Game\Scene\Manager</Filter>
     </ClInclude>
@@ -332,14 +323,11 @@
     <ClInclude Include="Application\Game\Scene\Manager\BaseScene.h">
       <Filter>ヘッダー ファイル\Application\Game\Scene\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Math\Quaternion.h">
-      <Filter>ヘッダー ファイル\Application\math</Filter>
+    <ClInclude Include="Engine\Debugger\DebugText.h">
+      <Filter>ヘッダー ファイル\Engine\Debugger</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debuger\DebugText.h">
-      <Filter>ヘッダー ファイル\Engine\Debuger</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Debuger\ImGuiManager.h">
-      <Filter>ヘッダー ファイル\Engine\Debuger</Filter>
+    <ClInclude Include="Engine\Debugger\ImGuiManager.h">
+      <Filter>ヘッダー ファイル\Engine\Debugger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

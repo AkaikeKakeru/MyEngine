@@ -123,7 +123,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir)Application\Base;$(ProjectDir)Application\Function;$(ProjectDir)Application\Game;$(ProjectDir)Application\Game\Scene;$(ProjectDir)Application\Game\Scene\Manager;$(ProjectDir)Application\Math;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\ConstBuffer;$(ProjectDir)Engine\Debuger;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d\Camera;$(ProjectDir)Engine\3d\Light;$(ProjectDir)Engine\3d\Object;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Application\Base;$(ProjectDir)Application\Function;$(ProjectDir)Application\Game;$(ProjectDir)Application\Game\Scene;$(ProjectDir)Application\Game\Scene\Manager;$(ProjectDir)Application\Math;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\ConstBuffer;$(ProjectDir)Engine\Debugger;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d\Camera;$(ProjectDir)Engine\3d\Light;$(ProjectDir)Engine\3d\Object;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -141,7 +141,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)Application\Base;$(ProjectDir)Application\Function;$(ProjectDir)Application\Game;$(ProjectDir)Application\Game\Scene;$(ProjectDir)Application\Game\Scene\Manager;$(ProjectDir)Application\Math;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\ConstBuffer;$(ProjectDir)Engine\Debuger;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d\Camera;$(ProjectDir)Engine\3d\Light;$(ProjectDir)Engine\3d\Object;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Application\Base;$(ProjectDir)Application\Function;$(ProjectDir)Application\Game;$(ProjectDir)Application\Game\Scene;$(ProjectDir)Application\Game\Scene\Manager;$(ProjectDir)Application\Math;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\ConstBuffer;$(ProjectDir)Engine\Debugger;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d\Camera;$(ProjectDir)Engine\3d\Light;$(ProjectDir)Engine\3d\Object;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -159,6 +159,8 @@
     <ClCompile Include="Engine\3d\Camera\Camera.cpp" />
     <ClCompile Include="Application\Function\Collision.cpp" />
     <ClCompile Include="Application\Function\Cursor.cpp" />
+    <ClCompile Include="Engine\Debugger\DebugText.cpp" />
+    <ClCompile Include="Engine\Debugger\ImGuiManager.cpp" />
     <ClCompile Include="Application\Math\Degree.cpp" />
     <ClCompile Include="Application\Base\DirectXBasis.cpp" />
     <ClCompile Include="Engine\2d\DrawBasis.cpp" />
@@ -176,7 +178,6 @@
     <ClCompile Include="Engine\3d\Object\Model.cpp" />
     <ClCompile Include="Engine\3d\Object\ModelBackup.cpp" />
     <ClCompile Include="Engine\3d\Object\Object3d.cpp" />
-    <ClCompile Include="Engine\3d\Object\ObjectBasis.cpp" />
     <ClCompile Include="Application\Function\Random.cpp" />
     <ClCompile Include="Application\Game\Scene\Manager\SceneFactory.cpp" />
     <ClCompile Include="Application\Game\Scene\Manager\SceneManager.cpp" />
@@ -198,6 +199,8 @@
     <ClInclude Include="Engine\3d\Camera\Camera.h" />
     <ClInclude Include="Application\Function\Collision.h" />
     <ClInclude Include="Application\Function\Cursor.h" />
+    <ClInclude Include="Engine\Debugger\DebugText.h" />
+    <ClInclude Include="Engine\Debugger\ImGuiManager.h" />
     <ClInclude Include="Application\Math\Degree.h" />
     <ClInclude Include="Application\Base\DirectXBasis.h" />
     <ClInclude Include="Engine\2d\DrawBasis.h" />
@@ -212,7 +215,6 @@
     <ClInclude Include="Engine\3d\Object\Model.h" />
     <ClInclude Include="Engine\3d\Object\ModelBackup.h" />
     <ClInclude Include="Engine\3d\Object\Object3d.h" />
-    <ClInclude Include="Engine\3d\Object\ObjectBasis.h" />
     <ClInclude Include="Application\Function\Random.h" />
     <ClInclude Include="Application\Function\SafeDelete.h" />
     <ClInclude Include="Application\Game\Scene\Manager\SceneFactory.h" />
