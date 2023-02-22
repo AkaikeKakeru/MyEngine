@@ -159,8 +159,6 @@
     <ClCompile Include="Engine\3d\Camera\Camera.cpp" />
     <ClCompile Include="Application\Function\Collision.cpp" />
     <ClCompile Include="Application\Function\Cursor.cpp" />
-    <ClCompile Include="Engine\Debugger\DebugText.cpp" />
-    <ClCompile Include="Engine\Debugger\ImGuiManager.cpp" />
     <ClCompile Include="Application\Math\Degree.cpp" />
     <ClCompile Include="Application\Base\DirectXBasis.cpp" />
     <ClCompile Include="Engine\2d\DrawBasis.cpp" />
@@ -169,14 +167,13 @@
     <ClCompile Include="Application\Game\GameMain.cpp" />
     <ClCompile Include="Application\Base\Input.cpp" />
     <ClCompile Include="Engine\3d\Light\Light.cpp" />
-    <ClCompile Include="Engine\Debuger\DebugText.cpp" />
-    <ClCompile Include="Engine\Debuger\ImGuiManager.cpp" />
+    <ClCompile Include="Engine\Debugger\DebugText.cpp" />
+    <ClCompile Include="Engine\Debugger\ImGuiManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\3d\Object\Material.cpp" />
     <ClCompile Include="Application\Math\Matrix4.cpp" />
     <ClCompile Include="Engine\3d\Object\Mesh.cpp" />
     <ClCompile Include="Engine\3d\Object\Model.cpp" />
-    <ClCompile Include="Engine\3d\Object\ModelBackup.cpp" />
     <ClCompile Include="Engine\3d\Object\Object3d.cpp" />
     <ClCompile Include="Application\Function\Random.cpp" />
     <ClCompile Include="Application\Game\Scene\Manager\SceneFactory.cpp" />
@@ -200,7 +197,6 @@
     <ClInclude Include="Application\Function\Collision.h" />
     <ClInclude Include="Application\Function\Cursor.h" />
     <ClInclude Include="Engine\Debugger\DebugText.h" />
-    <ClInclude Include="Engine\Debugger\ImGuiManager.h" />
     <ClInclude Include="Application\Math\Degree.h" />
     <ClInclude Include="Application\Base\DirectXBasis.h" />
     <ClInclude Include="Engine\2d\DrawBasis.h" />
@@ -213,7 +209,6 @@
     <ClInclude Include="Application\Math\Matrix4.h" />
     <ClInclude Include="Engine\3d\Object\Mesh.h" />
     <ClInclude Include="Engine\3d\Object\Model.h" />
-    <ClInclude Include="Engine\3d\Object\ModelBackup.h" />
     <ClInclude Include="Engine\3d\Object\Object3d.h" />
     <ClInclude Include="Application\Function\Random.h" />
     <ClInclude Include="Application\Function\SafeDelete.h" />
@@ -227,8 +222,7 @@
     <ClInclude Include="Engine\ConstBuffer\ViewProjection.h" />
     <ClInclude Include="Application\Base\WinApp.h" />
     <ClInclude Include="Engine\ConstBuffer\WorldTransform.h" />
-    <ClInclude Include="Engine\Debuger\DebugText.h" />
-    <ClInclude Include="Engine\Debuger\ImGuiManager.h" />
+    <ClInclude Include="Engine\Debugger\ImGuiManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resource\shader\ObjPS.hlsl">

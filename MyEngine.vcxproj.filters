@@ -192,9 +192,6 @@
     <ClCompile Include="Engine\3d\Object\Object3d.cpp">
       <Filter>ソース ファイル\Engine\3d\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3d\Object\ModelBackup.cpp">
-      <Filter>ソース ファイル\Engine\3d\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\3d\Object\Material.cpp">
       <Filter>ソース ファイル\Engine\3d\Object</Filter>
     </ClCompile>
@@ -216,10 +213,13 @@
     <ClCompile Include="Application\Game\Scene\Manager\BaseScene.cpp">
       <Filter>ソース ファイル\Application\Game\Scene\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debugger\DebugText.cpp">
-      <Filter>ソース ファイル\Engine\Debugger</Filter>
+    <ClCompile Include="Application\Math\Quaternion.cpp">
+      <Filter>ソース ファイル\Application\math</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Debugger\ImGuiManager.cpp">
+      <Filter>ソース ファイル\Engine\Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debugger\DebugText.cpp">
       <Filter>ソース ファイル\Engine\Debugger</Filter>
     </ClCompile>
   </ItemGroup>
@@ -299,9 +299,6 @@
     <ClInclude Include="Engine\3d\Object\Model.h">
       <Filter>ヘッダー ファイル\Engine\3d\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3d\Object\ModelBackup.h">
-      <Filter>ヘッダー ファイル\Engine\3d\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\3d\Object\Object3d.h">
       <Filter>ヘッダー ファイル\Engine\3d\Object</Filter>
     </ClInclude>
@@ -325,6 +322,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Debugger\DebugText.h">
       <Filter>ヘッダー ファイル\Engine\Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Math\Quaternion.h">
+      <Filter>ヘッダー ファイル\Application\math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debugger\ImGuiManager.h">
       <Filter>ヘッダー ファイル\Engine\Debugger</Filter>
