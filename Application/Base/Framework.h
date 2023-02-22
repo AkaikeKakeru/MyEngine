@@ -7,7 +7,7 @@
 #include "SceneManager.h"
 #include "AbstractSceneFactory.h"
 
-class FrameworkΓ {
+class Framework {
 public:
 	//実行
 	void Run();
@@ -49,5 +49,5 @@ public:
 	//シーンファクトリ―
 	AbstractSceneFactory* sceneFactory_ = nullptr;
 public: 
-	virtual ~FrameworkΓ() = default;
+	virtual ~Framework() = default;
 };

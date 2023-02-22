@@ -1,12 +1,12 @@
 #include "GameMain.h"
 #include "SceneFactory.h"
 
-SceneManager* GameMain::sceneManager_ = FrameworkΓ::GetSceneManager();
+SceneManager* GameMain::sceneManager_ = Framework::GetSceneManager();
 
 void GameMain::Initialize() {
-	FrameworkΓ::Initialize();
+	Framework::Initialize();
 
-	sceneManager_ = FrameworkΓ::GetSceneManager();
+	sceneManager_ = Framework::GetSceneManager();
 
 	//シーンファクトリーを生成し、マネージャーにセット
 	sceneFactory_ = new SceneFactory();
@@ -17,20 +17,20 @@ void GameMain::Initialize() {
 }
 
 void GameMain::Update() {
-	FrameworkΓ::Update();
+	Framework::Update();
 }
 
 void GameMain::Draw() {
 	//描画前処理
-	FrameworkΓ::GetDirectXBasis()->PreDraw();
+	Framework::GetDirectXBasis()->PreDraw();
 
-	sceneManager_ = FrameworkΓ::GetSceneManager();
+	sceneManager_ = Framework::GetSceneManager();
 	sceneManager_->Draw();
 
 	//描画後処理
-	FrameworkΓ::GetDirectXBasis()->PostDraw();
+	Framework::GetDirectXBasis()->PostDraw();
 }
 
 void GameMain::Finalize() {
-	FrameworkΓ::Finalize();
+	Framework::Finalize();
 }

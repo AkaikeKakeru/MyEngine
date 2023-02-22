@@ -3,7 +3,7 @@
 #include "Framework.h"
 #include "BaseScene.h"
 
-class GameMain :public FrameworkΓ{
+class GameMain :public Framework{
 public://構造体
 
 public://関数

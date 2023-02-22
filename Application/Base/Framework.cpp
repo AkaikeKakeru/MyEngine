@@ -4,9 +4,9 @@
 #include "TitleScene.h"
 #include <imgui.h>
 
-SceneManager* FrameworkΓ::sceneManager_ = SceneManager::GetInstance();
+SceneManager* Framework::sceneManager_ = SceneManager::GetInstance();
 
-void FrameworkΓ::Run(){
+void Framework::Run(){
 	/// 初期化
 	Initialize();
 
@@ -27,7 +27,7 @@ void FrameworkΓ::Run(){
 	Finalize();
 }
 
-void FrameworkΓ::Initialize(){
+void Framework::Initialize(){
 	///基盤初期化
 	//アプリケーション
 	winApp_ = WinApp::GetInstance();
@@ -67,7 +67,7 @@ void FrameworkΓ::Initialize(){
 
 }
 
-void FrameworkΓ::Update(){
+void Framework::Update(){
 	//windowsのメッセージ処理
 	if (winApp_->ProcessMessage()) {
 		//ゲームループを抜ける
@@ -85,7 +85,7 @@ void FrameworkΓ::Update(){
 	sceneManager_->Update();
 }
 
-void FrameworkΓ::Finalize(){
+void Framework::Finalize(){
 	audio_->Finalize();
 	Audio::GetInstance()-> SoundUnload(&soundData1);
 
