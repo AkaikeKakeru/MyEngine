@@ -6,9 +6,12 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include "Degree.h"
+#include "MyMath.h"
 #include "WinApp.h"
 #include "Model.h"
+
+#include "BaseCollider.h"
+#include "CollisionManager.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -24,7 +27,7 @@ ID3D12GraphicsCommandList* Object3d::cmdList_ = nullptr;
 ComPtr<ID3D12RootSignature> Object3d::rootsignature_;
 Object3d::PipelineSet Object3d::pipelineSet_;
 
-Light* Object3d::light_ = nullptr;
+LightGroup* Object3d::lightGroup_ = nullptr;
 
 void Object3d::StaticInitialize(ID3D12Device* device) {
 	// nullptrチェック
@@ -276,6 +279,10 @@ void Object3d::InitializeGraphicsPipeline() {
 
 bool Object3d::Initialize() {
 	worldTransform_.Initialize();
+
+	//クラス名の文字列を取得
+	name_ = typeid(*this).name();
+
 	return true;
 }
 
@@ -286,6 +293,11 @@ void Object3d::Update() {
 
 	//定数バッファへ転送
 	TransferMatrixWorld();
+
+	//衝突判定更新
+	if (collider_) {
+		collider_->Update();
+	}
 }
 
 void Object3d::Draw() {
@@ -303,7 +315,7 @@ void Object3d::Draw() {
 	cmdList_->SetGraphicsRootConstantBufferView(0, worldTransform_.constBuff_->GetGPUVirtualAddress());
 
 	//ライト描画
-	light_->Draw(cmdList_, 3);
+	lightGroup_->Draw(cmdList_, 3);
 
 	model_->Draw(cmdList_);
 }
@@ -315,4 +327,22 @@ void Object3d::TransferMatrixWorld() {
 	worldTransform_.constMap_->viewproj_ = matViewProjection;
 	worldTransform_.constMap_->world_ = worldTransform_.matWorld_;
 	worldTransform_.constMap_->cameraPos_ = cameraPos;
+}
+
+void Object3d::SetCollider(BaseCollider* collider) {
+	collider->SetObject(this);
+	collider_ = collider;
+
+	//衝突マネージャーに登録
+	CollisionManager::GetInstance()->AddCollider(collider);
+	//コライダーの更新
+	collider->Update();
+}
+
+Object3d::~Object3d() {
+	if (collider_) {
+		//衝突マネージャーから登録を解除
+		CollisionManager::GetInstance()->RemoveCollider(collider_);
+		delete collider_;
+	}
 }

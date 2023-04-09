@@ -192,15 +192,12 @@ void DrawBasis::CreateGraphicsPipeline() {
 void DrawBasis::AssembleGraphicsPipeline() {
 	//グラフィックスパイプライン設定
 
-#pragma region シェーダ情報を組み込む
 	//シェーダの設定
 	pipelineDesc_.VS.pShaderBytecode = vsBlob_->GetBufferPointer();
 	pipelineDesc_.VS.BytecodeLength = vsBlob_->GetBufferSize();
 	pipelineDesc_.PS.pShaderBytecode = psBlob_->GetBufferPointer();
 	pipelineDesc_.PS.BytecodeLength = psBlob_->GetBufferSize();
-#pragma endregion
 
-#pragma region サンプルマスクとラスタライザステート
 	//サンプルマスクの設定
 	pipelineDesc_.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//標準設定
 
@@ -208,9 +205,8 @@ void DrawBasis::AssembleGraphicsPipeline() {
 	pipelineDesc_.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//カリングしない
 	pipelineDesc_.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ポリゴン内塗りつぶし
 	pipelineDesc_.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
-#pragma endregion
 
-#pragma endregion ブレンドステート
+
 	//ブレンドステート
 
 	//レンダ―ターゲットビューのブレンド設定
@@ -242,23 +238,17 @@ void DrawBasis::AssembleGraphicsPipeline() {
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
 	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ソースのアルファ値
 	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0ff - ソースのアルファ値
-#pragma endregion
 
-#pragma region 頂点レイアウトの設定
 	pipelineDesc_.InputLayout.pInputElementDescs = inputLayout_;
 	pipelineDesc_.InputLayout.NumElements = _countof(inputLayout_);
-#pragma endregion 
 
-#pragma region 図形の形状設定
 	//三角形に設定
 	pipelineDesc_.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-#pragma endregion
 
-#pragma region その他の設定
 	pipelineDesc_.NumRenderTargets = 1;//描画対象は1つ
 	pipelineDesc_.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;//0～255指定のRGBA
 	pipelineDesc_.SampleDesc.Count = 1;//1ピクセルにつき1回サンプリング
-#pragma region
+
 }
 void DrawBasis::GenerateRootSignature() {
 	HRESULT result;

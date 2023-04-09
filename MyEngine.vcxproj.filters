@@ -222,6 +222,12 @@
     <ClCompile Include="Engine\Debugger\DebugText.cpp">
       <Filter>ソース ファイル\Engine\Debugger</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Particle\ParticleBasis.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Particle\ParticleManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Base\DirectXBasis.h">
@@ -328,6 +334,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Debugger\ImGuiManager.h">
       <Filter>ヘッダー ファイル\Engine\Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Particle\ParticleBasis.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Particle\ParticleManager.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

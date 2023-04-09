@@ -28,6 +28,8 @@ public: // メンバ関数
 
 	// ビルボード行列の取得
 	const Matrix4& GetBillboardMatrix() { return viewProjection_.matBillboard_; }
+	// Y軸ビルボード行列の取得
+	const Matrix4& GetBillboardYMatrix() { return viewProjection_.matBillboardY_; }
 
 	// 視点座標の取得
 	const Vector3& GetEye() { return viewProjection_.eye_; }

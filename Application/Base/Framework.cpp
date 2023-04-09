@@ -1,6 +1,7 @@
 #include "Framework.h"
 #include "Object3d.h"
 #include "DrawBasis.h"
+#include "ParticleManager.h"
 #include "TitleScene.h"
 #include <imgui.h>
 
@@ -61,10 +62,11 @@ void Framework::Initialize(){
 	DrawBasis::GetInstance();
 	DrawBasis::Initialize();
 
+	//パーティクル
+	ParticleManager::StaticInitialize(dxBas_->GetDevice().Get());
+
 	//ライト静的初期化
 	Light::StaticInitialize(dxBas_->GetDevice().Get());
-
-
 }
 
 void Framework::Update(){

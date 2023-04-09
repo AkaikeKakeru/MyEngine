@@ -6,6 +6,7 @@
 #include "Model.h"
 #include "Sprite.h"
 #include "Object3d.h"
+#include "ParticleManager.h"
 
 #include "Camera.h"
 #include "Light.h"
@@ -39,4 +40,8 @@ private:
 	/// スプライト
 	/// </summary>
 	Sprite* sprite_ = new Sprite();
+
+	//パーティクル
+	ParticleManager* particleManager_ = nullptr;
+	int particleNum_ = 0;
 };
