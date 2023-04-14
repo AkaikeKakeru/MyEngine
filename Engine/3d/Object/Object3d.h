@@ -24,11 +24,11 @@ class BaseCollider;
 /// </summary>
 class Object3d {
 private: // エイリアス
-	// Microsoft::WRL::を省略
+		 // Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 public: // サブクラス
-	// パイプラインセット
+		// パイプラインセット
 	struct PipelineSet {
 		// ルートシグネチャ
 		ComPtr<ID3D12RootSignature> rootsignature_;
@@ -40,7 +40,7 @@ private: // 定数
 	static const int kRootParamCount_ = 4;
 
 public: // 静的メンバ関数
-	// 静的初期化
+		// 静的初期化
 	static void StaticInitialize(ID3D12Device* device);
 
 	// 描画前処理
@@ -121,7 +121,7 @@ public: // メンバ関数
 	void SetCollider(BaseCollider* collider);
 
 protected: // メンバ変数
-	//ワールドトランスフォーム
+		   //ワールドトランスフォーム
 	WorldTransform worldTransform_;
 
 	//モデル
@@ -137,7 +137,7 @@ protected: // メンバ変数
 	BaseCollider* collider_ = nullptr;
 
 public: //コンストデスト
-	//コンストラクタ
+		//コンストラクタ
 	Object3d() = default;
 	//デストラクタ
 	virtual ~Object3d();

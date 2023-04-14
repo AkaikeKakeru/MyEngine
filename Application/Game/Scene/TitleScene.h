@@ -9,7 +9,7 @@
 #include "ParticleManager.h"
 
 #include "Camera.h"
-#include "Light.h"
+#include "LightGroup.h"
 
 #include "SceneManager.h"
 
@@ -27,7 +27,7 @@ private:
 	DrawBasis* drawBas_ = nullptr;
 
 	Camera* camera_ = nullptr;
-	Light* light_ = nullptr;
+	LightGroup* light_ = nullptr;
 	/// <summary>
 	/// オブジェクト
 	/// </summary>

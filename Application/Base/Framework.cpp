@@ -66,7 +66,7 @@ void Framework::Initialize(){
 	ParticleManager::StaticInitialize(dxBas_->GetDevice().Get());
 
 	//ライト静的初期化
-	Light::StaticInitialize(dxBas_->GetDevice().Get());
+	LightGroup::StaticInitialize(dxBas_->GetDevice().Get());
 }
 
 void Framework::Update(){

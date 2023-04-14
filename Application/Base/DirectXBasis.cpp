@@ -33,7 +33,7 @@ void DirectXBasis::InitDevice() {
 	}
 #endif
 
-#pragma region アダプタの列挙
+#pragma region Adapter
 	//DXGIファクトリ生成
 	result = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory_));
 	assert(SUCCEEDED(result));
@@ -170,7 +170,7 @@ void DirectXBasis::InitRenderTargetView() {
 	device_->CreateDescriptorHeap(&rtvHeapDesc_, IID_PPV_ARGS(&rtvHeap_));
 #pragma endregion
 
-#pragma region レンダーターゲットビュー
+#pragma region RenderTargetView
 	//バックバッファのリサイズ
 	backBuffers_.resize(swapChainDesc_.BufferCount);
 
@@ -328,7 +328,7 @@ void DirectXBasis::PostDraw() {
 	assert(SUCCEEDED(result));
 #pragma endregion
 
-#pragma region コマンド完了待ち
+#pragma region WaitCommandComplete
 	//コマンドの実行完了を待つ
 	cmdQueue_->Signal(fence_.Get(), ++fenceVal_);
 	if (fence_->GetCompletedValue() != fenceVal_) {
