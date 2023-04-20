@@ -118,6 +118,18 @@
     <Filter Include="ソース ファイル\Engine\Debugger">
       <UniqueIdentifier>{9ef49b36-62de-456b-b9bc-29b225e76709}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Application\Function\Collider">
+      <UniqueIdentifier>{671e7ecb-3676-4c40-a144-681118b7a835}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Application\Function\Collider">
+      <UniqueIdentifier>{411e05f1-96cd-4c9b-b26c-8af432cbaf47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Particle">
+      <UniqueIdentifier>{e9904e9f-318b-4b8a-b247-cb79d09d6db6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Particle">
+      <UniqueIdentifier>{423aa27a-9c22-4d9b-b952-82f728cf3c6d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -213,29 +225,29 @@
     <ClCompile Include="Engine\Debugger\DebugText.cpp">
       <Filter>ソース ファイル\Engine\Debugger</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Particle\ParticleBasis.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Particle\ParticleManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Function\Collider\Collision.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Application\Function\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Application\Function\Collider\CollisionManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Application\Function\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Application\Function\Collider\CollisionPrimitive.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Application\Function\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Application\Function\Collider\SphereCollider.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\3d\Light\LightGroup.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Application\Function\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Application\Math\MyMath.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Application\math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3d\Light\LightGroup.cpp">
+      <Filter>ソース ファイル\Engine\3d\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Particle\ParticleBasis.cpp">
+      <Filter>ソース ファイル\Engine\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Particle\ParticleManager.cpp">
+      <Filter>ソース ファイル\Engine\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,47 +347,47 @@
     <ClInclude Include="Engine\Debugger\ImGuiManager.h">
       <Filter>ヘッダー ファイル\Engine\Debugger</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Particle\ParticleBasis.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Particle\ParticleManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Function\Collider\BaseCollider.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Application\Function\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Application\Function\Collider\Collision.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Application\Function\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Application\Function\Collider\CollisionAttribute.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Application\Function\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Application\Function\Collider\CollisionInfo.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Application\Function\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Application\Function\Collider\CollisionManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Application\Function\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Application\Function\Collider\CollisionPrimitive.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Application\Function\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Application\Function\Collider\CollisionTypes.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Function\Collider\RaycastHit.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Application\Function\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Application\Function\Collider\SphereCollider.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Application\Function\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3d\Light\LightGroup.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3d\Light\DirectionalLight.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\Function\Collider\RaycastHit.h">
+      <Filter>ヘッダー ファイル\Application\Function\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Application\Math\MyMath.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Application\math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3d\Light\DirectionalLight.h">
+      <Filter>ヘッダー ファイル\Engine\3d\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3d\Light\LightGroup.h">
+      <Filter>ヘッダー ファイル\Engine\3d\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Particle\ParticleBasis.h">
+      <Filter>ヘッダー ファイル\Engine\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Particle\ParticleManager.h">
+      <Filter>ヘッダー ファイル\Engine\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
