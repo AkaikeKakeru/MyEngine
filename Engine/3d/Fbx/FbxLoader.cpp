@@ -28,3 +28,18 @@ void FbxLoader::Finalize() {
     fbxImporter_->Destroy();
     fbxManager_->Destroy();
 }
+
+void FbxLoader::LoadModelFromFile(const string& modelName){
+    //Resource + modelName + / 
+    const string directoryPath = BaseDirectory_ + modelName + "/";
+    //modelName.fbx
+    const string fileName = modelName + ".fbx";
+    //(Resource + modelName + /) + (modelName.fbx)
+    const string fullpath = directoryPath + fileName;
+
+    //ファイル名で指定して、FBXファイルを読み込む
+    if (!fbxImporter_->Initialize(fullpath.c_str(),
+        -1, fbxManager_->GetIOSettings())) {
+        assert(0);
+    }
+}

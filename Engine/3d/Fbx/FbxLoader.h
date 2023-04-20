@@ -18,12 +18,16 @@ public: //静的メンバ関数
 	/// <returns>インスタンス</returns>
 	static FbxLoader* GetInstance();
 
-public: //メンバ関数
+public: //基本メンバ関数
 	//初期化
 	void Initialize(ID3D12Device* device);
 
 	//後始末
 	void Finalize();
+
+public: //固有メンバ関数
+	//ファイルからFBXファイル読み込み
+	void LoadModelFromFile(const string& modelName);
 
 public: //定数
 	//モデル格納ルートパス
