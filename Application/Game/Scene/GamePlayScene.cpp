@@ -1,6 +1,7 @@
 #include "GamePlayScene.h"
 #include "SafeDelete.h"
 #include "Quaternion.h"
+#include "FbxLoader.h"
 
 DirectXBasis* GamePlayScene::dxBas_ = DirectXBasis::GetInstance();
 Input* GamePlayScene::input_ = Input::GetInstance();
@@ -58,6 +59,10 @@ void GamePlayScene::Initialize3d() {
 	light_ = LightGroup::Create();
 	light_->SetAmbientColor({ 1,1,1 });
 	Object3d::SetLight(light_);
+
+	//FBXローダー
+	FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	//FbxLoader::GetInstance()->LoadModelFromFile("girl");
 }
 
 void GamePlayScene::Initialize2d() {
