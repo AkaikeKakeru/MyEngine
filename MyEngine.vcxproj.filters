@@ -130,6 +130,12 @@
     <Filter Include="ソース ファイル\Engine\Particle">
       <UniqueIdentifier>{423aa27a-9c22-4d9b-b952-82f728cf3c6d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Engine\3d\Fbx">
+      <UniqueIdentifier>{e823884e-b72c-4cc4-854e-f03583a842ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\3d\Fbx">
+      <UniqueIdentifier>{6346878b-c047-411a-a9a2-04f4d6348bb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -248,6 +254,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Particle\ParticleManager.cpp">
       <Filter>ソース ファイル\Engine\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3d\Fbx\FbxLoader.cpp">
+      <Filter>ソース ファイル\Engine\3d\Fbx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -388,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Particle\ParticleManager.h">
       <Filter>ヘッダー ファイル\Engine\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3d\Fbx\FbxLoader.h">
+      <Filter>ヘッダー ファイル\Engine\3d\Fbx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
