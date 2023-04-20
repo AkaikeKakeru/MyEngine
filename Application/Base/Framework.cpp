@@ -4,6 +4,7 @@
 #include "ParticleManager.h"
 #include "TitleScene.h"
 #include <imgui.h>
+#include "FbxLoader.h"
 
 SceneManager* Framework::sceneManager_ = SceneManager::GetInstance();
 
@@ -41,6 +42,9 @@ void Framework::Initialize(){
 	//Input
 	input_ = Input::GetInstance();
 	input_->Initialize();
+
+	//FBXローダー
+	FbxLoader::GetInstance()->Initialize(dxBas_->GetDevice().Get());
 
 	//音声
 	audio_ = Audio::GetInstance();
@@ -88,6 +92,8 @@ void Framework::Update(){
 }
 
 void Framework::Finalize(){
+	FbxLoader::GetInstance()->Finalize();
+	
 	audio_->Finalize();
 	Audio::GetInstance()-> SoundUnload(&soundData1);
 
