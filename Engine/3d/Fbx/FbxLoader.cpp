@@ -42,4 +42,10 @@ void FbxLoader::LoadModelFromFile(const string& modelName){
         -1, fbxManager_->GetIOSettings())) {
         assert(0);
     }
+
+    //シーン生成
+    FbxScene* fbxScene = FbxScene::Create(fbxManager_, "fbxScene");
+
+    //ファイルからロードしたFBXの情報をシーン化したインポート
+    fbxImporter_->Import(fbxScene);
 }
