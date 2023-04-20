@@ -5,7 +5,12 @@
 #include <d3d12.h>
 #include <d3dx12.h>
 
+#include <string>
+
 class FbxLoader {
+private: //省略
+	using string = std::string;
+
 public: //静的メンバ関数
 	/// <summary>
 	/// シングルトンインスタンスの取得
@@ -19,6 +24,10 @@ public: //メンバ関数
 
 	//後始末
 	void Finalize();
+
+public: //定数
+	//モデル格納ルートパス
+	static const string BaseDirectory_;
 
 private: //メンバ変数
 	//デバイス

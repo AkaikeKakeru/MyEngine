@@ -1,6 +1,9 @@
 ﻿#include "FbxLoader.h"
 #include <cassert>
 
+//静的メンバ変数の実体
+const std::string FbxLoader::BaseDirectory_ = "Resource/";
+
 FbxLoader* FbxLoader::GetInstance() {
     static FbxLoader instance;
     return &instance;
