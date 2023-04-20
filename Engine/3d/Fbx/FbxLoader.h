@@ -6,10 +6,6 @@
 #include <d3dx12.h>
 
 class FbxLoader {
-private://省略
-	template <class T>
-	using ComPtr = Microsoft::WRL::ComPtr<T>;
-
 public: //静的メンバ関数
 	/// <summary>
 	/// シングルトンインスタンスの取得
@@ -26,7 +22,7 @@ public: //メンバ関数
 
 private: //メンバ変数
 	//デバイス
-	ComPtr<ID3D12Device> device_ = nullptr;
+	ID3D12Device* device_ = nullptr;
 
 	//マネージャー
 	FbxManager* fbxManager_ = nullptr;
