@@ -7,6 +7,8 @@
 
 #include <string>
 
+#include "FbxModel.h"
+
 class FbxLoader {
 private: //省略
 	using string = std::string;
@@ -28,6 +30,9 @@ public: //基本メンバ関数
 public: //固有メンバ関数
 	//ファイルからFBXファイル読み込み
 	void LoadModelFromFile(const string& modelName);
+
+	//再帰的ノード攻勢を解析
+	void ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode);
 
 public: //定数
 	//モデル格納ルートパス
