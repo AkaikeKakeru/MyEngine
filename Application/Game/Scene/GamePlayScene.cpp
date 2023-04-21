@@ -34,11 +34,11 @@ void GamePlayScene::Initialize3d() {
 	camera_ = new Camera();
 	camera_player = new Camera();
 
-	planeModel_ = new Model();
-	planeModel_ = Model::LoadFromOBJ("plane", true);
+	planeModel_ = new ObjectModel();
+	planeModel_ = ObjectModel::LoadFromOBJ("plane", true);
 
-	skydomeModel_ = new Model();
-	skydomeModel_ = Model::LoadFromOBJ("skydome", false);
+	skydomeModel_ = new ObjectModel();
+	skydomeModel_ = ObjectModel::LoadFromOBJ("skydome", false);
 
 	planeObj_ = new Object3d();
 	planeObj_ = Object3d::Create();

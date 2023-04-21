@@ -1,19 +1,19 @@
-#include "Mesh.h"
+#include "ObjectMesh.h"
 #include <cassert>
 //省略
 template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 //実体
-ComPtr<ID3D12Device> Mesh::device_ = nullptr;
+ComPtr<ID3D12Device> ObjectMesh::device_ = nullptr;
 
-void Mesh::StaticInitialize(ID3D12Device* device) {
-	Mesh::device_ = device;
+void ObjectMesh::StaticInitialize(ID3D12Device* device) {
+	ObjectMesh::device_ = device;
 
 	// マテリアルの静的初期化
-	Material::StaticInitialize(device);
+	ObjectMaterial::StaticInitialize(device);
 }
 
-void Mesh::CreateBuffers() {
+void ObjectMesh::CreateBuffers() {
 	HRESULT result = S_FALSE;
 
 	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv) * vertices_.size());
@@ -75,7 +75,7 @@ void Mesh::CreateBuffers() {
 	ibView_.SizeInBytes = sizeIB;
 }
 
-void Mesh::CalculateSmoothVertexNormals() {
+void ObjectMesh::CalculateSmoothVertexNormals() {
 	auto itr = smoothData.begin();
 
 	for (; itr != smoothData.end(); itr++) {
@@ -95,7 +95,7 @@ void Mesh::CalculateSmoothVertexNormals() {
 	}
 }
 
-void Mesh::Draw(ID3D12GraphicsCommandList* cmdList) {
+void ObjectMesh::Draw(ID3D12GraphicsCommandList* cmdList) {
 	// 頂点バッファの設定
 	cmdList->IASetVertexBuffers(0, 1, &vbView_);
 	// インデックスバッファの設定

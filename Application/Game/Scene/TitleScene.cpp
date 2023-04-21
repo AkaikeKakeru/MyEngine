@@ -17,11 +17,11 @@ void TitleScene::Initialize(){
 	//カメラ生成
 	camera_ = new Camera();
 
-	planeModel_ = new Model();
-	planeModel_ = Model::LoadFromOBJ("plane", false);
+	planeModel_ = new ObjectModel();
+	planeModel_ = ObjectModel::LoadFromOBJ("plane", false);
 
-	skydomeModel_ = new Model();
-	skydomeModel_ = Model::LoadFromOBJ("skydome",false);
+	skydomeModel_ = new ObjectModel();
+	skydomeModel_ = ObjectModel::LoadFromOBJ("skydome",false);
 
 
 	planeObj_ = new Object3d();

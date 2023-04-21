@@ -1,4 +1,4 @@
-#include "Model.h"
+#include "ObjectModel.h"
 #include <cassert>
 #include <fstream>
 #include <sstream>
@@ -8,22 +8,22 @@ template <class T>
 using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 //デバイス
-ComPtr<ID3D12Device> Model::device_ = nullptr;
+ComPtr<ID3D12Device> ObjectModel::device_ = nullptr;
 // デスクリプタサイズ
-UINT Model::descriptorIncrementSize_;
+UINT ObjectModel::descriptorIncrementSize_;
 
-const std::string Model::Directory_ = "Resource/";
+const std::string ObjectModel::Directory_ = "Resource/";
 
-void Model::StaticInitialize(ID3D12Device* device) {
-	Model::device_ = device;
+void ObjectModel::StaticInitialize(ID3D12Device* device) {
+	ObjectModel::device_ = device;
 
 	// メッシュの静的初期化
-	Mesh::StaticInitialize(device);
+	ObjectMesh::StaticInitialize(device);
 }
 
-Model* Model::LoadFromOBJ(const std::string& modelname, bool smoothing) {
+ObjectModel* ObjectModel::LoadFromOBJ(const std::string& modelname, bool smoothing) {
 	//インスタンス
-	Model* model = new Model();
+	ObjectModel* model = new ObjectModel();
 	//読み込み
 	model->LoadFromOBJInternal(modelname, smoothing);
 
@@ -35,7 +35,7 @@ Model* Model::LoadFromOBJ(const std::string& modelname, bool smoothing) {
 	return model;
 }
 
-Model::~Model() {
+ObjectModel::~ObjectModel() {
 	for (auto m : meshes_) {
 		delete m;
 	}
@@ -47,7 +47,7 @@ Model::~Model() {
 	materials_.clear();
 }
 
-void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
+void ObjectModel::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
 	//ファイルストリーム
 	std::ifstream file;
 	//モデル名
@@ -63,7 +63,7 @@ void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
 	name_ = modelname;
 
 	// メッシュ生成
-	Mesh* mesh = new Mesh;
+	ObjectMesh* mesh = new ObjectMesh;
 	int indexCountTex = 0;
 	int indexCountNoTex = 0;
 
@@ -154,7 +154,7 @@ void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
 				//頂点番号
 				index_stream >> indexPosition;
 
-				Material* material = mesh->GetMaterial();
+				ObjectMaterial* material = mesh->GetMaterial();
 				index_stream.seekg(1, ios_base::cur);//スラッシュを飛ばす
 
 													 // マテリアル、テクスチャがある場合
@@ -163,7 +163,7 @@ void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
 					index_stream.seekg(1, ios_base::cur);//スラッシュを飛ばす
 					index_stream >> indexNormal;
 					//頂点データの追加
-					Mesh::VertexPosNormalUv vertex{};
+					ObjectMesh::VertexPosNormalUv vertex{};
 					vertex.pos = positions[indexPosition - 1];
 					vertex.normal = normals[indexNormal - 1];
 					vertex.uv = texcoords[indexTexcoord - 1];
@@ -206,7 +206,7 @@ void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
 		if (m->GetMaterial() == nullptr) {
 			if (defaultMaterial_ == nullptr) {
 				// デフォルトマテリアルを生成
-				defaultMaterial_ = Material::Create();
+				defaultMaterial_ = ObjectMaterial::Create();
 				defaultMaterial_->name_ = "no material";
 				materials_.emplace(defaultMaterial_->name_, defaultMaterial_);
 			}
@@ -226,12 +226,12 @@ void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
 	}
 }
 
-void Model::LoadTextures() {
+void ObjectModel::LoadTextures() {
 	int textureIndex = 0;
 	string directoryPath = Directory_ + name_ + "/";
 
 	for (auto& m : materials_) {
-		Material* material = m.second;
+		ObjectMaterial* material = m.second;
 
 		D3D12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV =
 			descHeap_->GetCPUDescriptorHandleForHeapStart();
@@ -255,7 +255,7 @@ void Model::LoadTextures() {
 	}
 }
 
-void Model::LoadMaterial(const std::string& directoryPath, const std::string& filename) {
+void ObjectModel::LoadMaterial(const std::string& directoryPath, const std::string& filename) {
 	//ファイルストリーム
 	std::ifstream file;
 	//マテリアルファイルを開く
@@ -265,7 +265,7 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 		assert(0);
 	}
 
-	Material* material = nullptr;
+	ObjectMaterial* material = nullptr;
 
 	//1行ずつ読み込む
 	string line;
@@ -289,7 +289,7 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 			}
 
 			//新しく生成
-			material = Material::Create();
+			material = ObjectMaterial::Create();
 
 			//マテリアル名読み込み
 			line_stream >> material->name_;
@@ -343,7 +343,7 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 	}
 }
 
-void Model::InitializeDescriptorHeap() {
+void ObjectModel::InitializeDescriptorHeap() {
 	HRESULT result = S_FALSE;
 
 	// マテリアルの数
@@ -366,7 +366,7 @@ void Model::InitializeDescriptorHeap() {
 		device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 }
 
-void Model::Draw(ID3D12GraphicsCommandList* cmdList) {
+void ObjectModel::Draw(ID3D12GraphicsCommandList* cmdList) {
 
 	//デスクリプタヒープの配列
 	ID3D12DescriptorHeap* ppHeaps[] = { descHeap_.Get() };

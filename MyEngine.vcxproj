@@ -185,10 +185,10 @@
     <ClCompile Include="Engine\Particle\ParticleBasis.cpp" />
     <ClCompile Include="Engine\Particle\ParticleManager.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Engine\3d\Object\Material.cpp" />
+    <ClCompile Include="Engine\3d\Object\ObjectMaterial.cpp" />
     <ClCompile Include="Application\Math\Matrix4.cpp" />
-    <ClCompile Include="Engine\3d\Object\Mesh.cpp" />
-    <ClCompile Include="Engine\3d\Object\Model.cpp" />
+    <ClCompile Include="Engine\3d\Object\ObjectMesh.cpp" />
+    <ClCompile Include="Engine\3d\Object\ObjectModel.cpp" />
     <ClCompile Include="Engine\3d\Object\Object3d.cpp" />
     <ClCompile Include="Application\Function\Random.cpp" />
     <ClCompile Include="Application\Game\Scene\Manager\SceneFactory.cpp" />
@@ -230,10 +230,10 @@
     <ClInclude Include="Application\Base\Framework.h" />
     <ClInclude Include="Application\Game\Scene\GamePlayScene.h" />
     <ClInclude Include="Application\Base\Input.h" />
-    <ClInclude Include="Engine\3d\Object\Material.h" />
+    <ClInclude Include="Engine\3d\Object\ObjectMaterial.h" />
     <ClInclude Include="Application\Math\Matrix4.h" />
-    <ClInclude Include="Engine\3d\Object\Mesh.h" />
-    <ClInclude Include="Engine\3d\Object\Model.h" />
+    <ClInclude Include="Engine\3d\Object\ObjectMesh.h" />
+    <ClInclude Include="Engine\3d\Object\ObjectModel.h" />
     <ClInclude Include="Engine\3d\Object\Object3d.h" />
     <ClInclude Include="Application\Function\Random.h" />
     <ClInclude Include="Application\Function\SafeDelete.h" />

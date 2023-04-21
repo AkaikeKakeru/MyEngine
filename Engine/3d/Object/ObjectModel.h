@@ -1,5 +1,5 @@
 #pragma once
-#include "Mesh.h"
+#include "ObjectMesh.h"
 
 #include "Matrix4.h"
 #include "Vector2.h"
@@ -7,7 +7,7 @@
 #include "Vector4.h"
 #include <unordered_map>
 
-class Model {
+class ObjectModel {
 private://省略
 	template <class T>
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -16,7 +16,7 @@ public://静的メンバ関数
 	   //静的初期化
 	static void StaticInitialize(ID3D12Device* device);
 	//OBJ読み込み
-	static Model* LoadFromOBJ(const std::string& modelname, bool smoothing = false);
+	static ObjectModel* LoadFromOBJ(const std::string& modelname, bool smoothing = false);
 
 private://メンバ関数
 		// テクスチャ読み込み
@@ -26,7 +26,7 @@ private://メンバ関数
 	void LoadMaterial(const std::string& directoryPath, const std::string& filename);
 
 	// マテリアル登録
-	void AddMaterial(Material* material) {
+	void AddMaterial(ObjectMaterial* material) {
 		// コンテナに登録
 		materials_.emplace(material->name_, material);
 	}
@@ -39,7 +39,7 @@ private://メンバ関数
 
 public://メンバ関数
 	   // デストラクタ
-	~Model();
+	~ObjectModel();
 
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
@@ -56,11 +56,11 @@ private:
 	// 名前
 	std::string name_;
 	// メッシュコンテナ
-	std::vector<Mesh*> meshes_;
+	std::vector<ObjectMesh*> meshes_;
 	// マテリアルコンテナ
-	std::unordered_map<std::string, Material*> materials_;
+	std::unordered_map<std::string, ObjectMaterial*> materials_;
 	// デフォルトマテリアル
-	Material* defaultMaterial_ = nullptr;
+	ObjectMaterial* defaultMaterial_ = nullptr;
 
 	// デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeap_;

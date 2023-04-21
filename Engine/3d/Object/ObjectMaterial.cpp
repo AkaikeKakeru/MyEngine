@@ -1,4 +1,4 @@
-#include "Material.h"
+#include "ObjectMaterial.h"
 #include <DirectXTex.h>
 #include <cassert>
 
@@ -8,23 +8,23 @@ template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 using namespace DirectX;
 
 //実体
-ComPtr<ID3D12Device> Material::device_ = nullptr;
+ComPtr<ID3D12Device> ObjectMaterial::device_ = nullptr;
 
-void Material::StaticInitialize(ID3D12Device* device) { Material::device_ = device; }
+void ObjectMaterial::StaticInitialize(ID3D12Device* device) { ObjectMaterial::device_ = device; }
 
-Material* Material::Create() {
-	Material* instance = new Material;
+ObjectMaterial* ObjectMaterial::Create() {
+	ObjectMaterial* instance = new ObjectMaterial;
 
 	instance->Initialize();
 
 	return instance;
 }
-void Material::Initialize() {
+void ObjectMaterial::Initialize() {
 	// 定数バッファの生成
 	CreateConstBuffer();
 }
 
-void Material::Update(){
+void ObjectMaterial::Update(){
 	// 定数バッファへデータ転送
 	constMap_->ambient = ambient_;
 	constMap_->diffuse = diffuse_;
@@ -32,7 +32,7 @@ void Material::Update(){
 	constMap_->alpha = alpha_;
 }
 
-void Material::CreateConstBuffer(){
+void ObjectMaterial::CreateConstBuffer(){
 	HRESULT result;
 
 	// ヒーププロパティ
@@ -60,7 +60,7 @@ void Material::CreateConstBuffer(){
 	assert(SUCCEEDED(result));
 }
 
-void Material::LoadTexture(const std::string& directoryPath,
+void ObjectMaterial::LoadTexture(const std::string& directoryPath,
 	D3D12_CPU_DESCRIPTOR_HANDLE  cpuHandle,
 	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle) {
 	HRESULT result = S_FALSE;

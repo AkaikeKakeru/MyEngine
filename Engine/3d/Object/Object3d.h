@@ -8,7 +8,7 @@
 #include "Vector3.h"
 #include "Vector4.h"
 
-#include "Model.h"
+#include "ObjectModel.h"
 
 #include "WorldTransform.h"
 
@@ -112,7 +112,7 @@ public: // メンバ関数
 	void SetWorldTransform(const WorldTransform& worldTransform) {
 		worldTransform_ = worldTransform; }
 	//モデルセッタ
-	void SetModel(Model* model) {
+	void SetModel(ObjectModel* model) {
 		model_ = model; }
 	//カメラセット
 	void SetCamera(Camera* camera) {
@@ -125,7 +125,7 @@ protected: // メンバ変数
 	WorldTransform worldTransform_;
 
 	//モデル
-	Model* model_ = nullptr;
+	ObjectModel* model_ = nullptr;
 
 	//カメラ
 	Camera* camera_ = nullptr;

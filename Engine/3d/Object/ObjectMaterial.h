@@ -6,7 +6,7 @@
 #include "Vector3.h"
 //using namespace DirectX;
 
-class Material {
+class ObjectMaterial {
 private: // エイリアス
 	//省略
 	template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -27,7 +27,7 @@ public: //静的メンバ関数
 	//静的初期化
 	static void StaticInitialize(ID3D12Device* device);
 	//生成
-	static Material* Create();
+	static ObjectMaterial* Create();
 
 private: // 静的メンバ変数
 		 // デバイス
@@ -69,7 +69,7 @@ private:
 
 private:
 	// コンストラクタ
-	Material() {
+	ObjectMaterial() {
 		ambient_ = {0.3f, 0.3f, 0.3f};
 		diffuse_ = {0.0f, 0.0f, 0.0f};
 		specular_ = {0.0f, 0.0f, 0.0f};

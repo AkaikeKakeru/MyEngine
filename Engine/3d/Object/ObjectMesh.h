@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Material.h"
+#include "ObjectMaterial.h"
 #include <Windows.h>
 #include <d3d12.h>
 #include <vector>
@@ -10,7 +10,7 @@
 #include "Vector2.h"
 #include <unordered_map>
 
-class Mesh {
+class ObjectMesh {
 private: // エイリアス
 	//省略
 	template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -37,7 +37,7 @@ public: //メンバ関数
 	/// 名前を取得
 	const std::string& GetName() { return name_; }
 	/// マテリアルの取得
-	Material* GetMaterial() { return material_; }
+	ObjectMaterial* GetMaterial() { return material_; }
 	// 頂点バッファ取得
 	const D3D12_VERTEX_BUFFER_VIEW& GetVBView() { return vbView_; }
 	// インデックスバッファ取得
@@ -48,7 +48,7 @@ public: //メンバ関数
 	/// 名前をセット
 	void SetName(const std::string& name) { name_ = name; };
 	/// マテリアルの割り当て
-	void SetMaterial(Material* material) { material_ = material; };
+	void SetMaterial(ObjectMaterial* material) { material_ = material; };
 
 	/// 頂点データの追加
 	void AddVertex(const VertexPosNormalUv& vertex) {
@@ -88,7 +88,7 @@ private://メンバ変数
 	std::vector<unsigned short> indices_;
 
 	//マテリアル
-	Material* material_{};
+	ObjectMaterial* material_{};
 
 	//頂点法線スムージング用データ
 	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData;

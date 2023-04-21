@@ -3,7 +3,7 @@
 
 #include "Input.h"
 #include "DrawBasis.h"
-#include "Model.h"
+#include "ObjectModel.h"
 #include "Sprite.h"
 #include "Object3d.h"
 
@@ -46,10 +46,10 @@ private:
 	/// オブジェクト
 	/// </summary>
 	Object3d* planeObj_ = nullptr;
-	Model* planeModel_ = nullptr;
+	ObjectModel* planeModel_ = nullptr;
 
 	Object3d* skydomeObj_ = nullptr;
-	Model* skydomeModel_ = nullptr;
+	ObjectModel* skydomeModel_ = nullptr;
 
 	/// <summary>
 	/// スプライト
