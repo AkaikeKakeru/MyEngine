@@ -258,6 +258,9 @@
     <ClCompile Include="Engine\3d\Fbx\FbxLoader.cpp">
       <Filter>ソース ファイル\Engine\3d\Fbx</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\3d\Fbx\FbxModel.cpp">
+      <Filter>ソース ファイル\Engine\3d\Fbx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Base\DirectXBasis.h">
@@ -399,6 +402,9 @@
       <Filter>ヘッダー ファイル\Engine\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3d\Fbx\FbxLoader.h">
+      <Filter>ヘッダー ファイル\Engine\3d\Fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3d\Fbx\FbxModel.h">
       <Filter>ヘッダー ファイル\Engine\3d\Fbx</Filter>
     </ClInclude>
   </ItemGroup>

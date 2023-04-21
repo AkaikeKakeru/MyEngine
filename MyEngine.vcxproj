@@ -170,6 +170,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Engine\3d\Fbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Engine\3d\Fbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="Engine\3d\Fbx\FbxModel.cpp" />
     <ClCompile Include="Engine\3d\Light\LightGroup.cpp" />
     <ClCompile Include="Engine\Audio\Audio.cpp" />
     <ClCompile Include="Engine\3d\Camera\Camera.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="Application\Math\MyMath.h" />
     <ClInclude Include="Application\Math\Quaternion.h" />
     <ClInclude Include="Engine\3d\Fbx\FbxLoader.h" />
+    <ClInclude Include="Engine\3d\Fbx\FbxModel.h" />
     <ClInclude Include="Engine\3d\Light\DirectionalLight.h" />
     <ClInclude Include="Engine\3d\Light\LightGroup.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
