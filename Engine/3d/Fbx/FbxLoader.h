@@ -32,7 +32,7 @@ public: //固有メンバ関数
 	void LoadModelFromFile(const string& modelName);
 
 	//再帰的ノード構成を解析
-	void ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode);
+	void ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode, Node* parent = nullptr);
 
 public: //定数
 	//モデル格納ルートパス

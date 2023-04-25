@@ -70,7 +70,7 @@ void FbxLoader::LoadModelFromFile(const string& modelName) {
 }
 
 void FbxLoader::ParseNodeRecursive(
-	FbxModel* model, FbxNode* fbxNode) {
+	FbxModel* model, FbxNode* fbxNode, Node* parent) {
 	// モデルにノードを追加 (Todo)
 	model->nodes_.emplace_back();
 	Node& node = model->nodes_.back();
