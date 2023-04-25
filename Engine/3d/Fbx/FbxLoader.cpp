@@ -109,7 +109,14 @@ void FbxLoader::ParseNodeRecursive(
 	node.transform_ = Matrix4Identity();
 	node.transform_ = matS *= matR *= matT;
 
-	//グローバル変換行列の計算 (Todo)
+	//グローバル変換行列の計算
+	node.globalTransform_ = node.transform_;
+	if (parent) {
+		node.parent_ = parent;
+		//親の変形を乗算
+		node.globalTransform_ *= parent->globalTransform_;
+	}
+
 	// FBXノードのメッシュ情報を解析 (Todo)
 
 	//子ノードに対して再帰呼び出し
