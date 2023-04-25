@@ -117,10 +117,31 @@ void FbxLoader::ParseNodeRecursive(
 		node.globalTransform_ *= parent->globalTransform_;
 	}
 
-	// FBXノードのメッシュ情報を解析 (Todo)
+	// FBXノードのメッシュ情報を解析
+	FbxNodeAttribute* fbxNodeAttribute = fbxNode->GetNodeAttribute();
+
+	if (fbxNodeAttribute) {
+		if (fbxNodeAttribute->GetAttributeType() ==
+			FbxNodeAttribute::eMesh) {
+			model->meshNode = &node;
+			ParseMesh(model, fbxNode);
+		}
+	}
 
 	//子ノードに対して再帰呼び出し
 	for (int i = 0; i < fbxNode->GetChildCount(); i++) {
 		ParseNodeRecursive(model, fbxNode->GetChild(i));
 	}
+}
+
+void FbxLoader::ParseMesh(FbxModel* model, FbxNode* fbxNode) {
+	//ノードのメッシュを取得
+	FbxMesh* fbxMesh = fbxNode->GetMesh();
+
+	//頂点座標読み取り
+	ParseMeshVertices(model, fbxMesh);
+	//面を構成するデータの読み取り
+	ParseMeshFaces(model, fbxMesh);
+	//マテリアルの読み取り
+	ParseMaterial(model, fbxNode);
 }
