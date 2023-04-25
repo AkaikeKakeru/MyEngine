@@ -2,6 +2,7 @@
 #include <string>
 #include "Vector3.h"
 #include "Matrix4.h"
+#include <vector>
 
 //ƒm[ƒh\‘¢‘Ì
 struct Node {
