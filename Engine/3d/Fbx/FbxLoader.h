@@ -34,6 +34,20 @@ public: //固有メンバ関数
 	//再帰的ノード構成を解析
 	void ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode, Node* parent = nullptr);
 
+	//メッシュを読み取り
+	void ParseMesh(FbxModel* model, FbxNode* fbxNode);
+
+private: //サブ関数
+	///ParseMesh
+	//頂点座標読み取り
+	void ParseMeshVertices(FbxModel* Model, FbxMesh* fbxMesh);
+	//面情報読み取り
+	void ParseMeshFaces(FbxModel* Model, FbxMesh* fbxMesh);
+	//マテリアル読み取り
+	void ParseMaterial(FbxModel* Model, FbxNode* fbxNode);
+	//テクスチャ読み込み
+	void LoadTexture(FbxModel* Model, const std::string& fullPath);
+
 public: //定数
 	//モデル格納ルートパス
 	static const string BaseDirectory_;
