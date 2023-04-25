@@ -56,6 +56,12 @@ void FbxLoader::LoadModelFromFile(const string& modelName) {
 	FbxModel* model = new FbxModel();
 	model->name_ = modelName;
 
+	//FBXノードの数を取得
+	int nodeCount = fbxScene->GetNodeCount();
+
+	//あらかじめ必要数分のメモリを確保することで、アドレスがズレるのを予防
+	model->nodes_.reserve(nodeCount);
+
 	// ルートノードから順に解析してモデルに流し込む
 	ParseNodeRecursive(model, fbxScene->GetRootNode());
 
