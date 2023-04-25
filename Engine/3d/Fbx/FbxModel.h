@@ -34,9 +34,23 @@ public:
 	//フレンドクラス
 	friend class FbxLoader;
 
+public://サブクラス
+	//頂点データ構造体
+	struct VertexPosNormalUv {
+		Vector3 pos_;
+		Vector3 normal_;
+		Vector3 uv_;
+	};
+
 private:
 	//モデル名
 	std::string name_;
 	//ノード配列
 	std::vector<Node> nodes_;
+	//メッシュを持つノード
+	Node* meshNode = nullptr;
+	//頂点データ配列
+	std::vector<VertexPosNormalUv> vertices_;
+	//頂点インデックス配列
+	std::vector<unsigned short> indices_;
 };
