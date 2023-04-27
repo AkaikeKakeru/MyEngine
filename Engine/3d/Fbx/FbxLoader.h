@@ -42,11 +42,11 @@ private: //サブ関数
 	//頂点座標読み取り
 	void ParseMeshVertices(FbxModel* Model, FbxMesh* fbxMesh);
 	//面情報読み取り
-	void ParseMeshFaces(FbxModel* Model, FbxMesh* fbxMesh);
+	void ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh);
 	//マテリアル読み取り
-	void ParseMaterial(FbxModel* Model, FbxNode* fbxNode);
+	void ParseMaterial(FbxModel* model, FbxNode* fbxNode);
 	//テクスチャ読み込み
-	void LoadTexture(FbxModel* Model, const std::string& fullPath);
+	void LoadTexture(FbxModel* model, const std::string& fullPath);
 
 public: //定数
 	//モデル格納ルートパス
