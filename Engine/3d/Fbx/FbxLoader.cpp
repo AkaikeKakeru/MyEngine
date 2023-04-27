@@ -267,7 +267,22 @@ void FbxLoader::ParseMaterial(FbxModel* model, FbxNode* fbxNode) {
 		bool textureLoaded = false;
 
 		if (material) {
-			//(todo)
+			//FbxSurfaceLambertクラスかどうかを調べる
+			if (material->GetClassId().Is(FbxSurfaceLambert::ClassId)) {
+				FbxSurfaceLambert* lambert = static_cast<FbxSurfaceLambert*>(material);
+
+				//環境光係数
+				FbxPropertyT<FbxDouble3> ambient = lambert->Ambient;
+				model->ambient_.x = (float)ambient.Get()[0];
+				model->ambient_.y = (float)ambient.Get()[1];
+				model->ambient_.z = (float)ambient.Get()[2];
+
+				//拡散反射係数
+				FbxPropertyT<FbxDouble3> diffuse = lambert->Diffuse;
+				model->diffuse_.x = (float)diffuse.Get()[0];
+				model->diffuse_.y = (float)diffuse.Get()[1];
+				model->diffuse_.z = (float)diffuse.Get()[2];
+			}
 		}
 
 		//テクスチャがない場合は白テクスチャで代用
