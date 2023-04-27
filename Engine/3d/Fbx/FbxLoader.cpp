@@ -218,6 +218,24 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh) {
 					vertex.uv_.y = (float)uvs[1];
 				}
 			}
+
+			//インデックス配列に頂点インデックス追加
+			//3頂点目までなら
+			if (j < 3) {
+				//1点追加し、他の2点と三角形を構築する
+				indices.push_back(index);
+			}
+			//4頂点目
+			else {
+				//3点追加し、
+				//四角形の0,1,2,3の内、2,3,0で三角形を構築する
+				int index2 = indices[indices.size() - 1];
+				int index3 = index;
+				int index0 = indices[indices.size() - 3];
+				indices.push_back(index2);
+				indices.push_back(index3);
+				indices.push_back(index0);
+			}
 		}
 	}
 }
