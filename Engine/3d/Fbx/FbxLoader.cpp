@@ -196,6 +196,15 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh) {
 			//FBX頂点配列のインデックス
 			int index = fbxMesh->GetPolygonVertex(i, j);
 			assert(index >= 0);
+
+			//頂点法線読込
+			FbxModel::VertexPosNormalUv& vertex = vertices[index];
+			FbxVector4 normal;
+			if (fbxMesh->GetPolygonVertexNormal(i, j, normal)) {
+				vertex.normal_.x = (float)normal[0];
+				vertex.normal_.y = (float)normal[1];
+				vertex.normal_.z = (float)normal[2];
+			}
 		}
 	}
 }
