@@ -3,6 +3,7 @@
 #include "Vector3.h"
 #include "Matrix4.h"
 #include <vector>
+#include <DirectXTex.h>
 
 //ノード構造体
 struct Node {
@@ -53,4 +54,13 @@ private:
 	std::vector<VertexPosNormalUv> vertices_;
 	//頂点インデックス配列
 	std::vector<unsigned short> indices_;
+
+	//アンビエント係数
+	Vector3 ambient_ = { 1,1,1 };
+	//ディフューズ係数
+	Vector3 diffuse_ = { 1,1,1 };
+	//テクスチャメタデータ
+	DirectX::TexMetadata metadata = {};
+	//スクラッチイメージ
+	DirectX::ScratchImage scratchImg_ = {};
 };
