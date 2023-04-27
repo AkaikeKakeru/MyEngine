@@ -146,6 +146,23 @@ void FbxLoader::ParseMesh(FbxModel* model, FbxNode* fbxNode) {
 	ParseMaterial(model, fbxNode);
 }
 
+std::string FbxLoader::ExtractFileName(const std::string& path) {
+	size_t pos1;
+	//区切り文字 '\\' が出てくる一番最後の部分を検索
+	pos1 = path.rfind('\\');
+	if (pos1 != string::npos) {
+		return path.substr(pos1 + 1, path.size() - pos1 - 1);
+	}
+
+	//区切り文字 '/' が出てくる一番最後の部分を検索
+	pos1 = path.rfind('/');
+	if (pos1 != string::npos) {
+		return path.substr(pos1 + 1, path.size() - pos1 - 1);
+	}
+
+	return path;
+}
+
 void FbxLoader::ParseMeshVertices(FbxModel* model, FbxMesh* fbxMesh) {
 	auto& vertices = model->vertices_;
 

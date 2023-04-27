@@ -37,6 +37,9 @@ public: //固有メンバ関数
 	//メッシュを読み取り
 	void ParseMesh(FbxModel* model, FbxNode* fbxNode);
 
+	//ディレクトリを含んだファイルパスからファイル名を抽出する
+	std::string ExtractFileName(const std::string& path);
+
 private: //サブ関数
 	///ParseMesh
 	//頂点座標読み取り
