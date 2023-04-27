@@ -257,3 +257,22 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh) {
 		}
 	}
 }
+
+void FbxLoader::ParseMaterial(FbxModel* model, FbxNode* fbxNode) {
+	const int materialCount = fbxNode->GetMaterialCount();
+	if (materialCount > 0) {
+		//先頭のマテリアルを取得
+		FbxSurfaceMaterial* material = fbxNode->GetMaterial(0);
+		//テクスチャを読み込んだかどうかを表すフラグ
+		bool textureLoaded = false;
+
+		if (material) {
+			//(todo)
+		}
+
+		//テクスチャがない場合は白テクスチャで代用
+		if (!textureLoaded) {
+			LoadTexture(model, baseDirectory_ + defaultTextureFileName_);
+		}
+	}
+}
