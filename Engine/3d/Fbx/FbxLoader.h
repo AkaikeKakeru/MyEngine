@@ -53,7 +53,7 @@ private: //サブ関数
 
 private: //静的メンバ変数
 	//モデル格納ルートパス
-	static const string BaseDirectory_;
+	static const string baseDirectory_;
 	//テクスチャがない場合の標準テクスチャファイル名
 	static const string defaultTextureFileName_;
 

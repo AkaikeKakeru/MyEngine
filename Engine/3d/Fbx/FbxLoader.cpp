@@ -5,7 +5,7 @@
 using string = std::string;
 
 //静的メンバ変数の実体
-const string FbxLoader::BaseDirectory_ = "Resource/";
+const string FbxLoader::baseDirectory_ = "Resource/";
 const string FbxLoader::defaultTextureFileName_ = "white1x1.png";
 
 FbxLoader* FbxLoader::GetInstance() {
@@ -35,7 +35,7 @@ void FbxLoader::Finalize() {
 
 void FbxLoader::LoadModelFromFile(const string& modelName) {
 	//Resource + modelName + / 
-	const string directoryPath = BaseDirectory_ + modelName + "/";
+	const string directoryPath = baseDirectory_ + modelName + "/";
 	//modelName.fbx
 	const string fileName = modelName + ".fbx";
 	//(Resource + modelName + /) + (modelName.fbx)
@@ -170,7 +170,7 @@ void FbxLoader::ParseMeshVertices(FbxModel* model, FbxMesh* fbxMesh) {
 	//頂点座標データの数
 	const int controlPointsCount =
 		fbxMesh->GetControlPointsCount();
-	
+
 	//必要数だけ頂点データ配列を確保
 	FbxModel::VertexPosNormalUv vert{};
 	model->vertices_.resize(controlPointsCount, vert);
@@ -204,7 +204,7 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh) {
 	fbxMesh->GetUVSetNames(uvNames);
 
 	//面ごとの位置読み取り
-	for(int i = 0; i < polygonCount; i++) {
+	for (int i = 0; i < polygonCount; i++) {
 		//面を構成する頂点の数を取得(3なら三角形ポリゴン)
 		const int porygonSize = fbxMesh->GetPolygonSize(i);
 		assert(porygonSize <= 4);
