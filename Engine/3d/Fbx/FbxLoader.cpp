@@ -5,7 +5,8 @@
 using string = std::string;
 
 //静的メンバ変数の実体
-const std::string FbxLoader::BaseDirectory_ = "Resource/";
+const string FbxLoader::BaseDirectory_ = "Resource/";
+const string FbxLoader::defaultTextureFileName_ = "white1x1.png";
 
 FbxLoader* FbxLoader::GetInstance() {
 	static FbxLoader instance;

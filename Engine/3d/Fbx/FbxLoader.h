@@ -51,9 +51,11 @@ private: //サブ関数
 	//テクスチャ読み込み
 	void LoadTexture(FbxModel* model, const std::string& fullPath);
 
-public: //定数
+private: //静的メンバ変数
 	//モデル格納ルートパス
 	static const string BaseDirectory_;
+	//テクスチャがない場合の標準テクスチャファイル名
+	static const string defaultTextureFileName_;
 
 private: //メンバ変数
 	//デバイス
