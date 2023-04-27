@@ -170,3 +170,18 @@ void FbxLoader::ParseMeshVertices(FbxModel* model, FbxMesh* fbxMesh) {
 		vertex.pos_.z = (float)pCoord[i][2];
 	}
 }
+
+void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh) {
+	auto& vertices = model->vertices_;
+	auto& indices = model->indices_;
+
+	//1ファイルに複数メッシュのモデルは非対応
+	assert(indices.size() == 0);
+	//面の数
+	const int polygonCount = fbxMesh->GetPolygonCount();
+	//UVデータの数
+	const int textureUVCount = fbxMesh->GetTextureUVCount();
+	//UV名リスト
+	FbxStringList uvNames;
+	fbxMesh->GetUVSetNames(uvNames);
+}
