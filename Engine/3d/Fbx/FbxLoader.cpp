@@ -145,3 +145,28 @@ void FbxLoader::ParseMesh(FbxModel* model, FbxNode* fbxNode) {
 	//マテリアルの読み取り
 	ParseMaterial(model, fbxNode);
 }
+
+void FbxLoader::ParseMeshVertices(FbxModel* model, FbxMesh* fbxMesh) {
+	auto& vertices = model->vertices_;
+
+	//頂点座標データの数
+	const int controlPointsCount =
+		fbxMesh->GetControlPointsCount();
+	
+	//必要数だけ頂点データ配列を確保
+	FbxModel::VertexPosNormalUv vert{};
+	model->vertices_.resize(controlPointsCount, vert);
+
+	//FBXメッシュの頂点座標配列を取得
+	FbxVector4* pCoord = fbxMesh->GetControlPoints();
+
+	//FBXメッシュの全頂点座標をモデル内の配列にコピーする
+	for (int i = 0; i < controlPointsCount; i++) {
+		FbxModel::VertexPosNormalUv& vertex = vertices[i];
+
+		//座標のコピー
+		vertex.pos_.x = (float)pCoord[i][0];
+		vertex.pos_.y = (float)pCoord[i][1];
+		vertex.pos_.z = (float)pCoord[i][2];
+	}
+}
