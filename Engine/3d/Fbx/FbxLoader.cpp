@@ -205,6 +205,19 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh) {
 				vertex.normal_.y = (float)normal[1];
 				vertex.normal_.z = (float)normal[2];
 			}
+
+			//テクスチャの読込
+			if (textureUVCount > 0) {
+				FbxVector2 uvs;
+				bool lUnmappedUV = false;
+
+				//0番決め打ちで読込
+				if (fbxMesh->GetPolygonVertexUV(i, j,
+					uvNames[0], uvs, lUnmappedUV)) {
+					vertex.uv_.x = (float)uvs[0];
+					vertex.uv_.y = (float)uvs[1];
+				}
+			}
 		}
 	}
 }
