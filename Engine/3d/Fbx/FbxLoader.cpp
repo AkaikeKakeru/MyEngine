@@ -282,6 +282,22 @@ void FbxLoader::ParseMaterial(FbxModel* model, FbxNode* fbxNode) {
 				model->diffuse_.x = (float)diffuse.Get()[0];
 				model->diffuse_.y = (float)diffuse.Get()[1];
 				model->diffuse_.z = (float)diffuse.Get()[2];
+
+				//ディフューズテクスチャを取り出す
+				const FbxProperty diffuseProperty =
+					material->FindProperty(FbxSurfaceMaterial::sDiffuse);
+				if (diffuseProperty.IsValid()) {
+					const FbxFileTexture* texture = diffuseProperty.GetSrcObject<FbxFileTexture>();
+					if (texture) {
+						const char* filepath = texture->GetFileName();
+						//ファイルパスからファイル名抽出
+						string path_str(filepath);
+						string name = ExtractFileName(path_str);
+						//テクスチャ読み込み
+						LoadTexture(model, baseDirectory_ + model->name_ + "/" + name);
+						textureLoaded = true;
+					}
+				}
 			}
 		}
 
