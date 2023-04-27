@@ -184,4 +184,18 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh) {
 	//UV名リスト
 	FbxStringList uvNames;
 	fbxMesh->GetUVSetNames(uvNames);
+
+	//面ごとの位置読み取り
+	for(int i = 0; i < polygonCount; i++) {
+		//面を構成する頂点の数を取得(3なら三角形ポリゴン)
+		const int porygonSize = fbxMesh->GetPolygonSize(i);
+		assert(porygonSize <= 4);
+
+		//頂点ずつ処理
+		for (int j = 0; j < porygonSize; j++) {
+			//FBX頂点配列のインデックス
+			int index = fbxMesh->GetPolygonVertex(i, j);
+			assert(index >= 0);
+		}
+	}
 }
