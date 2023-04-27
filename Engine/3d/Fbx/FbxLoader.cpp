@@ -3,6 +3,7 @@
 #include "MyMath.h"
 
 using string = std::string;
+using namespace DirectX;
 
 //静的メンバ変数の実体
 const string FbxLoader::baseDirectory_ = "Resource/";
@@ -305,5 +306,21 @@ void FbxLoader::ParseMaterial(FbxModel* model, FbxNode* fbxNode) {
 		if (!textureLoaded) {
 			LoadTexture(model, baseDirectory_ + defaultTextureFileName_);
 		}
+	}
+}
+
+void FbxLoader::LoadTexture(FbxModel* model, const std::string& fullPath) {
+	HRESULT result = S_FALSE;
+	//WICテクスチャのロード
+	TexMetadata& metadata = model->metadata;
+	ScratchImage& scratchImg = model->scratchImg_;
+	//ユニコード文字列に変換
+	wchar_t wfilepath[128];
+	MultiByteToWideChar(CP_ACP, 0, fullPath.c_str(), -1, wfilepath, _countof(wfilepath));
+	result = LoadFromWICFile(
+		wfilepath, WIC_FLAGS_NONE,
+		&metadata, scratchImg);
+	if (FAILED(result)) {
+		assert(0);
 	}
 }
