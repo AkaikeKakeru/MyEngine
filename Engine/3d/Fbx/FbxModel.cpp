@@ -63,4 +63,9 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 		std::copy(indices_.begin(), indices_.end(), indexMap);
 		indexBuff_->Unmap(0, nullptr);
 	}
+
+	// インデックスバッファビューの作成
+	ibView_.BufferLocation = indexBuff_->GetGPUVirtualAddress();
+	ibView_.Format = DXGI_FORMAT_R16_UINT;
+	ibView_.SizeInBytes = sizeIB;
 }
