@@ -68,4 +68,8 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 	ibView_.BufferLocation = indexBuff_->GetGPUVirtualAddress();
 	ibView_.Format = DXGI_FORMAT_R16_UINT;
 	ibView_.SizeInBytes = sizeIB;
+
+	//テクスチャ画像データ
+	const DirectX::Image* img = scratchImg_.GetImage(0, 0, 0);
+	assert(img);
 }
