@@ -99,5 +99,5 @@ private://メンバ変数
 	//インデックスバッファビュー
 	D3D12_INDEX_BUFFER_VIEW ibView_ = {};
 	//SRVデスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> descheapSRV;
+	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
 };
