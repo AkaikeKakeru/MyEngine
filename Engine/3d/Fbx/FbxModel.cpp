@@ -36,4 +36,9 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 		std::copy(vertices_.begin(), vertices_.end(), vertMap);
 		vertBuff_->Unmap(0, nullptr);
 	}
+
+	//頂点バッファビュー(VBV)の作成
+	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
+	vbView_.SizeInBytes = sizeVB;
+	vbView_.StrideInBytes = sizeof(vertices_[0]);
 }
