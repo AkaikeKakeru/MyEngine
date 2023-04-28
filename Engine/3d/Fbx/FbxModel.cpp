@@ -28,4 +28,12 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 		nullptr,
 		IID_PPV_ARGS(&vertBuff_));
 	assert(SUCCEEDED(result));
+
+	//頂点バッファへのデータ転送
+	VertexPosNormalUv* vertMap = nullptr;
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
+	if (SUCCEEDED(result)) {
+		std::copy(vertices_.begin(), vertices_.end(), vertMap);
+		vertBuff_->Unmap(0, nullptr);
+	}
 }
