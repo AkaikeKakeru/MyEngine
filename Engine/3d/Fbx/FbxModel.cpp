@@ -72,4 +72,30 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 	//テクスチャ画像データ
 	const DirectX::Image* img = scratchImg_.GetImage(0, 0, 0);
 	assert(img);
+
+	// ヒーププロパティ
+	heapProps.Type = D3D12_HEAP_TYPE_CUSTOM;
+	heapProps.CPUPageProperty =
+		D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	heapProps.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+
+	// リソース設定
+	D3D12_RESOURCE_DESC texresDesc{};
+	texresDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	texresDesc.Format = metadata.format;
+	texresDesc.Width = metadata.width;
+	texresDesc.Height = (UINT)metadata.height;
+	texresDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
+	texresDesc.MipLevels = (UINT16)metadata.mipLevels;
+	texresDesc.SampleDesc.Count = 1;
+
+	// テクスチャ用バッファの生成
+	result = device->CreateCommittedResource(
+		&heapProps,
+		D3D12_HEAP_FLAG_NONE,
+		&texresDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ, // テクスチャ用指定
+		nullptr,
+		IID_PPV_ARGS(&texBuff_));
+	assert(SUCCEEDED(result));
 }
