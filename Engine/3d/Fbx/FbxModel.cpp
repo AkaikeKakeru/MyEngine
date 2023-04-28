@@ -108,4 +108,11 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 		(UINT)img->slicePitch // 1枚サイズ
 	);
 	assert(SUCCEEDED(result));
+
+	//SRV用デスクリプタヒープを生成
+	D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
+	descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE; //シェーダ―から見えるように
+	descHeapDesc.NumDescriptors = 1; //テクスチャ枚数
+	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descheapSRV));//生成
 }
