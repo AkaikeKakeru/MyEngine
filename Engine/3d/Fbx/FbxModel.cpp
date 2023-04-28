@@ -41,4 +41,18 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
 	vbView_.SizeInBytes = sizeVB;
 	vbView_.StrideInBytes = sizeof(vertices_[0]);
+
+	//インデックスデータ全体のサイズ
+	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices_.size());
+	// リソース設定
+	resDesc.Width = sizeIB;
+
+	// インデックスバッファ生成
+	result = device->CreateCommittedResource(
+		&heapProps,
+		D3D12_HEAP_FLAG_NONE,
+		&resDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ, 
+		nullptr,
+		IID_PPV_ARGS(&indexBuff_));
 }
