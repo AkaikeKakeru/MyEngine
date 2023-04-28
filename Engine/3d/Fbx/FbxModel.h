@@ -58,8 +58,17 @@ public://サブクラス
 	};
 
 public://メンバ関数
+	//描画
+	void Draw(ID3D12GraphicsCommandList* cmdList);
+	   
 	//バッファ生成
 	void CreateBuffers(ID3D12Device* device);
+
+public://アクセッサ
+	//モデルの変形行列取得
+	const Matrix4& GetModelTransform() {
+		return meshNode->globalTransform_;
+	}
 
 private://メンバ変数
 	///モデル関係
