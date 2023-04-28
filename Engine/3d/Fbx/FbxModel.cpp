@@ -55,4 +55,12 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 		D3D12_RESOURCE_STATE_GENERIC_READ, 
 		nullptr,
 		IID_PPV_ARGS(&indexBuff_));
+
+	// インデックスバッファへのデータ転送
+	unsigned short* indexMap = nullptr;
+	result = indexBuff_->Map(0, nullptr, (void**)&indexMap);
+	if (SUCCEEDED(result)) {
+		std::copy(indices_.begin(), indices_.end(), indexMap);
+		indexBuff_->Unmap(0, nullptr);
+	}
 }
