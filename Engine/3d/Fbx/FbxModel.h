@@ -1,4 +1,8 @@
 #pragma once
+#include <Windows.h>
+#include <wrl.h>
+#include <d3d12.h>
+
 #include <string>
 #include "Vector3.h"
 #include "Matrix4.h"
@@ -31,6 +35,16 @@ struct Node {
 
 //Fbxモデル
 class FbxModel {
+private://省略
+	template <class T>
+	using ComPtr = Microsoft::WRL::ComPtr<T>;
+
+	using TexMetadata = DirectX::TexMetadata;
+	using ScratchImage = DirectX::ScratchImage;
+
+	using string = std::string;
+	template <class T> using vector = std::vector <T>;
+
 public:
 	//フレンドクラス
 	friend class FbxLoader;
@@ -43,24 +57,47 @@ public://サブクラス
 		Vector3 uv_;
 	};
 
-private:
+public://メンバ関数
+	//バッファ生成
+	void CreateBuffers(ID3D12Device* device);
+
+private://メンバ変数
+	///モデル関係
+
 	//モデル名
-	std::string name_;
+	string name_;
 	//ノード配列
-	std::vector<Node> nodes_;
+	vector<Node> nodes_;
 	//メッシュを持つノード
 	Node* meshNode = nullptr;
 	//頂点データ配列
-	std::vector<VertexPosNormalUv> vertices_;
+	vector<VertexPosNormalUv> vertices_;
 	//頂点インデックス配列
-	std::vector<unsigned short> indices_;
+	vector<unsigned short> indices_;
+
+	///マテリアル関係
 
 	//アンビエント係数
 	Vector3 ambient_ = { 1,1,1 };
 	//ディフューズ係数
 	Vector3 diffuse_ = { 1,1,1 };
 	//テクスチャメタデータ
-	DirectX::TexMetadata metadata = {};
+	TexMetadata metadata = {};
 	//スクラッチイメージ
-	DirectX::ScratchImage scratchImg_ = {};
+	ScratchImage scratchImg_ = {};
+
+	///バッファ関係
+
+	//頂点バッファ
+	ComPtr<ID3D12Resource> vertBuff_;
+	//インデックスバッファ
+	ComPtr<ID3D12Resource> indexBuff_;
+	//テクスチャバッファ
+	ComPtr<ID3D12Resource> texBuff_;
+	//頂点バッファビュー
+	D3D12_VERTEX_BUFFER_VIEW vbView_ = {};
+	//インデックスバッファビュー
+	D3D12_INDEX_BUFFER_VIEW ibView_ = {};
+	//SRVデスクリプタヒープ
+	ComPtr<ID3D12DescriptorHeap> descheapSRV;
 };
