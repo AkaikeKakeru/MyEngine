@@ -5,7 +5,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 	//頂点データ全体のサイズ
 	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv) * vertices_.size());
 
-	// ヒーププロパティ
+	// 頂点データ、インデックス用ヒーププロパティ
 	D3D12_HEAP_PROPERTIES heapProps{};
 	heapProps.Type = D3D12_HEAP_TYPE_UPLOAD;
 
@@ -44,7 +44,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 
 	//インデックスデータ全体のサイズ
 	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices_.size());
-	// リソース設定
+	// インデックス用リソース設定
 	resDesc.Width = sizeIB;
 
 	// インデックスバッファ生成
@@ -69,17 +69,13 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 	ibView_.Format = DXGI_FORMAT_R16_UINT;
 	ibView_.SizeInBytes = sizeIB;
 
-	//テクスチャ画像データ
-	const DirectX::Image* img = scratchImg_.GetImage(0, 0, 0);
-	assert(img);
-
-	// ヒーププロパティ
+	// テクスチャ用ヒーププロパティ
 	heapProps.Type = D3D12_HEAP_TYPE_CUSTOM;
 	heapProps.CPUPageProperty =
 		D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
 	heapProps.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
 
-	// リソース設定
+	// テクスチャ用リソース設定
 	D3D12_RESOURCE_DESC texresDesc{};
 	texresDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	texresDesc.Format = metadata.format;
@@ -97,5 +93,19 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 		D3D12_RESOURCE_STATE_GENERIC_READ, // テクスチャ用指定
 		nullptr,
 		IID_PPV_ARGS(&texBuff_));
+	assert(SUCCEEDED(result));
+
+	//テクスチャ画像データ
+	const DirectX::Image* img = scratchImg_.GetImage(0, 0, 0);
+	assert(img);
+
+	//テクスチャバッファにデータ転送
+	result = texBuff_->WriteToSubresource(
+		0,
+		nullptr,              // 全領域へコピー
+		img->pixels,          // 元データアドレス
+		(UINT)img->rowPitch,  // 1ラインサイズ
+		(UINT)img->slicePitch // 1枚サイズ
+	);
 	assert(SUCCEEDED(result));
 }
