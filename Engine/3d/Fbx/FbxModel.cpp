@@ -115,4 +115,18 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE; //シェーダ―から見えるように
 	descHeapDesc.NumDescriptors = 1; //テクスチャ枚数
 	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeapSRV));//生成
+
+	//シェーダリソースビュー(SRV)作成
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	resDesc = texBuff_->GetDesc();
+
+	srvDesc.Format = resDesc.Format;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D; //2Dテクスチャ
+	srvDesc.Texture2D.MipLevels = 1;
+
+	device->CreateShaderResourceView(texBuff_.Get(), //ビューと関連付けるバッファ
+		&srvDesc, //テクスチャ設定情報
+		descHeapSRV->GetCPUDescriptorHandleForHeapStart() //ヒープの先頭アドレス
+	);
 }
