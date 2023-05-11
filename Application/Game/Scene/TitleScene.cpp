@@ -4,6 +4,8 @@
 #include "Framework.h"
 #include "SceneManager.h"
 
+#include "FbxObject3d.h"
+
 DirectXBasis* TitleScene::dxBas_ = DirectXBasis::GetInstance();
 Input* TitleScene::input_ = Input::GetInstance();
 
@@ -17,6 +19,13 @@ void TitleScene::Initialize(){
 	//カメラ生成
 	camera_ = new Camera();
 
+	//FBX
+	//デバイスセット
+	FbxObject3d::SetDevice(DirectXBasis::GetInstance()->GetDevice().Get());
+	//カメラセット
+	FbxObject3d::SetCamera(camera_);
+
+	//各種OBJ
 	planeModel_ = new ObjectModel();
 	planeModel_ = ObjectModel::LoadFromOBJ("plane", false);
 
