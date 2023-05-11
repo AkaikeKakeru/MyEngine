@@ -15,5 +15,21 @@
 #include "MyMath.h"
 
 class FbxObject3d {
+protected: //省略
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
+public: //静的メンバ関数
+	static void SetDevice(ID3D12Device* device) {
+		FbxObject3d::device_;
+	}
+
+	static void SetCamera(Camera* camera) {
+		FbxObject3d::camera_;
+	}
+
+private: //静的メンバ変数
+	//デバイス
+	static ID3D12Device* device_;
+	//カメラ
+	static Camera* camera_;
 };
