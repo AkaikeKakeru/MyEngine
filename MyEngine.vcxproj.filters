@@ -427,6 +427,8 @@
     <FxCompile Include="Resource\shader\SpriteVS.hlsl">
       <Filter>シェーダ ファイル\Sprite</Filter>
     </FxCompile>
+    <FxCompile Include="Resource\shader\FbxVS.hlsl" />
+    <FxCompile Include="Resource\shader\FbxPS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\shader\Obj.hlsli">
@@ -435,5 +437,6 @@
     <None Include="Resource\shader\Sprite.hlsli">
       <Filter>シェーダ ファイル\Sprite</Filter>
     </None>
+    <None Include="Resource\shader\Fbx.hlsli" />
   </ItemGroup>
 </Project>
