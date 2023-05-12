@@ -22,13 +22,18 @@ protected: //省略
 public: //サブクラス
 
 public: //静的メンバ関数
+	//デバイスセット
 	static void SetDevice(ID3D12Device* device) {
 		FbxObject3d::device_;
 	}
-
+	//カメラセット
 	static void SetCamera(Camera* camera) {
 		FbxObject3d::camera_;
 	}
+
+public: //メンバ関数
+	//初期化
+	void Initialize();
 
 private: //静的メンバ変数
 	//デバイス
@@ -36,6 +41,6 @@ private: //静的メンバ変数
 	//カメラ
 	static Camera* camera_;
 
-public://メンバ変数
+protected: //メンバ変数
 	WorldTransform worldTransform_;
 };
