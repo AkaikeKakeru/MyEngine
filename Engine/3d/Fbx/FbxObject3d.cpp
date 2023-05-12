@@ -4,3 +4,7 @@
 static ID3D12Device* device_ = nullptr;
 //ÉJÉÅÉâ
 static Camera* camera_ = nullptr;
+
+void FbxObject3d::Initialize() {
+	worldTransform_.Initialize();
+}
