@@ -30,6 +30,9 @@ public: //メンバ関数
 	void Initialize();
 	//更新
 	void Update();
+	
+	//ワールド行列転送
+	void TransferMatrixWorld();
 
 public: //アクセッサ
 	//デバイスセット

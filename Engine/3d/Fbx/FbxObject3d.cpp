@@ -4,6 +4,7 @@
 #pragma comment(lib, "d3dcompiler.lib")
 
 using namespace Microsoft::WRL;
+using namespace DirectX;
 
 //デバイス
 ID3D12Device* device_ = nullptr;
@@ -13,10 +14,6 @@ ComPtr<ID3D12RootSignature> FbxObject3d::rootsignature_;
 ComPtr<ID3D12PipelineState> FbxObject3d::pipelinestate_;
 //カメラ
 Camera* camera_ = nullptr;
-
-void FbxObject3d::Initialize() {
-	worldTransform_.Initialize();
-}
 
 void FbxObject3d::CreateGraphicsPipeline() {
 	HRESULT result = S_FALSE;
@@ -214,4 +211,30 @@ void FbxObject3d::CreateGraphicsPipeline() {
 		&pipelineDesc,
 		IID_PPV_ARGS(&pipelinestate_));
 	assert(SUCCEEDED(result));
+}
+
+void FbxObject3d::Initialize() {
+	worldTransform_.Initialize();
+}
+
+void FbxObject3d::Update() {
+	worldTransform_.UpdateMatrix();
+
+	//定数バッファへ転送
+	TransferMatrixWorld();
+}
+
+void FbxObject3d::TransferMatrixWorld() {
+	//ビュープロ行列
+	const Matrix4& matViewProjection = camera_->GetViewProjectionMatrix();
+
+	//モデルのメッシュトランスフォーム
+	const Matrix4& modelTransform = model_->GetModelTransform();
+
+	//カメラ視点座標
+	const Vector3& cameraPos = camera_->GetEye();
+
+	worldTransform_.constMap_->viewproj_ = matViewProjection;
+	worldTransform_.constMap_->world_ = modelTransform * worldTransform_.matWorld_;
+	worldTransform_.constMap_->cameraPos_ = cameraPos;
 }
