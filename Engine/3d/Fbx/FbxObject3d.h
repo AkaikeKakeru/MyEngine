@@ -22,6 +22,9 @@ protected: //省略
 public: //サブクラス
 
 public: //静的メンバ関数
+	//グラフィックスパイプライン生成
+	static void CreateGraphicsPipeline();
+
 	//デバイスセット
 	static void SetDevice(ID3D12Device* device) {
 		FbxObject3d::device_;
@@ -38,6 +41,12 @@ public: //メンバ関数
 private: //静的メンバ変数
 	//デバイス
 	static ID3D12Device* device_;
+
+	//ルートシグネチャ
+	static ComPtr<ID3D12RootSignature> rootsignature_;
+	//パイプラインステートオブジェクト
+	static ComPtr<ID3D12PipelineState> pipelinestate_;
+
 	//カメラ
 	static Camera* camera_;
 
