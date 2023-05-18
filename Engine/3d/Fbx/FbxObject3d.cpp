@@ -224,6 +224,29 @@ void FbxObject3d::Update() {
 	TransferMatrixWorld();
 }
 
+void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList) {
+	//モデルを割り当てられていないなら描画しない
+	if (model_ == nullptr) {
+		return;
+	}
+
+	//パイプラインステートの設定
+	cmdList->SetPipelineState(pipelinestate_.Get());
+
+	//ルートシグネチャの設定
+	cmdList->SetGraphicsRootSignature(rootsignature_.Get());
+
+	//プリミティブ形状を設定
+	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	//定数バッファビューをセット
+	cmdList->SetGraphicsRootConstantBufferView(0,
+		worldTransform_.constBuff_->GetGPUVirtualAddress());
+
+	//モデル描画
+	model_->Draw();
+}
+
 void FbxObject3d::TransferMatrixWorld() {
 	//ビュープロ行列
 	const Matrix4& matViewProjection = camera_->GetViewProjectionMatrix();
