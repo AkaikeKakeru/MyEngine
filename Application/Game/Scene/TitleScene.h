@@ -6,6 +6,8 @@
 #include "ObjectModel.h"
 #include "Sprite.h"
 #include "Object3d.h"
+#include "FbxObject3d.h"
+
 #include "ParticleManager.h"
 
 #include "Camera.h"
@@ -40,6 +42,10 @@ private:
 	/// スプライト
 	/// </summary>
 	Sprite* sprite_ = new Sprite();
+
+	//FBX
+	FbxModel* model1 = nullptr;
+	FbxObject3d* object1 = nullptr;
 
 	//パーティクル
 	ParticleManager* particleManager_ = nullptr;
