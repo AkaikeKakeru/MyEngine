@@ -30,7 +30,9 @@ public: //メンバ関数
 	void Initialize();
 	//更新
 	void Update();
-	
+	//描画
+	void Draw(ID3D12GraphicsCommandList* cmdList);
+
 	//ワールド行列転送
 	void TransferMatrixWorld();
 
