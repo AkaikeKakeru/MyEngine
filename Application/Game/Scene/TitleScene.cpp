@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 
 #include "FbxObject3d.h"
+#include "FbxLoader.h"
 
 DirectXBasis* TitleScene::dxBas_ = DirectXBasis::GetInstance();
 Input* TitleScene::input_ = Input::GetInstance();
@@ -26,6 +27,12 @@ void TitleScene::Initialize(){
 	FbxObject3d::SetCamera(camera_);
 
 	FbxObject3d::CreateGraphicsPipeline();
+
+	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+
+	object1 = new FbxObject3d;
+	object1->Initialize();
+	object1->SetModel(model1);
 
 	//各種OBJ
 	planeModel_ = new ObjectModel();
@@ -135,4 +142,8 @@ void TitleScene::Finalize(){
 
 	SafeDelete(light_);
 	SafeDelete(camera_);
+
+	SafeDelete(object1);
+	SafeDelete(model1);
+
 }
