@@ -25,6 +25,13 @@ public: //静的メンバ関数
 	//グラフィックスパイプライン生成
 	static void CreateGraphicsPipeline();
 
+public: //メンバ関数
+	//初期化
+	void Initialize();
+	//更新
+	void Update();
+
+public: //アクセッサ
 	//デバイスセット
 	static void SetDevice(ID3D12Device* device) {
 		FbxObject3d::device_;
@@ -34,9 +41,10 @@ public: //静的メンバ関数
 		FbxObject3d::camera_;
 	}
 
-public: //メンバ関数
-	//初期化
-	void Initialize();
+	//モデルセット
+	void SetModel(FbxModel* model) {
+		model_ = model;
+	}
 
 private: //静的メンバ変数
 	//デバイス
@@ -51,5 +59,9 @@ private: //静的メンバ変数
 	static Camera* camera_;
 
 protected: //メンバ変数
+	//ワールド変換
 	WorldTransform worldTransform_;
+
+	//モデル
+	FbxModel* model_ = nullptr;
 };
