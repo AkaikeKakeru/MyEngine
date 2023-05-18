@@ -25,6 +25,8 @@ void TitleScene::Initialize(){
 	//カメラセット
 	FbxObject3d::SetCamera(camera_);
 
+	FbxObject3d::CreateGraphicsPipeline();
+
 	//各種OBJ
 	planeModel_ = new ObjectModel();
 	planeModel_ = ObjectModel::LoadFromOBJ("plane", false);
