@@ -29,7 +29,7 @@ public: //基本メンバ関数
 
 public: //固有メンバ関数
 	//ファイルからFBXファイル読み込み
-	void LoadModelFromFile(const string& modelName);
+	FbxModel* LoadModelFromFile(const string& modelName);
 
 	//再帰的ノード構成を解析
 	void ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode, Node* parent = nullptr);

@@ -34,7 +34,7 @@ void FbxLoader::Finalize() {
 	fbxManager_->Destroy();
 }
 
-void FbxLoader::LoadModelFromFile(const string& modelName) {
+FbxModel* FbxLoader::LoadModelFromFile(const string& modelName) {
 	//Resource + modelName + / 
 	const string directoryPath = baseDirectory_ + modelName + "/";
 	//modelName.fbx
@@ -72,6 +72,8 @@ void FbxLoader::LoadModelFromFile(const string& modelName) {
 
 	//モデルより、バッファを生成
 	model->CreateBuffers(device_);
+
+	return model;
 }
 
 void FbxLoader::ParseNodeRecursive(
