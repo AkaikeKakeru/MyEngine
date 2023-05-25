@@ -116,7 +116,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 	descHeapDesc.NumDescriptors = 1; //テクスチャ枚数
 	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeapSRV));//生成
 
-	//シェーダリソースビュー(SRV)作成
+																					 //シェーダリソースビュー(SRV)作成
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 	resDesc = texBuff_->GetDesc();
 
@@ -143,7 +143,7 @@ void FbxModel::Draw(ID3D12GraphicsCommandList* cmdList) {
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
 	//シェーダリソースビューのセット
-	cmdList->SetGraphicsRootDescriptorTable(1,
+	cmdList->SetGraphicsRootDescriptorTable(2,
 		descHeapSRV->GetGPUDescriptorHandleForHeapStart());
 
 	//描画コマンド
