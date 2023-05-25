@@ -7,13 +7,13 @@ using namespace Microsoft::WRL;
 using namespace DirectX;
 
 //デバイス
-ID3D12Device* device_ = nullptr;
+ID3D12Device* FbxObject3d::device_ = nullptr;
 //ルートシグネチャ
 ComPtr<ID3D12RootSignature> FbxObject3d::rootsignature_;
 //グラフィックスパイプラインステート
 ComPtr<ID3D12PipelineState> FbxObject3d::pipelinestate_;
 //カメラ
-Camera* camera_ = nullptr;
+Camera* FbxObject3d::camera_ = nullptr;
 
 void FbxObject3d::CreateGraphicsPipeline() {
 	HRESULT result = S_FALSE;
@@ -244,7 +244,7 @@ void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList) {
 		worldTransform_.constBuff_->GetGPUVirtualAddress());
 
 	//モデル描画
-	model_->Draw();
+	model_->Draw(cmdList);
 }
 
 void FbxObject3d::TransferMatrixWorld() {

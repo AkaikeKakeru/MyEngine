@@ -39,11 +39,11 @@ public: //メンバ関数
 public: //アクセッサ
 	//デバイスセット
 	static void SetDevice(ID3D12Device* device) {
-		FbxObject3d::device_;
+		FbxObject3d::device_ = device;
 	}
 	//カメラセット
 	static void SetCamera(Camera* camera) {
-		FbxObject3d::camera_;
+		FbxObject3d::camera_ = camera;
 	}
 
 	//モデルセット
