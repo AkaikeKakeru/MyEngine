@@ -19,6 +19,8 @@ void TitleScene::Initialize(){
 
 	//カメラ生成
 	camera_ = new Camera();
+	camera_->SetEye({ 0,20.0f,-100.0f });
+	camera_->SetTarget({ 0,20.0f,0 });
 
 	//FBX
 	//デバイスセット
@@ -30,7 +32,7 @@ void TitleScene::Initialize(){
 
 	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube");
 
-	object1 = new FbxObject3d;
+	object1 = new FbxObject3d();
 	object1->Initialize();
 	object1->SetModel(model1);
 
@@ -76,12 +78,33 @@ void TitleScene::Initialize(){
 }
 
 void TitleScene::Update(){
-	input_->Update();
+	Input::GetInstance()->Update();
+	// カメラ移動
+	if (Input::GetInstance()->PressKey(DIK_W) ||
+		Input::GetInstance()->PressKey(DIK_S) ||
+		Input::GetInstance()->PressKey(DIK_D) ||
+		Input::GetInstance()->PressKey(DIK_A)) {
+		if (Input::GetInstance()->PressKey(DIK_W)) {
+			camera_->MoveVector({ 0.0f,+1.0f,0.0f });
+		}
+		else if (Input::GetInstance()->PressKey(DIK_S)) {
+			camera_->MoveVector({ 0.0f,-1.0f,0.0f });
+		}
+		if (Input::GetInstance()->PressKey(DIK_D)) {
+			camera_->MoveVector({ +1.0f,0.0f,0.0f });
+		}
+		else if (Input::GetInstance()->PressKey(DIK_A)) {
+			camera_->MoveVector({ -1.0f,0.0f,0.0f });
+		}
+		camera_->Update();
+	}
 
 	light_->Update();
 
 	skydomeObj_->Update();
 	planeObj_->Update();
+
+	object1->Update();
 
 	sprite_->Update();
 
@@ -107,6 +130,10 @@ void TitleScene::Update(){
 }
 
 void TitleScene::Draw(){
+	//FBX描画
+	object1->Draw(dxBas_->GetCommandList().Get());
+
+
 	// パーティクル描画前処理
 	ParticleManager::PreDraw(dxBas_->GetCommandList().Get());
 
@@ -119,8 +146,8 @@ void TitleScene::Draw(){
 	//モデル本命処理
 	Object3d::PreDraw(dxBas_->GetCommandList().Get());
 
-	skydomeObj_->Draw();
-	planeObj_->Draw();
+	//skydomeObj_->Draw();
+	//planeObj_->Draw();
 
 	Object3d::PostDraw();
 
