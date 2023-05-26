@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include "Vector4.h"
 #include <cmath>
+#include <WinApp.h>
 
 Camera::Camera() {
 	viewProjection_.Initialize();
@@ -10,6 +11,13 @@ Camera::Camera() {
 
 	//合成
 	matViewProjection_ = viewProjection_.matView_ * viewProjection_.matProjection_;
+
+	//ビューポート行列
+	matViewPort_ = Matrix4Identity();
+	matViewPort_.m[0][0] = static_cast<float>(WinApp::Win_Width) / 2;
+	matViewPort_.m[1][1] = static_cast<float>(-(WinApp::Win_Height)) / 2;
+	matViewPort_.m[3][0] = static_cast<float>(WinApp::Win_Width) / 2;
+	matViewPort_.m[3][1] = static_cast<float>(WinApp::Win_Height) / 2;
 }
 
 Camera::~Camera() {
