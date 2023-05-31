@@ -3,7 +3,7 @@
 #include "DrawBasis.h"
 #include "ParticleManager.h"
 #include "TitleScene.h"
-#include <imgui.h>
+//#include <imgui.h>
 #include "FbxLoader.h"
 
 SceneManager* Framework::sceneManager_ = SceneManager::GetInstance();
@@ -44,7 +44,7 @@ void Framework::Initialize(){
 	input_->Initialize();
 
 	//FBXローダー
-	FbxLoader::GetInstance()->Initialize(dxBas_->GetDevice().Get());
+	//FbxLoader::GetInstance()->Initialize(dxBas_->GetDevice().Get());
 
 	//音声
 	audio_ = Audio::GetInstance();
@@ -53,11 +53,11 @@ void Framework::Initialize(){
 	soundData1 = audio_->SoundLoadWave("Resource/fanfare.wav");
 
 	//再生
-	audio_->SoundPlayWave(audio_->GetXAudio2().Get(), soundData1);
+	//audio_->SoundPlayWave(audio_->GetXAudio2().Get(), soundData1);
 
 	//ImGuiマネージャー
-	imGuiManager_ = ImGuiManager::GetInstance();
-	imGuiManager_->Initialize(dxBas_);
+	//imGuiManager_ = ImGuiManager::GetInstance();
+	//imGuiManager_->Initialize(dxBas_);
 
 	//オブジェクト基盤
 	Object3d::StaticInitialize(dxBas_->GetDevice().Get());
@@ -80,24 +80,24 @@ void Framework::Update(){
 		isEndRequest_ = true;
 	}
 
-	imGuiManager_->Begin();
+	//imGuiManager_->Begin();
 #ifdef _DEBUG
-	ImGui::Text("Hello, world");
+	//ImGui::Text("Hello, world");
 
 	//デモを表示
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 #endif
-	imGuiManager_->End();
+	//imGuiManager_->End();
 	sceneManager_->Update();
 }
 
 void Framework::Finalize(){
-	FbxLoader::GetInstance()->Finalize();
+	//FbxLoader::GetInstance()->Finalize();
 	
 	audio_->Finalize();
 	Audio::GetInstance()-> SoundUnload(&soundData1);
 
-	imGuiManager_->Finalize();
+	//imGuiManager_->Finalize();
 	sceneManager_->Finalize();
 	delete sceneFactory_;
 }
