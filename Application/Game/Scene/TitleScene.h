@@ -13,6 +13,8 @@
 
 #include "SceneManager.h"
 
+#include "Loader.h"
+
 class TitleScene : public BaseScene{
 public://構造体
 
@@ -44,4 +46,10 @@ private:
 	//パーティクル
 	ParticleManager* particleManager_ = nullptr;
 	int particleNum_ = 0;
+
+	//オブジェクトデータコンテナ
+	std::vector<Object3d*> objects_;
+
+	//Jsonローダー
+	Loader* loader_;
 };
