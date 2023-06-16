@@ -21,6 +21,7 @@ void TitleScene::Initialize(){
 	camera_ = new Camera();
 	camera_->SetEye({ 0,20.0f,-100.0f });
 	camera_->SetTarget({ 0,20.0f,0 });
+	camera_->Update();
 
 	//FBX
 	//デバイスセット
@@ -59,6 +60,7 @@ void TitleScene::Initialize(){
 	light_ = LightGroup::Create();
 	light_->SetAmbientColor({ 1,1,1 });
 	Object3d::SetLight(light_);
+	FbxObject3d::SetLight(light_);
 
 	//描画基盤
 	drawBas_ = DrawBasis::GetInstance();
@@ -71,10 +73,10 @@ void TitleScene::Initialize(){
 	sprite_->Initialize(drawBas_,0);
 
 	//パーティクルマネージャー
-	particleManager_ = ParticleManager::Create();
-	particleManager_->LoadTexture(0, "particle.png");
-	particleManager_->SetTextureIndex(0);
-	particleManager_->SetCamera(camera_);
+	//particleManager_ = ParticleManager::Create();
+	//particleManager_->LoadTexture(0, "particle.png");
+	//particleManager_->SetTextureIndex(0);
+	//particleManager_->SetCamera(camera_);
 }
 
 void TitleScene::Update(){
@@ -108,20 +110,20 @@ void TitleScene::Update(){
 
 	sprite_->Update();
 
-	if (particleNum_ >= 100) {
-		particleNum_ = 0;
-	}
+	//if (particleNum_ >= 100) {
+	//	particleNum_ = 0;
+	//}
 
-	particleNum_++;
+	//particleNum_++;
 
-	for (int i = 0; i < 100; i++) {
+	//for (int i = 0; i < 100; i++) {
 
-		if (i == particleNum_) {
-			particleManager_->Config(10.0f, 0.1f, 0.001f, 1.0f, 256.0f);
-		}
-	}
+	//	if (i == particleNum_) {
+	//		particleManager_->Config(10.0f, 0.1f, 0.001f, 1.0f, 256.0f);
+	//	}
+	//}
 
-	particleManager_->Update();
+	//particleManager_->Update();
 
 	if (input_->TriggerKey(DIK_RETURN)) {
 		//シーンの切り替えを依頼
@@ -134,14 +136,14 @@ void TitleScene::Draw(){
 	object1->Draw(dxBas_->GetCommandList().Get());
 
 
-	// パーティクル描画前処理
-	ParticleManager::PreDraw(dxBas_->GetCommandList().Get());
+	//// パーティクル描画前処理
+	//ParticleManager::PreDraw(dxBas_->GetCommandList().Get());
 
-	// パーティクルの描画
-	particleManager_->Draw();
+	//// パーティクルの描画
+	//particleManager_->Draw();
 
-	// パーティクル描画後処理
-	ParticleManager::PostDraw();
+	//// パーティクル描画後処理
+	//ParticleManager::PostDraw();
 
 	//モデル本命処理
 	Object3d::PreDraw(dxBas_->GetCommandList().Get());
@@ -165,7 +167,7 @@ void TitleScene::Finalize(){
 	SafeDelete(planeModel_);
 	SafeDelete(skydomeModel_);
 	SafeDelete(sprite_);
-	SafeDelete(particleManager_);
+	//SafeDelete(particleManager_);
 
 	SafeDelete(light_);
 	SafeDelete(camera_);
