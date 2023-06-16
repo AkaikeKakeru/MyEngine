@@ -7,7 +7,7 @@ Camera::Camera() {
 	viewProjection_.Initialize();
 
 	//行列の計算
-	viewProjection_.UpdateMatrix();
+	//viewProjection_.UpdateMatrix();
 
 	//合成
 	matViewProjection_ = viewProjection_.matView_ * viewProjection_.matProjection_;
