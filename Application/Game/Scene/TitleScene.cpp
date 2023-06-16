@@ -32,10 +32,15 @@ void TitleScene::Initialize(){
 	FbxObject3d::CreateGraphicsPipeline();
 
 	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	model2 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
 	object1 = new FbxObject3d();
 	object1->Initialize();
 	object1->SetModel(model1);
+
+	object2 = new FbxObject3d();
+	object2->Initialize();
+	object2->SetModel(model2);
 
 	//各種OBJ
 	planeModel_ = new ObjectModel();
@@ -107,6 +112,7 @@ void TitleScene::Update(){
 	planeObj_->Update();
 
 	object1->Update();
+	object2->Update();
 
 	sprite_->Update();
 
@@ -134,6 +140,7 @@ void TitleScene::Update(){
 void TitleScene::Draw(){
 	//FBX描画
 	object1->Draw(dxBas_->GetCommandList().Get());
+	object2->Draw(dxBas_->GetCommandList().Get());
 
 
 	//// パーティクル描画前処理
@@ -174,5 +181,8 @@ void TitleScene::Finalize(){
 
 	SafeDelete(object1);
 	SafeDelete(model1);
+
+	SafeDelete(object2);
+	SafeDelete(model2);
 
 }
