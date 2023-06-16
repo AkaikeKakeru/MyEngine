@@ -15,6 +15,8 @@
 #include "Matrix4.h"
 #include "MyMath.h"
 
+#include "LightGroup.h"
+
 class FbxObject3d {
 protected: //省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -46,6 +48,11 @@ public: //アクセッサ
 		FbxObject3d::camera_ = camera;
 	}
 
+	//ライトセット
+	static void SetLight(LightGroup* lightGroup) {
+		FbxObject3d::lightGroup_ = lightGroup;
+	}
+
 	//モデルセット
 	void SetModel(FbxModel* model) {
 		model_ = model;
@@ -62,6 +69,9 @@ private: //静的メンバ変数
 
 	//カメラ
 	static Camera* camera_;
+
+	//ライト
+	static LightGroup* lightGroup_;
 
 protected: //メンバ変数
 	//ワールド変換

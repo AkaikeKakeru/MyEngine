@@ -14,6 +14,8 @@ ComPtr<ID3D12RootSignature> FbxObject3d::rootsignature_;
 ComPtr<ID3D12PipelineState> FbxObject3d::pipelinestate_;
 //カメラ
 Camera* FbxObject3d::camera_ = nullptr;
+//ライト
+LightGroup* FbxObject3d::lightGroup_ = nullptr;
 
 void FbxObject3d::CreateGraphicsPipeline() {
 	HRESULT result = S_FALSE;
@@ -242,6 +244,9 @@ void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList) {
 	//定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0,
 		worldTransform_.constBuff_->GetGPUVirtualAddress());
+
+	//ライト描画
+	lightGroup_->Draw(cmdList, 3);
 
 	//モデル描画
 	model_->Draw(cmdList);
