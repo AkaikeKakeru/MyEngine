@@ -76,6 +76,10 @@ public://サブクラス
 		Vector3 uv_;
 	};
 
+public://定数
+	//ボーンインデックスの最大値
+	static const int MAX_BONE_INDICES_ = 4;
+
 public://メンバ関数
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
@@ -89,7 +93,17 @@ public://アクセッサ
 		return meshNode->globalTransform_;
 	}
 
+	//ボーン配列の取得
+	std::vector<Bone>& GetBone() {
+		return bones_;
+	}
+	 
 private://メンバ変数
+	///ボーン関係
+
+	//ボーン配列
+	std::vector<Bone> bones_;
+
 	///モデル関係
 
 	//モデル名
