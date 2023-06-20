@@ -68,17 +68,19 @@ public:
 	//フレンドクラス
 	friend class FbxLoader;
 
-public://サブクラス
-	//頂点データ構造体
-	struct VertexPosNormalUv {
-		Vector3 pos_;
-		Vector3 normal_;
-		Vector3 uv_;
-	};
-
 public://定数
 	//ボーンインデックスの最大値
 	static const int MAX_BONE_INDICES_ = 4;
+
+public://サブクラス
+	//頂点データ構造体
+	struct VertexPosNormalUvSkin {
+		Vector3 pos_;
+		Vector3 normal_;
+		Vector3 uv_;
+		UINT boneIndex_[MAX_BONE_INDICES_]; //ボーン 番号
+		float boneWeight_[MAX_BONE_INDICES_]; //ボーン 重み
+	};
 
 public://メンバ関数
 	//描画
@@ -113,7 +115,7 @@ private://メンバ変数
 	//メッシュを持つノード
 	Node* meshNode = nullptr;
 	//頂点データ配列
-	vector<VertexPosNormalUv> vertices_;
+	vector<VertexPosNormalUvSkin> vertices_;
 	//頂点インデックス配列
 	vector<unsigned short> indices_;
 
