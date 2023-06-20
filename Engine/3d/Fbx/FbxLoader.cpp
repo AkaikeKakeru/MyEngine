@@ -162,6 +162,8 @@ void FbxLoader::ParseMesh(FbxModel* model, FbxNode* fbxNode) {
 	ParseMeshFaces(model, fbxMesh);
 	//マテリアルの読み取り
 	ParseMaterial(model, fbxNode);
+	//スキニング情報の読み取り
+	ParseSkin(model, fbxMesh);
 }
 
 std::string FbxLoader::ExtractFileName(const std::string& path) {
@@ -179,6 +181,9 @@ std::string FbxLoader::ExtractFileName(const std::string& path) {
 	}
 
 	return path;
+}
+
+void FbxLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh) {
 }
 
 void FbxLoader::ParseMeshVertices(FbxModel* model, FbxMesh* fbxMesh) {

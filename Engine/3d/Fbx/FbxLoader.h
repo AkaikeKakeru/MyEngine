@@ -47,6 +47,9 @@ public: //固有メンバ関数
 	//ディレクトリを含んだファイルパスからファイル名を抽出する
 	std::string ExtractFileName(const std::string& path);
 
+	//スキニング情報の読み取り
+	void ParseSkin(FbxModel* model, FbxMesh* fbxMesh);
+
 private: //サブ関数
 	///ParseMesh
 	//頂点座標読み取り
