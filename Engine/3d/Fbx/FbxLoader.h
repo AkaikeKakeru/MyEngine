@@ -20,6 +20,13 @@ public: //静的メンバ関数
 	/// <returns>インスタンス</returns>
 	static FbxLoader* GetInstance();
 
+	/// <summary>
+	/// FBXの行列をMatrix4に変換
+	/// </summary>
+	/// <param name="dst">書き込み先</param>
+	/// <param name="src">元となるFBX行列</param>
+	static void ConvertMatrixFromFbx(Matrix4* dst, const FbxAMatrix& src);
+
 public: //基本メンバ関数
 	//初期化
 	void Initialize(ID3D12Device* device);
