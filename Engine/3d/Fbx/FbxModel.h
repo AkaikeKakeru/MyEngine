@@ -9,6 +9,8 @@
 #include <vector>
 #include <DirectXTex.h>
 
+#include <fbxsdk.h>
+
 //ノード構造体
 struct Node {
 	//名前
@@ -31,6 +33,23 @@ struct Node {
 
 	//親ノード
 	Node* parent_ = nullptr;
+};
+
+//ボーン構造体
+struct Bone {
+	//名前
+	std::string name_;
+
+	//初期姿勢の逆行列
+	Matrix4 invInitialPose_;
+
+	//クラスター(FBX側のボーン情報)
+	FbxCluster* fbxCluster_;
+
+	//コンストラクタ
+	Bone(const std::string& name) {
+		this->name_ = name;
+	}
 };
 
 //Fbxモデル
