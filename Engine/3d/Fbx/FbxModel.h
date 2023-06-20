@@ -35,23 +35,6 @@ struct Node {
 	Node* parent_ = nullptr;
 };
 
-//ボーン構造体
-struct Bone {
-	//名前
-	std::string name_;
-
-	//初期姿勢の逆行列
-	Matrix4 invInitialPose_;
-
-	//クラスター(FBX側のボーン情報)
-	FbxCluster* fbxCluster_;
-
-	//コンストラクタ
-	Bone(const std::string& name) {
-		this->name_ = name;
-	}
-};
-
 //Fbxモデル
 class FbxModel {
 private://省略
@@ -80,6 +63,23 @@ public://サブクラス
 		Vector3 uv_;
 		UINT boneIndex_[MAX_BONE_INDICES_]; //ボーン 番号
 		float boneWeight_[MAX_BONE_INDICES_]; //ボーン 重み
+	};
+
+	//ボーン構造体
+	struct Bone {
+		//名前
+		std::string name_;
+
+		//初期姿勢の逆行列
+		Matrix4 invInitialPose_;
+
+		//クラスター(FBX側のボーン情報)
+		FbxCluster* fbxCluster_;
+
+		//コンストラクタ
+		Bone(const std::string& name) {
+			this->name_ = name;
+		}
 	};
 
 public://メンバ関数
