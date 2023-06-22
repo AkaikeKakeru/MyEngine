@@ -229,6 +229,39 @@ void FbxLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh) {
 		//初期姿勢行列の逆行列を得る
 		bone.invInitialPose_ = Matrix4Inverse(initialPose);
 	}
+
+	//ボーン番号とスキンウェイトのペア
+	struct WeightSet {
+		UINT index;
+		float weight;
+	};
+
+	//2次元配列
+	//list:頂点が影響を受けるボーンの全リスト
+	//vector:それを全頂点分
+	std::vector<std::list<WeightSet>>
+		weightLists(model->vertices_.size());
+
+	//全てのボーンについて
+	for (int i = 0; i < clusterCount; i++) {
+		//FBXボーン情報
+		FbxCluster* fbxCluster = fbxSkin->GetCluster(i);
+		//このボーンに影響を受ける頂点の数
+		int contorolPointIndicesCount = fbxCluster->GetControlPointIndicesCount();
+		//このボーンに影響を受ける頂点の配列
+		int* contorolpointIndices = fbxCluster->GetControlPointIndices();
+		double* contorolPointWeights = fbxCluster->GetControlPointWeights();
+
+		//影響を受ける全頂点について
+		for (int j = 0; j < contorolPointIndicesCount; j++) {
+			//頂点番号
+			int vertIndex = contorolpointIndices[j];
+			//スキンウェイト
+			float weight = (float)contorolPointWeights[j];
+			//その頂点に影響を受けるボーンリストに、ボーンとウェイトのペアを追加
+			weightLists[vertIndex].emplace_back(WeightSet{ (UINT)i, weight });
+		}
+	}
 }
 
 void FbxLoader::ParseMeshVertices(FbxModel* model, FbxMesh* fbxMesh) {
