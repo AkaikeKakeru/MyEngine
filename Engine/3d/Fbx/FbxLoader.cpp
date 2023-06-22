@@ -184,6 +184,51 @@ std::string FbxLoader::ExtractFileName(const std::string& path) {
 }
 
 void FbxLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh) {
+	//スキニング情報
+	FbxSkin* fbxSkin =
+		static_cast<FbxSkin*>(fbxMesh->GetDeformer(
+			0, FbxDeformer::eSkin));
+
+	//スキニング情報が無ければ終了
+	if (fbxSkin == nullptr) {
+		return;
+	}
+
+	//ボーン配列の参照
+	std::vector <FbxModel::Bone>& bones = model->bones_;
+
+	//ボーンの数
+	int clusterCount = fbxSkin->GetClusterCount();
+	bones.reserve(clusterCount);
+
+	//全てのボーンについて
+	for (int i = 0; i < clusterCount; i++) {
+		//FBXボーン情報
+		FbxCluster* fbxCluster = fbxSkin
+			->GetCluster(i);
+
+		//ボーン自体のノードの名前を取得
+		const char* boneName = fbxCluster->
+			GetLink()->GetName();
+
+		//新しくボーンを追加し、追加したボーンの参照を得る
+		bones.emplace_back(FbxModel::Bone(boneName));
+		FbxModel::Bone& bone = bones.back();
+
+		//自作ボーンとFBXのボーンを紐づける
+		bone.fbxCluster_ = fbxCluster;
+
+		//FBXから初期姿勢行列を取得する
+		FbxAMatrix fbxMat;
+		fbxCluster->GetTransformLinkMatrix(fbxMat);
+
+		//Matrix4型に変換する
+		Matrix4 initialPose;
+		ConvertMatrixFromFbx(&initialPose, fbxMat);
+
+		//初期姿勢行列の逆行列を得る
+		bone.invInitialPose_ = Matrix4Inverse(initialPose);
+	}
 }
 
 void FbxLoader::ParseMeshVertices(FbxModel* model, FbxMesh* fbxMesh) {
