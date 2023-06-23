@@ -262,6 +262,43 @@ void FbxLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh) {
 			weightLists[vertIndex].emplace_back(WeightSet{ (UINT)i, weight });
 		}
 	}
+
+	//頂点配列書き換え用の参照
+	auto& vertices = model->vertices_;
+
+	//各頂点について処理
+	for (int i = 0; i < vertices.size(); i++) {
+		//頂点のウェイトから最も大きい4つを選択
+		auto& weightList = weightLists[i];
+
+		//大商比較用のラムダ式を指定して降順にソート
+		weightList.sort(
+			[](auto const& lhs, auto const& rhs) {
+				//左の差異の方が大きければtrue それでなければfalseを返す
+				return lhs.weight > rhs.weight;
+			});
+
+		int weughtArrayIndex = 0;
+		//降順ソート済みのウェイトリストから
+		for (auto& weightSet : weightList) {
+			// 頂点データに書き込み
+			vertices[i].boneIndex_[weughtArrayIndex] = weightSet.index;
+			vertices[i].boneWeight_[weughtArrayIndex] = weightSet.weight;
+
+			//4つに達したら終了
+			if (++weughtArrayIndex >= FbxModel::MAX_BONE_INDICES_) {
+				float weight = 0.0f;
+				//2番目以降のウェイトを合計
+				for (int j = 0; j < FbxModel::MAX_BONE_INDICES_; j++) {
+					weight += vertices[i].boneWeight_[j];
+				}
+
+				//合計で1.0f(100%) になるよう調整
+				vertices[i].boneWeight_[0] = 1.0f - weight;
+				break;
+			}
+		}
+	}
 }
 
 void FbxLoader::ParseMeshVertices(FbxModel* model, FbxMesh* fbxMesh) {
