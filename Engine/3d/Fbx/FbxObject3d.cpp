@@ -226,7 +226,29 @@ void FbxObject3d::CreateGraphicsPipeline() {
 }
 
 void FbxObject3d::Initialize() {
+	HRESULT result;
 	worldTransform_.Initialize();
+
+	D3D12_HEAP_PROPERTIES skiningHeapProp{};
+	skiningHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
+
+	// ƒŠƒ\[ƒXÝ’è
+	D3D12_RESOURCE_DESC resourceDesc{};
+	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	resourceDesc.Width = (sizeof(ConstBufferDataSkin) + 0xff) & ~0xff;
+	resourceDesc.Height = 1;
+	resourceDesc.DepthOrArraySize = 1;
+	resourceDesc.MipLevels = 1;
+	resourceDesc.SampleDesc.Count = 1;
+	resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	result = device_->CreateCommittedResource(
+		&skiningHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&resourceDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffSkin_));
 }
 
 void FbxObject3d::Update() {

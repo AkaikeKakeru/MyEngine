@@ -21,7 +21,15 @@ class FbxObject3d {
 protected: //省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
+public: //定数
+	// ボーンの最大数
+	static const int MAX_BONES = 32;
+
 public: //サブクラス
+	// 定数バッファ用データ構造体(スキニング)
+	struct ConstBufferDataSkin {
+		Matrix4 bones[MAX_BONES];
+	};
 
 public: //静的メンバ関数
 	//グラフィックスパイプライン生成
@@ -79,4 +87,7 @@ protected: //メンバ変数
 
 	//モデル
 	FbxModel* model_ = nullptr;
+
+	//定数バッファ(スキン)
+	ComPtr<ID3D12Resource> constBuffSkin_;
 };
