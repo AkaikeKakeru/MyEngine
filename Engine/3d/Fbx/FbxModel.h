@@ -100,7 +100,15 @@ public://アクセッサ
 		return bones_;
 	}
 	 
+	//FBXシーンの取得
+	FbxScene* GetFbxScene() {
+		return fbxScene_;
+	}
+
 private://メンバ変数
+	//FBXシーン
+	FbxScene* fbxScene_ = nullptr;
+
 	///ボーン関係
 
 	//ボーン配列
@@ -144,4 +152,7 @@ private://メンバ変数
 	D3D12_INDEX_BUFFER_VIEW ibView_ = {};
 	//SRVデスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
+
+public: //デストラクタ
+	~FbxModel();
 };

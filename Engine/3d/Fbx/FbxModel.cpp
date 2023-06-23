@@ -131,6 +131,11 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 	);
 }
 
+FbxModel::~FbxModel() {
+	//FBXシーンの解放
+	fbxScene_->Destroy();
+}
+
 void FbxModel::Draw(ID3D12GraphicsCommandList* cmdList) {
 	//頂点バッファをセット
 	cmdList->IASetVertexBuffers(0, 1, &vbView_);
