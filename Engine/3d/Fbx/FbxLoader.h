@@ -20,6 +20,13 @@ public: //静的メンバ関数
 	/// <returns>インスタンス</returns>
 	static FbxLoader* GetInstance();
 
+	/// <summary>
+	/// FBXの行列をMatrix4に変換
+	/// </summary>
+	/// <param name="dst">書き込み先</param>
+	/// <param name="src">元となるFBX行列</param>
+	static void ConvertMatrixFromFbx(Matrix4* dst, const FbxAMatrix& src);
+
 public: //基本メンバ関数
 	//初期化
 	void Initialize(ID3D12Device* device);
@@ -39,6 +46,9 @@ public: //固有メンバ関数
 
 	//ディレクトリを含んだファイルパスからファイル名を抽出する
 	std::string ExtractFileName(const std::string& path);
+
+	//スキニング情報の読み取り
+	void ParseSkin(FbxModel* model, FbxMesh* fbxMesh);
 
 private: //サブ関数
 	///ParseMesh
@@ -77,3 +87,5 @@ private:
 	// コピー代入演算子を禁止（シングルトンパターン）
 	void operator=(const FbxLoader& obj) = delete;
 };
+
+//02_02
