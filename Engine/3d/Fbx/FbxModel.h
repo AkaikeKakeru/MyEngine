@@ -96,7 +96,7 @@ public://アクセッサ
 	}
 
 	//ボーン配列の取得
-	std::vector<Bone>& GetBone() {
+	std::vector<Bone>& GetBones() {
 		return bones_;
 	}
 	 

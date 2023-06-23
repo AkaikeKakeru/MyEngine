@@ -1,4 +1,5 @@
 #include "FbxObject3d.h"
+#include "FbxLoader.h"
 
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
@@ -252,10 +253,31 @@ void FbxObject3d::Initialize() {
 }
 
 void FbxObject3d::Update() {
+	HRESULT result;
 	worldTransform_.UpdateMatrix();
 
 	//定数バッファへ転送
 	TransferMatrixWorld();
+
+	//ボーン配列
+	std::vector<FbxModel::Bone>& bones = model_->GetBones();
+
+	//定数バッファへデータ転送
+	ConstBufferDataSkin* constMapSkin = nullptr;
+	result = constBuffSkin_->Map(0, nullptr, (void**)&constMapSkin);
+	for (int i = 0; i < bones.size(); i++) {
+		//今の姿勢行列
+		Matrix4 matCurrentPose;
+		//今の姿勢行列を取得
+		FbxAMatrix fbxCurrentPose =
+			bones[i].fbxCluster_->GetLink()->
+			EvaluateGlobalTransform(0);
+		//Matrix4に変換
+		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
+		//合成してスキニング行列に
+		constMapSkin->bones[i] = bones[i].invInitialPose_ * matCurrentPose;
+	}
+	constBuffSkin_->Unmap(0, nullptr);
 }
 
 void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList) {
