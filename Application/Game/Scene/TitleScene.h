@@ -47,6 +47,10 @@ private:
 	FbxModel* model1 = nullptr;
 	FbxObject3d* object1 = nullptr;
 
+	//FBX
+	FbxModel* model2 = nullptr;
+	FbxObject3d* object2 = nullptr;
+
 	//パーティクル
 	ParticleManager* particleManager_ = nullptr;
 	int particleNum_ = 0;
