@@ -87,3 +87,5 @@ private:
 	// コピー代入演算子を禁止（シングルトンパターン）
 	void operator=(const FbxLoader& obj) = delete;
 };
+
+//02_02
