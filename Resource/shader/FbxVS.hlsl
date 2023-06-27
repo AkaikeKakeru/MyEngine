@@ -1,9 +1,21 @@
 #include "Fbx.hlsli"
-　
+//スキニング後の頂点・法線が入る
 struct SkinOutput {
 	float4 pos;
 	float3 normal;
 };
+
+//スキニング計算
+SkinOutPUt ComputeSkin(VSInput input) {
+	//ゼロクリア
+	SkinOutput output = (SkinOutput)0;
+
+	uint iBone; //計算するボーン番号
+	float weight; //ボーンウェイト(重み)
+	matrix m;
+
+	return output;
+}
 
 VSOutput main(VSInput input) {
 	//法線にワールド行列によるスケーリング・回転を適用
