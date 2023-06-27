@@ -158,27 +158,34 @@ void FbxObject3d::CreateGraphicsPipeline() {
 	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 	//ルートパラメータの設定
-	D3D12_ROOT_PARAMETER rootParams[4] = {};
+	D3D12_ROOT_PARAMETER rootParams[5] = {};
+
 	//定数バッファ0番
-	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
-	rootParams[0].Descriptor.ShaderRegister = 0;					//定数バッファ番号
-	rootParams[0].Descriptor.RegisterSpace = 0;						//デフォルト値
-	rootParams[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
-																	//定数バッファ1番
-	rootParams[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
-	rootParams[1].Descriptor.ShaderRegister = 1;					//定数バッファ番号
-	rootParams[1].Descriptor.RegisterSpace = 0;						//デフォルト値
-	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
-																	//テクスチャレジスタ0番
-	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
-	rootParams[2].DescriptorTable.pDescriptorRanges = &descriptorRange;			//デスクリプタレンジ
-	rootParams[2].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
-	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;				//全てのシェーダから見える
-																				//定数バッファ2番
-	rootParams[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
-	rootParams[3].Descriptor.ShaderRegister = 2;					//定数バッファ番号
-	rootParams[3].Descriptor.RegisterSpace = 0;						//デフォルト値
-	rootParams[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
+	rootParams[rootParam_worldTransform].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
+	rootParams[rootParam_worldTransform].Descriptor.ShaderRegister = 0;					//定数バッファ番号
+	rootParams[rootParam_worldTransform].Descriptor.RegisterSpace = 0;						//デフォルト値
+	rootParams[rootParam_worldTransform].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
+	//定数バッファ1番
+	rootParams[rootParam_viewProjection].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
+	rootParams[rootParam_viewProjection].Descriptor.ShaderRegister = 1;					//定数バッファ番号
+	rootParams[rootParam_viewProjection].Descriptor.RegisterSpace = 0;						//デフォルト値
+	rootParams[rootParam_viewProjection].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
+	//テクスチャレジスタ0番
+	rootParams[rootParam_texture].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
+	rootParams[rootParam_texture].DescriptorTable.pDescriptorRanges = &descriptorRange;			//デスクリプタレンジ
+	rootParams[rootParam_texture].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
+	rootParams[rootParam_texture].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;				//全てのシェーダから見える
+	//定数バッファ2番
+	rootParams[rootParam_light].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
+	rootParams[rootParam_light].Descriptor.ShaderRegister = 2;					//定数バッファ番号
+	rootParams[rootParam_light].Descriptor.RegisterSpace = 0;						//デフォルト値
+	rootParams[rootParam_light].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
+
+	//CBV スキニング用
+	rootParams[rootParam_skining].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
+	rootParams[rootParam_skining].Descriptor.ShaderRegister = 3;					//定数バッファ番号
+	rootParams[rootParam_skining].Descriptor.RegisterSpace = 0;						//デフォルト値
+	rootParams[rootParam_skining].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
 
 	//テクスチャサンプラーの設定
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
@@ -296,8 +303,12 @@ void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList) {
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	//定数バッファビューをセット
-	cmdList->SetGraphicsRootConstantBufferView(0,
+	cmdList->SetGraphicsRootConstantBufferView(rootParam_worldTransform,
 		worldTransform_.constBuff_->GetGPUVirtualAddress());
+
+	//定数バッファビューをセット
+	cmdList->SetGraphicsRootConstantBufferView(rootParam_skining,
+		constBuffSkin_ ->GetGPUVirtualAddress());
 
 	//ライト描画
 	lightGroup_->Draw(cmdList, 3);

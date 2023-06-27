@@ -31,6 +31,16 @@ public: //サブクラス
 		Matrix4 bones[MAX_BONES];
 	};
 
+	//ルートパラメータEnum
+	enum rootParameter {
+		rootParam_worldTransform,
+		rootParam_viewProjection,
+		rootParam_texture,
+		rootParam_light,
+		rootParam_skining
+	};
+
+
 public: //静的メンバ関数
 	//グラフィックスパイプライン生成
 	static void CreateGraphicsPipeline();
