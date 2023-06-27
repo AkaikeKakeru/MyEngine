@@ -1,4 +1,9 @@
 #include "Fbx.hlsli"
+　
+struct SkinOutput {
+	float4 pos;
+	float3 normal;
+};
 
 VSOutput main(VSInput input) {
 	//法線にワールド行列によるスケーリング・回転を適用
