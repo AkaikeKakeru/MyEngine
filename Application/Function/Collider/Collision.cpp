@@ -18,6 +18,10 @@ bool Collision::CheckSphere2Sphere(const Sphere& sphereA,
 		return true;
 	}
 
+	if (inter) {
+
+	}
+
 	return false;
 }
 
