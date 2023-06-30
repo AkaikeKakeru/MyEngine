@@ -2,6 +2,7 @@
 #include "FbxLoader.h"
 
 #include <d3dcompiler.h>
+#include <DirectXBasis.h>
 #pragma comment(lib, "d3dcompiler.lib")
 
 using namespace Microsoft::WRL;
@@ -219,7 +220,7 @@ void FbxObject3d::CreateGraphicsPipeline() {
 	// ルートシグネチャの生成
 	result = device_->CreateRootSignature(
 		0, rootSigBlob->GetBufferPointer(),
-		rootSigBlob->GetBufferSize(), 
+		rootSigBlob->GetBufferSize(),
 		IID_PPV_ARGS(&rootsignature_));
 	assert(SUCCEEDED(result));
 
@@ -308,10 +309,10 @@ void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList) {
 
 	//定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(rootParam_skining,
-		constBuffSkin_ ->GetGPUVirtualAddress());
+		constBuffSkin_->GetGPUVirtualAddress());
 
 	//ライト描画
-	lightGroup_->Draw(cmdList, 3);
+	lightGroup_->Draw(cmdList, rootParam_light);
 
 	//モデル描画
 	model_->Draw(cmdList);
