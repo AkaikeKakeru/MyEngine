@@ -258,6 +258,9 @@ void FbxObject3d::Initialize() {
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuffSkin_));
+
+	//iフレーム分の時間を60fpsで設定
+	frameTime_.SetTime(0, 0, 0, 1, 0, FbxTime::EMode::eFrames60);
 }
 
 void FbxObject3d::Update() {
