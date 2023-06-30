@@ -31,12 +31,12 @@ void TitleScene::Initialize(){
 
 	FbxObject3d::CreateGraphicsPipeline();
 
-	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	//model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube");
 	model2 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
-	object1 = new FbxObject3d();
-	object1->Initialize();
-	object1->SetModel(model1);
+	//object1 = new FbxObject3d();
+	//object1->Initialize();
+	//object1->SetModel(model1);
 
 	object2 = new FbxObject3d();
 	object2->Initialize();
@@ -111,7 +111,7 @@ void TitleScene::Update(){
 	skydomeObj_->Update();
 	planeObj_->Update();
 
-	object1->Update();
+	//object1->Update();
 	object2->Update();
 
 	sprite_->Update();
@@ -139,7 +139,7 @@ void TitleScene::Update(){
 
 void TitleScene::Draw(){
 	//FBX描画
-	object1->Draw(dxBas_->GetCommandList().Get());
+	//object1->Draw(dxBas_->GetCommandList().Get());
 	object2->Draw(dxBas_->GetCommandList().Get());
 
 
@@ -153,19 +153,19 @@ void TitleScene::Draw(){
 	//ParticleManager::PostDraw();
 
 	//モデル本命処理
-	Object3d::PreDraw(dxBas_->GetCommandList().Get());
+	//Object3d::PreDraw(dxBas_->GetCommandList().Get());
 
 	//skydomeObj_->Draw();
 	//planeObj_->Draw();
 
-	Object3d::PostDraw();
+	//Object3d::PostDraw();
 
 	//スプライト本命処理
-	drawBas_->PreDraw();
+	//drawBas_->PreDraw();
 
-	sprite_->Draw();
+	//sprite_->Draw();
 
-	drawBas_->PostDraw();
+	//drawBas_->PostDraw();
 }
 
 void TitleScene::Finalize(){
@@ -179,7 +179,7 @@ void TitleScene::Finalize(){
 	SafeDelete(light_);
 	SafeDelete(camera_);
 
-	SafeDelete(object1);
+	//SafeDelete(object1);
 	SafeDelete(model1);
 
 	SafeDelete(object2);
