@@ -59,11 +59,15 @@ void DirectXBasis::InitDevice() {
 		//アダプタ情報更新
 		adapters[i]->GetDesc3(&adapterDesc);
 
+		// WARPデバイスを回避
+		if (wcsncmp(adapterDesc.Description, L"Intel", 5) == 0) {
+			continue;
+		}
+
 		//ソフトウェアデバイスを回避
 		if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)) {
 			//デバイスを採用してループを抜ける
 			tmpAdapter = adapters[1];
-			break;
 		}
 	}
 #pragma endregion
