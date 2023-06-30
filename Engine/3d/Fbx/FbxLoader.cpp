@@ -378,7 +378,7 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh) {
 			//3頂点目までなら
 			if (j < 3) {
 				//1点追加し、他の2点と三角形を構築する
-				indices.push_back(index);
+				indices.push_back(static_cast<unsigned short>(index));
 			}
 			//4頂点目
 			else {
@@ -387,9 +387,9 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh) {
 				int index2 = indices[indices.size() - 1];
 				int index3 = index;
 				int index0 = indices[indices.size() - 3];
-				indices.push_back(index2);
-				indices.push_back(index3);
-				indices.push_back(index0);
+				indices.push_back(static_cast<unsigned short>(index2));
+				indices.push_back(static_cast<unsigned short>(index3));
+				indices.push_back(static_cast<unsigned short>(index0));
 			}
 		}
 	}
