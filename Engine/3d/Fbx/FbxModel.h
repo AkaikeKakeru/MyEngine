@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
@@ -11,33 +11,33 @@
 
 #include <fbxsdk.h>
 
-//ƒm[ƒh\‘¢‘Ì
+//ãƒãƒ¼ãƒ‰æ§‹é€ ä½“
 struct Node {
-	//–¼‘O
+	//åå‰
 	std::string name_;
 
-	//ƒ[ƒJƒ‹ƒXƒP[ƒ‹
+	//ãƒ­ãƒ¼ã‚«ãƒ«ã‚¹ã‚±ãƒ¼ãƒ«
 	Vector3 scaling_ = { 1,1,1 };
 
-	//ƒ[ƒJƒ‹‰ñ“]
+	//ãƒ­ãƒ¼ã‚«ãƒ«å›è»¢
 	Vector3 rotation_ = { 0,0,0 };
 
-	//ƒ[ƒJƒ‹ˆÚ“®
+	//ãƒ­ãƒ¼ã‚«ãƒ«ç§»å‹•
 	Vector3 translation_ = { 0,0,0 };
 
-	//ƒ[ƒJƒ‹•ÏŒ`s—ñ
+	//ãƒ­ãƒ¼ã‚«ãƒ«å¤‰å½¢è¡Œåˆ—
 	Matrix4 transform_;
 
-	//ƒOƒ[ƒoƒ‹•ÏŒ`s—ñ
+	//ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰å½¢è¡Œåˆ—
 	Matrix4 globalTransform_;
 
-	//eƒm[ƒh
+	//è¦ªãƒãƒ¼ãƒ‰
 	Node* parent_ = nullptr;
 };
 
-//Fbxƒ‚ƒfƒ‹
+//Fbxãƒ¢ãƒ‡ãƒ«
 class FbxModel {
-private://È—ª
+private://çœç•¥
 	template <class T>
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 
@@ -48,111 +48,111 @@ private://È—ª
 	template <class T> using vector = std::vector <T>;
 
 public:
-	//ƒtƒŒƒ“ƒhƒNƒ‰ƒX
+	//ãƒ•ãƒ¬ãƒ³ãƒ‰ã‚¯ãƒ©ã‚¹
 	friend class FbxLoader;
 
-public://’è”
-	//ƒ{[ƒ“ƒCƒ“ƒfƒbƒNƒX‚ÌÅ‘å’l
+public://å®šæ•°
+	//ãƒœãƒ¼ãƒ³ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®æœ€å¤§å€¤
 	static const int MAX_BONE_INDICES_ = 4;
 
-public://ƒTƒuƒNƒ‰ƒX
-	//’¸“_ƒf[ƒ^\‘¢‘Ì
+public://ã‚µãƒ–ã‚¯ãƒ©ã‚¹
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct VertexPosNormalUvSkin {
 		Vector3 pos_;
 		Vector3 normal_;
 		Vector3 uv_;
-		UINT boneIndex_[MAX_BONE_INDICES_]; //ƒ{[ƒ“ ”Ô†
-		float boneWeight_[MAX_BONE_INDICES_]; //ƒ{[ƒ“ d‚İ
+		UINT boneIndex_[MAX_BONE_INDICES_]; //ãƒœãƒ¼ãƒ³ ç•ªå·
+		float boneWeight_[MAX_BONE_INDICES_]; //ãƒœãƒ¼ãƒ³ é‡ã¿
 	};
 
-	//ƒ{[ƒ“\‘¢‘Ì
+	//ãƒœãƒ¼ãƒ³æ§‹é€ ä½“
 	struct Bone {
-		//–¼‘O
+		//åå‰
 		std::string name_;
 
-		//‰Šúp¨‚Ì‹ts—ñ
+		//åˆæœŸå§¿å‹¢ã®é€†è¡Œåˆ—
 		Matrix4 invInitialPose_;
 
-		//ƒNƒ‰ƒXƒ^[(FBX‘¤‚Ìƒ{[ƒ“î•ñ)
+		//ã‚¯ãƒ©ã‚¹ã‚¿ãƒ¼(FBXå´ã®ãƒœãƒ¼ãƒ³æƒ…å ±)
 		FbxCluster* fbxCluster_;
 
-		//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+		//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 		Bone(const std::string& name) {
 			this->name_ = name;
 		}
 	};
 
-public://ƒƒ“ƒoŠÖ”
-	//•`‰æ
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
+	//æç”»
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	   
-	//ƒoƒbƒtƒ@¶¬
+	//ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	void CreateBuffers(ID3D12Device* device);
 
-public://ƒAƒNƒZƒbƒT
-	//ƒ‚ƒfƒ‹‚Ì•ÏŒ`s—ñæ“¾
+public://ã‚¢ã‚¯ã‚»ãƒƒã‚µ
+	//ãƒ¢ãƒ‡ãƒ«ã®å¤‰å½¢è¡Œåˆ—å–å¾—
 	const Matrix4& GetModelTransform() {
 		return meshNode->globalTransform_;
 	}
 
-	//ƒ{[ƒ“”z—ñ‚Ìæ“¾
+	//ãƒœãƒ¼ãƒ³é…åˆ—ã®å–å¾—
 	std::vector<Bone>& GetBones() {
 		return bones_;
 	}
 	 
-	//FBXƒV[ƒ“‚Ìæ“¾
+	//FBXã‚·ãƒ¼ãƒ³ã®å–å¾—
 	FbxScene* GetFbxScene() {
 		return fbxScene_;
 	}
 
-private://ƒƒ“ƒo•Ï”
-	//FBXƒV[ƒ“
+private://ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//FBXã‚·ãƒ¼ãƒ³
 	FbxScene* fbxScene_ = nullptr;
 
-	///ƒ{[ƒ“ŠÖŒW
+	///ãƒœãƒ¼ãƒ³é–¢ä¿‚
 
-	//ƒ{[ƒ“”z—ñ
+	//ãƒœãƒ¼ãƒ³é…åˆ—
 	std::vector<Bone> bones_;
 
-	///ƒ‚ƒfƒ‹ŠÖŒW
+	///ãƒ¢ãƒ‡ãƒ«é–¢ä¿‚
 
-	//ƒ‚ƒfƒ‹–¼
+	//ãƒ¢ãƒ‡ãƒ«å
 	string name_;
-	//ƒm[ƒh”z—ñ
+	//ãƒãƒ¼ãƒ‰é…åˆ—
 	vector<Node> nodes_;
-	//ƒƒbƒVƒ…‚ğ‚Âƒm[ƒh
+	//ãƒ¡ãƒƒã‚·ãƒ¥ã‚’æŒã¤ãƒãƒ¼ãƒ‰
 	Node* meshNode = nullptr;
-	//’¸“_ƒf[ƒ^”z—ñ
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿é…åˆ—
 	vector<VertexPosNormalUvSkin> vertices_;
-	//’¸“_ƒCƒ“ƒfƒbƒNƒX”z—ñ
+	//é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹é…åˆ—
 	vector<unsigned short> indices_;
 
-	///ƒ}ƒeƒŠƒAƒ‹ŠÖŒW
+	///ãƒãƒ†ãƒªã‚¢ãƒ«é–¢ä¿‚
 
-	//ƒAƒ“ƒrƒGƒ“ƒgŒW”
+	//ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆä¿‚æ•°
 	Vector3 ambient_ = { 1,1,1 };
-	//ƒfƒBƒtƒ…[ƒYŒW”
+	//ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºä¿‚æ•°
 	Vector3 diffuse_ = { 1,1,1 };
-	//ƒeƒNƒXƒ`ƒƒƒƒ^ƒf[ƒ^
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	TexMetadata metadata = {};
-	//ƒXƒNƒ‰ƒbƒ`ƒCƒ[ƒW
+	//ã‚¹ã‚¯ãƒ©ãƒƒãƒã‚¤ãƒ¡ãƒ¼ã‚¸
 	ScratchImage scratchImg_ = {};
 
-	///ƒoƒbƒtƒ@ŠÖŒW
+	///ãƒãƒƒãƒ•ã‚¡é–¢ä¿‚
 
-	//’¸“_ƒoƒbƒtƒ@
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> vertBuff_;
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> indexBuff_;
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> texBuff_;
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_VERTEX_BUFFER_VIEW vbView_ = {};
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒrƒ…[
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_INDEX_BUFFER_VIEW ibView_ = {};
-	//SRVƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//SRVãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
 
-public: //ƒfƒXƒgƒ‰ƒNƒ^
+public: //ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	~FbxModel();
 };

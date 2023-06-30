@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "ObjectMaterial.h"
 #include <Windows.h>

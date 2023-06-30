@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "FbxModel.h"
 #include "Camera.h"
@@ -18,20 +18,20 @@
 #include "LightGroup.h"
 
 class FbxObject3d {
-protected: //È—ª
+protected: //çœç•¥
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-public: //’è”
-	// ƒ{[ƒ“‚ÌÅ‘å”
+public: //å®šæ•°
+	// ãƒœãƒ¼ãƒ³ã®æœ€å¤§æ•°
 	static const int MAX_BONES = 32;
 
-public: //ƒTƒuƒNƒ‰ƒX
-	// ’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì(ƒXƒLƒjƒ“ƒO)
+public: //ã‚µãƒ–ã‚¯ãƒ©ã‚¹
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“(ã‚¹ã‚­ãƒ‹ãƒ³ã‚°)
 	struct ConstBufferDataSkin {
 		Matrix4 bones[MAX_BONES];
 	};
 
-	//ƒ‹[ƒgƒpƒ‰ƒ[ƒ^Enum
+	//ãƒ«ãƒ¼ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿Enum
 	enum rootParameter {
 		rootParam_worldTransform,
 		rootParam_viewProjection,
@@ -41,63 +41,63 @@ public: //ƒTƒuƒNƒ‰ƒX
 	};
 
 
-public: //Ã“Iƒƒ“ƒoŠÖ”
-	//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“¶¬
+public: //é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ç”Ÿæˆ
 	static void CreateGraphicsPipeline();
 
-public: //ƒƒ“ƒoŠÖ”
-	//‰Šú‰»
+public: //ãƒ¡ãƒ³ãƒé–¢æ•°
+	//åˆæœŸåŒ–
 	void Initialize();
-	//XV
+	//æ›´æ–°
 	void Update();
-	//•`‰æ
+	//æç”»
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
-	//ƒ[ƒ‹ƒhs—ñ“]‘—
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—è»¢é€
 	void TransferMatrixWorld();
 
-public: //ƒAƒNƒZƒbƒT
-	//ƒfƒoƒCƒXƒZƒbƒg
+public: //ã‚¢ã‚¯ã‚»ãƒƒã‚µ
+	//ãƒ‡ãƒã‚¤ã‚¹ã‚»ãƒƒãƒˆ
 	static void SetDevice(ID3D12Device* device) {
 		FbxObject3d::device_ = device;
 	}
-	//ƒJƒƒ‰ƒZƒbƒg
+	//ã‚«ãƒ¡ãƒ©ã‚»ãƒƒãƒˆ
 	static void SetCamera(Camera* camera) {
 		FbxObject3d::camera_ = camera;
 	}
 
-	//ƒ‰ƒCƒgƒZƒbƒg
+	//ãƒ©ã‚¤ãƒˆã‚»ãƒƒãƒˆ
 	static void SetLight(LightGroup* lightGroup) {
 		FbxObject3d::lightGroup_ = lightGroup;
 	}
 
-	//ƒ‚ƒfƒ‹ƒZƒbƒg
+	//ãƒ¢ãƒ‡ãƒ«ã‚»ãƒƒãƒˆ
 	void SetModel(FbxModel* model) {
 		model_ = model;
 	}
 
-private: //Ã“Iƒƒ“ƒo•Ï”
-	//ƒfƒoƒCƒX
+private: //é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//ãƒ‡ãƒã‚¤ã‚¹
 	static ID3D12Device* device_;
 
-	//ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ
+	//ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£
 	static ComPtr<ID3D12RootSignature> rootsignature_;
-	//ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒgƒIƒuƒWƒFƒNƒg
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	static ComPtr<ID3D12PipelineState> pipelinestate_;
 
-	//ƒJƒƒ‰
+	//ã‚«ãƒ¡ãƒ©
 	static Camera* camera_;
 
-	//ƒ‰ƒCƒg
+	//ãƒ©ã‚¤ãƒˆ
 	static LightGroup* lightGroup_;
 
-protected: //ƒƒ“ƒo•Ï”
-	//ƒ[ƒ‹ƒh•ÏŠ·
+protected: //ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›
 	WorldTransform worldTransform_;
 
-	//ƒ‚ƒfƒ‹
+	//ãƒ¢ãƒ‡ãƒ«
 	FbxModel* model_ = nullptr;
 
-	//’è”ƒoƒbƒtƒ@(ƒXƒLƒ“)
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡(ã‚¹ã‚­ãƒ³)
 	ComPtr<ID3D12Resource> constBuffSkin_;
 };

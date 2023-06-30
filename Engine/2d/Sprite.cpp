@@ -1,4 +1,4 @@
-#include "Sprite.h"
+﻿#include "Sprite.h"
 #include "SafeDelete.h"
 #include "MyMath.h"
 #include "WinApp.h"
