@@ -332,3 +332,25 @@ void FbxObject3d::TransferMatrixWorld() {
 	worldTransform_.constMap_->world_ = modelTransform * worldTransform_.matWorld_;
 	worldTransform_.constMap_->cameraPos_ = cameraPos;
 }
+
+void FbxObject3d::PlayAnimation() {
+	FbxScene* fbxScene = model_->GetFbxScene();
+
+	//0番のアニメーション取得
+	FbxAnimStack* animstack = fbxScene->GetSrcObject<FbxAnimStack>(0);
+	//アニメーションの名前取得
+	const char* animstackname = animstack->GetName();
+	//アニメーションの時間情報
+	FbxTakeInfo* takeinfo = fbxScene->GetTakeInfo(animstackname);
+
+	//開始時間取得
+	startTime_ = takeinfo->mLocalTimeSpan.GetStart();
+	//終了時間取得
+	endTime_ = takeinfo->mLocalTimeSpan.GetStop();
+	//開始時間に合わせる
+	currentTime_ = startTime_;
+	//再生中状態にする
+	isPlay_ = true;
+
+
+}

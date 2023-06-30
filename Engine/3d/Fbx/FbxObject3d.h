@@ -56,6 +56,11 @@ public: //メンバ関数
 	//ワールド行列転送
 	void TransferMatrixWorld();
 
+	/// <summary>
+	/// アニメーション開始
+	/// </summary>
+	void PlayAnimation();
+
 public: //アクセッサ
 	//デバイスセット
 	static void SetDevice(ID3D12Device* device) {
@@ -100,4 +105,15 @@ protected: //メンバ変数
 
 	//定数バッファ(スキン)
 	ComPtr<ID3D12Resource> constBuffSkin_;
+
+	//1フレームの時間
+	FbxTime frameTime_;
+	//アニメーション開始時間
+	FbxTime startTime_;
+	//アニメーション終了時間
+	FbxTime endTime_;
+	//現在時刻 (アニメーション)
+	FbxTime currentTime_;
+	//アニメーション再生中
+	bool isPlay_ = false;
 };
