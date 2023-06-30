@@ -82,22 +82,18 @@ void Framework::Update(){
 
 	imGuiManager_->Begin();
 #ifdef _DEBUG
-	ImGui::Text("Hello, world");
-
-	//デモを表示
-	ImGui::ShowDemoWindow();
 #endif
 	imGuiManager_->End();
 	sceneManager_->Update();
 }
 
 void Framework::Finalize(){
-	FbxLoader::GetInstance()->Finalize();
-	
 	audio_->Finalize();
 	Audio::GetInstance()-> SoundUnload(&soundData1);
 
 	imGuiManager_->Finalize();
 	sceneManager_->Finalize();
 	delete sceneFactory_;
+
+	FbxLoader::GetInstance()->Finalize();
 }
