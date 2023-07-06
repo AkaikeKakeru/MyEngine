@@ -19,8 +19,8 @@ void TitleScene::Initialize(){
 
 	//カメラ生成
 	camera_ = new Camera();
-	camera_->SetEye({ 0,20.0f,-100.0f });
-	camera_->SetTarget({ 0,20.0f,0 });
+	camera_->SetEye({ 0,0.0f,-20.0f });
+	camera_->SetTarget({ 0,0.0f,0 });
 	camera_->Update();
 
 	//FBX
