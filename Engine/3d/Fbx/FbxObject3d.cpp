@@ -273,6 +273,20 @@ void FbxObject3d::Update() {
 	//ボーン配列
 	std::vector<FbxModel::Bone>& bones = model_->GetBones();
 
+
+	//アニメーション
+	if (isPlay_) {
+		//1フレーム進める
+		currentTime_ += frameTime_;
+		//最後まで再生したら先頭に戻す
+		if (currentTime_ > endTime_) {
+			currentTime_ = startTime_;
+		}
+	}
+	else {
+		PlayAnimation();
+	}
+
 	//定数バッファへデータ転送
 	ConstBufferDataSkin* constMapSkin = nullptr;
 	result = constBuffSkin_->Map(0, nullptr, (void**)&constMapSkin);
@@ -282,7 +296,7 @@ void FbxObject3d::Update() {
 		//今の姿勢行列を取得
 		FbxAMatrix fbxCurrentPose =
 			bones[i].fbxCluster_->GetLink()->
-			EvaluateGlobalTransform(0);
+			EvaluateGlobalTransform(currentTime_);
 		//Matrix4に変換
 		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
 		//合成してスキニング行列に
@@ -354,6 +368,4 @@ void FbxObject3d::PlayAnimation() {
 	currentTime_ = startTime_;
 	//再生中状態にする
 	isPlay_ = true;
-
-
 }
