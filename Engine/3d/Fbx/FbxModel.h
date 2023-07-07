@@ -144,8 +144,8 @@ private://メンバ変数
 	ComPtr<ID3D12Resource> vertBuff_;
 	//インデックスバッファ
 	ComPtr<ID3D12Resource> indexBuff_;
-	//テクスチャバッファ
-	ComPtr<ID3D12Resource> texBuff_;
+	//マテリアルバッファ
+	ComPtr<ID3D12Resource> materialBuff_;
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView_ = {};
 	//インデックスバッファビュー
