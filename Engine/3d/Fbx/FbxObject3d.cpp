@@ -167,10 +167,10 @@ void FbxObject3d::CreateGraphicsPipeline() {
 	rootParams[rootParam_worldTransform].Descriptor.RegisterSpace = 0;						//デフォルト値
 	rootParams[rootParam_worldTransform].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
 	//定数バッファ1番
-	rootParams[rootParam_viewProjection].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
-	rootParams[rootParam_viewProjection].Descriptor.ShaderRegister = 1;					//定数バッファ番号
-	rootParams[rootParam_viewProjection].Descriptor.RegisterSpace = 0;						//デフォルト値
-	rootParams[rootParam_viewProjection].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
+	rootParams[rootParam_material].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
+	rootParams[rootParam_material].Descriptor.ShaderRegister = 1;					//定数バッファ番号
+	rootParams[rootParam_material].Descriptor.RegisterSpace = 0;						//デフォルト値
+	rootParams[rootParam_material].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
 	//テクスチャレジスタ0番
 	rootParams[rootParam_texture].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
 	rootParams[rootParam_texture].DescriptorTable.pDescriptorRanges = &descriptorRange;			//デスクリプタレンジ

@@ -34,7 +34,7 @@ public: //サブクラス
 	//ルートパラメータEnum
 	enum rootParameter {
 		rootParam_worldTransform,
-		rootParam_viewProjection,
+		rootParam_material,
 		rootParam_texture,
 		rootParam_light,
 		rootParam_skining
