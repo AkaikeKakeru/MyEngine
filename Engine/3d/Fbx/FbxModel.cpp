@@ -1,4 +1,5 @@
 ﻿#include "FbxModel.h"
+#include "FbxObject3d.h"
 
 void FbxModel::CreateBuffers(ID3D12Device* device) {
 	HRESULT result;
@@ -9,6 +10,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 	D3D12_HEAP_PROPERTIES heapProps{};
 	heapProps.Type = D3D12_HEAP_TYPE_UPLOAD;
 
+#pragma region 頂点
 	// リソース設定
 	D3D12_RESOURCE_DESC resDesc{};
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -41,7 +43,9 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
 	vbView_.SizeInBytes = sizeVB;
 	vbView_.StrideInBytes = sizeof(vertices_[0]);
+#pragma endregion
 
+#pragma region インデックス
 	//インデックスデータ全体のサイズ
 	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices_.size());
 	// インデックス用リソース設定
@@ -68,7 +72,9 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 	ibView_.BufferLocation = indexBuff_->GetGPUVirtualAddress();
 	ibView_.Format = DXGI_FORMAT_R16_UINT;
 	ibView_.SizeInBytes = sizeIB;
+#pragma endregion
 
+#pragma endregion テクスチャマテリアル
 	// テクスチャ用ヒーププロパティ
 	heapProps.Type = D3D12_HEAP_TYPE_CUSTOM;
 	heapProps.CPUPageProperty =
@@ -92,7 +98,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 		&texresDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ, // テクスチャ用指定
 		nullptr,
-		IID_PPV_ARGS(&texBuff_));
+		IID_PPV_ARGS(&materialBuff_));
 	assert(SUCCEEDED(result));
 
 	//テクスチャ画像データ
@@ -100,7 +106,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 	assert(img);
 
 	//テクスチャバッファにデータ転送
-	result = texBuff_->WriteToSubresource(
+	result = materialBuff_->WriteToSubresource(
 		0,
 		nullptr,              // 全領域へコピー
 		img->pixels,          // 元データアドレス
@@ -116,19 +122,20 @@ void FbxModel::CreateBuffers(ID3D12Device* device) {
 	descHeapDesc.NumDescriptors = 1; //テクスチャ枚数
 	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeapSRV));//生成
 
-																					 //シェーダリソースビュー(SRV)作成
+	//シェーダリソースビュー(SRV)作成
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	resDesc = texBuff_->GetDesc();
+	resDesc = materialBuff_->GetDesc();
 
 	srvDesc.Format = resDesc.Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D; //2Dテクスチャ
 	srvDesc.Texture2D.MipLevels = 1;
 
-	device->CreateShaderResourceView(texBuff_.Get(), //ビューと関連付けるバッファ
+	device->CreateShaderResourceView(materialBuff_.Get(), //ビューと関連付けるバッファ
 		&srvDesc, //テクスチャ設定情報
 		descHeapSRV->GetCPUDescriptorHandleForHeapStart() //ヒープの先頭アドレス
 	);
+#pragma endregion
 }
 
 FbxModel::~FbxModel() {
@@ -148,7 +155,7 @@ void FbxModel::Draw(ID3D12GraphicsCommandList* cmdList) {
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
 	//シェーダリソースビューのセット
-	cmdList->SetGraphicsRootDescriptorTable(2,
+	cmdList->SetGraphicsRootDescriptorTable(FbxObject3d::rootParam_texture,
 		descHeapSRV->GetGPUDescriptorHandleForHeapStart());
 
 	//描画コマンド
