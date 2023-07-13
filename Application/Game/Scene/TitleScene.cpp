@@ -71,13 +71,9 @@ void TitleScene::Initialize(){
 
 	//描画基盤
 	drawBas_ = DrawBasis::GetInstance();
-	drawBas_->Initialize();
-
-	drawBas_->LoadTexture(0, "title.png");
 
 	//描画スプライト
-
-	sprite_->Initialize(drawBas_,0);
+	sprite_->Initialize(0);
 
 	//パーティクルマネージャー
 	//particleManager_ = ParticleManager::Create();
