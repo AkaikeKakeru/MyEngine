@@ -12,7 +12,7 @@ void DebugText::Initialize(UINT fontTexNum) {
 	for (int i = 0; i < _countof(sprites_); i++) {
 		// スプライト生成
 		sprites_[i] = new Sprite();
-		sprites_[i]->Initialize(drawBas_, fontTexNum);
+		sprites_[i]->Initialize(fontTexNum);
 	}
 }
 

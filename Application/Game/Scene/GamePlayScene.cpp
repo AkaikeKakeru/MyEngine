@@ -67,7 +67,7 @@ void GamePlayScene::Initialize3d() {
 
 void GamePlayScene::Initialize2d() {
 	drawBas_->LoadTexture(1, "texture.png");
-	sprite_->Initialize(drawBas_, 1);
+	sprite_->Initialize(1);
 
 	sprite_->SetAnchorPoint({ 0.5f, 0.5f });
 	sprite_->SetSize({ 64,64 });
