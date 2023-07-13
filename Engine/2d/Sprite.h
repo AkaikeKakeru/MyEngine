@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "DrawBasis.h"
+#include "SpriteBasis.h"
 #include "Matrix4.h"
 #include "Vector3.h"
 
@@ -128,7 +128,7 @@ protected://定数
 
 protected://メンバ変数
 	//Draw基盤
-	static DrawBasis* drawBas_;
+	static SpriteBasis* spriteBas_;
 
 	//ワールド変換
 	WorldTransform worldTransform_;

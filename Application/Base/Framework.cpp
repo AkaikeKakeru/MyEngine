@@ -1,6 +1,6 @@
 ﻿#include "Framework.h"
 #include "Object3d.h"
-#include "DrawBasis.h"
+#include "SpriteBasis.h"
 #include "ParticleManager.h"
 #include "TitleScene.h"
 #include <imgui.h>
@@ -63,8 +63,10 @@ void Framework::Initialize(){
 	Object3d::StaticInitialize(dxBas_->GetDevice().Get());
 
 	//描画基盤(スプライト)
-	DrawBasis* drawBas = DrawBasis::GetInstance();
-	drawBas->Initialize();
+	SpriteBasis* spriteBas = SpriteBasis::GetInstance();
+	spriteBas->Initialize();
+	spriteBas->LoadTexture(0, "texture.png");
+	spriteBas->LoadTexture(1, "texture.png");
 
 	//パーティクル
 	ParticleManager::StaticInitialize(dxBas_->GetDevice().Get());
@@ -73,11 +75,11 @@ void Framework::Initialize(){
 	LightGroup::StaticInitialize(dxBas_->GetDevice().Get());
 
 	//ポストエフェクト用テクスチャ読み込み
-	drawBas->LoadTexture(0, "title.png");
+	spriteBas->LoadTexture(100, "title.png");
 
 	//ポストエフェクトの初期化
 	postEffect_ = new PostEffect();
-	postEffect_->Initialize(0);
+	postEffect_->Initialize(100);
 	postEffect_->Update();
 }
 

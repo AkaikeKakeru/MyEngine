@@ -7,10 +7,10 @@ void PostEffect::Draw() {
 	}
 
 	//描画前処理
-	drawBas_->PreDraw();
+	spriteBas_->PreDraw();
 
 	//描画用テクスチャコマンド
-	drawBas_->SetTextureCommand(textureIndex_);
+	spriteBas_->SetTextureCommand(textureIndex_);
 
 	//頂点バッファビューの設定コマンド
 	cmdList_->IASetVertexBuffers(0, 1, &vbView_);

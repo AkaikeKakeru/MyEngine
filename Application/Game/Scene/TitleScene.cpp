@@ -9,6 +9,7 @@
 
 DirectXBasis* TitleScene::dxBas_ = DirectXBasis::GetInstance();
 Input* TitleScene::input_ = Input::GetInstance();
+SpriteBasis* TitleScene::spriteBas_ = SpriteBasis::GetInstance();
 
 void TitleScene::Initialize(){
 	/// 描画初期化
@@ -68,9 +69,6 @@ void TitleScene::Initialize(){
 	light_->SetAmbientColor({ 1,1,1 });
 	Object3d::SetLight(light_);
 	FbxObject3d::SetLight(light_);
-
-	//描画基盤
-	drawBas_ = DrawBasis::GetInstance();
 
 	//描画スプライト
 	sprite_->Initialize(0);

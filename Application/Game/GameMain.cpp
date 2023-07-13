@@ -25,13 +25,13 @@ void GameMain::Draw() {
 	Framework::GetDirectXBasis()->PreDraw();
 
 	//スプライト描画事前処理
-	DrawBasis::GetInstance()->PreDraw();
+	SpriteBasis::GetInstance()->PreDraw();
 
 	//ポストエフェクト描画
 	Framework::GetPostEffect()->Draw();
 	
 	//スプライト描画事後処理
-	DrawBasis::GetInstance()->PostDraw();
+	SpriteBasis::GetInstance()->PostDraw();
 
 	//シーンマネージャー取得
 	sceneManager_ = Framework::GetSceneManager();

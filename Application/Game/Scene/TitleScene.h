@@ -2,7 +2,7 @@
 #include "BaseScene.h"
 
 #include "Input.h"
-#include "DrawBasis.h"
+#include "SpriteBasis.h"
 #include "ObjectModel.h"
 #include "Sprite.h"
 #include "Object3d.h"
@@ -26,7 +26,7 @@ public:
 private:
 	static DirectXBasis* dxBas_;
 	static Input* input_;
-	DrawBasis* drawBas_ = nullptr;
+	static SpriteBasis* spriteBas_;
 
 	Camera* camera_ = nullptr;
 	LightGroup* light_ = nullptr;

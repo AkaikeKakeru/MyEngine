@@ -5,7 +5,7 @@
 
 DirectXBasis* GamePlayScene::dxBas_ = DirectXBasis::GetInstance();
 Input* GamePlayScene::input_ = Input::GetInstance();
-DrawBasis* GamePlayScene::drawBas_ = DrawBasis::GetInstance();
+SpriteBasis* GamePlayScene::spriteBas_ = SpriteBasis::GetInstance();
 
 void GamePlayScene::Initialize() {
 	Initialize2d();
@@ -24,9 +24,9 @@ void GamePlayScene::Draw() {
 	Draw3d();
 	Object3d::PostDraw();
 
-	drawBas_->PreDraw();
+	spriteBas_->PreDraw();
 	Draw2d();
-	drawBas_->PostDraw();
+	spriteBas_->PostDraw();
 }
 
 void GamePlayScene::Initialize3d() {
@@ -66,7 +66,6 @@ void GamePlayScene::Initialize3d() {
 }
 
 void GamePlayScene::Initialize2d() {
-	drawBas_->LoadTexture(1, "texture.png");
 	sprite_->Initialize(1);
 
 	sprite_->SetAnchorPoint({ 0.5f, 0.5f });
