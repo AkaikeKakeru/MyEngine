@@ -309,3 +309,20 @@ void Sprite::AdjustTextureSize() {
 	textureSize_.x = static_cast<float>(texResDesc.Width);
 	textureSize_.y = static_cast<float>(texResDesc.Height);
 }
+
+Sprite::Sprite(
+	uint32_t textureIndex,
+	Vector2 pos,
+	Vector2 size, 
+	Vector4 color,
+	Vector2 anchorPoint,
+	bool isFlipX,
+	bool isFlipY) {
+	textureIndex_ = textureIndex;
+	worldTransform_.position = pos;
+	textureSize_ = size;
+	color_ = color;
+	anchorPoint_ = anchorPoint;
+	isFlipX_ = isFlipX;
+	isFlipY_ = isFlipY;
+}

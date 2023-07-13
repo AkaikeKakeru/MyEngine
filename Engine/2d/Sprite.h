@@ -192,4 +192,13 @@ private://メンバ変数
 
 	//テクスチャ番号
 	uint32_t textureIndex_ = 0;
+
+public://コンストラクタ
+	Sprite(uint32_t textureIndex,
+		Vector2 pos,
+		Vector2 size,
+		Vector4 color,
+		Vector2 anchorPoint,
+		bool isFlipX,
+		bool isFlipY);
 };
