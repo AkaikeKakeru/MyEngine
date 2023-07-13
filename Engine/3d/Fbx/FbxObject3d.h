@@ -81,6 +81,26 @@ public: //アクセッサ
 		model_ = model;
 	}
 
+	// 座標の取得
+	const Vector3& GetPosition() const {
+		return worldTransform_.position_; }
+	//スケールの取得
+	const Vector3& GetScale() const {
+		return worldTransform_.scale_; }
+	//回転の取得
+	const Vector3& GetRotation() const {
+		return worldTransform_.rotation_; }
+
+	/// 座標の設定
+	void SetPosition(const Vector3& position) {
+		worldTransform_.position_ = position; }
+	//スケールの設定
+	void SetScale(const Vector3& scale) {
+		worldTransform_.scale_ = scale; }
+	//回転の設定
+	void SetRotation(const Vector3& rotation) { 
+		worldTransform_.rotation_ = rotation; }
+
 private: //静的メンバ変数
 	//デバイス
 	static ID3D12Device* device_;
