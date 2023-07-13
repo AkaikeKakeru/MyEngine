@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 #include "Sprite.h"
 class PostEffect :
     public Sprite {
-public://ƒƒ“ƒoŠÖ”
-    //•`‰æƒRƒ}ƒ“ƒhÀs
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
+    //æç”»ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œ
     void Draw();
-public://ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+public://ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
     PostEffect();
 };
 

@@ -1,31 +1,27 @@
-#include "PostEffect.h"
+ï»¿#include "PostEffect.h"
 
 void PostEffect::Draw() {
-	//”ñ•\Ž¦
+	//éžè¡¨ç¤º
 	if (isInvisible_) {
 		return;
 	}
 
-	//ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒgÝ’è
-	cmdList_->SetPipelineState(drawBas_->GetPipelineState().Get());
-	//ƒ‹[ƒgƒVƒOƒlƒ`ƒƒÝ’è
-	cmdList_->SetGraphicsRootSignature(drawBas_->GetRootSignature().Get());
-	//ƒvƒŠƒ~ƒeƒBƒuŒ`óÝ’è
-	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	//æç”»å‰å‡¦ç†
+	drawBas_->PreDraw();
 
-	//•`‰æ—pƒeƒNƒXƒ`ƒƒƒRƒ}ƒ“ƒh
+	//æç”»ç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚³ãƒžãƒ³ãƒ‰
 	drawBas_->SetTextureCommand(textureIndex_);
 
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚ÌÝ’èƒRƒ}ƒ“ƒh
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®è¨­å®šã‚³ãƒžãƒ³ãƒ‰
 	cmdList_->IASetVertexBuffers(0, 1, &vbView_);
 
-	//’è”ƒoƒbƒtƒ@ƒrƒ…[(CBV)‚ÌÝ’èƒRƒ}ƒ“ƒh
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼(CBV)ã®è¨­å®šã‚³ãƒžãƒ³ãƒ‰
 	cmdList_->SetGraphicsRootConstantBufferView(0, constBuffMaterial_->GetGPUVirtualAddress());
 
-	//’è”ƒoƒbƒtƒ@ƒrƒ…[(CBV)‚ÌÝ’èƒRƒ}ƒ“ƒh
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼(CBV)ã®è¨­å®šã‚³ãƒžãƒ³ãƒ‰
 	cmdList_->SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
 
-	//ƒCƒ“ƒXƒ^ƒ“ƒX•`‰æ
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æç”»
 	cmdList_->DrawInstanced(kVerticesNum, 1, 0, 0);
 }
 
