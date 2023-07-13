@@ -4,9 +4,9 @@
 #include "WinApp.h"
 #include <cassert>
 
-void Sprite::Initialize(DrawBasis* drawBas, uint32_t textureIndex) {
-	assert(drawBas);
-	drawBas_ = drawBas;
+DrawBasis* Sprite::drawBas_ = DrawBasis::GetInstance();
+
+void Sprite::Initialize(uint32_t textureIndex) {
 	device_ = drawBas_->GetDevice();
 	cmdList_ = drawBas_->GetCommandList();
 
@@ -308,6 +308,9 @@ void Sprite::AdjustTextureSize() {
 
 	textureSize_.x = static_cast<float>(texResDesc.Width);
 	textureSize_.y = static_cast<float>(texResDesc.Height);
+}
+
+Sprite::Sprite() {
 }
 
 Sprite::Sprite(

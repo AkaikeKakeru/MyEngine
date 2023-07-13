@@ -49,7 +49,7 @@ private://構造体
 	}VerticesParts;
 
 public://基本関数
-	void Initialize(DrawBasis* drawBas, uint32_t textureIndex = UINT32_MAX);
+	void Initialize(uint32_t textureIndex = UINT32_MAX);
 	void Update();
 	void Draw();
 
@@ -127,6 +127,9 @@ protected://定数
 	static const int kVerticesNum = 4;
 
 protected://メンバ変数
+	//Draw基盤
+	static DrawBasis* drawBas_;
+
 	//ワールド変換
 	WorldTransform worldTransform_;
 	//上下左右
@@ -151,9 +154,6 @@ protected://メンバ変数
 
 	//平行投影変換行列
 	Matrix4 matOrtGrapricProjection_;
-
-	//Draw基盤
-	DrawBasis* drawBas_ = nullptr;
 
 	//デバイス
 	ComPtr<ID3D12Device> device_;
@@ -194,6 +194,7 @@ protected://メンバ変数
 	uint32_t textureIndex_ = 0;
 
 public://コンストラクタ
+	Sprite();
 	Sprite(uint32_t textureIndex,
 		Vector2 pos,
 		Vector2 size,
