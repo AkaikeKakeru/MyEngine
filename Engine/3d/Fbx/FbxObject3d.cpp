@@ -261,6 +261,14 @@ void FbxObject3d::Initialize() {
 
 	//iフレーム分の時間を60fpsで設定
 	frameTime_.SetTime(0, 0, 0, 1, 0, FbxTime::EMode::eFrames60);
+
+	ConstBufferDataSkin* constMapSkin = nullptr;
+	
+	result = constBuffSkin_->Map(0, nullptr, (void**)&constMapSkin);
+	for (int i = 0; i < MAX_BONES; i++) {
+		constMapSkin->bones[i] = Matrix4Identity();
+	}
+	constBuffSkin_->Unmap(0, nullptr);
 }
 
 void FbxObject3d::Update() {
