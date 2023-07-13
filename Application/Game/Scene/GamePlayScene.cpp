@@ -1,6 +1,7 @@
-#include "GamePlayScene.h"
+﻿#include "GamePlayScene.h"
 #include "SafeDelete.h"
 #include "Quaternion.h"
+#include "FbxLoader.h"
 
 DirectXBasis* GamePlayScene::dxBas_ = DirectXBasis::GetInstance();
 Input* GamePlayScene::input_ = Input::GetInstance();
@@ -33,11 +34,11 @@ void GamePlayScene::Initialize3d() {
 	camera_ = new Camera();
 	camera_player = new Camera();
 
-	planeModel_ = new Model();
-	planeModel_ = Model::LoadFromOBJ("plane", true);
+	planeModel_ = new ObjectModel();
+	planeModel_ = ObjectModel::LoadFromOBJ("plane", true);
 
-	skydomeModel_ = new Model();
-	skydomeModel_ = Model::LoadFromOBJ("skydome", false);
+	skydomeModel_ = new ObjectModel();
+	skydomeModel_ = ObjectModel::LoadFromOBJ("skydome", false);
 
 	planeObj_ = new Object3d();
 	planeObj_ = Object3d::Create();
@@ -54,10 +55,14 @@ void GamePlayScene::Initialize3d() {
 	skydomeObj_->SetCamera(camera_);
 
 	//ライト生成
-	light_ = new Light();
-	light_ = Light::Create();
-	light_->SetLightColor({ 1,1,1 });
+	light_ = new LightGroup();
+	light_ = LightGroup::Create();
+	light_->SetAmbientColor({ 1,1,1 });
 	Object3d::SetLight(light_);
+
+	//FBXローダー
+	FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	//FbxLoader::GetInstance()->LoadModelFromFile("girl");
 }
 
 void GamePlayScene::Initialize2d() {
@@ -163,7 +168,7 @@ void GamePlayScene::Update3d() {
 		//		if (input_->PressKey(DIK_D)) { lightDir.x += 1.0f; }
 		//		else if (input_->PressKey(DIK_A)) { lightDir.x -= 1.0f; }
 		//	}
-		light_->SetLightDir(lightDir);
+		light_->SetDirLightDir(0,lightDir);
 	}
 
 	// カメラ移動

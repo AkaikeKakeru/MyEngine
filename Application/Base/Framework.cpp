@@ -1,9 +1,10 @@
-#include "Framework.h"
+﻿#include "Framework.h"
 #include "Object3d.h"
 #include "DrawBasis.h"
 #include "ParticleManager.h"
 #include "TitleScene.h"
 #include <imgui.h>
+#include "FbxLoader.h"
 
 SceneManager* Framework::sceneManager_ = SceneManager::GetInstance();
 
@@ -42,6 +43,9 @@ void Framework::Initialize(){
 	input_ = Input::GetInstance();
 	input_->Initialize();
 
+	//FBXローダー
+	FbxLoader::GetInstance()->Initialize(dxBas_->GetDevice().Get());
+
 	//音声
 	audio_ = Audio::GetInstance();
 	audio_->Initialize();
@@ -66,7 +70,7 @@ void Framework::Initialize(){
 	ParticleManager::StaticInitialize(dxBas_->GetDevice().Get());
 
 	//ライト静的初期化
-	Light::StaticInitialize(dxBas_->GetDevice().Get());
+	LightGroup::StaticInitialize(dxBas_->GetDevice().Get());
 }
 
 void Framework::Update(){
@@ -78,10 +82,6 @@ void Framework::Update(){
 
 	imGuiManager_->Begin();
 #ifdef _DEBUG
-	ImGui::Text("Hello, world");
-
-	//デモを表示
-	ImGui::ShowDemoWindow();
 #endif
 	imGuiManager_->End();
 	sceneManager_->Update();
@@ -94,4 +94,6 @@ void Framework::Finalize(){
 	imGuiManager_->Finalize();
 	sceneManager_->Finalize();
 	delete sceneFactory_;
+
+	FbxLoader::GetInstance()->Finalize();
 }

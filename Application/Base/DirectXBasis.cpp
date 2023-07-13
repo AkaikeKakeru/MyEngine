@@ -1,4 +1,4 @@
-#include "DirectXBasis.h"
+﻿#include "DirectXBasis.h"
 #include <string>
 #include <cassert>
 
@@ -33,7 +33,7 @@ void DirectXBasis::InitDevice() {
 	}
 #endif
 
-#pragma region アダプタの列挙
+#pragma region Adapter
 	//DXGIファクトリ生成
 	result = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory_));
 	assert(SUCCEEDED(result));
@@ -59,11 +59,15 @@ void DirectXBasis::InitDevice() {
 		//アダプタ情報更新
 		adapters[i]->GetDesc3(&adapterDesc);
 
+		// WARPデバイスを回避
+		if (wcsncmp(adapterDesc.Description, L"Intel", 5) == 0) {
+			continue;
+		}
+
 		//ソフトウェアデバイスを回避
 		if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)) {
 			//デバイスを採用してループを抜ける
 			tmpAdapter = adapters[1];
-			break;
 		}
 	}
 #pragma endregion
@@ -170,7 +174,7 @@ void DirectXBasis::InitRenderTargetView() {
 	device_->CreateDescriptorHeap(&rtvHeapDesc_, IID_PPV_ARGS(&rtvHeap_));
 #pragma endregion
 
-#pragma region レンダーターゲットビュー
+#pragma region RenderTargetView
 	//バックバッファのリサイズ
 	backBuffers_.resize(swapChainDesc_.BufferCount);
 
@@ -306,7 +310,7 @@ void DirectXBasis::PostDraw() {
 	HRESULT result;
 
 	//バックバッファの番号取得
-	UINT bbIndex = swapChain_->GetCurrentBackBufferIndex();
+	//UINT bbIndex = swapChain_->GetCurrentBackBufferIndex();
 
 #pragma region リソースバリア復帰コマンド
 	///5.リソースバリアを隠す
@@ -328,7 +332,7 @@ void DirectXBasis::PostDraw() {
 	assert(SUCCEEDED(result));
 #pragma endregion
 
-#pragma region コマンド完了待ち
+#pragma region WaitCommandComplete
 	//コマンドの実行完了を待つ
 	cmdQueue_->Signal(fence_.Get(), ++fenceVal_);
 	if (fence_->GetCompletedValue() != fenceVal_) {

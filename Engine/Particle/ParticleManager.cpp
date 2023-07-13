@@ -518,7 +518,7 @@ bool ParticleManager::Initialize() {
 
 void ParticleManager::Update() {
 	HRESULT result;
-	Matrix4 matScale;
+	//Matrix4 matScale;
 
 	//寿命が尽きたパーティクルを全削除
 	particles_.remove_if(

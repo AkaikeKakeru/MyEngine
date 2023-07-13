@@ -8,7 +8,7 @@
 #include "Vector3.h"
 #include "Vector4.h"
 
-#include "Model.h"
+#include "ObjectModel.h"
 
 #include "WorldTransform.h"
 
@@ -24,11 +24,11 @@ class BaseCollider;
 /// </summary>
 class Object3d {
 private: // エイリアス
-	// Microsoft::WRL::を省略
+		 // Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 public: // サブクラス
-	// パイプラインセット
+		// パイプラインセット
 	struct PipelineSet {
 		// ルートシグネチャ
 		ComPtr<ID3D12RootSignature> rootsignature_;
@@ -40,7 +40,7 @@ private: // 定数
 	static const int kRootParamCount_ = 4;
 
 public: // 静的メンバ関数
-	// 静的初期化
+		// 静的初期化
 	static void StaticInitialize(ID3D12Device* device);
 
 	// 描画前処理
@@ -84,7 +84,9 @@ public: // メンバ関数
 	void TransferMatrixWorld();
 
 	//衝突時コールバック
-	virtual void OnCollision(const CollisionInfo& info) {}
+	virtual void OnCollision(const CollisionInfo& info) { 
+		CollisionInfo colInfo = info;
+	}
 
 	// 座標の取得
 	const Vector3& GetPosition() const {
@@ -112,7 +114,7 @@ public: // メンバ関数
 	void SetWorldTransform(const WorldTransform& worldTransform) {
 		worldTransform_ = worldTransform; }
 	//モデルセッタ
-	void SetModel(Model* model) {
+	void SetModel(ObjectModel* model) {
 		model_ = model; }
 	//カメラセット
 	void SetCamera(Camera* camera) {
@@ -121,11 +123,11 @@ public: // メンバ関数
 	void SetCollider(BaseCollider* collider);
 
 protected: // メンバ変数
-	//ワールドトランスフォーム
+		   //ワールドトランスフォーム
 	WorldTransform worldTransform_;
 
 	//モデル
-	Model* model_ = nullptr;
+	ObjectModel* model_ = nullptr;
 
 	//カメラ
 	Camera* camera_ = nullptr;
@@ -137,7 +139,7 @@ protected: // メンバ変数
 	BaseCollider* collider_ = nullptr;
 
 public: //コンストデスト
-	//コンストラクタ
+		//コンストラクタ
 	Object3d() = default;
 	//デストラクタ
 	virtual ~Object3d();

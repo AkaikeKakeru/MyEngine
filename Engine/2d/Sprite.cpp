@@ -1,6 +1,6 @@
-#include "Sprite.h"
+﻿#include "Sprite.h"
 #include "SafeDelete.h"
-#include "Degree.h"
+#include "MyMath.h"
 #include "WinApp.h"
 #include <cassert>
 
@@ -24,7 +24,7 @@ void Sprite::Initialize(DrawBasis* drawBas, uint32_t textureIndex) {
 	worldTransform_.matWorld = Matrix4Identity();
 
 	matOrtGrapricProjection_ = Matrix4Identity();
-	/*テクスチャの左上を、画面の左上角に合わせたい*/
+	//テクスチャの左上を、画面の左上角に合わせたい
 	//ポリゴンの左上を、画面中央に合わせる
 	matOrtGrapricProjection_.m[0][0] = 2.0f / WinApp::Win_Width;
 	matOrtGrapricProjection_.m[1][1] = -2.0f / WinApp::Win_Height;

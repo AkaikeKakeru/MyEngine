@@ -1,15 +1,17 @@
-#pragma once
+﻿#pragma once
 #include "BaseScene.h"
 
 #include "Input.h"
 #include "DrawBasis.h"
-#include "Model.h"
+#include "ObjectModel.h"
 #include "Sprite.h"
 #include "Object3d.h"
+#include "FbxObject3d.h"
+
 #include "ParticleManager.h"
 
 #include "Camera.h"
-#include "Light.h"
+#include "LightGroup.h"
 
 #include "SceneManager.h"
 
@@ -27,19 +29,27 @@ private:
 	DrawBasis* drawBas_ = nullptr;
 
 	Camera* camera_ = nullptr;
-	Light* light_ = nullptr;
+	LightGroup* light_ = nullptr;
 	/// <summary>
 	/// オブジェクト
 	/// </summary>
 	/// <summary>
 	Object3d* planeObj_ = nullptr;
-	Model* planeModel_ = nullptr;
+	ObjectModel* planeModel_ = nullptr;
 
 	Object3d* skydomeObj_ = nullptr;
-	Model* skydomeModel_ = nullptr;
+	ObjectModel* skydomeModel_ = nullptr;
 	/// スプライト
 	/// </summary>
 	Sprite* sprite_ = new Sprite();
+
+	//FBX
+	FbxModel* model1 = nullptr;
+	FbxObject3d* object1 = nullptr;
+
+	//FBX
+	FbxModel* model2 = nullptr;
+	FbxObject3d* object2 = nullptr;
 
 	//パーティクル
 	ParticleManager* particleManager_ = nullptr;

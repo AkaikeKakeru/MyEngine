@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Matrix4.h"
 #include "Vector3.h"
@@ -25,6 +25,9 @@ public: // メンバ関数
 
 	// ビュー射影行列の取得
 	const Matrix4& GetViewProjectionMatrix() { return matViewProjection_; }
+
+	// ビューポート行列の取得
+	const Matrix4& GetViewPortMatrix() { return matViewPort_; }
 
 	// ビルボード行列の取得
 	const Matrix4& GetBillboardMatrix() { return viewProjection_.matBillboard_; }
@@ -69,6 +72,8 @@ public: // メンバ関数
 protected: // メンバ変数
 	// ビュー射影行列
 	Matrix4 matViewProjection_ = Matrix4Identity();
+	// ビューポート行列
+	Matrix4 matViewPort_ = Matrix4Identity();
 	// ビュー行列ダーティフラグ
 	bool viewDirty_ = false;
 	// 射影行列ダーティフラグ

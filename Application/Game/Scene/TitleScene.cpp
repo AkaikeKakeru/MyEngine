@@ -1,8 +1,11 @@
-#include "TitleScene.h"
+﻿#include "TitleScene.h"
 #include "SafeDelete.h"
 
 #include "Framework.h"
 #include "SceneManager.h"
+
+#include "FbxObject3d.h"
+#include "FbxLoader.h"
 
 DirectXBasis* TitleScene::dxBas_ = DirectXBasis::GetInstance();
 Input* TitleScene::input_ = Input::GetInstance();
@@ -16,12 +19,35 @@ void TitleScene::Initialize(){
 
 	//カメラ生成
 	camera_ = new Camera();
+	camera_->SetEye({ 0,20.0f,-100.0f });
+	camera_->SetTarget({ 0,20.0f,0 });
+	camera_->Update();
 
-	planeModel_ = new Model();
-	planeModel_ = Model::LoadFromOBJ("plane", false);
+	//FBX
+	//デバイスセット
+	FbxObject3d::SetDevice(DirectXBasis::GetInstance()->GetDevice().Get());
+	//カメラセット
+	FbxObject3d::SetCamera(camera_);
 
-	skydomeModel_ = new Model();
-	skydomeModel_ = Model::LoadFromOBJ("skydome",false);
+	FbxObject3d::CreateGraphicsPipeline();
+
+	//model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	model2 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
+
+	//object1 = new FbxObject3d();
+	//object1->Initialize();
+	//object1->SetModel(model1);
+
+	object2 = new FbxObject3d();
+	object2->Initialize();
+	object2->SetModel(model2);
+
+	//各種OBJ
+	planeModel_ = new ObjectModel();
+	planeModel_ = ObjectModel::LoadFromOBJ("plane", false);
+
+	skydomeModel_ = new ObjectModel();
+	skydomeModel_ = ObjectModel::LoadFromOBJ("skydome",false);
 
 
 	planeObj_ = new Object3d();
@@ -35,10 +61,11 @@ void TitleScene::Initialize(){
 	skydomeObj_->SetCamera(camera_);
 
 	//ライト生成
-	light_ = new Light();
-	light_ = Light::Create();
-	light_->SetLightColor({ 1,1,1 });
+	light_ = new LightGroup();
+	light_ = LightGroup::Create();
+	light_->SetAmbientColor({ 1,1,1 });
 	Object3d::SetLight(light_);
+	FbxObject3d::SetLight(light_);
 
 	//描画基盤
 	drawBas_ = DrawBasis::GetInstance();
@@ -51,36 +78,58 @@ void TitleScene::Initialize(){
 	sprite_->Initialize(drawBas_,0);
 
 	//パーティクルマネージャー
-	particleManager_ = ParticleManager::Create();
-	particleManager_->LoadTexture(0, "particle.png");
-	particleManager_->SetTextureIndex(0);
-	particleManager_->SetCamera(camera_);
+	//particleManager_ = ParticleManager::Create();
+	//particleManager_->LoadTexture(0, "particle.png");
+	//particleManager_->SetTextureIndex(0);
+	//particleManager_->SetCamera(camera_);
 }
 
 void TitleScene::Update(){
-	input_->Update();
+	Input::GetInstance()->Update();
+	// カメラ移動
+	if (Input::GetInstance()->PressKey(DIK_W) ||
+		Input::GetInstance()->PressKey(DIK_S) ||
+		Input::GetInstance()->PressKey(DIK_D) ||
+		Input::GetInstance()->PressKey(DIK_A)) {
+		if (Input::GetInstance()->PressKey(DIK_W)) {
+			camera_->MoveVector({ 0.0f,+1.0f,0.0f });
+		}
+		else if (Input::GetInstance()->PressKey(DIK_S)) {
+			camera_->MoveVector({ 0.0f,-1.0f,0.0f });
+		}
+		if (Input::GetInstance()->PressKey(DIK_D)) {
+			camera_->MoveVector({ +1.0f,0.0f,0.0f });
+		}
+		else if (Input::GetInstance()->PressKey(DIK_A)) {
+			camera_->MoveVector({ -1.0f,0.0f,0.0f });
+		}
+		camera_->Update();
+	}
 
 	light_->Update();
 
 	skydomeObj_->Update();
 	planeObj_->Update();
 
+	//object1->Update();
+	object2->Update();
+
 	sprite_->Update();
 
-	if (particleNum_ >= 100) {
-		particleNum_ = 0;
-	}
+	//if (particleNum_ >= 100) {
+	//	particleNum_ = 0;
+	//}
 
-	particleNum_++;
+	//particleNum_++;
 
-	for (int i = 0; i < 100; i++) {
+	//for (int i = 0; i < 100; i++) {
 
-		if (i == particleNum_) {
-			particleManager_->Config(10.0f, 0.1f, 0.001f, 1.0f, 256.0f);
-		}
-	}
+	//	if (i == particleNum_) {
+	//		particleManager_->Config(10.0f, 0.1f, 0.001f, 1.0f, 256.0f);
+	//	}
+	//}
 
-	particleManager_->Update();
+	//particleManager_->Update();
 
 	if (input_->TriggerKey(DIK_RETURN)) {
 		//シーンの切り替えを依頼
@@ -89,29 +138,34 @@ void TitleScene::Update(){
 }
 
 void TitleScene::Draw(){
-	// パーティクル描画前処理
-	ParticleManager::PreDraw(dxBas_->GetCommandList().Get());
+	//FBX描画
+	//object1->Draw(dxBas_->GetCommandList().Get());
+	object2->Draw(dxBas_->GetCommandList().Get());
 
-	// パーティクルの描画
-	particleManager_->Draw();
 
-	// パーティクル描画後処理
-	ParticleManager::PostDraw();
+	//// パーティクル描画前処理
+	//ParticleManager::PreDraw(dxBas_->GetCommandList().Get());
+
+	//// パーティクルの描画
+	//particleManager_->Draw();
+
+	//// パーティクル描画後処理
+	//ParticleManager::PostDraw();
 
 	//モデル本命処理
-	Object3d::PreDraw(dxBas_->GetCommandList().Get());
+	//Object3d::PreDraw(dxBas_->GetCommandList().Get());
 
-	skydomeObj_->Draw();
-	planeObj_->Draw();
+	//skydomeObj_->Draw();
+	//planeObj_->Draw();
 
-	Object3d::PostDraw();
+	//Object3d::PostDraw();
 
 	//スプライト本命処理
-	drawBas_->PreDraw();
+	//drawBas_->PreDraw();
 
-	sprite_->Draw();
+	//sprite_->Draw();
 
-	drawBas_->PostDraw();
+	//drawBas_->PostDraw();
 }
 
 void TitleScene::Finalize(){
@@ -120,8 +174,15 @@ void TitleScene::Finalize(){
 	SafeDelete(planeModel_);
 	SafeDelete(skydomeModel_);
 	SafeDelete(sprite_);
-	SafeDelete(particleManager_);
+	//SafeDelete(particleManager_);
 
 	SafeDelete(light_);
 	SafeDelete(camera_);
+
+	//SafeDelete(object1);
+	SafeDelete(model1);
+
+	SafeDelete(object2);
+	SafeDelete(model2);
+
 }

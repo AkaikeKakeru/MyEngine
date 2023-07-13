@@ -8,7 +8,7 @@
 #include <vector>
 #include "MyMath.h"
 #include "WinApp.h"
-#include "Model.h"
+#include "ObjectModel.h"
 
 #include "BaseCollider.h"
 #include "CollisionManager.h"
@@ -38,7 +38,7 @@ void Object3d::StaticInitialize(ID3D12Device* device) {
 	// パイプライン初期化
 	InitializeGraphicsPipeline();
 
-	Model::StaticInitialize(device);
+	ObjectModel::StaticInitialize(device);
 }
 
 void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList) {
