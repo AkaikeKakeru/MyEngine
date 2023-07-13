@@ -122,11 +122,11 @@ public://アクセス
 	//テクスチャ番号をセット
 	void SetTextureIndex(uint32_t textureIndex) { textureIndex_ = textureIndex; }
 
-private://定数
+protected://定数
 	//頂点数
 	static const int kVerticesNum = 4;
 
-private://メンバ変数
+protected://メンバ変数
 	//ワールド変換
 	WorldTransform worldTransform_;
 	//上下左右
