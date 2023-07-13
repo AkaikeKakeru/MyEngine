@@ -1,6 +1,6 @@
 ﻿#include "Framework.h"
 #include "Object3d.h"
-#include "DrawBasis.h"
+#include "SpriteBasis.h"
 #include "ParticleManager.h"
 #include "TitleScene.h"
 #include <imgui.h>
@@ -63,14 +63,24 @@ void Framework::Initialize(){
 	Object3d::StaticInitialize(dxBas_->GetDevice().Get());
 
 	//描画基盤(スプライト)
-	DrawBasis::GetInstance();
-	DrawBasis::Initialize();
+	SpriteBasis* spriteBas = SpriteBasis::GetInstance();
+	spriteBas->Initialize();
+	spriteBas->LoadTexture(0, "texture.png");
+	spriteBas->LoadTexture(1, "texture.png");
 
 	//パーティクル
 	ParticleManager::StaticInitialize(dxBas_->GetDevice().Get());
 
 	//ライト静的初期化
 	LightGroup::StaticInitialize(dxBas_->GetDevice().Get());
+
+	//ポストエフェクト用テクスチャ読み込み
+	spriteBas->LoadTexture(100, "title.png");
+
+	//ポストエフェクトの初期化
+	postEffect_ = new PostEffect();
+	postEffect_->Initialize(100);
+	postEffect_->Update();
 }
 
 void Framework::Update(){
@@ -93,6 +103,7 @@ void Framework::Finalize(){
 
 	imGuiManager_->Finalize();
 	sceneManager_->Finalize();
+	delete postEffect_;
 	delete sceneFactory_;
 
 	FbxLoader::GetInstance()->Finalize();

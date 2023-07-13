@@ -6,7 +6,7 @@
 #include <string>
 #include <array>
 
-class DrawBasis {
+class SpriteBasis {
 private://省略
 	template <class T>
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -115,14 +115,23 @@ public://ゲッタ
 	ComPtr<ID3D12GraphicsCommandList> GetCommandList() { return cmdList_; }
 	ID3D12Resource* GetTextureBuffer(uint32_t index) const { return texBuffs_[index].Get(); }
 
+	//ルートシグネイチャ
+	ComPtr<ID3D12RootSignature> GetRootSignature() {
+		return rootSignature_;
+	};
+	//パイプラインステート
+	ComPtr<ID3D12PipelineState> GetPipelineState() {
+		return pipelineState_;
+	};
+
 private:
-	DrawBasis() = default;
-	~DrawBasis() = default;
+	SpriteBasis() = default;
+	~SpriteBasis() = default;
 	//コピーコンストラクタを無効
-	DrawBasis(const DrawBasis&) = delete;
+	SpriteBasis(const SpriteBasis&) = delete;
 	//代入演算子を無効
-	const DrawBasis& operator=(const DrawBasis&) = delete;
+	const SpriteBasis& operator=(const SpriteBasis&) = delete;
 
 public://static
-	static DrawBasis* GetInstance();
+	static SpriteBasis* GetInstance();
 };

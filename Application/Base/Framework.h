@@ -6,6 +6,7 @@
 #include "ImGuiManager.h"
 #include "SceneManager.h"
 #include "AbstractSceneFactory.h"
+#include "PostEffect.h"
 
 class Framework {
 public:
@@ -16,11 +17,22 @@ public:
 	virtual void Draw() = 0;
 	virtual void Finalize();
 
-	virtual bool IsEndRequest() { return isEndRequest_; }
+	virtual bool IsEndRequest() {
+		return isEndRequest_; 
+	}
 
-	WinApp* GetWinApp()const { return winApp_; }
-	DirectXBasis* GetDirectXBasis()const { return dxBas_; }
-	Input* GetInput()const { return input_; }
+	WinApp* GetWinApp()const {
+		return winApp_;
+	}
+	DirectXBasis* GetDirectXBasis()const {
+		return dxBas_; 
+	}
+	Input* GetInput()const {
+		return input_; 
+	}
+	PostEffect* GetPostEffect()const {
+		return postEffect_;
+	}
 
 	static SceneManager* GetSceneManager(){ return sceneManager_; }
 
@@ -45,6 +57,10 @@ private:
 
 	//ImGuiマネージャー
 	ImGuiManager* imGuiManager_ = nullptr;
+
+	//ポストエフェクト
+	PostEffect* postEffect_ = nullptr;
+
 public:
 	//シーンファクトリ―
 	AbstractSceneFactory* sceneFactory_ = nullptr;
