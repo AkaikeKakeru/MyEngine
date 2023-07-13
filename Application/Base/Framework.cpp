@@ -63,14 +63,22 @@ void Framework::Initialize(){
 	Object3d::StaticInitialize(dxBas_->GetDevice().Get());
 
 	//描画基盤(スプライト)
-	DrawBasis::GetInstance();
-	DrawBasis::Initialize();
+	DrawBasis* drawBas = DrawBasis::GetInstance();
+	drawBas->Initialize();
 
 	//パーティクル
 	ParticleManager::StaticInitialize(dxBas_->GetDevice().Get());
 
 	//ライト静的初期化
 	LightGroup::StaticInitialize(dxBas_->GetDevice().Get());
+
+	//ポストエフェクト用テクスチャ読み込み
+	drawBas->LoadTexture(0, "title.png");
+
+	//ポストエフェクトの初期化
+	postEffect_ = new PostEffect();
+	postEffect_->Initialize(0);
+	postEffect_->Update();
 }
 
 void Framework::Update(){
@@ -93,6 +101,7 @@ void Framework::Finalize(){
 
 	imGuiManager_->Finalize();
 	sceneManager_->Finalize();
+	delete postEffect_;
 	delete sceneFactory_;
 
 	FbxLoader::GetInstance()->Finalize();
