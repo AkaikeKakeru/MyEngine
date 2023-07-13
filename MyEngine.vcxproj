@@ -204,6 +204,7 @@
     <ClCompile Include="Engine\ConstBuffer\ViewProjection.cpp" />
     <ClCompile Include="Application\Base\WinApp.cpp" />
     <ClCompile Include="Engine\ConstBuffer\WorldTransform.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Function\Collider\BaseCollider.h" />
@@ -220,6 +221,7 @@
     <ClInclude Include="Application\Game\Scene\Manager\BaseScene.h" />
     <ClInclude Include="Application\Math\MyMath.h" />
     <ClInclude Include="Application\Math\Quaternion.h" />
+    <ClInclude Include="Engine\2d\PostEffect.h" />
     <ClInclude Include="Engine\3d\Fbx\FbxLoader.h" />
     <ClInclude Include="Engine\3d\Fbx\FbxModel.h" />
     <ClInclude Include="Engine\3d\Fbx\FbxObject3d.h" />
