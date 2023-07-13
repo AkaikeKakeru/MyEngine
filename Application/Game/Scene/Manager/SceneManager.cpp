@@ -27,7 +27,7 @@ void SceneManager::Update(){
 }
 
 void SceneManager::Draw(){
-	scene_->Draw();
+	//scene_->Draw();
 	ImGuiManager::GetInstance()->Draw();
 }
 
