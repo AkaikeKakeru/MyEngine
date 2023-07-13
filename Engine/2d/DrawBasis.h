@@ -115,6 +115,15 @@ public://ゲッタ
 	ComPtr<ID3D12GraphicsCommandList> GetCommandList() { return cmdList_; }
 	ID3D12Resource* GetTextureBuffer(uint32_t index) const { return texBuffs_[index].Get(); }
 
+	//ルートシグネイチャ
+	ComPtr<ID3D12RootSignature> GetRootSignature() {
+		return rootSignature_;
+	};
+	//パイプラインステート
+	ComPtr<ID3D12PipelineState> GetPipelineState() {
+		return pipelineState_;
+	};
+
 private:
 	DrawBasis() = default;
 	~DrawBasis() = default;
