@@ -4,7 +4,7 @@ class PostEffect :
     public Sprite {
 public://メンバ関数
     //描画コマンド実行
-    void Draw(ID3D12GraphicsCommandList* cmdList);
+    void Draw();
 public://コンストラクタ
     PostEffect();
 };
