@@ -51,11 +51,11 @@ void ObjectModel::LoadFromOBJInternal(const std::string& modelname, bool smoothi
 	//ファイルストリーム
 	std::ifstream file;
 	//モデル名
-	const string filename = modelname + ".obj"; // "modelname.obj"
+	const string filenameModel = modelname + ".obj"; // "modelname.obj"
 	const string directoryPath = Directory_ + modelname + "/"; // "Resources/modelname/"
 
 															   //objファイルを開く
-	file.open(directoryPath + filename);
+	file.open(directoryPath + filenameModel);
 
 	//ファイルオープンの失敗を確認
 	assert(!file.fail());
@@ -65,7 +65,7 @@ void ObjectModel::LoadFromOBJInternal(const std::string& modelname, bool smoothi
 	// メッシュ生成
 	ObjectMesh* mesh = new ObjectMesh;
 	int indexCountTex = 0;
-	int indexCountNoTex = 0;
+	//int indexCountNoTex = 0;
 
 	vector<Vector3>positions;//頂点座標
 	vector<Vector3>normals;//法線ベクトル
@@ -83,10 +83,10 @@ void ObjectModel::LoadFromOBJInternal(const std::string& modelname, bool smoothi
 		//マテリアル
 		if (key == "mtllib") {
 			// マテリアルのファイル名読み込み
-			string filename;
-			line_stream >> filename;
+			string filenameMaterial;
+			line_stream >> filenameMaterial;
 			// マテリアル読み込み
-			LoadMaterial(directoryPath, filename);
+			LoadMaterial(directoryPath, filenameMaterial);
 		}
 		// 先頭文字列がgならグループの開始
 		if (key == "g") {
@@ -177,12 +177,12 @@ void ObjectModel::LoadFromOBJInternal(const std::string& modelname, bool smoothi
 				if (faceIndexCount >= 3) {
 					// 四角形ポリゴンの4点目なので、
 					// 四角形の0,1,2,3の内 2,3,0で三角形を構築する
-					mesh->AddIndex(indexCountTex - 1);
-					mesh->AddIndex(indexCountTex);
-					mesh->AddIndex(indexCountTex - 3);
+					mesh->AddIndex(static_cast<unsigned short>(indexCountTex - 1));
+					mesh->AddIndex(static_cast<unsigned short>(indexCountTex));
+					mesh->AddIndex(static_cast<unsigned short>(indexCountTex - 3));
 				}
 				else {
-					mesh->AddIndex(indexCountTex);
+					mesh->AddIndex(static_cast<unsigned short>(indexCountTex));
 				}
 				indexCountTex++;
 				faceIndexCount++;

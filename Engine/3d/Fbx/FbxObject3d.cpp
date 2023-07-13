@@ -167,10 +167,10 @@ void FbxObject3d::CreateGraphicsPipeline() {
 	rootParams[rootParam_worldTransform].Descriptor.RegisterSpace = 0;						//デフォルト値
 	rootParams[rootParam_worldTransform].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
 	//定数バッファ1番
-	rootParams[rootParam_viewProjection].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
-	rootParams[rootParam_viewProjection].Descriptor.ShaderRegister = 1;					//定数バッファ番号
-	rootParams[rootParam_viewProjection].Descriptor.RegisterSpace = 0;						//デフォルト値
-	rootParams[rootParam_viewProjection].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
+	rootParams[rootParam_material].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
+	rootParams[rootParam_material].Descriptor.ShaderRegister = 1;					//定数バッファ番号
+	rootParams[rootParam_material].Descriptor.RegisterSpace = 0;						//デフォルト値
+	rootParams[rootParam_material].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
 	//テクスチャレジスタ0番
 	rootParams[rootParam_texture].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
 	rootParams[rootParam_texture].DescriptorTable.pDescriptorRanges = &descriptorRange;			//デスクリプタレンジ
@@ -258,6 +258,17 @@ void FbxObject3d::Initialize() {
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuffSkin_));
+
+	//iフレーム分の時間を60fpsで設定
+	frameTime_.SetTime(0, 0, 0, 1, 0, FbxTime::EMode::eFrames60);
+
+	ConstBufferDataSkin* constMapSkin = nullptr;
+	
+	result = constBuffSkin_->Map(0, nullptr, (void**)&constMapSkin);
+	for (int i = 0; i < MAX_BONES; i++) {
+		constMapSkin->bones[i] = Matrix4Identity();
+	}
+	constBuffSkin_->Unmap(0, nullptr);
 }
 
 void FbxObject3d::Update() {
@@ -270,6 +281,20 @@ void FbxObject3d::Update() {
 	//ボーン配列
 	std::vector<FbxModel::Bone>& bones = model_->GetBones();
 
+
+	//アニメーション
+	if (isPlay_) {
+		//1フレーム進める
+		currentTime_ += frameTime_;
+		//最後まで再生したら先頭に戻す
+		if (currentTime_ > endTime_) {
+			currentTime_ = startTime_;
+		}
+	}
+	else {
+		PlayAnimation();
+	}
+
 	//定数バッファへデータ転送
 	ConstBufferDataSkin* constMapSkin = nullptr;
 	result = constBuffSkin_->Map(0, nullptr, (void**)&constMapSkin);
@@ -279,7 +304,7 @@ void FbxObject3d::Update() {
 		//今の姿勢行列を取得
 		FbxAMatrix fbxCurrentPose =
 			bones[i].fbxCluster_->GetLink()->
-			EvaluateGlobalTransform(0);
+			EvaluateGlobalTransform(currentTime_);
 		//Matrix4に変換
 		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
 		//合成してスキニング行列に
@@ -331,4 +356,24 @@ void FbxObject3d::TransferMatrixWorld() {
 	worldTransform_.constMap_->viewproj_ = matViewProjection;
 	worldTransform_.constMap_->world_ = modelTransform * worldTransform_.matWorld_;
 	worldTransform_.constMap_->cameraPos_ = cameraPos;
+}
+
+void FbxObject3d::PlayAnimation() {
+	FbxScene* fbxScene = model_->GetFbxScene();
+
+	//0番のアニメーション取得
+	FbxAnimStack* animstack = fbxScene->GetSrcObject<FbxAnimStack>(0);
+	//アニメーションの名前取得
+	const char* animstackname = animstack->GetName();
+	//アニメーションの時間情報
+	FbxTakeInfo* takeinfo = fbxScene->GetTakeInfo(animstackname);
+
+	//開始時間取得
+	startTime_ = takeinfo->mLocalTimeSpan.GetStart();
+	//終了時間取得
+	endTime_ = takeinfo->mLocalTimeSpan.GetStop();
+	//開始時間に合わせる
+	currentTime_ = startTime_;
+	//再生中状態にする
+	isPlay_ = true;
 }

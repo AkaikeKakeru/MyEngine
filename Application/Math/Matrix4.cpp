@@ -164,7 +164,7 @@ Matrix4 Matrix4Inverse(const Matrix4& m) {
 
 			if (focus != max_i) {
 				for (j = 0; j < LineNum * 2; j++) {
-					float tmp = sweep[max_i][j];
+					float tmp = static_cast<float>(sweep[max_i][j]);
 					sweep[max_i][j] = sweep[focus][j];
 					sweep[focus][j] = tmp;
 				}
