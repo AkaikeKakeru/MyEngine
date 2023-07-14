@@ -1,4 +1,12 @@
 ﻿#include "PostEffect.h"
+#include <cassert> 
+
+void PostEffect::Initialize() {
+	HRESULT result;
+
+	//スプライト初期化
+	Sprite::Initialize();
+}
 
 void PostEffect::Draw() {
 	//非表示
