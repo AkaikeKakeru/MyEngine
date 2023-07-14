@@ -34,8 +34,30 @@ void PostEffect::Initialize() {
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 		nullptr,
 		IID_PPV_ARGS(&texBuff_));
-
 	assert(SUCCEEDED(result));
+
+	{//テクスチャを赤でクリア
+		//画素数(1200 * 720 = 921600ピクセル)
+		const UINT pixcelCount =
+			WinApp::Win_Width * WinApp::Win_Height;
+		//画像1行分のデータサイズ
+		const UINT rowPitch =
+			sizeof(UINT) * WinApp::Win_Width;
+		//画像全体のデータサイズ
+		const UINT depthPitch = rowPitch * WinApp::Win_Height;
+		//画像イメージ
+		UINT* img = new UINT[pixcelCount];
+		for (int i = 0; i < pixcelCount; i++) {
+			img[i] = 0xff0000ff;
+		}
+
+		//テクスチャバッファにデータ転送
+		result = texBuff_->WriteToSubresource(
+			0, nullptr, 
+			img, rowPitch, depthPitch );
+		assert(SUCCEEDED(result));
+		delete[] img;
+	}
 }
 
 void PostEffect::Draw() {
