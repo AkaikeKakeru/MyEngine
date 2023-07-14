@@ -33,7 +33,8 @@ void PostEffect::Initialize() {
 		&texResDesc,
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 		nullptr,
-		IID_PPV_ARGS(&texBuff_));
+		IID_PPV_ARGS(&texBuff_)
+	);
 	assert(SUCCEEDED(result));
 
 	{//テクスチャを赤でクリア
@@ -67,8 +68,22 @@ void PostEffect::Initialize() {
 	//SRV用デスクリプタヒープを生成
 	result = device_->CreateDescriptorHeap(
 		&srvDescHeapDesxc,
-		IID_PPV_ARGS(&descHeapSRV_));
+		IID_PPV_ARGS(&descHeapSRV_)
+	);
 	assert(SUCCEEDED(result));
+
+	//SRV設定
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = 1;
+	//デスクリプタヒープにSRV作成
+	device_->CreateShaderResourceView(
+		texBuff_.Get(),
+		&srvDesc,
+		descHeapSRV_->GetCPUDescriptorHandleForHeapStart()
+	);
 }
 
 void PostEffect::Draw() {
