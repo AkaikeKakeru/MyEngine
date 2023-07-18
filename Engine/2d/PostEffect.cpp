@@ -61,13 +61,13 @@ void PostEffect::Initialize(uint32_t textureIndex) {
 	}
 
 	//SRV用デスクリプタヒープ設定
-	D3D12_DESCRIPTOR_HEAP_DESC srvDescHeapDesxc = {};
-	srvDescHeapDesxc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	srvDescHeapDesxc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	srvDescHeapDesxc.NumDescriptors = 1;
+	D3D12_DESCRIPTOR_HEAP_DESC srvDescHeapDesc = {};
+	srvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	srvDescHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	srvDescHeapDesc.NumDescriptors = 1;
 	//SRV用デスクリプタヒープを生成
 	result = device_->CreateDescriptorHeap(
-		&srvDescHeapDesxc,
+		&srvDescHeapDesc,
 		IID_PPV_ARGS(&descHeapSRV_)
 	);
 	assert(SUCCEEDED(result));
