@@ -12,20 +12,22 @@ public://メンバ関数
 	//描画コマンド実行
 	void Draw();
 
+	//テクスチャ描画事前処理
 	void PreDraw();
+	//テクスチャセットコマンド
 	void TextureCommand();
 
 private://メンバ変数
 	//テクスチャバッファ
 	ComPtr<ID3D12Resource> texBuff_;
-	//SRV用デスクリプタヒープ
+	//シェーダーリソースビュー用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV_;
 
 	//深度バッファ
 	ComPtr<ID3D12Resource> depthBuff_;
 	//レンダ―ターゲットビュー用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapRTV_;
-	//深度ステンシル用デスクリプタ―ヒープ
+	//深度ステンシル用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapDSV_;
 
 public://コンストラクタ
