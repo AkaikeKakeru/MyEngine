@@ -3,11 +3,11 @@
 #include <cassert> 
 #include <d3dx12.h>
 
-void PostEffect::Initialize() {
+void PostEffect::Initialize(uint32_t textureIndex) {
 	HRESULT result = 0;
 
 	//スプライト初期化
-	Sprite::Initialize();
+	Sprite::Initialize(textureIndex);
 
 	//テクスチャバッファヒープ設定
 	D3D12_HEAP_PROPERTIES texHeapProp{};
@@ -19,12 +19,12 @@ void PostEffect::Initialize() {
 	//テクスチャリソース設定
 	D3D12_RESOURCE_DESC texResDesc{};
 	texResDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	texResDesc.Width = WinApp::Win_Width;
+	texResDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
+		texResDesc.Width = WinApp::Win_Width;
 	texResDesc.Height = (UINT)WinApp::Win_Height;
 	texResDesc.DepthOrArraySize = 1;
 	texResDesc.MipLevels = 0;
 	texResDesc.SampleDesc.Count = 1;
-	texResDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//テクスチャバッファ生成
 	result = device_->CreateCommittedResource(
@@ -54,8 +54,8 @@ void PostEffect::Initialize() {
 
 		//テクスチャバッファにデータ転送
 		result = texBuff_->WriteToSubresource(
-			0, nullptr, 
-			img, rowPitch, depthPitch );
+			0, nullptr,
+			img, rowPitch, depthPitch);
 		assert(SUCCEEDED(result));
 		delete[] img;
 	}
@@ -92,11 +92,10 @@ void PostEffect::Draw() {
 		return;
 	}
 
-	//描画前処理
-	spriteBas_->PreDraw();
+	//描画前処理//
+	PreDraw();
 
-	//描画用テクスチャコマンド
-	spriteBas_->SetTextureCommand(textureIndex_);
+	//描画処理//
 
 	//頂点バッファビューの設定コマンド
 	cmdList_->IASetVertexBuffers(0, 1, &vbView_);
@@ -104,11 +103,36 @@ void PostEffect::Draw() {
 	//定数バッファビュー(CBV)の設定コマンド
 	cmdList_->SetGraphicsRootConstantBufferView(0, constBuffMaterial_->GetGPUVirtualAddress());
 
+	//グラフィックスルートデスクリプタテーブルの設定コマンド
+	TextureCommand();
+
 	//定数バッファビュー(CBV)の設定コマンド
 	cmdList_->SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
 
 	//インスタンス描画
 	cmdList_->DrawInstanced(kVerticesNum, 1, 0, 0);
+}
+
+void PostEffect::PreDraw() {
+	//パイプラインステートとルートシグネイチャの設定コマンド
+	cmdList_->SetPipelineState(spriteBas_->GetPipelineState().Get());
+	cmdList_->SetGraphicsRootSignature(spriteBas_->GetRootSignature().Get());
+
+	//プリミティブ形状の設定コマンド
+	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);//三角形ストリップ								   //デスクリプタヒープの配列をセットするコマンド
+
+	//デスクリプタヒープ設定コマンド
+	ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV_.Get() };
+	cmdList_->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+}
+
+void PostEffect::TextureCommand() {
+	//SRVヒープの先頭ハンドルを取得
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle =
+		descHeapSRV_->GetGPUDescriptorHandleForHeapStart();
+
+	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
+	cmdList_->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 }
 
 PostEffect::PostEffect()
