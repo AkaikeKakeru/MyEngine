@@ -21,6 +21,13 @@ private://メンバ変数
 	//SRV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV_;
 
+	//深度バッファ
+	ComPtr<ID3D12Resource> depthBuff_;
+	//レンダ―ターゲットビュー用デスクリプタヒープ
+	ComPtr<ID3D12DescriptorHeap> descHeapRTV_;
+	//深度ステンシル用デスクリプタ―ヒープ
+	ComPtr<ID3D12DescriptorHeap> descHeapDSV_;
+
 public://コンストラクタ
 	PostEffect();
 };
