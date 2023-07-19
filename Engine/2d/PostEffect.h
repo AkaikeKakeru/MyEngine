@@ -9,7 +9,7 @@ private://省略
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 public://構造体
-	  //定数バッファ用データ構造体(マテリアル)
+	 //定数バッファ用データ構造体(マテリアル)
 	typedef struct ConstBufferDataMaterial {
 		Vector4 color_ = { 0,0,0,0 };//色(RGBA)
 	}ConstBufferDataMaterial;
@@ -93,6 +93,9 @@ public://メンバ関数
 	//ワールド行列再計算
 	void ReCalcMatWorld();
 
+	//パイプライン生成
+	void CreateGraphicsPipeLineState();
+
 	//テクスチャ描画事前処理
 	void PreDraw();
 	//テクスチャセットコマンド
@@ -150,6 +153,11 @@ private://メンバ変数
 	ComPtr<ID3D12Resource> constBuffTransform_;
 	//定数バッファマテリアルマップ
 	ConstBufferDataTransform* constMapTransform_ = nullptr;
+
+	//グラフィックスパイプライン
+	ComPtr<ID3D12PipelineState> pipeLineState_;
+	//ルートシグネチャ
+	ComPtr<ID3D12RootSignature> rootSignature_;
 
 	//テクスチャバッファ
 	ComPtr<ID3D12Resource> texBuff_;

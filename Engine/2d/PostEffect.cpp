@@ -1,6 +1,9 @@
 ﻿#include "PostEffect.h"
 #include "WinApp.h"
+#include <d3dcompiler.h>
 #include <cassert> 
+
+#pragma comment(lib,"d3dcompiler.lib")
 
 template <class T>
 using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -50,6 +53,9 @@ void PostEffect::Initialize() {
 		CreateVertexBufferView();
 		GenerateConstBuffer();
 	}
+
+	//パイプライン生成
+	CreateGraphicsPipeLineState();
 
 	//テクスチャバッファ生成
 	GenerateTextureBuffer();
@@ -281,6 +287,9 @@ void PostEffect::ReCalcMatWorld() {
 				texture_.worldTransform_.position_.x,
 				texture_.worldTransform_.position_.y,
 				0.0f));
+}
+
+void PostEffect::CreateGraphicsPipeLineState() {
 }
 
 void PostEffect::PreDraw() {
