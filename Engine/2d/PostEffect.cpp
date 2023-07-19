@@ -1,7 +1,9 @@
 ﻿#include "PostEffect.h"
 #include "WinApp.h"
 #include <cassert> 
-#include <MyMath.h>
+
+template <class T>
+using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 //静的メンバ変数の実体//
 
@@ -13,39 +15,39 @@ const float PostEffect::clearColor_[4] = {
 	0.0f//A
 };//緑っぽい色
 
-void PostEffect::Initialize(uint32_t textureIndex) {
-	device_ = spriteBas_->GetDevice();
-	cmdList_ = spriteBas_->GetCommandList();
+void PostEffect::Initialize() {
+	//デバイス
+	device_ = SpriteBasis::GetInstance()->GetDevice();
+	//コマンドリスト
+	cmdList_ = SpriteBasis::GetInstance()->GetCommandList();
 
 	//スプライト初期化
 	{
-		//テクスチャサイズをイメージに合わせる
-		if (textureIndex != UINT32_MAX) {
-			textureIndex_ = textureIndex;
-			AdjustTextureSize();
-			//テクスチャサイズをスプライトのサイズに適用
-			size_ = textureSize_;
-		}
-		anchorPoint_ = { 0.5f,0.5f };
-
-		worldTransform_.scale = { 1,1,1 };
-		worldTransform_.rotation = ConvertToRadian(0.0f);
-		worldTransform_.position = { 
+		texture_.size_ = {
 			WinApp::Win_Width / 2.0f,
 			WinApp::Win_Height / 2.0f
 		};
-		worldTransform_.matWorld = Matrix4Identity();
 
-		matOrtGrapricProjection_ = Matrix4Identity();
+		texture_.anchorPoint_ = { 0.5f,0.5f };
+
+		texture_.worldTransform_.scale_ = { 1,1,1 };
+		texture_.worldTransform_.rotation_ = ConvertToRadian(0.0f);
+		texture_.worldTransform_.position_ = {
+			WinApp::Win_Width / 2.0f,
+			WinApp::Win_Height / 2.0f
+		};
+		texture_.worldTransform_.matWorld_ = Matrix4Identity();
+
+		texture_.matOrtGrapricProjection_ = Matrix4Identity();
 		//テクスチャの左上を、画面の左上角に合わせたい
 		//ポリゴンの左上を、画面中央に合わせる
-		matOrtGrapricProjection_.m[0][0] = 2.0f / WinApp::Win_Width;
-		matOrtGrapricProjection_.m[1][1] = -2.0f / WinApp::Win_Height;
+		texture_.matOrtGrapricProjection_.m[0][0] = 2.0f / WinApp::Win_Width;
+		texture_.matOrtGrapricProjection_.m[1][1] = -2.0f / WinApp::Win_Height;
 		//上の状態から、画面半分くらいの距離だけ、左上にずらす
-		matOrtGrapricProjection_.m[3][0] = -1.0f;
-		matOrtGrapricProjection_.m[3][1] = 1.0f;
+		texture_.matOrtGrapricProjection_.m[3][0] = -1.0f;
+		texture_.matOrtGrapricProjection_.m[3][1] = 1.0f;
 
-		Sprite::CreateVertexBufferView();
+		CreateVertexBufferView();
 		GenerateConstBuffer();
 	}
 
@@ -70,7 +72,7 @@ void PostEffect::Initialize(uint32_t textureIndex) {
 
 void PostEffect::Draw() {
 	//非表示
-	if (isInvisible_) {
+	if (texture_.isInvisible_) {
 		return;
 	}
 
@@ -93,6 +95,97 @@ void PostEffect::Draw() {
 
 	//インスタンス描画
 	cmdList_->DrawInstanced(kVerticesNum, 1, 0, 0);
+}
+
+void PostEffect::CreateVertexBufferView() {
+	HRESULT result;
+#pragma region 頂点データ
+	//上下左右の数値の設定
+	texture_.dir_.left = (0.0f - texture_.anchorPoint_.x) * texture_.size_.x;
+	texture_.dir_.right = (1.0f - texture_.anchorPoint_.x) * texture_.size_.x;
+	texture_.dir_.top = (0.0f - texture_.anchorPoint_.y) * texture_.size_.y;
+	texture_.dir_.bottom = (1.0f - texture_.anchorPoint_.y) * texture_.size_.y;
+
+	float leftUv = 0.0f;//左
+	float rightUv = 1.0f;//右
+	float topUv = 0.0f;//上
+	float bottomUv = 1.0f;//下
+
+	//左右反転
+	if (texture_.isFlipX_) {
+		texture_.dir_.left = -texture_.dir_.left;
+		texture_.dir_.right = -texture_.dir_.right;
+	}
+	//上下反転
+	if (texture_.isFlipY_) {
+		texture_.dir_.top = -texture_.dir_.top;
+		texture_.dir_.bottom = -texture_.dir_.bottom;
+	}
+
+	//頂点データを設定
+	vertices_[LeftBottom].pos = Vector3(texture_.dir_.left, texture_.dir_.bottom, 0);
+	vertices_[LeftTop].pos = Vector3(texture_.dir_.left, texture_.dir_.top, 0);
+	vertices_[RightBottom].pos = Vector3(texture_.dir_.right, texture_.dir_.bottom, 0);
+	vertices_[RightTop].pos = Vector3(texture_.dir_.right, texture_.dir_.top, 0);
+
+	vertices_[LeftBottom].uv = Vector2(leftUv, bottomUv);
+	vertices_[LeftTop].uv = Vector2(leftUv, topUv);
+	vertices_[RightBottom].uv = Vector2(rightUv, bottomUv);
+	vertices_[RightTop].uv = Vector2(rightUv, topUv);
+
+	//頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
+	UINT sizeVB = static_cast<UINT>(sizeof(vertices_[0]) * _countof(vertices_));
+#pragma endregion
+
+#pragma region 頂点バッファ設定
+	//頂点バッファの設定
+	D3D12_HEAP_PROPERTIES vbHeapProp{};
+	vbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
+	//リソース設定
+	D3D12_RESOURCE_DESC vbResDesc{};
+	vbResDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	vbResDesc.Width = sizeVB;
+	vbResDesc.Height = 1;
+	vbResDesc.DepthOrArraySize = 1;
+	vbResDesc.MipLevels = 1;
+	vbResDesc.SampleDesc.Count = 1;
+	vbResDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+#pragma endregion
+
+#pragma region 頂点バッファ生成
+	//頂点バッファの生成
+	result = device_->CreateCommittedResource(
+		&vbHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&vbResDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&vertBuff_));
+	assert(SUCCEEDED(result));
+#pragma endregion
+
+#pragma region 頂点バッファへ転送
+	//GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap_);
+	assert(SUCCEEDED(result));
+	//全頂点に対して
+	//座標をコピー
+	std::copy(std::begin(vertices_), std::end(vertices_), vertMap_);
+
+	//繋がりを解除
+	vertBuff_->Unmap(0, nullptr);
+#pragma endregion
+
+#pragma region 頂点バッファビュー作成
+	//頂点バッファビューの作成
+
+	//GPU仮想アドレス
+	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
+	//頂点バッファのサイズ
+	vbView_.SizeInBytes = sizeVB;
+	//頂点1つ分のデータサイズ
+	vbView_.StrideInBytes = sizeof(vertices_[0]);
+#pragma endregion
 }
 
 void PostEffect::GenerateConstBuffer() {
@@ -133,7 +226,7 @@ void PostEffect::GenerateConstMaterial() {
 	//値を書き込むと自動的に転送される
 
 	//色情報をGPUに転送
-	constMapMaterial_->color = color_;
+	constMapMaterial_->color_ = texture_.color_;
 }
 
 void PostEffect::GenerateConstTransform() {
@@ -142,7 +235,7 @@ void PostEffect::GenerateConstTransform() {
 	//定数バッファヒープ設定
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
 	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
-											 //定数バッファリソース設定
+	//定数バッファリソース設定
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
 	cbResourceDesc.Width = (sizeof(ConstBufferDataTransform) + 0xff) & ~0xff;//256バイトアライメント
@@ -171,13 +264,29 @@ void PostEffect::GenerateConstTransform() {
 	ReCalcMatWorld();
 
 	//ワールド変換行列と、平行投影変換行列を掛ける
-	constMapTransform_->mat = worldTransform_.matWorld *= matOrtGrapricProjection_;
+	constMapTransform_->mat_ =
+		texture_.worldTransform_.matWorld_ *=
+		texture_.matOrtGrapricProjection_;
+}
+
+void PostEffect::ReCalcMatWorld() {
+	texture_.worldTransform_.matWorld_ = Matrix4Identity();
+
+	texture_.worldTransform_.matWorld_ *=
+		Matrix4RotationZ(texture_.worldTransform_.rotation_);
+
+	texture_.worldTransform_.matWorld_ *=
+		Matrix4Translation(
+			Vector3(
+				texture_.worldTransform_.position_.x,
+				texture_.worldTransform_.position_.y,
+				0.0f));
 }
 
 void PostEffect::PreDraw() {
 	//パイプラインステートとルートシグネイチャの設定コマンド
-	cmdList_->SetPipelineState(spriteBas_->GetPipelineState().Get());
-	cmdList_->SetGraphicsRootSignature(spriteBas_->GetRootSignature().Get());
+	cmdList_->SetPipelineState(SpriteBasis::GetInstance()->GetPipelineState().Get());
+	cmdList_->SetGraphicsRootSignature(SpriteBasis::GetInstance()->GetRootSignature().Get());
 
 	//プリミティブ形状の設定コマンド
 	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);//三角形ストリップ								   //デスクリプタヒープの配列をセットするコマンド
@@ -436,13 +545,5 @@ void PostEffect::CreateDSV() {
 	);
 }
 
-PostEffect::PostEffect()
-	:Sprite(
-		100,
-		{ 0, 0 },
-		{ 500.0f, 500.0f },
-		{ 1,1,1,1 },
-		{ 0.5f, 0.5f },
-		false,
-		false) {
+PostEffect::PostEffect() {
 }
