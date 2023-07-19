@@ -26,10 +26,14 @@ void PostEffect::Initialize(uint32_t textureIndex) {
 			//テクスチャサイズをスプライトのサイズに適用
 			size_ = textureSize_;
 		}
+		anchorPoint_ = { 0.5f,0.5f };
 
 		worldTransform_.scale = { 1,1,1 };
 		worldTransform_.rotation = ConvertToRadian(0.0f);
-		worldTransform_.position = { 0,0 };
+		worldTransform_.position = { 
+			WinApp::Win_Width / 2.0f,
+			WinApp::Win_Height / 2.0f
+		};
 		worldTransform_.matWorld = Matrix4Identity();
 
 		matOrtGrapricProjection_ = Matrix4Identity();
@@ -102,7 +106,7 @@ void PostEffect::GenerateConstMaterial() {
 	//定数バッファヒープ設定
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
 	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
-											 //定数バッファリソース設定
+	//定数バッファリソース設定
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
 	cbResourceDesc.Width = (sizeof(ConstBufferDataMaterial) + 0xff) & ~0xff;//256バイトアライメント
@@ -438,7 +442,7 @@ PostEffect::PostEffect()
 		{ 0, 0 },
 		{ 500.0f, 500.0f },
 		{ 1,1,1,1 },
-		{ 0.0f, 0.0f },
+		{ 0.5f, 0.5f },
 		false,
 		false) {
 }
