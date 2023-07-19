@@ -95,6 +95,18 @@ public://メンバ関数
 
 	//パイプライン生成
 	void CreateGraphicsPipeLineState();
+	//シェーダーファイルのコンパイル
+	void CompileShaderFile();
+	//頂点レイアウト組み立て
+	void AssembleVertexLayout();
+	//グラフィックスパイプライン組み立て
+	void AssembleGraphicsPipeline();
+	//ルートシグネイチャ生成
+	void GenerateRootSignature();
+	//パイプラインステート生成
+	void GeneratePipelineState();
+	//デスクリプタヒープ生成
+	void GenerateDescriptorHeap();
 
 	//テクスチャ描画事前処理
 	void PreDraw();
@@ -121,7 +133,11 @@ public://メンバ関数
 
 private:
 	//頂点数
-	static const int kVerticesNum = 4;
+	static const int kVerticesNum_ = 4;
+	//頂点レイアウトの要素数
+	static const int kInputLayoutElement_ = 2;
+	//ルートパラメータ数
+	static const int kRootParamCount_ = 3;
 
 private://静的メンバ変数
 	//画面クリアカラー
@@ -137,7 +153,7 @@ private://メンバ変数
 	ComPtr<ID3D12GraphicsCommandList> cmdList_;
 
 	//頂点データ
-	Vertex vertices_[kVerticesNum]{};
+	Vertex vertices_[kVerticesNum_]{};
 	//頂点データマップ
 	Vertex* vertMap_ = nullptr;
 	//頂点バッファ
@@ -154,10 +170,20 @@ private://メンバ変数
 	//定数バッファマテリアルマップ
 	ConstBufferDataTransform* constMapTransform_ = nullptr;
 
+	//頂点シェーダオブジェクト
+	ComPtr<ID3DBlob> vsBlob_;
+	//ピクセルシェーダオブジェクト
+	ComPtr<ID3DBlob> psBlob_;
+	//エラーオブジェクト
+	ComPtr<ID3DBlob> errorBlob_;
+	//頂点レイアウト
+	D3D12_INPUT_ELEMENT_DESC inputLayout_[kInputLayoutElement_];
 	//グラフィックスパイプライン
 	ComPtr<ID3D12PipelineState> pipeLineState_;
 	//ルートシグネチャ
 	ComPtr<ID3D12RootSignature> rootSignature_;
+	//グラフィックスパイプラインデスク
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipeLineDesc_;
 
 	//テクスチャバッファ
 	ComPtr<ID3D12Resource> texBuff_;
