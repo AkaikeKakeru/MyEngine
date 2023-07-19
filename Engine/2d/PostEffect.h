@@ -17,6 +17,11 @@ public://メンバ関数
 	//テクスチャセットコマンド
 	void TextureCommand();
 
+	//シーン描画前処理
+	void PreDrawScene();
+	//シーン描画後処理
+	void PostDrawScene();
+
 	//テクスチャバッファ生成
 	void GenerateTextureBuffer();
 	//テクスチャバッファへ転送

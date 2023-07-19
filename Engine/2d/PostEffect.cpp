@@ -75,15 +75,14 @@ void PostEffect::TextureCommand() {
 	cmdList_->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 }
 
+void PostEffect::PreDrawScene() {
+}
+
+void PostEffect::PostDrawScene() {
+}
+
 void PostEffect::GenerateTextureBuffer() {
 	HRESULT result = 0;
-	//CD3DX12_RESOURCE_DESC texResDesc = 
-	//	CD3DX12_RESOURCE_DESC::Tex2D(
-	//		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
-	//		WinApp::Win_Width,
-	//		(UINT)WinApp::Win_Height,
-	//		1,0,1,0,D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET
-	//	)
 
 	//テクスチャバッファヒープ設定
 	D3D12_HEAP_PROPERTIES texHeapProp{};
