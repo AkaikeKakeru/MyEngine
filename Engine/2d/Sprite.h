@@ -8,7 +8,7 @@ private://省略
 	template <class T>
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-private://構造体
+public://構造体
 	//定数バッファ用データ構造体(マテリアル)
 	typedef struct ConstBufferDataMaterial {
 		Vector4 color;//色(RGBA)
@@ -53,7 +53,7 @@ public://基本関数
 	void Update();
 	void Draw();
 
-private://固有関数
+public://固有関数
 	//頂点バッファビュー作成
 	void CreateVertexBufferView();
 	//定数バッファ生成
