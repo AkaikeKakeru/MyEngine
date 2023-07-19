@@ -12,6 +12,13 @@ public://メンバ関数
 	//描画コマンド実行
 	void Draw();
 
+	//定数バッファ生成
+	void GenerateConstBuffer();
+	//定数バッファマテリアル生成
+	void GenerateConstMaterial();
+	//定数バッファトランスフォーム生成
+	void GenerateConstTransform();
+
 	//テクスチャ描画事前処理
 	void PreDraw();
 	//テクスチャセットコマンド

@@ -1,6 +1,7 @@
 ﻿#include "PostEffect.h"
 #include "WinApp.h"
 #include <cassert> 
+#include <MyMath.h>
 
 //静的メンバ変数の実体//
 
@@ -13,8 +14,36 @@ const float PostEffect::clearColor_[4] = {
 };//緑っぽい色
 
 void PostEffect::Initialize(uint32_t textureIndex) {
+	device_ = spriteBas_->GetDevice();
+	cmdList_ = spriteBas_->GetCommandList();
+
 	//スプライト初期化
-	Sprite::Initialize(textureIndex);
+	{
+		//テクスチャサイズをイメージに合わせる
+		if (textureIndex != UINT32_MAX) {
+			textureIndex_ = textureIndex;
+			AdjustTextureSize();
+			//テクスチャサイズをスプライトのサイズに適用
+			size_ = textureSize_;
+		}
+
+		worldTransform_.scale = { 1,1,1 };
+		worldTransform_.rotation = ConvertToRadian(0.0f);
+		worldTransform_.position = { 0,0 };
+		worldTransform_.matWorld = Matrix4Identity();
+
+		matOrtGrapricProjection_ = Matrix4Identity();
+		//テクスチャの左上を、画面の左上角に合わせたい
+		//ポリゴンの左上を、画面中央に合わせる
+		matOrtGrapricProjection_.m[0][0] = 2.0f / WinApp::Win_Width;
+		matOrtGrapricProjection_.m[1][1] = -2.0f / WinApp::Win_Height;
+		//上の状態から、画面半分くらいの距離だけ、左上にずらす
+		matOrtGrapricProjection_.m[3][0] = -1.0f;
+		matOrtGrapricProjection_.m[3][1] = 1.0f;
+
+		Sprite::CreateVertexBufferView();
+		GenerateConstBuffer();
+	}
 
 	//テクスチャバッファ生成
 	GenerateTextureBuffer();
@@ -60,6 +89,85 @@ void PostEffect::Draw() {
 
 	//インスタンス描画
 	cmdList_->DrawInstanced(kVerticesNum, 1, 0, 0);
+}
+
+void PostEffect::GenerateConstBuffer() {
+	GenerateConstMaterial();
+	GenerateConstTransform();
+}
+
+void PostEffect::GenerateConstMaterial() {
+	HRESULT result;
+
+	//定数バッファヒープ設定
+	D3D12_HEAP_PROPERTIES cbHeapProp{};
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
+											 //定数バッファリソース設定
+	D3D12_RESOURCE_DESC cbResourceDesc{};
+	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	cbResourceDesc.Width = (sizeof(ConstBufferDataMaterial) + 0xff) & ~0xff;//256バイトアライメント
+	cbResourceDesc.Height = 1;
+	cbResourceDesc.DepthOrArraySize = 1;
+	cbResourceDesc.MipLevels = 1;
+	cbResourceDesc.SampleDesc.Count = 1;
+	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	//定数バッファの生成
+	result = device_->CreateCommittedResource(
+		&cbHeapProp,//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc,//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffMaterial_));
+	assert(SUCCEEDED(result));
+
+	//定数バッファのマッピング
+	result = constBuffMaterial_->Map(0, nullptr, (void**)&constMapMaterial_);//マッピング
+	assert(SUCCEEDED(result));
+
+	//値を書き込むと自動的に転送される
+
+	//色情報をGPUに転送
+	constMapMaterial_->color = color_;
+}
+
+void PostEffect::GenerateConstTransform() {
+	HRESULT result;
+
+	//定数バッファヒープ設定
+	D3D12_HEAP_PROPERTIES cbHeapProp{};
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
+											 //定数バッファリソース設定
+	D3D12_RESOURCE_DESC cbResourceDesc{};
+	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	cbResourceDesc.Width = (sizeof(ConstBufferDataTransform) + 0xff) & ~0xff;//256バイトアライメント
+	cbResourceDesc.Height = 1;
+	cbResourceDesc.DepthOrArraySize = 1;
+	cbResourceDesc.MipLevels = 1;
+	cbResourceDesc.SampleDesc.Count = 1;
+	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	//定数バッファの生成
+	result = device_->CreateCommittedResource(
+		&cbHeapProp,//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc,//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffTransform_));
+	assert(SUCCEEDED(result));
+
+	//定数バッファのマッピング
+	result = constBuffTransform_->Map(0, nullptr, (void**)&constMapTransform_);//マッピング
+	assert(SUCCEEDED(result));
+
+	//値を書き込むと自動的に転送される
+	//ワールド行列を再計算
+	ReCalcMatWorld();
+
+	//ワールド変換行列と、平行投影変換行列を掛ける
+	constMapTransform_->mat = worldTransform_.matWorld *= matOrtGrapricProjection_;
 }
 
 void PostEffect::PreDraw() {
