@@ -57,11 +57,13 @@ void TitleScene::Initialize(){
 	planeObj_ = Object3d::Create();
 	planeObj_->SetModel(planeModel_);
 	planeObj_->SetCamera(camera_);
+	planeObj_->SetPosition({ 0,0,50.0f });
 
 	skydomeObj_ = new Object3d();
 	skydomeObj_ = Object3d::Create();
 	skydomeObj_->SetModel(skydomeModel_);
 	skydomeObj_->SetCamera(camera_);
+	skydomeObj_->SetScale({ 200.0f,200.0f,200.0f });
 
 	//ライト生成
 	light_ = new LightGroup();
@@ -149,19 +151,19 @@ void TitleScene::Draw(){
 	//ParticleManager::PostDraw();
 
 	//モデル本命処理
-	//Object3d::PreDraw(dxBas_->GetCommandList().Get());
+	Object3d::PreDraw(dxBas_->GetCommandList().Get());
 
-	//skydomeObj_->Draw();
-	//planeObj_->Draw();
+	skydomeObj_->Draw();
+	planeObj_->Draw();
 
-	//Object3d::PostDraw();
+	Object3d::PostDraw();
 
 	//スプライト本命処理
-	//drawBas_->PreDraw();
+	spriteBas_->PreDraw();
 
-	//sprite_->Draw();
+	sprite_->Draw();
 
-	//drawBas_->PostDraw();
+	spriteBas_->PostDraw();
 }
 
 void TitleScene::Finalize(){
