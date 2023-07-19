@@ -3,6 +3,16 @@
 #include <cassert> 
 #include <d3dx12.h>
 
+//静的メンバ変数の実体//
+
+//クリアカラー
+const float PostEffect::clearColor_[4] = {
+	0.25f,//R
+	0.5f,//G
+	0.1f,//B
+	0.0f//A
+};//緑っぽい色
+
 void PostEffect::Initialize(uint32_t textureIndex) {
 	//スプライト初期化
 	Sprite::Initialize(textureIndex);
@@ -90,6 +100,13 @@ void PostEffect::GenerateTextureBuffer() {
 	texHeapProp.CPUPageProperty =
 		D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
 	texHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+
+	//テクスチャバッファのクリア設定
+	D3D12_CLEAR_VALUE texClearValue{};
+	texClearValue.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	for (size_t i = 0; i < 4; i++) {
+		texClearValue.Color[i] = clearColor_[i];
+	}
 
 	//テクスチャリソース設定
 	D3D12_RESOURCE_DESC texResDesc{};

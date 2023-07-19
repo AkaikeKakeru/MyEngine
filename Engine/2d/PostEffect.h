@@ -35,6 +35,10 @@ public://メンバ関数
 	//DSV作成
 	void CreateDSV();
 
+private://静的メンバ変数
+	//画面クリアカラー
+	static const float clearColor_[4];
+
 private://メンバ変数
 	//テクスチャバッファ
 	ComPtr<ID3D12Resource> texBuff_;
