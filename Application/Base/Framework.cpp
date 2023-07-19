@@ -76,6 +76,15 @@ void Framework::Initialize(){
 
 	//ポストエフェクトの初期化
 	postEffect_ = new PostEffect();
+	postEffect_->SetPosition({
+		WinApp::Win_Width / 2,
+		WinApp::Win_Height / 2 
+		});
+	postEffect_->SetSize({
+		WinApp::Win_Width,
+		WinApp::Win_Height
+		});
+	postEffect_->SetAnchorPoint({ 0.5f,0.5f });
 	postEffect_->Initialize();
 }
 

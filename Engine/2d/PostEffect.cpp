@@ -26,21 +26,6 @@ void PostEffect::Initialize() {
 
 	//スプライト初期化
 	{
-		texture_.size_ = {
-			WinApp::Win_Width / 2.0f,
-			WinApp::Win_Height / 2.0f
-		};
-
-		texture_.anchorPoint_ = { 0.5f,0.5f };
-
-		texture_.worldTransform_.scale_ = { 1,1,1 };
-		texture_.worldTransform_.rotation_ = ConvertToRadian(0.0f);
-		texture_.worldTransform_.position_ = {
-			WinApp::Win_Width / 2.0f,
-			WinApp::Win_Height / 2.0f
-		};
-		texture_.worldTransform_.matWorld_ = Matrix4Identity();
-
 		texture_.matOrtGrapricProjection_ = Matrix4Identity();
 		//テクスチャの左上を、画面の左上角に合わせたい
 		//ポリゴンの左上を、画面中央に合わせる
@@ -796,4 +781,22 @@ void PostEffect::CreateDSV() {
 }
 
 PostEffect::PostEffect() {
+	texture_.worldTransform_.scale_ = { 1,1,1 };
+	texture_.worldTransform_.rotation_ = ConvertToRadian(0.0f);
+	SetPosition({
+		WinApp::Win_Width / 2,
+		WinApp::Win_Height / 2 
+		});
+	SetSize({
+		WinApp::Win_Width / 2,
+		WinApp::Win_Height / 2
+		});
+	SetAnchorPoint({ 0.5f,0.5f });
+	texture_.isFlipX_ = false;
+	texture_.isFlipY_ = false;
+
+	texture_.textureLeftTop_ = { 0,0 };
+	texture_.isInvisible_ = false;
+
+	texture_.worldTransform_.matWorld_ = Matrix4Identity();
 }

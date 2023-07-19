@@ -131,6 +131,41 @@ public://メンバ関数
 	//DSV作成
 	void CreateDSV();
 
+public://アクセッサ
+	//座標を取得
+	const Vector2& GetPosition() const {
+		return texture_.worldTransform_.position_;
+	}
+	//サイズを取得
+	const Vector2& GetSize() const {
+		return texture_.size_; 
+	}
+	//アンカーポイントを取得
+	const Vector2& GetAnchorPoint() const {
+		return texture_.anchorPoint_;
+	}
+	//非表示フラグを取得
+	bool GetIsInvisible() const {
+		return texture_.isInvisible_;
+	}
+
+	//座標をセット
+	void SetPosition(const Vector2& position) { 
+		texture_.worldTransform_.position_ = position;
+	}
+	//サイズをセット
+	void SetSize(const Vector2& size) {
+		texture_.size_ = size;
+	}
+	//アンカーポイントをセット
+	void SetAnchorPoint(const Vector2& anchorPoint) {
+		texture_.anchorPoint_ = anchorPoint;
+	}
+	//非表示フラグをセット
+	void SetIsInvisible(bool isInvisible) {
+		texture_.isInvisible_ = isInvisible;
+	}
+
 private:
 	//頂点数
 	static const int kVerticesNum_ = 4;
