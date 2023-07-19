@@ -86,6 +86,50 @@ void PostEffect::TextureCommand() {
 }
 
 void PostEffect::PreDrawScene() {
+	//リソースバリアデスク設定(シェーダーリソースから、描画可能状態に)
+	D3D12_RESOURCE_BARRIER barrierDesc_{};
+	barrierDesc_.Transition.pResource = texBuff_.Get();
+	barrierDesc_.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+	barrierDesc_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+
+	//リソースバリアを変更
+	cmdList_->ResourceBarrier(1, &barrierDesc_);
+
+	//レンダ―ターゲットビュー用デスクリプタヒープのハンドルを取得
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvH =
+		descHeapRTV_->GetCPUDescriptorHandleForHeapStart();
+
+	//深度ステンシルビュー用デスクリプタヒープのハンドルを取得
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvH =
+		descHeapDSV_->GetCPUDescriptorHandleForHeapStart();
+
+	//レンダ―ターゲットをセット
+	cmdList_->OMSetRenderTargets(1, &rtvH, false, &dsvH);
+
+	//ビューポートの設定
+	D3D12_VIEWPORT viewport{};
+	viewport.Width = WinApp::Win_Width;
+	viewport.Height = WinApp::Win_Height;
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
+	//ビューポート設定コマンドを、コマンドリストに積む
+	cmdList_->RSSetViewports(1, &viewport);
+
+	//シザー矩形の設定
+	D3D12_RECT scissorRect{};
+	scissorRect.left = 0;										//切り抜き座標左
+	scissorRect.right = scissorRect.left + WinApp::Win_Width;	//切り抜き座標右
+	scissorRect.top = 0;										//切り抜き座標上
+	scissorRect.bottom = scissorRect.top + WinApp::Win_Height;	//切り抜き座標下
+	//シザー矩形設定コマンドを、コマンドリストに積む
+	cmdList_->RSSetScissorRects(1, &scissorRect);
+
+	//RTVクリア
+	cmdList_->ClearRenderTargetView(rtvH, clearColor_, 0, nullptr);
+	//DSVクリア
+	cmdList_->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
 void PostEffect::PostDrawScene() {
