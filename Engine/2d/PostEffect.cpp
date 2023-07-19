@@ -87,7 +87,6 @@ void PostEffect::TextureCommand() {
 
 void PostEffect::PreDrawScene() {
 	//リソースバリアデスク設定(シェーダーリソースから、描画可能状態に)
-	D3D12_RESOURCE_BARRIER barrierDesc_{};
 	barrierDesc_.Transition.pResource = texBuff_.Get();
 	barrierDesc_.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
 	barrierDesc_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
@@ -133,6 +132,13 @@ void PostEffect::PreDrawScene() {
 }
 
 void PostEffect::PostDrawScene() {
+	//リソースバリアデスク設定(描画可能状態から、シェーダーリソースに)
+	barrierDesc_.Transition.pResource = texBuff_.Get();
+	barrierDesc_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	barrierDesc_.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+
+	//リソースバリアを変更
+	cmdList_->ResourceBarrier(1, &barrierDesc_);
 }
 
 void PostEffect::GenerateTextureBuffer() {

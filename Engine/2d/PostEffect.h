@@ -51,6 +51,9 @@ private://メンバ変数
 	ComPtr<ID3D12DescriptorHeap> descHeapRTV_;
 	//深度ステンシル用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapDSV_;
+	
+	//リソースバリアデスク
+	D3D12_RESOURCE_BARRIER barrierDesc_{};
 
 public://コンストラクタ
 	PostEffect();
