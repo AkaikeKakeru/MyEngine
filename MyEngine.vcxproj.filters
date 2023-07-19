@@ -435,6 +435,8 @@
     </FxCompile>
     <FxCompile Include="Resource\shader\FbxVS.hlsl" />
     <FxCompile Include="Resource\shader\FbxPS.hlsl" />
+    <FxCompile Include="Resource\shader\PostEffectPS.hlsl" />
+    <FxCompile Include="Resource\shader\PostEffectVS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\shader\Obj.hlsli">
@@ -444,5 +446,6 @@
       <Filter>シェーダ ファイル\Sprite</Filter>
     </None>
     <None Include="Resource\shader\Fbx.hlsli" />
+    <None Include="Resource\shader\PostEffect.hlsli" />
   </ItemGroup>
 </Project>
