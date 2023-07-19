@@ -17,6 +17,19 @@ public://メンバ関数
 	//テクスチャセットコマンド
 	void TextureCommand();
 
+	//テクスチャバッファ生成
+	void GenerateTextureBuffer();
+	//テクスチャバッファへ転送
+	void TransferTextureBuffer();
+	//SRV作成
+	void CreateSRV();
+	//RTV作成
+	void CreateRTV();
+	//深度バッファ生成
+	void GenerateDepthBuffer();
+	//DSV作成
+	void CreateDSV();
+
 private://メンバ変数
 	//テクスチャバッファ
 	ComPtr<ID3D12Resource> texBuff_;
