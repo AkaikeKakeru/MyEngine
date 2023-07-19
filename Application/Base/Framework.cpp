@@ -77,7 +77,6 @@ void Framework::Initialize(){
 	//ポストエフェクトの初期化
 	postEffect_ = new PostEffect();
 	postEffect_->Initialize();
-	postEffect_->Update();
 }
 
 void Framework::Update(){
