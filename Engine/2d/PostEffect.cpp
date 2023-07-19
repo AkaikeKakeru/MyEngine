@@ -1,7 +1,6 @@
 ﻿#include "PostEffect.h"
 #include "WinApp.h"
 #include <cassert> 
-#include <d3dx12.h>
 
 //静的メンバ変数の実体//
 
