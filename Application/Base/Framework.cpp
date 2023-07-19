@@ -74,12 +74,9 @@ void Framework::Initialize(){
 	//ライト静的初期化
 	LightGroup::StaticInitialize(dxBas_->GetDevice().Get());
 
-	//ポストエフェクト用テクスチャ読み込み
-	spriteBas->LoadTexture(100, "title.png");
-
 	//ポストエフェクトの初期化
 	postEffect_ = new PostEffect();
-	postEffect_->Initialize(100);
+	postEffect_->Initialize();
 	postEffect_->Update();
 }
 

@@ -8,7 +8,7 @@ private://省略
 
 public://メンバ関数
 	//初期化
-	void Initialize(uint32_t textureIndex);
+	void Initialize();
 	//描画コマンド実行
 	void Draw();
 
