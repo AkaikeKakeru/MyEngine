@@ -21,17 +21,19 @@ void GameMain::Update() {
 }
 
 void GameMain::Draw() {
-	//描画前処理
-	Framework::GetDirectXBasis()->PreDraw();
-
-	//ポストエフェクト描画
-	Framework::GetPostEffect()->Draw();
-
+	//シーン描画前処理
+	Framework::GetPostEffect()->PreDrawScene();
 	//シーンマネージャー取得
 	sceneManager_ = Framework::GetSceneManager();
 	//シーンマネージャーから、シーンを描画
 	sceneManager_->Draw();
+	//シーン描画前処理
+	Framework::GetPostEffect()->PostDrawScene();
 
+	//描画前処理
+	Framework::GetDirectXBasis()->PreDraw();
+	//ポストエフェクト描画
+	Framework::GetPostEffect()->Draw();
 	//描画後処理
 	Framework::GetDirectXBasis()->PostDraw();
 }
