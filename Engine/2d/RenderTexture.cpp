@@ -33,8 +33,7 @@ void RenderTexture::Initialize() {
 	//テクスチャバッファ生成
 	GenerateTextureBuffer();
 
-	//テクスチャバッファへ転送
-	TransferTextureBuffer();
+
 
 	//SRV作成
 	CreateSRV();
@@ -432,7 +431,7 @@ void RenderTexture::GenerateRootSignature() {
 	rootSignatureDesc.NumParameters = _countof(rootParams);//ルートパラメータ―数
 	rootSignatureDesc.pStaticSamplers = &samplerDesc;
 	rootSignatureDesc.NumStaticSamplers = 1;
-	
+
 	//ルートシグネチャのシリアライズ
 	ComPtr<ID3DBlob> rootSigBlob;
 
@@ -485,59 +484,72 @@ void RenderTexture::TextureCommand() {
 }
 
 void RenderTexture::PreDrawScene() {
-	//リソースバリアデスク設定(シェーダーリソースから、描画可能状態に)
-	barrierDesc_.Transition.pResource = texBuff_.Get();
-	barrierDesc_.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
-	barrierDesc_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	for (int i = 0; i < sizeof(texBuff_); i++) {
+		//リソースバリアデスク設定(シェーダーリソースから、描画可能状態に)
+		barrierDesc_.Transition.pResource = texBuff_[i].Get();
+		barrierDesc_.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+		barrierDesc_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
 
-	//リソースバリアを変更
-	cmdList_->ResourceBarrier(1, &barrierDesc_);
+		//リソースバリアを変更
+		cmdList_->ResourceBarrier(1, &barrierDesc_);
+	}
 
 	//レンダ―ターゲットビュー用デスクリプタヒープのハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvH =
-		descHeapRTV_->GetCPUDescriptorHandleForHeapStart();
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHs[2]{};
+	for (int i = 0; i < sizeof(texBuff_); i++) {
+		rtvHs[i] = descHeapRTV_->GetCPUDescriptorHandleForHeapStart();
+		UINT incrementSize_ = device_->GetDescriptorHandleIncrementSize(
+			D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	}
 
 	//深度ステンシルビュー用デスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvH =
 		descHeapDSV_->GetCPUDescriptorHandleForHeapStart();
 
 	//レンダ―ターゲットをセット
-	cmdList_->OMSetRenderTargets(1, &rtvH, false, &dsvH);
+	cmdList_->OMSetRenderTargets(2, rtvHs, false, &dsvH);
 
 	//ビューポートの設定
-	D3D12_VIEWPORT viewport{};
-	viewport.Width = WinApp::Win_Width;
-	viewport.Height = WinApp::Win_Height;
-	viewport.TopLeftX = 0;
-	viewport.TopLeftY = 0;
-	viewport.MinDepth = 0.0f;
-	viewport.MaxDepth = 1.0f;
-	//ビューポート設定コマンドを、コマンドリストに積む
-	cmdList_->RSSetViewports(1, &viewport);
-
+	D3D12_VIEWPORT viewports[2]{};
 	//シザー矩形の設定
-	D3D12_RECT scissorRect{};
-	scissorRect.left = 0;										//切り抜き座標左
-	scissorRect.right = scissorRect.left + WinApp::Win_Width;	//切り抜き座標右
-	scissorRect.top = 0;										//切り抜き座標上
-	scissorRect.bottom = scissorRect.top + WinApp::Win_Height;	//切り抜き座標下
-	//シザー矩形設定コマンドを、コマンドリストに積む
-	cmdList_->RSSetScissorRects(1, &scissorRect);
+	D3D12_RECT scissorRects[2]{};
 
-	//RTVクリア
-	cmdList_->ClearRenderTargetView(rtvH, clearColor_, 0, nullptr);
+	for (int i = 0; i < sizeof(texBuff_); i++) {
+		viewports[i].Width = WinApp::Win_Width;
+		viewports[i].Height = WinApp::Win_Height;
+		viewports[i].TopLeftX = 0;
+		viewports[i].TopLeftY = 0;
+		viewports[i].MinDepth = 0.0f;
+		viewports[i].MaxDepth = 1.0f;
+
+		scissorRects[i].left = 0;										//切り抜き座標左
+		scissorRects[i].right = scissorRects[i].left + WinApp::Win_Width;	//切り抜き座標右
+		scissorRects[i].top = 0;										//切り抜き座標上
+		scissorRects[i].bottom = scissorRects[i].top + WinApp::Win_Height;	//切り抜き座標下
+	}
+	//ビューポート設定コマンドを、コマンドリストに積む
+	cmdList_->RSSetViewports(2, viewports);
+
+	//シザー矩形設定コマンドを、コマンドリストに積む
+	cmdList_->RSSetScissorRects(2, scissorRects);
+	for (int i = 0; i < sizeof(texBuff_); i++) {
+		//RTVクリア
+		cmdList_->ClearRenderTargetView(rtvHs[i], clearColor_, 0, nullptr);
+	}
 	//DSVクリア
 	cmdList_->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
 void RenderTexture::PostDrawScene() {
-	//リソースバリアデスク設定(描画可能状態から、シェーダーリソースに)
-	barrierDesc_.Transition.pResource = texBuff_.Get();
-	barrierDesc_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
-	barrierDesc_.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+	for (int i = 0; i < sizeof(texBuff_); i++) {
+		//リソースバリアデスク設定(描画可能状態から、シェーダーリソースに)
+		barrierDesc_.Transition.pResource = texBuff_[i].Get();
+		barrierDesc_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+		barrierDesc_.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
 
-	//リソースバリアを変更
-	cmdList_->ResourceBarrier(1, &barrierDesc_);
+		//リソースバリアを変更
+		cmdList_->ResourceBarrier(1, &barrierDesc_);
+	}
 }
 
 void RenderTexture::GenerateTextureBuffer() {
@@ -568,19 +580,24 @@ void RenderTexture::GenerateTextureBuffer() {
 	texResDesc.SampleDesc.Count = 1;
 	texResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
 
-	//テクスチャバッファ生成
-	result = device_->CreateCommittedResource(
-		&texHeapProp,
-		D3D12_HEAP_FLAG_NONE,
-		&texResDesc,
-		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-		&texClearValue,
-		IID_PPV_ARGS(&texBuff_)
-	);
-	assert(SUCCEEDED(result));
+	for (int i = 0; i < sizeof(texBuff_); i++) {
+		//テクスチャバッファ生成
+		result = device_->CreateCommittedResource(
+			&texHeapProp,
+			D3D12_HEAP_FLAG_NONE,
+			&texResDesc,
+			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+			&texClearValue,
+			IID_PPV_ARGS(&texBuff_[i])
+		);
+		assert(SUCCEEDED(result));
+
+		//テクスチャバッファへ転送
+		TransferTextureBuffer(i);
+	}
 }
 
-void RenderTexture::TransferTextureBuffer() {
+void RenderTexture::TransferTextureBuffer(int IndexTexBuff) {
 	HRESULT result = 0;
 
 	//テクスチャを赤でクリア//
@@ -600,11 +617,12 @@ void RenderTexture::TransferTextureBuffer() {
 	}
 
 	//テクスチャバッファにデータ転送
-	result = texBuff_->WriteToSubresource(
+	result = texBuff_[IndexTexBuff]->WriteToSubresource(
 		0, nullptr,
 		img, rowPitch, depthPitch);
 	assert(SUCCEEDED(result));
 	delete[] img;
+
 }
 
 void RenderTexture::CreateSRV() {
@@ -630,7 +648,7 @@ void RenderTexture::CreateSRV() {
 	srvDesc.Texture2D.MipLevels = 1;
 	//デスクリプタヒープにSRV作成
 	device_->CreateShaderResourceView(
-		texBuff_.Get(),
+		texBuff_[0].Get(),
 		&srvDesc,
 		descHeapSRV_->GetCPUDescriptorHandleForHeapStart()
 	);
@@ -642,7 +660,7 @@ void RenderTexture::CreateRTV() {
 	//RTV用デスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC rtvDescHeapDesc{};
 	rtvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-	rtvDescHeapDesc.NumDescriptors = 1;
+	rtvDescHeapDesc.NumDescriptors = 2;
 
 	//RTV用デスクリプタヒープ生成
 	result = device_->CreateDescriptorHeap(
@@ -657,12 +675,20 @@ void RenderTexture::CreateRTV() {
 	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
-	//レンダ―ターゲットビューの生成
-	device_->CreateRenderTargetView(
-		texBuff_.Get(),
-		&rtvDesc,
-		descHeapRTV_->GetCPUDescriptorHandleForHeapStart()
-	);
+	UINT incrementSize_ = device_->GetDescriptorHandleIncrementSize(
+		D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = descHeapRTV_->GetCPUDescriptorHandleForHeapStart();
+
+	for (int i = 0; i < sizeof(texBuff_); i++) {
+		cpuHandle.ptr += incrementSize_;
+
+		//レンダ―ターゲットビューの生成
+		device_->CreateRenderTargetView(
+			texBuff_[i].Get(),
+			&rtvDesc,
+			cpuHandle
+		);
+	}
 }
 
 void RenderTexture::GenerateDepthBuffer() {

@@ -103,7 +103,7 @@ public://メンバ関数
 	//テクスチャバッファ生成
 	void GenerateTextureBuffer();
 	//テクスチャバッファへ転送
-	void TransferTextureBuffer();
+	void TransferTextureBuffer(int IndexTexBuff);
 	//SRV作成
 	void CreateSRV();
 	//RTV作成
@@ -179,7 +179,7 @@ private://メンバ変数
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipeLineDesc_;
 
 	//テクスチャバッファ
-	ComPtr<ID3D12Resource> texBuff_;
+	ComPtr<ID3D12Resource> texBuff_[2];
 	//シェーダーリソースビュー用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV_;
 
