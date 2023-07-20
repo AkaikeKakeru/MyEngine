@@ -47,3 +47,8 @@ struct VSOutput {
 	float3 normal:NORMAL;//ñ@ê¸
 	float2 uv : TEXCOORD; //uvíl
 };
+
+struct PSOutput {
+	float4 target0 : SV_TARGET0;
+	float4 target1 : SV_TARGET1;
+};
