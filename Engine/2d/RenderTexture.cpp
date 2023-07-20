@@ -496,10 +496,12 @@ void RenderTexture::PreDrawScene() {
 
 	//レンダ―ターゲットビュー用デスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHs[2]{};
-	for (int i = 0; i < sizeof(texBuff_); i++) {
+	for (int i = 0; i < 2; i++) {
 		rtvHs[i] = descHeapRTV_->GetCPUDescriptorHandleForHeapStart();
 		UINT incrementSize_ = device_->GetDescriptorHandleIncrementSize(
 			D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+
+		rtvHs[i].ptr += incrementSize_;
 	}
 
 	//深度ステンシルビュー用デスクリプタヒープのハンドルを取得
@@ -514,7 +516,7 @@ void RenderTexture::PreDrawScene() {
 	//シザー矩形の設定
 	D3D12_RECT scissorRects[2]{};
 
-	for (int i = 0; i < sizeof(texBuff_); i++) {
+	for (int i = 0; i < 2; i++) {
 		viewports[i].Width = WinApp::Win_Width;
 		viewports[i].Height = WinApp::Win_Height;
 		viewports[i].TopLeftX = 0;
@@ -532,7 +534,7 @@ void RenderTexture::PreDrawScene() {
 
 	//シザー矩形設定コマンドを、コマンドリストに積む
 	cmdList_->RSSetScissorRects(2, scissorRects);
-	for (int i = 0; i < sizeof(texBuff_); i++) {
+	for (int i = 0; i < 2; i++) {
 		//RTVクリア
 		cmdList_->ClearRenderTargetView(rtvHs[i], clearColor_, 0, nullptr);
 	}
@@ -541,7 +543,7 @@ void RenderTexture::PreDrawScene() {
 }
 
 void RenderTexture::PostDrawScene() {
-	for (int i = 0; i < sizeof(texBuff_); i++) {
+	for (int i = 0; i < 2; i++) {
 		//リソースバリアデスク設定(描画可能状態から、シェーダーリソースに)
 		barrierDesc_.Transition.pResource = texBuff_[i].Get();
 		barrierDesc_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
@@ -580,7 +582,7 @@ void RenderTexture::GenerateTextureBuffer() {
 	texResDesc.SampleDesc.Count = 1;
 	texResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
 
-	for (int i = 0; i < sizeof(texBuff_); i++) {
+	for (int i = 0; i < 2; i++) {
 		//テクスチャバッファ生成
 		result = device_->CreateCommittedResource(
 			&texHeapProp,
@@ -679,7 +681,7 @@ void RenderTexture::CreateRTV() {
 		D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = descHeapRTV_->GetCPUDescriptorHandleForHeapStart();
 
-	for (int i = 0; i < sizeof(texBuff_); i++) {
+	for (int i = 0; i < 2; i++) {
 		cpuHandle.ptr += incrementSize_;
 
 		//レンダ―ターゲットビューの生成
