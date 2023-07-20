@@ -20,27 +20,15 @@ const float PostEffect::clearColor_[4] = {
 
 void PostEffect::Initialize() {
 	//デバイス
-	device_ = SpriteBasis::GetInstance()->GetDevice();
+	device_ = DirectXBasis::GetInstance()->GetDevice();
 	//コマンドリスト
-	cmdList_ = SpriteBasis::GetInstance()->GetCommandList();
+	cmdList_ = DirectXBasis::GetInstance()->GetCommandList();
 
-	//スプライト初期化
-	{
-		texture_.matOrtGrapricProjection_ = Matrix4Identity();
-		//テクスチャの左上を、画面の左上角に合わせたい
-		//ポリゴンの左上を、画面中央に合わせる
-		texture_.matOrtGrapricProjection_.m[0][0] = 2.0f / WinApp::Win_Width;
-		texture_.matOrtGrapricProjection_.m[1][1] = -2.0f / WinApp::Win_Height;
-		//上の状態から、画面半分くらいの距離だけ、左上にずらす
-		texture_.matOrtGrapricProjection_.m[3][0] = -1.0f;
-		texture_.matOrtGrapricProjection_.m[3][1] = 1.0f;
+	//頂点バッファ作成
+	CreateVertexBufferView();
 
-		CreateVertexBufferView();
-		GenerateConstBuffer();
-	}
-
-	//パイプライン生成
-	CreateGraphicsPipeLineState();
+	//定数バッファ生成
+	GenerateConstBuffer();
 
 	//テクスチャバッファ生成
 	GenerateTextureBuffer();
@@ -59,6 +47,9 @@ void PostEffect::Initialize() {
 
 	//DSV作成
 	CreateDSV();
+
+	//パイプライン生成
+	CreateGraphicsPipeLineState();
 }
 
 void PostEffect::Draw() {
@@ -90,28 +81,16 @@ void PostEffect::Draw() {
 
 void PostEffect::CreateVertexBufferView() {
 	HRESULT result;
-#pragma region 頂点データ
 	//上下左右の数値の設定
-	texture_.dir_.left = (0.0f - texture_.anchorPoint_.x) * texture_.size_.x;
-	texture_.dir_.right = (1.0f - texture_.anchorPoint_.x) * texture_.size_.x;
-	texture_.dir_.top = (0.0f - texture_.anchorPoint_.y) * texture_.size_.y;
-	texture_.dir_.bottom = (1.0f - texture_.anchorPoint_.y) * texture_.size_.y;
+	texture_.dir_.left = -texture_.anchorPoint_.x;
+	texture_.dir_.right = +texture_.anchorPoint_.x;
+	texture_.dir_.top = +texture_.anchorPoint_.y;
+	texture_.dir_.bottom = -texture_.anchorPoint_.y;
 
 	float leftUv = 0.0f;//左
 	float rightUv = 1.0f;//右
 	float topUv = 0.0f;//上
 	float bottomUv = 1.0f;//下
-
-	//左右反転
-	if (texture_.isFlipX_) {
-		texture_.dir_.left = -texture_.dir_.left;
-		texture_.dir_.right = -texture_.dir_.right;
-	}
-	//上下反転
-	if (texture_.isFlipY_) {
-		texture_.dir_.top = -texture_.dir_.top;
-		texture_.dir_.bottom = -texture_.dir_.bottom;
-	}
 
 	//頂点データを設定
 	vertices_[LeftBottom].pos = Vector3(texture_.dir_.left, texture_.dir_.bottom, 0);
@@ -126,7 +105,6 @@ void PostEffect::CreateVertexBufferView() {
 
 	//頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(vertices_[0]) * _countof(vertices_));
-#pragma endregion
 
 #pragma region 頂点バッファ設定
 	//頂点バッファの設定
@@ -251,27 +229,9 @@ void PostEffect::GenerateConstTransform() {
 	assert(SUCCEEDED(result));
 
 	//値を書き込むと自動的に転送される
-	//ワールド行列を再計算
-	ReCalcMatWorld();
 
 	//ワールド変換行列と、平行投影変換行列を掛ける
-	constMapTransform_->mat_ =
-		texture_.worldTransform_.matWorld_ *=
-		texture_.matOrtGrapricProjection_;
-}
-
-void PostEffect::ReCalcMatWorld() {
-	texture_.worldTransform_.matWorld_ = Matrix4Identity();
-
-	texture_.worldTransform_.matWorld_ *=
-		Matrix4RotationZ(texture_.worldTransform_.rotation_);
-
-	texture_.worldTransform_.matWorld_ *=
-		Matrix4Translation(
-			Vector3(
-				texture_.worldTransform_.position_.x,
-				texture_.worldTransform_.position_.y,
-				0.0f));
+	constMapTransform_->mat_ = Matrix4Identity();
 }
 
 void PostEffect::CreateGraphicsPipeLineState() {
@@ -281,7 +241,6 @@ void PostEffect::CreateGraphicsPipeLineState() {
 	AssembleGraphicsPipeline();
 	GenerateRootSignature();
 	GeneratePipelineState();
-	GenerateDescriptorHeap();
 }
 
 void PostEffect::CompileShaderFile() {
@@ -503,25 +462,10 @@ void PostEffect::GeneratePipelineState() {
 	assert(SUCCEEDED(result));
 }
 
-void PostEffect::GenerateDescriptorHeap() {
-	//HRESULT result;
-
-	////デスクリプタヒープの設定
-	//D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
-	//srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	//srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//シェーダから見えるように
-	//srvHeapDesc.NumDescriptors = static_cast<UINT>(kMaxSRVCount_);
-
-	////設定を元にSRV用デスクリプタヒープ生成
-	//result = device_->CreateDescriptorHeap(
-	//	&srvHeapDesc, IID_PPV_ARGS(&srvHeap_));
-	//assert(SUCCEEDED(result));
-}
-
 void PostEffect::PreDraw() {
 	//パイプラインステートとルートシグネイチャの設定コマンド
-	cmdList_->SetPipelineState(SpriteBasis::GetInstance()->GetPipelineState().Get());
-	cmdList_->SetGraphicsRootSignature(SpriteBasis::GetInstance()->GetRootSignature().Get());
+	cmdList_->SetPipelineState(pipeLineState_.Get());
+	cmdList_->SetGraphicsRootSignature(rootSignature_.Get());
 
 	//プリミティブ形状の設定コマンド
 	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);//三角形ストリップ								   //デスクリプタヒープの配列をセットするコマンド
@@ -630,7 +574,7 @@ void PostEffect::GenerateTextureBuffer() {
 		D3D12_HEAP_FLAG_NONE,
 		&texResDesc,
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-		nullptr,
+		&texClearValue,
 		IID_PPV_ARGS(&texBuff_)
 	);
 	assert(SUCCEEDED(result));
@@ -781,22 +725,7 @@ void PostEffect::CreateDSV() {
 }
 
 PostEffect::PostEffect() {
-	texture_.worldTransform_.scale_ = { 1,1,1 };
-	texture_.worldTransform_.rotation_ = ConvertToRadian(0.0f);
-	SetPosition({
-		WinApp::Win_Width / 2,
-		WinApp::Win_Height / 2 
-		});
-	SetSize({
-		WinApp::Win_Width / 2,
-		WinApp::Win_Height / 2
-		});
-	SetAnchorPoint({ 0.5f,0.5f });
-	texture_.isFlipX_ = false;
-	texture_.isFlipY_ = false;
+	texture_.anchorPoint_ = { 1.0f,1.0f };
 
-	texture_.textureLeftTop_ = { 0,0 };
 	texture_.isInvisible_ = false;
-
-	texture_.worldTransform_.matWorld_ = Matrix4Identity();
 }

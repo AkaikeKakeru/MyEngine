@@ -49,30 +49,17 @@ public://構造体
 	}VerticesParts;
 
 	typedef struct Texture {
-		//ワールド変換
-		WorldTransform worldTransform_;
 		//上下左右
 		Direction dir_ = { 0,0,0,0 };
 
 		//色
 		Vector4 color_ = { 1,1,1,1 };
-		//表示サイズ
-		Vector2 size_ = { 100,100 };
+
 		//アンカーポイント
 		Vector2 anchorPoint_ = { 0,0 };
-		//左右反転フラグ
-		bool isFlipX_ = false;
-		//上下反転フラグ
-		bool isFlipY_ = false;
+
 		//非表示フラグ
 		bool isInvisible_ = false;
-		//テクスチャ左上座標
-		Vector2 textureLeftTop_ = { 0.0f,0.0f };
-		//テクスチャ切り出しサイズ
-		Vector2 textureSize_ = { 100.0f,100.0f };
-
-		//平行投影変換行列
-		Matrix4 matOrtGrapricProjection_ = Matrix4Identity();
 	}Texture;
 
 public://メンバ関数
@@ -105,8 +92,6 @@ public://メンバ関数
 	void GenerateRootSignature();
 	//パイプラインステート生成
 	void GeneratePipelineState();
-	//デスクリプタヒープ生成
-	void GenerateDescriptorHeap();
 
 	//テクスチャ描画事前処理
 	void PreDraw();
@@ -132,35 +117,11 @@ public://メンバ関数
 	void CreateDSV();
 
 public://アクセッサ
-	//座標を取得
-	const Vector2& GetPosition() const {
-		return texture_.worldTransform_.position_;
-	}
-	//サイズを取得
-	const Vector2& GetSize() const {
-		return texture_.size_; 
-	}
-	//アンカーポイントを取得
-	const Vector2& GetAnchorPoint() const {
-		return texture_.anchorPoint_;
-	}
 	//非表示フラグを取得
 	bool GetIsInvisible() const {
 		return texture_.isInvisible_;
 	}
 
-	//座標をセット
-	void SetPosition(const Vector2& position) { 
-		texture_.worldTransform_.position_ = position;
-	}
-	//サイズをセット
-	void SetSize(const Vector2& size) {
-		texture_.size_ = size;
-	}
-	//アンカーポイントをセット
-	void SetAnchorPoint(const Vector2& anchorPoint) {
-		texture_.anchorPoint_ = anchorPoint;
-	}
 	//非表示フラグをセット
 	void SetIsInvisible(bool isInvisible) {
 		texture_.isInvisible_ = isInvisible;
