@@ -167,6 +167,7 @@
     <ClCompile Include="Application\Game\Scene\Manager\BaseScene.cpp" />
     <ClCompile Include="Application\Math\MyMath.cpp" />
     <ClCompile Include="Application\Math\Quaternion.cpp" />
+    <ClCompile Include="Engine\2d\RenderTexture.cpp" />
     <ClCompile Include="Engine\3d\Fbx\FbxLoader.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Engine\3d\Fbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Engine\3d\Fbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -222,6 +223,7 @@
     <ClInclude Include="Application\Math\MyMath.h" />
     <ClInclude Include="Application\Math\Quaternion.h" />
     <ClInclude Include="Engine\2d\PostEffect.h" />
+    <ClInclude Include="Engine\2d\RenderTexture.h" />
     <ClInclude Include="Engine\3d\Fbx\FbxLoader.h" />
     <ClInclude Include="Engine\3d\Fbx\FbxModel.h" />
     <ClInclude Include="Engine\3d\Fbx\FbxObject3d.h" />
