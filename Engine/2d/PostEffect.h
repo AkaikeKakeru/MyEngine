@@ -77,9 +77,6 @@ public://メンバ関数
 	//定数バッファトランスフォーム生成
 	void GenerateConstTransform();
 
-	//ワールド行列再計算
-	void ReCalcMatWorld();
-
 	//パイプライン生成
 	void CreateGraphicsPipeLineState();
 	//シェーダーファイルのコンパイル
