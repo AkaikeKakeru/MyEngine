@@ -1,5 +1,6 @@
 ﻿#include "PostEffect.h"
 #include "WinApp.h"
+#include "Input.h"
 #include <d3dcompiler.h>
 #include <cassert> 
 #include <d3dx12.h>
@@ -56,6 +57,25 @@ void PostEffect::Draw() {
 	//非表示
 	if (texture_.isInvisible_) {
 		return;
+	}
+
+	if (Input::GetInstance()->TriggerKey(DIK_0)) {
+		//仮のテクスチャ番号
+		static int tex = 0;
+		//テクスチャ番号を0と1で切り替え
+		tex = (tex + 1) % 2;
+
+		//SRV設定
+		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+		srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		srvDesc.Texture2D.MipLevels = 1;
+		//デスクリプタヒープにSRV作成
+		device_->CreateShaderResourceView(
+			texBuff_[tex].Get(),
+			&srvDesc,
+			descHeapSRV_->GetCPUDescriptorHandleForHeapStart());
 	}
 
 	//描画前処理//
