@@ -131,6 +131,8 @@ private:
 	static const int kInputLayoutElement_ = 2;
 	//ルートパラメータ数
 	static const int kRootParamCount_ = 3;
+	//テクスチャバッファ数
+	static const int kTextureBufferCount_ = 2;
 
 private://静的メンバ変数
 	//画面クリアカラー
@@ -179,7 +181,7 @@ private://メンバ変数
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipeLineDesc_;
 
 	//テクスチャバッファ
-	ComPtr<ID3D12Resource> texBuff_;
+	ComPtr<ID3D12Resource> texBuff_[kTextureBufferCount_];
 	//シェーダーリソースビュー用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV_;
 
