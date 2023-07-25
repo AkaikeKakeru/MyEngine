@@ -62,6 +62,14 @@ public://構造体
 		bool isInvisible_ = false;
 	}Texture;
 
+	//ルートパラメータEnum
+	enum RootParameterState {
+		rootParam_Material,
+		rootParam_Texture,
+		rootParam_Transform,
+		rootParam_SubTexture
+	};
+
 public://メンバ関数
 	//初期化
 	void Initialize();
@@ -130,7 +138,7 @@ private:
 	//頂点レイアウトの要素数
 	static const int kInputLayoutElement_ = 2;
 	//ルートパラメータ数
-	static const int kRootParamCount_ = 3;
+	static const int kRootParamCount_ = 4;
 	//テクスチャバッファ数
 	static const int kTextureBufferCount_ = 2;
 
