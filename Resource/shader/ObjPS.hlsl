@@ -38,7 +38,7 @@ PSOutput main(VSOutput input) {
 	}
 
 	output.target0 = shadecolor *  texcolor;
-	output.target1 = float4(1 - (shadecolor *  texcolor).rgb, 1);
+	output.target1 = shadecolor *  texcolor;
 
 	return output;
 }
