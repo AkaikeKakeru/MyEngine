@@ -14,33 +14,24 @@ float4 main(VSOutput input) : SV_TARGET{
 
 	float4 color = float4(0,0,0,0);
 
-	{
+	if (fmod(input.uv.y, 0.1f) < 0.05f) {
 		colorMainTex = mainTex.Sample(smp, input.uv);
 		colorMainTex = float4(1.0f - colorMainTex.rgb, 1.0f);
 	}
-
-	{
-		colorSubTex += subTex.Sample(smp, input.uv + float2(-1.0f * u, -1.0f * v));
-		colorSubTex += subTex.Sample(smp, input.uv + float2(		0, -1.0f * v));
-		colorSubTex += subTex.Sample(smp, input.uv + float2(+1.0f * u, -1.0f * v));
-
-		colorSubTex += subTex.Sample(smp, input.uv + float2(-1.0f * u, 0));
-		colorSubTex += subTex.Sample(smp, input.uv + float2(		0, 0));
-		colorSubTex += subTex.Sample(smp, input.uv + float2(+1.0f * u, 0));
-
-		colorSubTex += subTex.Sample(smp, input.uv + float2(-1.0f * u, +1.0f * v));
-		colorSubTex += subTex.Sample(smp, input.uv + float2(		0, +1.0f * v));
-		colorSubTex += subTex.Sample(smp, input.uv + float2(+1.0f * u, +1.0f * v));
-
-		colorSubTex = float4(colorSubTex.rgb / 9.0f, 1.0f);
-	}
-
-	if (fmod(input.uv.y, 0.1f) < 0.05f) {
-		color = colorMainTex;
-	}
 	else {
-		color = colorSubTex;
+		const int MaxU = 3;
+		const int MaxV = 3;
+
+		for (int i = 0; i < MaxV; i++) {
+			for (int j = 0; j < MaxU; j++) {
+				colorSubTex += subTex.Sample(smp, input.uv + float2((j - 1) * u, (i - 1) * v));
+			}
+		}
+
+		colorSubTex = float4(colorSubTex.rgb / (MaxU * MaxV), 1.0f);
 	}
+
+	color = colorMainTex + colorSubTex;
 
 	return float4(color.rgb, 1.0f);
 }
