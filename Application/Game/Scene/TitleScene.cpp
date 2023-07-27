@@ -43,7 +43,8 @@ void TitleScene::Initialize(){
 	object2->Initialize();
 	object2->SetModel(model2);
 	object2->SetRotation({ 0,
-		ConvertToRadian(90),0 });
+		ConvertToRadian(30),0 });
+	object2->SetPosition({ 10,-4,0 });
 
 	//各種OBJ
 	planeModel_ = new ObjectModel();
@@ -57,7 +58,9 @@ void TitleScene::Initialize(){
 	planeObj_ = Object3d::Create();
 	planeObj_->SetModel(planeModel_);
 	planeObj_->SetCamera(camera_);
-	planeObj_->SetPosition({ 0,0,50.0f });
+	planeObj_->SetRotation({ ConvertToRadian(-10),
+		0,0 });
+	planeObj_->SetPosition({ 0,2,50.0f });
 
 	skydomeObj_ = new Object3d();
 	skydomeObj_ = Object3d::Create();
@@ -138,7 +141,7 @@ void TitleScene::Update(){
 void TitleScene::Draw(){
 	//FBX描画
 	//object1->Draw(dxBas_->GetCommandList().Get());
-	//object2->Draw(dxBas_->GetCommandList().Get());
+	object2->Draw(dxBas_->GetCommandList().Get());
 
 
 	//// パーティクル描画前処理
