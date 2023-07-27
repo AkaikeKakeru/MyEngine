@@ -138,7 +138,7 @@ void TitleScene::Update(){
 void TitleScene::Draw(){
 	//FBX描画
 	//object1->Draw(dxBas_->GetCommandList().Get());
-	object2->Draw(dxBas_->GetCommandList().Get());
+	//object2->Draw(dxBas_->GetCommandList().Get());
 
 
 	//// パーティクル描画前処理
