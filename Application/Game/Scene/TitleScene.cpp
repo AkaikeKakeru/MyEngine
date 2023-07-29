@@ -58,8 +58,8 @@ void TitleScene::Initialize(){
 	planeObj_ = Object3d::Create();
 	planeObj_->SetModel(planeModel_);
 	planeObj_->SetCamera(camera_);
-	planeObj_->SetRotation({ ConvertToRadian(-10),
-		0,0 });
+	planeObj_->SetRotation({ ConvertToRadian(20.0f),
+		ConvertToRadian(180.0f),0});
 	planeObj_->SetPosition({ 0,2,50.0f });
 
 	skydomeObj_ = new Object3d();
@@ -88,24 +88,24 @@ void TitleScene::Initialize(){
 void TitleScene::Update(){
 	Input::GetInstance()->Update();
 	// カメラ移動
-	if (Input::GetInstance()->PressKey(DIK_W) ||
-		Input::GetInstance()->PressKey(DIK_S) ||
-		Input::GetInstance()->PressKey(DIK_D) ||
-		Input::GetInstance()->PressKey(DIK_A)) {
-		if (Input::GetInstance()->PressKey(DIK_W)) {
-			camera_->MoveVector({ 0.0f,+1.0f,0.0f });
-		}
-		else if (Input::GetInstance()->PressKey(DIK_S)) {
-			camera_->MoveVector({ 0.0f,-1.0f,0.0f });
-		}
-		if (Input::GetInstance()->PressKey(DIK_D)) {
-			camera_->MoveVector({ +1.0f,0.0f,0.0f });
-		}
-		else if (Input::GetInstance()->PressKey(DIK_A)) {
-			camera_->MoveVector({ -1.0f,0.0f,0.0f });
-		}
-		camera_->Update();
-	}
+	//if (Input::GetInstance()->PressKey(DIK_W) ||
+	//	Input::GetInstance()->PressKey(DIK_S) ||
+	//	Input::GetInstance()->PressKey(DIK_D) ||
+	//	Input::GetInstance()->PressKey(DIK_A)) {
+	//	if (Input::GetInstance()->PressKey(DIK_W)) {
+	//		camera_->MoveVector({ 0.0f,+1.0f,0.0f });
+	//	}
+	//	else if (Input::GetInstance()->PressKey(DIK_S)) {
+	//		camera_->MoveVector({ 0.0f,-1.0f,0.0f });
+	//	}
+	//	if (Input::GetInstance()->PressKey(DIK_D)) {
+	//		camera_->MoveVector({ +1.0f,0.0f,0.0f });
+	//	}
+	//	else if (Input::GetInstance()->PressKey(DIK_A)) {
+	//		camera_->MoveVector({ -1.0f,0.0f,0.0f });
+	//	}
+	//	camera_->Update();
+	//}
 
 	light_->Update();
 
