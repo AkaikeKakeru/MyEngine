@@ -3,7 +3,9 @@
 Texture2D<float4>tex : register(t0);
 SamplerState smp : register(s0);
 
-float4 main(VSOutput input) : SV_TARGET{
+PSOutput main(VSOutput input) {
+	PSOutput output;
+
 	//テクスチャマッピング
 	float4 texcolor = tex.Sample(smp, input.uv);
 	//光沢度
@@ -35,5 +37,8 @@ float4 main(VSOutput input) : SV_TARGET{
 		}
 	}
 
-	return shadecolor * texcolor;
+	output.target0 = shadecolor *  texcolor;
+	output.target1 = shadecolor *  texcolor;
+
+	return output;
 }

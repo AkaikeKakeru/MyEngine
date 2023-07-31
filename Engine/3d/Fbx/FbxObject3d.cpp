@@ -136,6 +136,7 @@ void FbxObject3d::CreateGraphicsPipeline() {
 
 	// ブレンドステートの設定
 	pipelineDesc.BlendState.RenderTarget[0] = blenddesc;
+	pipelineDesc.BlendState.RenderTarget[1] = blenddesc;
 
 	// 深度バッファのフォーマット
 	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
@@ -147,8 +148,9 @@ void FbxObject3d::CreateGraphicsPipeline() {
 	// 図形の形状設定（三角形）
 	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	pipelineDesc.NumRenderTargets = 1;	// 描画対象は1つ
+	pipelineDesc.NumRenderTargets = 2;	// 描画対象は2つ
 	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0～255指定のRGBA
+	pipelineDesc.RTVFormats[1] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0～255指定のRGBA
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 	//デスクリプタレンジの設定

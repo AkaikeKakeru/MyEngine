@@ -2,7 +2,7 @@
 #include "BaseScene.h"
 
 #include "Input.h"
-#include "DrawBasis.h"
+#include "SpriteBasis.h"
 #include "ObjectModel.h"
 #include "Sprite.h"
 #include "Object3d.h"
@@ -36,7 +36,7 @@ private:
 	//基盤
 	static DirectXBasis* dxBas_;
 	static Input* input_;
-	static DrawBasis* drawBas_;
+	static SpriteBasis* spriteBas_;
 
 	Camera* camera_ = nullptr;
 	Camera* camera_player = nullptr;

@@ -9,6 +9,7 @@
 
 DirectXBasis* TitleScene::dxBas_ = DirectXBasis::GetInstance();
 Input* TitleScene::input_ = Input::GetInstance();
+SpriteBasis* TitleScene::spriteBas_ = SpriteBasis::GetInstance();
 
 void TitleScene::Initialize(){
 	/// 描画初期化
@@ -19,8 +20,8 @@ void TitleScene::Initialize(){
 
 	//カメラ生成
 	camera_ = new Camera();
-	camera_->SetEye({ 0,20.0f,-100.0f });
-	camera_->SetTarget({ 0,20.0f,0 });
+	camera_->SetEye({ 0.0f,2.5f,-20.0f });
+	camera_->SetTarget({0.0f,2.5f,0.0f});
 	camera_->Update();
 
 	//FBX
@@ -41,6 +42,9 @@ void TitleScene::Initialize(){
 	object2 = new FbxObject3d();
 	object2->Initialize();
 	object2->SetModel(model2);
+	object2->SetRotation({ 0,
+		ConvertToRadian(30),0 });
+	object2->SetPosition({ 10,-4,0 });
 
 	//各種OBJ
 	planeModel_ = new ObjectModel();
@@ -54,11 +58,15 @@ void TitleScene::Initialize(){
 	planeObj_ = Object3d::Create();
 	planeObj_->SetModel(planeModel_);
 	planeObj_->SetCamera(camera_);
+	planeObj_->SetRotation({ ConvertToRadian(20.0f),
+		ConvertToRadian(180.0f),0});
+	planeObj_->SetPosition({ 0,2,50.0f });
 
 	skydomeObj_ = new Object3d();
 	skydomeObj_ = Object3d::Create();
 	skydomeObj_->SetModel(skydomeModel_);
 	skydomeObj_->SetCamera(camera_);
+	skydomeObj_->SetScale({ 200.0f,200.0f,200.0f });
 
 	//ライト生成
 	light_ = new LightGroup();
@@ -67,15 +75,8 @@ void TitleScene::Initialize(){
 	Object3d::SetLight(light_);
 	FbxObject3d::SetLight(light_);
 
-	//描画基盤
-	drawBas_ = DrawBasis::GetInstance();
-	drawBas_->Initialize();
-
-	drawBas_->LoadTexture(0, "title.png");
-
 	//描画スプライト
-
-	sprite_->Initialize(drawBas_,0);
+	sprite_->Initialize(0);
 
 	//パーティクルマネージャー
 	//particleManager_ = ParticleManager::Create();
@@ -87,24 +88,24 @@ void TitleScene::Initialize(){
 void TitleScene::Update(){
 	Input::GetInstance()->Update();
 	// カメラ移動
-	if (Input::GetInstance()->PressKey(DIK_W) ||
-		Input::GetInstance()->PressKey(DIK_S) ||
-		Input::GetInstance()->PressKey(DIK_D) ||
-		Input::GetInstance()->PressKey(DIK_A)) {
-		if (Input::GetInstance()->PressKey(DIK_W)) {
-			camera_->MoveVector({ 0.0f,+1.0f,0.0f });
-		}
-		else if (Input::GetInstance()->PressKey(DIK_S)) {
-			camera_->MoveVector({ 0.0f,-1.0f,0.0f });
-		}
-		if (Input::GetInstance()->PressKey(DIK_D)) {
-			camera_->MoveVector({ +1.0f,0.0f,0.0f });
-		}
-		else if (Input::GetInstance()->PressKey(DIK_A)) {
-			camera_->MoveVector({ -1.0f,0.0f,0.0f });
-		}
-		camera_->Update();
-	}
+	//if (Input::GetInstance()->PressKey(DIK_W) ||
+	//	Input::GetInstance()->PressKey(DIK_S) ||
+	//	Input::GetInstance()->PressKey(DIK_D) ||
+	//	Input::GetInstance()->PressKey(DIK_A)) {
+	//	if (Input::GetInstance()->PressKey(DIK_W)) {
+	//		camera_->MoveVector({ 0.0f,+1.0f,0.0f });
+	//	}
+	//	else if (Input::GetInstance()->PressKey(DIK_S)) {
+	//		camera_->MoveVector({ 0.0f,-1.0f,0.0f });
+	//	}
+	//	if (Input::GetInstance()->PressKey(DIK_D)) {
+	//		camera_->MoveVector({ +1.0f,0.0f,0.0f });
+	//	}
+	//	else if (Input::GetInstance()->PressKey(DIK_A)) {
+	//		camera_->MoveVector({ -1.0f,0.0f,0.0f });
+	//	}
+	//	camera_->Update();
+	//}
 
 	light_->Update();
 
@@ -153,19 +154,19 @@ void TitleScene::Draw(){
 	//ParticleManager::PostDraw();
 
 	//モデル本命処理
-	//Object3d::PreDraw(dxBas_->GetCommandList().Get());
+	Object3d::PreDraw(dxBas_->GetCommandList().Get());
 
 	//skydomeObj_->Draw();
-	//planeObj_->Draw();
+	planeObj_->Draw();
 
-	//Object3d::PostDraw();
+	Object3d::PostDraw();
 
 	//スプライト本命処理
-	//drawBas_->PreDraw();
+	spriteBas_->PreDraw();
 
 	//sprite_->Draw();
 
-	//drawBas_->PostDraw();
+	spriteBas_->PostDraw();
 }
 
 void TitleScene::Finalize(){

@@ -167,6 +167,7 @@
     <ClCompile Include="Application\Game\Scene\Manager\BaseScene.cpp" />
     <ClCompile Include="Application\Math\MyMath.cpp" />
     <ClCompile Include="Application\Math\Quaternion.cpp" />
+    <ClCompile Include="Engine\2d\RenderTexture.cpp" />
     <ClCompile Include="Engine\3d\Fbx\FbxLoader.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Engine\3d\Fbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Engine\3d\Fbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -178,7 +179,7 @@
     <ClCompile Include="Engine\3d\Camera\Camera.cpp" />
     <ClCompile Include="Application\Function\Cursor.cpp" />
     <ClCompile Include="Application\Base\DirectXBasis.cpp" />
-    <ClCompile Include="Engine\2d\DrawBasis.cpp" />
+    <ClCompile Include="Engine\2d\SpriteBasis.cpp" />
     <ClCompile Include="Application\Base\FixFPS.cpp" />
     <ClCompile Include="Application\Base\Framework.cpp" />
     <ClCompile Include="Application\Game\GameMain.cpp" />
@@ -204,6 +205,7 @@
     <ClCompile Include="Engine\ConstBuffer\ViewProjection.cpp" />
     <ClCompile Include="Application\Base\WinApp.cpp" />
     <ClCompile Include="Engine\ConstBuffer\WorldTransform.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Function\Collider\BaseCollider.h" />
@@ -220,6 +222,8 @@
     <ClInclude Include="Application\Game\Scene\Manager\BaseScene.h" />
     <ClInclude Include="Application\Math\MyMath.h" />
     <ClInclude Include="Application\Math\Quaternion.h" />
+    <ClInclude Include="Engine\2d\PostEffect.h" />
+    <ClInclude Include="Engine\2d\RenderTexture.h" />
     <ClInclude Include="Engine\3d\Fbx\FbxLoader.h" />
     <ClInclude Include="Engine\3d\Fbx\FbxModel.h" />
     <ClInclude Include="Engine\3d\Fbx\FbxObject3d.h" />
@@ -230,7 +234,7 @@
     <ClInclude Include="Application\Function\Cursor.h" />
     <ClInclude Include="Engine\Debugger\DebugText.h" />
     <ClInclude Include="Application\Base\DirectXBasis.h" />
-    <ClInclude Include="Engine\2d\DrawBasis.h" />
+    <ClInclude Include="Engine\2d\SpriteBasis.h" />
     <ClInclude Include="Application\Base\FixFPS.h" />
     <ClInclude Include="Application\Base\Framework.h" />
     <ClInclude Include="Application\Game\Scene\GamePlayScene.h" />
@@ -281,6 +285,18 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="Resource\shader\PostEffectPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resource\shader\PostEffectVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="Resource\shader\SpritePS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -301,6 +317,7 @@
   <ItemGroup>
     <None Include="Resource\shader\Fbx.hlsli" />
     <None Include="Resource\shader\Obj.hlsli" />
+    <None Include="Resource\shader\PostEffect.hlsli" />
     <None Include="Resource\shader\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>
